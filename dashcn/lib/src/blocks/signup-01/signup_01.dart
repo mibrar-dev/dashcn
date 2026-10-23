@@ -23,6 +23,7 @@ import '../../components/input/input.dart';
 import '../../foundation/gap.dart';
 import '../../primitives/localizations/localizations.dart';
 import '../../theme/theme.dart';
+import '../../foundation/component_preview.dart';
 
 /// Values submitted by [Signup01].
 class Signup01Data {
@@ -149,7 +150,13 @@ class _Signup01State extends State<Signup01> {
               ),
               Gap(theme.spacing.sm),
               Text(
-                'Enter your email below to create your account.',
+                docsSample(
+                  context,
+                  docsSample(
+                    context,
+                    'Enter your email below to create your account.',
+                  ),
+                ),
                 style: theme.typography.textMuted.copyWith(
                   color: theme.colors.mutedForeground,
                 ),
@@ -166,7 +173,7 @@ class _Signup01State extends State<Signup01> {
                   FormValidationMode.submitted,
                 },
                 child: Input(
-                  hintText: 'Ada Lovelace',
+                  hintText: docsSample(context, 'Ada Lovelace'),
                   textInputAction: TextInputAction.next,
                   focusNode: _nameFocus,
                   onSubmitted: (_) => _emailFocus.requestFocus(),
@@ -238,7 +245,13 @@ class _Signup01State extends State<Signup01> {
                 Gap(theme.spacing.lg),
                 Alert(
                   content: Text(
-                    'Account created — check your inbox to verify it.',
+                    docsSample(
+                      context,
+                      docsSample(
+                        context,
+                        'Account created — check your inbox to verify it.',
+                      ),
+                    ),
                     style: theme.typography.textSmall,
                   ),
                 ),
@@ -250,7 +263,7 @@ class _Signup01State extends State<Signup01> {
                 spacing: 4,
                 children: <Widget>[
                   Text(
-                    'Already have an account?',
+                    docsSample(context, 'Already have an account?'),
                     style: theme.typography.textSmall.copyWith(
                       color: theme.colors.mutedForeground,
                     ),
@@ -310,7 +323,7 @@ class _AcceptedValidator extends Validator<CheckboxValue> {
       return null;
     }
     return InvalidResult(
-      'You must accept the terms to continue.',
+      docsSample(context, 'You must accept the terms to continue.'),
       state: lifecycle,
     );
   }
@@ -355,7 +368,7 @@ class _Signup01Terms extends StatelessWidget {
               Button(
                 variant: ButtonVariant.link,
                 onPressed: () {},
-                child: const Text('privacy policy'),
+                child: Text(docsSample(context, 'privacy policy')),
               ),
               Text(
                 '.',

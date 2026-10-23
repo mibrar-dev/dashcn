@@ -14,38 +14,39 @@ import '../../ui/dashcn/foundation/gap.dart';
 import '../../ui/dashcn/foundation/icons/lucide_icons.dart';
 import '../../ui/dashcn/theme/theme.dart';
 import 'studio_card.dart';
+import '../../ui/dashcn/foundation/component_preview.dart';
 
 /// `Recent Transactions`: a list of avatar rows with a category caption.
 class StudioTransactionsCard extends StatelessWidget {
   /// Creates the card.
   const StudioTransactionsCard({super.key});
 
-  static const List<(String, String, IconData, String, bool)> rows =
+  static List<(String, String, IconData, String, bool)> rows =
       <(String, String, IconData, String, bool)>[
         (
-          'Blue Bottle Coffee',
-          'Food & Drink',
+          docsSample(null, 'Blue Bottle Coffee'),
+          docsSample(null, 'Food & Drink'),
           LucideIcons.coffee,
           r'Today, 10:24 AM -$6.50',
           false,
         ),
         (
-          'Whole Foods Market',
-          'Groceries',
+          docsSample(null, 'Whole Foods Market'),
+          docsSample(null, 'Groceries'),
           LucideIcons.shoppingCart,
           r'Yesterday -$142.30',
           false,
         ),
         (
-          'Stripe Payout',
-          'Income',
+          docsSample(null, 'Stripe Payout'),
+          docsSample(null, 'Income'),
           LucideIcons.landmark,
           r'Oct 12 +$4,200.00',
           true,
         ),
         (
-          'Uber Technologies',
-          'Transport',
+          docsSample(null, 'Uber Technologies'),
+          docsSample(null, 'Transport'),
           LucideIcons.car,
           r'Oct 11 -$24.10',
           false,
@@ -55,13 +56,13 @@ class StudioTransactionsCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return StudioCard(
-      title: 'Recent Transactions',
-      subtitle: 'Your latest account activity.',
-      trailing: const Button(
+      title: docsSample(context, 'Recent Transactions'),
+      subtitle: docsSample(context, 'Your latest account activity.'),
+      trailing: Button(
         variant: ButtonVariant.ghost,
         size: ButtonSize.sm,
         onPressed: studioNoop,
-        child: Text('View All'),
+        child: Text(docsSample(context, 'View All')),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -155,16 +156,19 @@ class StudioTeamMembersCard extends StatelessWidget {
   /// Creates the card.
   const StudioTeamMembersCard({super.key});
 
-  static const List<(String, String)> members = <(String, String)>[
-    ('Maya Okafor', 'Admin'),
-    ('Leo Marchetti', 'Editor'),
+  static List<(String, String)> members = <(String, String)>[
+    (docsSample(null, 'Maya Okafor'), docsSample(null, 'Admin')),
+    (docsSample(null, 'Leo Marchetti'), docsSample(null, 'Editor')),
   ];
 
   @override
   Widget build(BuildContext context) {
     return StudioCard(
-      title: 'Team Members',
-      subtitle: 'Four people have access to this workspace.',
+      title: docsSample(context, 'Team Members'),
+      subtitle: docsSample(
+        context,
+        'Four people have access to this workspace.',
+      ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         mainAxisSize: MainAxisSize.min,
@@ -189,11 +193,11 @@ class StudioTeamMembersCard extends StatelessWidget {
               ),
             ),
           const Gap(8),
-          const Button(
+          Button(
             variant: ButtonVariant.outline,
             size: ButtonSize.sm,
             onPressed: studioNoop,
-            child: Text('Invite teammate'),
+            child: Text(docsSample(context, 'Invite teammate')),
           ),
         ],
       ),
@@ -211,11 +215,11 @@ class _StudioRoleSelect extends StatefulWidget {
 }
 
 class _StudioRoleSelectState extends State<_StudioRoleSelect> {
-  static const List<String> roles = <String>[
-    'Admin',
-    'Editor',
-    'Analyst',
-    'Viewer',
+  static List<String> roles = <String>[
+    docsSample(null, 'Admin'),
+    docsSample(null, 'Editor'),
+    docsSample(null, 'Analyst'),
+    docsSample(null, 'Viewer'),
   ];
 
   late String _role = widget.role;
@@ -239,10 +243,27 @@ class StudioSidebarNavCard extends StatelessWidget {
   /// Creates the card.
   const StudioSidebarNavCard({super.key});
 
-  static const List<(String, List<String>)> groups = <(String, List<String>)>[
-    ('Overview', <String>['Dashboard', 'Transactions', 'Investments']),
-    ('Account', <String>['Profile', 'Billing', 'Notifications']),
-    ('Support', <String>['Help Center', 'Status']),
+  static List<(String, List<String>)> groups = <(String, List<String>)>[
+    (
+      docsSample(null, 'Overview'),
+      <String>[
+        docsSample(null, 'Dashboard'),
+        docsSample(null, 'Transactions'),
+        docsSample(null, 'Investments'),
+      ],
+    ),
+    (
+      docsSample(null, 'Account'),
+      <String>[
+        docsSample(null, 'Profile'),
+        docsSample(null, 'Billing'),
+        docsSample(null, 'Notifications'),
+      ],
+    ),
+    (
+      docsSample(null, 'Support'),
+      <String>[docsSample(null, 'Help Center'), docsSample(null, 'Status')],
+    ),
   ];
 
   @override
@@ -261,7 +282,7 @@ class StudioSidebarNavCard extends StatelessWidget {
                 padding: const EdgeInsets.only(bottom: 2),
                 child: _StudioNavItem(
                   label: items[i],
-                  active: group == 'Overview' && i == 0,
+                  active: group == docsSample(context, 'Overview') && i == 0,
                 ),
               ),
             const Gap(10),

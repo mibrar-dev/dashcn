@@ -1,3 +1,4 @@
+import '../ui/dashcn/foundation/component_preview.dart';
 // Home showcase: date and time cards (P6-H1).
 //
 // `Release date` and `Reporting Period` extend the Theme Studio picker
@@ -34,7 +35,7 @@ class _HomeCalendarCardState extends State<HomeCalendarCard> {
   @override
   Widget build(BuildContext context) {
     return CollageCard(
-      title: 'Release date',
+      title: docsSample(context, 'Release date'),
       subtitle: _subtitle(_selected),
       trailing: const Icon(LucideIcons.calendarDays, size: 16),
       children: <Widget>[
@@ -69,7 +70,7 @@ class _HomeDateRangeCardState extends State<HomeDateRangeCard> {
   @override
   Widget build(BuildContext context) {
     return CollageCard(
-      title: 'Reporting Period',
+      title: docsSample(context, 'Reporting Period'),
       subtitle: _periodSubtitle(_range),
       children: <Widget>[
         DateRangePicker(
@@ -80,9 +81,12 @@ class _HomeDateRangeCardState extends State<HomeDateRangeCard> {
         Button(
           variant: ButtonVariant.primary,
           onPressed: () {},
-          child: const SizedBox(
+          child: SizedBox(
             width: double.infinity,
-            child: Text('Generate Report', textAlign: TextAlign.center),
+            child: Text(
+              docsSample(context, 'Generate Report'),
+              textAlign: TextAlign.center,
+            ),
           ),
         ),
       ],
@@ -106,7 +110,7 @@ class _HomeTimeCardState extends State<HomeTimeCard> {
   Widget build(BuildContext context) {
     final ThemeData theme = Theme.of(context);
     return CollageCard(
-      title: 'Standup time',
+      title: docsSample(context, 'Standup time'),
       subtitle: 'Daily at ${_format(_time)}',
       trailing: Icon(
         LucideIcons.clock,
@@ -114,7 +118,7 @@ class _HomeTimeCardState extends State<HomeTimeCard> {
         color: theme.colors.mutedForeground,
       ),
       children: <Widget>[
-        const StudioFieldLabel('Time'),
+        StudioFieldLabel(docsSample(context, 'Time')),
         const Gap(6),
         TimePicker(
           value: _time,
@@ -122,7 +126,9 @@ class _HomeTimeCardState extends State<HomeTimeCard> {
           onChanged: (TimeOfDay? next) => setState(() => _time = next),
         ),
         const Gap(12),
-        const StudioHelper('The team meets every weekday morning.'),
+        StudioHelper(
+          docsSample(context, 'The team meets every weekday morning.'),
+        ),
       ],
     );
   }

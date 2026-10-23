@@ -12,18 +12,18 @@ import 'text_area.dart';
 
 /// The default three-line field.
 Widget _default(BuildContext context) {
-  return const SizedBox(
+  return SizedBox(
     width: 320,
-    child: TextArea(initialValue: 'Hello, World!'),
+    child: TextArea(initialValue: docsSample(context, 'Hello, World!')),
   );
 }
 
 /// A taller field with placeholder text.
 Widget _placeholder(BuildContext context) {
-  return const SizedBox(
+  return SizedBox(
     width: 320,
     child: TextArea(
-      placeholder: Text('Type your message here...'),
+      placeholder: Text(docsSample(context, 'Type your message here...')),
       minLines: 4,
     ),
   );
@@ -31,10 +31,10 @@ Widget _placeholder(BuildContext context) {
 
 /// A field that grows with its content.
 Widget _resizable(BuildContext context) {
-  return const SizedBox(
+  return SizedBox(
     width: 320,
     child: TextArea(
-      hintText: 'No cap: paste a long paragraph',
+      hintText: docsSample(context, 'No cap: paste a long paragraph'),
       minLines: 2,
       maxLines: 8,
     ),
@@ -64,8 +64,9 @@ class _InvalidAreaState extends State<_InvalidArea> {
           TextArea(
             initialValue: 'abc',
             minLines: 2,
-            validator: (String? value) =>
-                (value ?? '').length < 8 ? 'At least 8 characters' : null,
+            validator: (String? value) => (value ?? '').length < 8
+                ? docsSample(context, 'At least 8 characters')
+                : null,
             onChanged: (String value) => setState(() => _code = value),
           ),
           SizedBox(height: spacing.sm),
@@ -83,17 +84,20 @@ Widget _invalid(BuildContext context) => const _InvalidArea();
 
 /// A disabled field.
 Widget _disabled(BuildContext context) {
-  return const SizedBox(
+  return SizedBox(
     width: 320,
-    child: TextArea(initialValue: 'Disabled', enabled: false),
+    child: TextArea(
+      initialValue: docsSample(context, 'Disabled'),
+      enabled: false,
+    ),
   );
 }
 
 /// Named docs examples for `text_area`; the first entry is the default.
-const List<ComponentPreview> textAreaPreviews = <ComponentPreview>[
-  ComponentPreview('Default', _default),
-  ComponentPreview('Placeholder', _placeholder),
+List<ComponentPreview> get textAreaPreviews => <ComponentPreview>[
+  ComponentPreview(docsSample(null, 'Default'), _default),
+  ComponentPreview(docsSample(null, 'Placeholder'), _placeholder),
   ComponentPreview('Resizable', _resizable),
-  ComponentPreview('Invalid', _invalid),
-  ComponentPreview('Disabled', _disabled),
+  ComponentPreview(docsSample(null, 'Invalid'), _invalid),
+  ComponentPreview(docsSample(null, 'Disabled'), _disabled),
 ];

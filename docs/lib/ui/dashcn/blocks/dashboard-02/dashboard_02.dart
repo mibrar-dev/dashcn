@@ -13,6 +13,7 @@ import 'dashboard_02_sections.dart';
 import '../../foundation/gap.dart';
 import '../../primitives/localizations/localizations.dart';
 import '../../theme/theme.dart';
+import '../../foundation/component_preview.dart';
 
 /// An analytics workspace: chart, device split and traffic sources.
 class Dashboard02 extends StatelessWidget {
@@ -151,7 +152,7 @@ class _Dashboard02ShellBar extends StatelessWidget {
               ),
               Gap(theme.spacing.sm),
               Text(
-                'Acme Inc',
+                docsSample(context, 'Acme Inc'),
                 style: theme.typography.textSmall.copyWith(
                   fontWeight: FontWeight.w600,
                 ),
@@ -190,7 +191,13 @@ class _Dashboard02Filters extends StatelessWidget {
         Text(strings.blockAnalytics, style: theme.typography.h2),
         Gap(spacing.xs),
         Text(
-          'Sessions, devices and where the traffic came from.',
+          docsSample(
+            context,
+            docsSample(
+              context,
+              'Sessions, devices and where the traffic came from.',
+            ),
+          ),
           style: theme.typography.textMuted.copyWith(
             color: theme.colors.mutedForeground,
           ),
@@ -234,11 +241,15 @@ class _Dashboard02Tiles extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final spacing = Theme.of(context).spacing;
-    const List<_Dashboard02Tile> tiles = <_Dashboard02Tile>[
-      _Dashboard02Tile('Sessions', '12,480', 0.42),
-      _Dashboard02Tile('Users', '8,910', 0.63),
-      _Dashboard02Tile('Bounce rate', '38%', 0.38),
-      _Dashboard02Tile('Avg. session', '2m 41s', 0.27),
+    List<_Dashboard02Tile> tiles = <_Dashboard02Tile>[
+      _Dashboard02Tile(docsSample(context, 'Sessions'), '12,480', 0.42),
+      _Dashboard02Tile(docsSample(context, 'Users'), '8,910', 0.63),
+      _Dashboard02Tile(docsSample(context, 'Bounce rate'), '38%', 0.38),
+      _Dashboard02Tile(
+        docsSample(context, 'Avg. session'),
+        docsSample(context, '2m 41s'),
+        0.27,
+      ),
     ];
     final double cardWidth = (width - spacing.lg * (columns - 1)) / columns;
     return Wrap(

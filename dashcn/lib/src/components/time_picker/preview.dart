@@ -66,9 +66,9 @@ Widget _durationDialog(BuildContext context) {
 }
 
 /// Named docs examples for `time_picker`; the first entry is the default.
-const List<ComponentPreview> timePickerPreviews = <ComponentPreview>[
-  ComponentPreview('Clock', _clock),
-  ComponentPreview('Duration', _duration),
-  ComponentPreview('Clock dialog', _clockDialog),
-  ComponentPreview('Duration dialog', _durationDialog),
+List<ComponentPreview> get timePickerPreviews => <ComponentPreview>[
+  ComponentPreview(docsSample(null, 'Clock'), _clock),
+  ComponentPreview(docsSample(null, 'Duration'), _duration),
+  ComponentPreview(docsSample(null, 'Clock dialog'), _clockDialog),
+  ComponentPreview(docsSample(null, 'Duration dialog'), _durationDialog),
 ];

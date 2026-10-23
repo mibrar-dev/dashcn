@@ -23,6 +23,7 @@ import '../../ui/dashcn/foundation/gap.dart';
 import '../../ui/dashcn/foundation/icons/lucide_icons.dart';
 import '../../ui/dashcn/theme/theme.dart';
 import 'studio_card.dart';
+import '../../ui/dashcn/foundation/component_preview.dart';
 
 /// `Frequently asked questions`: the registry accordion with three items.
 class StudioFaqCard extends StatefulWidget {
@@ -36,30 +37,42 @@ class StudioFaqCard extends StatefulWidget {
 class _StudioFaqCardState extends State<StudioFaqCard> {
   @override
   Widget build(BuildContext context) {
-    return const StudioCard(
-      title: 'Frequently asked questions',
-      subtitle: 'General, Billing and Goals',
+    return StudioCard(
+      title: docsSample(context, 'Frequently asked questions'),
+      subtitle: docsSample(context, 'General, Billing and Goals'),
       child: Accordion(
         items: <AccordionItem>[
           AccordionItem(
             expanded: true,
-            trigger: Text('How secure is my financial data?'),
+            trigger: Text(
+              docsSample(context, 'How secure is my financial data?'),
+            ),
             content: Text(
               'Bank-level AES-256 encryption, SOC 2 Type II certified '
               'infrastructure, and read-only access tokens.',
             ),
           ),
           AccordionItem(
-            trigger: Text('How do I connect my bank or investment accounts?'),
+            trigger: Text(
+              docsSample(
+                context,
+                'How do I connect my bank or investment accounts?',
+              ),
+            ),
             content: Text(
               'Open Preferences, pick a receiving method and follow the '
               'bank-level OAuth flow.',
             ),
           ),
           AccordionItem(
-            trigger: Text('Can I export my data for tax purposes?'),
+            trigger: Text(
+              docsSample(context, 'Can I export my data for tax purposes?'),
+            ),
             content: Text(
-              'Every report exports as CSV, including the royalty ledger.',
+              docsSample(
+                context,
+                'Every report exports as CSV, including the royalty ledger.',
+              ),
             ),
           ),
         ],
@@ -76,30 +89,30 @@ class StudioPricingCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return StudioCard(
-      title: 'Plans',
-      subtitle: 'Switch or cancel at any time.',
+      title: docsSample(context, 'Plans'),
+      subtitle: docsSample(context, 'Switch or cancel at any time.'),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisSize: MainAxisSize.min,
-        children: const <Widget>[
+        children: <Widget>[
           _StudioPlan(
-            name: 'Starter',
+            name: docsSample(context, 'Starter'),
             price: r'$0',
-            note: '1 release / month',
+            note: docsSample(context, '1 release / month'),
             featured: false,
           ),
           Gap(12),
           _StudioPlan(
             name: 'Pro',
             price: r'$29',
-            note: 'Unlimited releases',
+            note: docsSample(context, 'Unlimited releases'),
             featured: true,
           ),
           Gap(12),
           _StudioPlan(
-            name: 'Label',
+            name: docsSample(context, 'Label'),
             price: r'$149',
-            note: 'Unlimited artists',
+            note: docsSample(context, 'Unlimited artists'),
             featured: false,
           ),
         ],
@@ -179,15 +192,15 @@ class _StudioStepperCardState extends State<StudioStepperCard> {
   @override
   Widget build(BuildContext context) {
     return StudioCard(
-      title: 'Release checklist',
+      title: docsSample(context, 'Release checklist'),
       subtitle: 'Step ${_step + 1} of 3',
       child: Stepper(
         currentStep: _step,
         onStepChanged: (int next) => setState(() => _step = next),
-        steps: const <StepperStep>[
-          StepperStep(title: Text('Upload')),
-          StepperStep(title: Text('Metadata')),
-          StepperStep(title: Text('Publish')),
+        steps: <StepperStep>[
+          StepperStep(title: Text(docsSample(context, 'Upload'))),
+          StepperStep(title: Text(docsSample(context, 'Metadata'))),
+          StepperStep(title: Text(docsSample(context, 'Publish'))),
         ],
       ),
     );
@@ -210,17 +223,17 @@ class _StudioBreadcrumbPagerCardState extends State<StudioBreadcrumbPagerCard> {
   @override
   Widget build(BuildContext context) {
     return StudioCard(
-      title: 'Browse',
-      subtitle: 'Reports and statements',
+      title: docsSample(context, 'Browse'),
+      subtitle: docsSample(context, 'Reports and statements'),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
-          const Breadcrumb(
+          Breadcrumb(
             children: <Widget>[
-              Text('Home'),
-              Text('Account options'),
-              Text('Reports'),
+              Text(docsSample(context, 'Home')),
+              Text(docsSample(context, 'Account options')),
+              Text(docsSample(context, 'Reports')),
             ],
           ),
           const Gap(16),
@@ -247,8 +260,11 @@ class StudioToolbarCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return StudioCard(
-      title: 'Format',
-      subtitle: 'Shortcuts are documented on every control.',
+      title: docsSample(context, 'Format'),
+      subtitle: docsSample(
+        context,
+        'Shortcuts are documented on every control.',
+      ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         mainAxisSize: MainAxisSize.min,
@@ -256,24 +272,24 @@ class StudioToolbarCard extends StatelessWidget {
           Wrap(
             spacing: 8,
             runSpacing: 8,
-            children: const <Widget>[
+            children: <Widget>[
               Button(
                 variant: ButtonVariant.outline,
                 size: ButtonSize.sm,
                 onPressed: studioNoop,
-                child: Text('Normal'),
+                child: Text(docsSample(context, 'Normal')),
               ),
               Button(
                 variant: ButtonVariant.outline,
                 size: ButtonSize.sm,
                 onPressed: studioNoop,
-                child: Text('Heading'),
+                child: Text(docsSample(context, 'Heading')),
               ),
               Button(
                 variant: ButtonVariant.outline,
                 size: ButtonSize.sm,
                 onPressed: studioNoop,
-                child: Text('Quote'),
+                child: Text(docsSample(context, 'Quote')),
               ),
             ],
           ),
@@ -300,30 +316,30 @@ class StudioTableCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return StudioCard(
       padding: const EdgeInsets.all(0),
-      title: 'Team',
-      subtitle: 'Who can access this workspace.',
-      child: const TableView(
+      title: docsSample(context, 'Team'),
+      subtitle: docsSample(context, 'Who can access this workspace.'),
+      child: TableView(
         defaultColumnWidth: FlexTableSize(),
         rows: <TableViewRow>[
           TableViewHeader(
             cells: <TableViewCell>[
-              TableViewCell(child: Text('Member')),
-              TableViewCell(child: Text('Role')),
-              TableViewCell(child: Text('Status')),
+              TableViewCell(child: Text(docsSample(context, 'Member'))),
+              TableViewCell(child: Text(docsSample(context, 'Role'))),
+              TableViewCell(child: Text(docsSample(context, 'Status'))),
             ],
           ),
           TableViewRow(
             cells: <TableViewCell>[
-              TableViewCell(child: Text('Maya Okafor')),
-              TableViewCell(child: Text('Admin')),
-              TableViewCell(child: Text('Active')),
+              TableViewCell(child: Text(docsSample(context, 'Maya Okafor'))),
+              TableViewCell(child: Text(docsSample(context, 'Admin'))),
+              TableViewCell(child: Text(docsSample(context, 'Active'))),
             ],
           ),
           TableViewRow(
             cells: <TableViewCell>[
-              TableViewCell(child: Text('Leo Marchetti')),
-              TableViewCell(child: Text('Editor')),
-              TableViewCell(child: Text('Invited')),
+              TableViewCell(child: Text(docsSample(context, 'Leo Marchetti'))),
+              TableViewCell(child: Text(docsSample(context, 'Editor'))),
+              TableViewCell(child: Text(docsSample(context, 'Invited'))),
             ],
           ),
         ],
@@ -340,16 +356,28 @@ class StudioStatusCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const StudioCard(
-      title: 'Status',
+    return StudioCard(
+      title: docsSample(context, 'Status'),
       child: Wrap(
         spacing: 8,
         runSpacing: 8,
         children: <Widget>[
-          Badge(variant: BadgeVariant.primary, child: Text('Live')),
-          Badge(variant: BadgeVariant.secondary, child: Text('Draft')),
-          Badge(variant: BadgeVariant.outline, child: Text('Review')),
-          Badge(variant: BadgeVariant.destructive, child: Text('Overdue')),
+          Badge(
+            variant: BadgeVariant.primary,
+            child: Text(docsSample(context, 'Live')),
+          ),
+          Badge(
+            variant: BadgeVariant.secondary,
+            child: Text(docsSample(context, 'Draft')),
+          ),
+          Badge(
+            variant: BadgeVariant.outline,
+            child: Text(docsSample(context, 'Review')),
+          ),
+          Badge(
+            variant: BadgeVariant.destructive,
+            child: Text(docsSample(context, 'Overdue')),
+          ),
         ],
       ),
     );
@@ -363,19 +391,21 @@ class StudioEmptyCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const StudioCard(
+    return StudioCard(
       padding: EdgeInsets.all(0),
       child: EmptyState(
         variant: EmptyStateVariant.empty,
         size: EmptyStateSize.compact,
         icon: Icon(LucideIcons.plus, size: 18),
-        title: Text('Distribute Track'),
+        title: Text(docsSample(context, 'Distribute Track')),
         description: Text(
           'Upload your first master to start reaching listeners on Spotify, '
           'Apple Music, and more.',
           textAlign: TextAlign.center,
         ),
-        primaryAction: EmptyStateAction(label: 'Create Release'),
+        primaryAction: EmptyStateAction(
+          label: docsSample(context, 'Create Release'),
+        ),
       ),
     );
   }

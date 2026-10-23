@@ -27,6 +27,7 @@ import '../../foundation/gap.dart';
 import '../../primitives/localizations/localizations.dart';
 import '../../theme/theme.dart';
 import 'login_02_panel.dart';
+import '../../foundation/component_preview.dart';
 
 /// Values submitted by [Login02].
 class Login02Data {
@@ -242,7 +243,7 @@ class _Login02Form extends StatelessWidget {
           ),
           Gap(theme.spacing.sm),
           Text(
-            'Enter your details below to continue.',
+            docsSample(context, 'Enter your details below to continue.'),
             style: theme.typography.textMuted.copyWith(
               color: theme.colors.mutedForeground,
             ),
@@ -295,14 +296,20 @@ class _Login02Form extends StatelessWidget {
             Gap(theme.spacing.lg),
             Alert(
               content: Text(
-                'Signed in — welcome back.',
+                docsSample(context, 'Signed in — welcome back.'),
                 style: theme.typography.textSmall,
               ),
             ),
           ],
           Gap(theme.spacing.lg),
           Text(
-            'By signing in you agree to our terms of service.',
+            docsSample(
+              context,
+              docsSample(
+                context,
+                'By signing in you agree to our terms of service.',
+              ),
+            ),
             textAlign: TextAlign.center,
             style: theme.typography.xSmall.copyWith(
               color: theme.colors.mutedForeground,

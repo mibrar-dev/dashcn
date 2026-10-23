@@ -23,13 +23,13 @@ class _ProfileCard extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisSize: MainAxisSize.min,
       children: <Widget>[
-        const Padding(
+        Padding(
           padding: EdgeInsets.all(8),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
-              Text('Ibrar Ali'),
+              Text(docsSample(context, 'Ibrar Ali')),
               SizedBox(height: 2),
               Text('ibrar@example.com', style: TextStyle(fontSize: 12)),
             ],
@@ -39,7 +39,7 @@ class _ProfileCard extends StatelessWidget {
         Padding(
           padding: const EdgeInsets.all(8),
           child: Text(
-            'Signed in with a passkey',
+            docsSample(context, 'Signed in with a passkey'),
             style: TextStyle(
               fontSize: 12,
               color: Theme.of(context).colors.mutedForeground,
@@ -72,7 +72,7 @@ class _AnchoredDemo extends StatelessWidget {
         context: context,
         builder: (BuildContext context) => const _ProfileCard(),
       ),
-      child: const Text('Show popup'),
+      child: Text(docsSample(context, 'Show popup')),
     );
   }
 }
@@ -94,8 +94,8 @@ Widget _customized(BuildContext context) {
 }
 
 /// Named docs examples for `popup`; the first entry is the default.
-const List<ComponentPreview> popupPreviews = <ComponentPreview>[
-  ComponentPreview('Default', _default),
-  ComponentPreview('Anchored', _anchored),
-  ComponentPreview('Customized', _customized),
+List<ComponentPreview> get popupPreviews => <ComponentPreview>[
+  ComponentPreview(docsSample(null, 'Default'), _default),
+  ComponentPreview(docsSample(null, 'Anchored'), _anchored),
+  ComponentPreview(docsSample(null, 'Customized'), _customized),
 ];

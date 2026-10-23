@@ -10,6 +10,7 @@ import 'package:flutter/widgets.dart';
 import '../../components/page_route/page_route.dart';
 import 'screens/conversation_screen.dart';
 import 'screens/thread_list_screen.dart';
+import '../../foundation/component_preview.dart';
 
 /// One conversation of [Chat01Flow].
 class Chat01Thread {
@@ -53,40 +54,57 @@ class Chat01Message {
 /// Thread list → conversation with attachments.
 class Chat01Flow extends StatelessWidget {
   /// Creates the flow.
-  const Chat01Flow({
+  Chat01Flow({
     super.key,
-    this.threads = const <Chat01Thread>[
-      Chat01Thread(
-        id: 'studio',
-        name: 'Design studio',
-        initials: 'DS',
-        lastMessage: 'The new mockups are ready.',
-        unread: 2,
-      ),
-      Chat01Thread(
-        id: 'ada',
-        name: 'Ada Lovelace',
-        initials: 'AL',
-        lastMessage: 'See you at the demo!',
-      ),
-    ],
-    this.messages = const <String, List<Chat01Message>>{
-      'studio': <Chat01Message>[
-        Chat01Message(text: 'Morning! Did the review land?', mine: false),
-        Chat01Message(text: 'Just sent the new mockups.', mine: true),
-        Chat01Message(text: 'The new mockups are ready.', mine: false),
-      ],
-      'ada': <Chat01Message>[
-        Chat01Message(text: 'See you at the demo!', mine: false),
-      ],
-    },
+    List<Chat01Thread>? threads,
+    Map<String, List<Chat01Message>>? messages,
     this.onRefresh,
     this.onSend,
     this.onAttach,
     this.onThreadMuted,
     this.onThreadDeleted,
     this.initialScreen = '/',
-  });
+  }) : threads =
+           threads ??
+           <Chat01Thread>[
+             Chat01Thread(
+               id: 'studio',
+               name: docsSample(null, 'Design studio'),
+               initials: 'DS',
+               lastMessage: docsSample(null, 'The new mockups are ready.'),
+               unread: 2,
+             ),
+             Chat01Thread(
+               id: 'ada',
+               name: docsSample(null, 'Ada Lovelace'),
+               initials: 'AL',
+               lastMessage: docsSample(null, 'See you at the demo!'),
+             ),
+           ],
+       messages =
+           messages ??
+           <String, List<Chat01Message>>{
+             'studio': <Chat01Message>[
+               Chat01Message(
+                 text: docsSample(null, 'Morning! Did the review land?'),
+                 mine: false,
+               ),
+               Chat01Message(
+                 text: docsSample(null, 'Just sent the new mockups.'),
+                 mine: true,
+               ),
+               Chat01Message(
+                 text: docsSample(null, 'The new mockups are ready.'),
+                 mine: false,
+               ),
+             ],
+             'ada': <Chat01Message>[
+               Chat01Message(
+                 text: docsSample(null, 'See you at the demo!'),
+                 mine: false,
+               ),
+             ],
+           };
 
   /// Starting threads; the list screen owns a mutable copy.
   final List<Chat01Thread> threads;

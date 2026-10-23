@@ -1,3 +1,4 @@
+import '../ui/dashcn/foundation/component_preview.dart';
 // Home showcase: navigation cards (P6-H1).
 //
 // Extends the Theme Studio blocks (`studio_blocks/studio_list.dart`,
@@ -22,17 +23,34 @@ class HomeSidebarCard extends StatelessWidget {
   /// Creates the card.
   const HomeSidebarCard({super.key});
 
-  static const List<(String, List<String>)> groups = <(String, List<String>)>[
-    ('Overview', <String>['Dashboard', 'Transactions', 'Investments']),
-    ('Account', <String>['Profile', 'Billing', 'Notifications']),
-    ('Support', <String>['Help Center', 'Status']),
+  static List<(String, List<String>)> groups = <(String, List<String>)>[
+    (
+      docsSample(null, 'Overview'),
+      <String>[
+        docsSample(null, 'Dashboard'),
+        docsSample(null, 'Transactions'),
+        docsSample(null, 'Investments'),
+      ],
+    ),
+    (
+      docsSample(null, 'Account'),
+      <String>[
+        docsSample(null, 'Profile'),
+        docsSample(null, 'Billing'),
+        docsSample(null, 'Notifications'),
+      ],
+    ),
+    (
+      docsSample(null, 'Support'),
+      <String>[docsSample(null, 'Help Center'), docsSample(null, 'Status')],
+    ),
   ];
 
   @override
   Widget build(BuildContext context) {
     return CollageCard(
-      title: 'Workspace',
-      subtitle: 'Jump anywhere in the app.',
+      title: docsSample(context, 'Workspace'),
+      subtitle: docsSample(context, 'Jump anywhere in the app.'),
       children: <Widget>[
         for (final (String group, List<String> items) in groups) ...<Widget>[
           StudioCaption(group),
@@ -42,7 +60,7 @@ class HomeSidebarCard extends StatelessWidget {
               padding: const EdgeInsets.only(bottom: 2),
               child: _HomeNavItem(
                 label: items[i],
-                active: group == 'Overview' && i == 0,
+                active: group == docsSample(context, 'Overview') && i == 0,
               ),
             ),
           const Gap(10),
@@ -111,14 +129,14 @@ class _HomeBrowseCardState extends State<HomeBrowseCard> {
   @override
   Widget build(BuildContext context) {
     return CollageCard(
-      title: 'Browse',
-      subtitle: 'Reports and statements',
+      title: docsSample(context, 'Browse'),
+      subtitle: docsSample(context, 'Reports and statements'),
       children: <Widget>[
-        const Breadcrumb(
+        Breadcrumb(
           children: <Widget>[
-            Text('Library'),
-            Text('Account options'),
-            Text('Reports'),
+            Text(docsSample(context, 'Library')),
+            Text(docsSample(context, 'Account options')),
+            Text(docsSample(context, 'Reports')),
           ],
         ),
         const Gap(16),
@@ -152,10 +170,10 @@ class HomeStepperCard extends StatefulWidget {
 }
 
 class _HomeStepperCardState extends State<HomeStepperCard> {
-  static const List<String> steps = <String>[
-    'Upload master',
-    'Add metadata',
-    'Publish release',
+  static List<String> steps = <String>[
+    docsSample(null, 'Upload master'),
+    docsSample(null, 'Add metadata'),
+    docsSample(null, 'Publish release'),
   ];
 
   final Set<int> _done = <int>{0, 1};
@@ -163,7 +181,7 @@ class _HomeStepperCardState extends State<HomeStepperCard> {
   @override
   Widget build(BuildContext context) {
     return CollageCard(
-      title: 'Release checklist',
+      title: docsSample(context, 'Release checklist'),
       subtitle: '${_done.length} of ${steps.length} steps done',
       children: <Widget>[
         for (int i = 0; i < steps.length; i++)

@@ -370,11 +370,11 @@ Widget _dotIndicatorThemed(BuildContext context) => const _DotIndicatorThemed();
       code: r'''import 'package:flutter/widgets.dart';
 import 'package:<your_app>/ui/dashcn/components/text_animate/text_animate.dart';
 
-const String _sample = 'Ship a new build to production.';
+String _sample = 'Ship a new build to production.';
 
 /// Opacity-only entrance.
 Widget _default(BuildContext context) {
-  return const TextAnimate(text: _sample, effect: TextAnimateEffect.fade());
+  return TextAnimate(text: _sample, effect: TextAnimateEffect.fade());
 }
 ''',
     ),
@@ -384,11 +384,11 @@ Widget _default(BuildContext context) {
       code: r'''import 'package:flutter/widgets.dart';
 import 'package:<your_app>/ui/dashcn/components/text_animate/text_animate.dart';
 
-const String _sample = 'Ship a new build to production.';
+String _sample = 'Ship a new build to production.';
 
 /// Vertical slide entrance.
 Widget _slide(BuildContext context) {
-  return const TextAnimate(text: _sample, effect: TextAnimateEffect.slide());
+  return TextAnimate(text: _sample, effect: TextAnimateEffect.slide());
 }
 ''',
     ),
@@ -398,11 +398,11 @@ Widget _slide(BuildContext context) {
       code: r'''import 'package:flutter/widgets.dart';
 import 'package:<your_app>/ui/dashcn/components/text_animate/text_animate.dart';
 
-const String _sample = 'Ship a new build to production.';
+String _sample = 'Ship a new build to production.';
 
 /// Blur-to-sharp entrance.
 Widget _blur(BuildContext context) {
-  return const TextAnimate(text: _sample, effect: TextAnimateEffect.blur());
+  return TextAnimate(text: _sample, effect: TextAnimateEffect.blur());
 }
 ''',
     ),
@@ -412,11 +412,11 @@ Widget _blur(BuildContext context) {
       code: r'''import 'package:flutter/widgets.dart';
 import 'package:<your_app>/ui/dashcn/components/text_animate/text_animate.dart';
 
-const String _sample = 'Ship a new build to production.';
+String _sample = 'Ship a new build to production.';
 
 /// Scramble-then-resolve entrance.
 Widget _scramble(BuildContext context) {
-  return const TextAnimate(text: _sample, effect: TextAnimateEffect.scramble());
+  return TextAnimate(text: _sample, effect: TextAnimateEffect.scramble());
 }
 ''',
     ),
@@ -426,11 +426,11 @@ Widget _scramble(BuildContext context) {
       code: r'''import 'package:flutter/widgets.dart';
 import 'package:<your_app>/ui/dashcn/components/text_animate/text_animate.dart';
 
-const String _sample = 'Ship a new build to production.';
+String _sample = 'Ship a new build to production.';
 
 /// Word-by-word slide with a blinking cursor.
 Widget _words(BuildContext context) {
-  return const TextAnimate(
+  return TextAnimate(
     text: _sample,
     animateByWord: true,
     effect: TextAnimateEffect.slide(),
@@ -470,13 +470,14 @@ class _PressableButtonState extends State<_PressableButton> {
 
   @override
   Widget build(BuildContext context) {
+    final String localizedLabel = widget.label;
     return Align(
       alignment: Alignment.center,
       child: Button(
         variant: widget.variant,
         onPressed: () => setState(() => _presses++),
         child: Text(
-          _presses == 0 ? widget.label : '${widget.label} · $_presses',
+          _presses == 0 ? localizedLabel : '$localizedLabel · $_presses',
         ),
       ),
     );
@@ -525,13 +526,14 @@ class _PressableButtonState extends State<_PressableButton> {
 
   @override
   Widget build(BuildContext context) {
+    final String localizedLabel = widget.label;
     return Align(
       alignment: Alignment.center,
       child: Button(
         variant: widget.variant,
         onPressed: () => setState(() => _presses++),
         child: Text(
-          _presses == 0 ? widget.label : '${widget.label} · $_presses',
+          _presses == 0 ? localizedLabel : '$localizedLabel · $_presses',
         ),
       ),
     );
@@ -547,8 +549,11 @@ Widget _buttonExample(
   return _PressableButton(variant: variant, label: label);
 }
 
-Widget _buttonSecondary(BuildContext context) =>
-    _buttonExample(context, ButtonVariant.secondary, 'Secondary');
+Widget _buttonSecondary(BuildContext context) => _buttonExample(
+  context,
+  ButtonVariant.secondary,
+  'Secondary',
+);
 ''',
     ),
     DocsExampleSource(
@@ -580,13 +585,14 @@ class _PressableButtonState extends State<_PressableButton> {
 
   @override
   Widget build(BuildContext context) {
+    final String localizedLabel = widget.label;
     return Align(
       alignment: Alignment.center,
       child: Button(
         variant: widget.variant,
         onPressed: () => setState(() => _presses++),
         child: Text(
-          _presses == 0 ? widget.label : '${widget.label} · $_presses',
+          _presses == 0 ? localizedLabel : '$localizedLabel · $_presses',
         ),
       ),
     );
@@ -602,8 +608,11 @@ Widget _buttonExample(
   return _PressableButton(variant: variant, label: label);
 }
 
-Widget _buttonOutline(BuildContext context) =>
-    _buttonExample(context, ButtonVariant.outline, 'Outline');
+Widget _buttonOutline(BuildContext context) => _buttonExample(
+  context,
+  ButtonVariant.outline,
+  'Outline',
+);
 ''',
     ),
     DocsExampleSource(
@@ -635,13 +644,14 @@ class _PressableButtonState extends State<_PressableButton> {
 
   @override
   Widget build(BuildContext context) {
+    final String localizedLabel = widget.label;
     return Align(
       alignment: Alignment.center,
       child: Button(
         variant: widget.variant,
         onPressed: () => setState(() => _presses++),
         child: Text(
-          _presses == 0 ? widget.label : '${widget.label} · $_presses',
+          _presses == 0 ? localizedLabel : '$localizedLabel · $_presses',
         ),
       ),
     );
@@ -690,13 +700,14 @@ class _PressableButtonState extends State<_PressableButton> {
 
   @override
   Widget build(BuildContext context) {
+    final String localizedLabel = widget.label;
     return Align(
       alignment: Alignment.center,
       child: Button(
         variant: widget.variant,
         onPressed: () => setState(() => _presses++),
         child: Text(
-          _presses == 0 ? widget.label : '${widget.label} · $_presses',
+          _presses == 0 ? localizedLabel : '$localizedLabel · $_presses',
         ),
       ),
     );
@@ -745,13 +756,14 @@ class _PressableButtonState extends State<_PressableButton> {
 
   @override
   Widget build(BuildContext context) {
+    final String localizedLabel = widget.label;
     return Align(
       alignment: Alignment.center,
       child: Button(
         variant: widget.variant,
         onPressed: () => setState(() => _presses++),
         child: Text(
-          _presses == 0 ? widget.label : '${widget.label} · $_presses',
+          _presses == 0 ? localizedLabel : '$localizedLabel · $_presses',
         ),
       ),
     );
@@ -767,8 +779,11 @@ Widget _buttonExample(
   return _PressableButton(variant: variant, label: label);
 }
 
-Widget _buttonDestructive(BuildContext context) =>
-    _buttonExample(context, ButtonVariant.destructive, 'Delete');
+Widget _buttonDestructive(BuildContext context) => _buttonExample(
+  context,
+  ButtonVariant.destructive,
+  'Delete',
+);
 ''',
     ),
     DocsExampleSource(
@@ -809,7 +824,9 @@ class _ButtonIconState extends State<_ButtonIcon> {
         // Truncate on narrow touch viewports instead of overflowing the row.
         Flexible(
           child: Text(
-            _presses == 0 ? 'not pressed yet' : 'pressed $_presses time(s)',
+            _presses == 0
+                ? 'not pressed yet'
+                : 'pressed $_presses time(s)',
             style: TextStyle(fontSize: 12, color: theme.colors.mutedForeground),
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
@@ -856,14 +873,17 @@ class _ButtonWithIconState extends State<_ButtonWithIcon> {
           children: <Widget>[
             Button(
               leading: const Icon(LucideIcons.plus, size: 16),
-              onPressed: () => setState(() => _last = 'Add item pressed'),
-              child: const Text('Add item'),
+              onPressed: () => setState(
+                () => _last = 'Add item pressed',
+              ),
+              child: Text('Add item'),
             ),
             Button(
               variant: ButtonVariant.outline,
               trailing: const Icon(LucideIcons.chevronRight, size: 16),
-              onPressed: () => setState(() => _last = 'Next pressed'),
-              child: const Text('Next'),
+              onPressed: () =>
+                  setState(() => _last = 'Next pressed'),
+              child: Text('Next'),
             ),
           ],
         ),
@@ -1002,7 +1022,7 @@ import 'package:<your_app>/ui/dashcn/components/button/preview_status.dart';
 
 /// A disabled button.
 Widget _buttonDisabled(BuildContext context) {
-  return const Align(
+  return Align(
     alignment: Alignment.center,
     child: Button(enabled: false, child: Text('Disabled')),
   );
@@ -1025,7 +1045,7 @@ import 'package:<your_app>/ui/dashcn/components/fab/fab.dart';
 ///
 /// md standard: 56 px box, 20 px icon, shadowLg from the theme tokens.
 Widget _fabDefault(BuildContext context) {
-  return const Center(
+  return Center(
     child: Fab(
       icon: Icon(LucideIcons.plus),
       onPressed: _noop,
@@ -1058,21 +1078,21 @@ Widget _fabSizes(BuildContext context) {
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.center,
       children: <Widget>[
-        const Fab(
+        Fab(
           icon: Icon(LucideIcons.plus),
           size: FabSize.sm,
           onPressed: _noop,
           semanticLabel: 'Add item (small)',
         ),
         Gap(spacing),
-        const Fab(
+        Fab(
           icon: Icon(LucideIcons.plus),
           size: FabSize.md,
           onPressed: _noop,
           semanticLabel: 'Add item (regular)',
         ),
         Gap(spacing),
-        const Fab(
+        Fab(
           icon: Icon(LucideIcons.plus),
           size: FabSize.lg,
           onPressed: _noop,
@@ -1101,7 +1121,7 @@ void _noop() {}
 /// Label: 14 px semibold from the tokens; icon-label gap 8 px from the
 /// tokens; pill radius follows the box.
 Widget _fabExtended(BuildContext context) {
-  return const Center(
+  return Center(
     child: Fab(
       icon: Icon(LucideIcons.pencil),
       label: Text('Compose'),
@@ -1133,7 +1153,7 @@ Widget _fabMiniSizes(BuildContext context) {
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.center,
       children: <Widget>[
-        const Fab(
+        Fab(
           icon: Icon(LucideIcons.plus),
           shape: FabShape.mini,
           size: FabSize.sm,
@@ -1141,7 +1161,7 @@ Widget _fabMiniSizes(BuildContext context) {
           semanticLabel: 'Mini (32)',
         ),
         Gap(spacing),
-        const Fab(
+        Fab(
           icon: Icon(LucideIcons.plus),
           shape: FabShape.mini,
           size: FabSize.md,
@@ -1149,7 +1169,7 @@ Widget _fabMiniSizes(BuildContext context) {
           semanticLabel: 'Mini (40)',
         ),
         Gap(spacing),
-        const Fab(
+        Fab(
           icon: Icon(LucideIcons.plus),
           shape: FabShape.mini,
           size: FabSize.lg,
@@ -1246,7 +1266,7 @@ Widget _fabPositions(BuildContext context) {
           color: theme.colors.muted.withValues(alpha: 0.4),
           borderRadius: theme.borderRadiusLg,
         ),
-        child: const Stack(
+        child: Stack(
           children: <Widget>[
             FabPositioner(
               position: FabPosition.topStart,
@@ -1347,7 +1367,7 @@ class _FabHideOnScrollExampleState extends State<_FabHideOnScrollExample> {
               bottom: theme.spacing.md,
               child: FabHideOnScroll(
                 controller: _controller,
-                child: const Fab(
+                child: Fab(
                   icon: Icon(LucideIcons.plus),
                   size: FabSize.sm,
                   onPressed: _noop,
@@ -1380,7 +1400,7 @@ void _noop() {}
 
 /// A customised button: secondary fill, custom radius and no elevation.
 Widget _fabCustomized(BuildContext context) {
-  return const Center(
+  return Center(
     child: Fab(
       icon: Icon(LucideIcons.zap),
       label: Text('Launch'),
@@ -1538,7 +1558,10 @@ class _ToggleControllerToggleState extends State<_ToggleControllerToggle> {
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.center,
       children: <Widget>[
-        Toggle(controller: _toggleController, child: const Text('Controller')),
+        Toggle(
+          controller: _toggleController,
+          child: Text('Controller'),
+        ),
         Gap(spacing.md),
         Toggle(
           controller: _toggleController,
@@ -1569,9 +1592,9 @@ Widget _toggleDisabled(BuildContext context) {
     mainAxisSize: MainAxisSize.min,
     crossAxisAlignment: CrossAxisAlignment.center,
     children: <Widget>[
-      const Toggle(value: true, child: Text('On')),
+      Toggle(value: true, child: Text('On')),
       Gap(spacing.md),
-      const Toggle(value: false, onChanged: null, child: Text('Off')),
+      Toggle(value: false, onChanged: null, child: Text('Off')),
     ],
   );
 }
@@ -1589,7 +1612,7 @@ import 'package:<your_app>/ui/dashcn/components/toolbar/toolbar.dart';
 
 /// The default example: a horizontal row of actions.
 Widget _toolbarDefault(BuildContext context) {
-  return const Center(
+  return Center(
     child: Toolbar(
       children: <Widget>[
         ToolbarItem(
@@ -1629,7 +1652,7 @@ import 'package:<your_app>/ui/dashcn/components/toolbar/toolbar.dart';
 
 /// A vertical toolbar (a rail).
 Widget _toolbarVertical(BuildContext context) {
-  return const Center(
+  return Center(
     child: Toolbar(
       axis: ToolbarAxis.vertical,
       children: <Widget>[
@@ -1670,7 +1693,7 @@ import 'package:<your_app>/ui/dashcn/components/toolbar/toolbar.dart';
 
 /// Groups and separators.
 Widget _toolbarGroups(BuildContext context) {
-  return const Center(
+  return Center(
     child: Toolbar(
       children: <Widget>[
         ToolbarGroup(
@@ -1748,7 +1771,7 @@ class _ToolbarTogglesState extends State<_ToolbarToggles> {
             child: Icon(LucideIcons.italic),
           ),
           const ToolbarSeparator(),
-          const ToolbarItem(
+          ToolbarItem(
             tooltip: 'Print',
             semanticLabel: 'Print',
             child: Icon(LucideIcons.printer),
@@ -1772,7 +1795,7 @@ import 'package:<your_app>/ui/dashcn/components/toolbar/toolbar.dart';
 
 /// The overflow menu: the toolbar is narrower than its items.
 Widget _toolbarOverflow(BuildContext context) {
-  return const Center(
+  return Center(
     child: SizedBox(
       width: 200,
       child: Toolbar(
@@ -2306,8 +2329,7 @@ import 'package:<your_app>/ui/dashcn/components/avatar/avatar.dart';
 /// A 48x48 PNG decoded from memory: the preview never hits the network, so it
 /// renders identically offline and inside a widget test.
 const String _avatarPhotoBase64 =
-    'iVBORw0KGgoAAAANSUhEUgAAADAAAAAwCAIAAADYYG7QAAAAWElEQVR42u3OoRGAMBBFwdPURBHoFIaj'
-    'KTS9hBL+ROTUzjz/ts7xxZ73js1x5eqIFRAQEBAQ0CKoczarYkBAQEBAQKugzhkQEBAQENAWUOMMCAgIC'
+    'iVBORw0KGgoAAAANSUhEUgAAADAAAAAwCAIAAADYYG7QAAAAWElEQVR42u3OoRGAMBBFwdPURBHoFIajKTS9hBL+ROTUzjz/ts7xxZ73js1x5eqIFRAQEBAQ0CKoczarYkBAQEBAQKugzhkQEBAQENAWUOMMCAgIC'
     'AhoQz/vbpR28UARAAAAAABJRU5ErkJggg==';
 
 /// Local photo provider shared by the avatar examples.
@@ -2432,23 +2454,28 @@ import 'package:<your_app>/ui/dashcn/theme/theme.dart';
 import 'package:<your_app>/ui/dashcn/components/badge/badge.dart';
 
 Widget _badgeExample(BuildContext context, BadgeVariant variant, String label) {
+  final String localized = label;
+  final String localizedWithIcon = '$label with icon';
   return Column(
     crossAxisAlignment: CrossAxisAlignment.center,
     mainAxisSize: MainAxisSize.min,
     children: <Widget>[
-      Badge(variant: variant, child: Text(label)),
+      Badge(variant: variant, child: Text(localized)),
       Gap(Theme.of(context).spacing.md),
       Badge(
         variant: variant,
         leading: const Icon(LucideIcons.star, size: 12),
-        child: Text('$label with icon'),
+        child: Text(localizedWithIcon),
       ),
     ],
   );
 }
 
-Widget _badgeDefault(BuildContext context) =>
-    _badgeExample(context, BadgeVariant.primary, 'Default');
+Widget _badgeDefault(BuildContext context) => _badgeExample(
+  context,
+  BadgeVariant.primary,
+  'Default',
+);
 ''',
     ),
     DocsExampleSource(
@@ -2461,23 +2488,28 @@ import 'package:<your_app>/ui/dashcn/theme/theme.dart';
 import 'package:<your_app>/ui/dashcn/components/badge/badge.dart';
 
 Widget _badgeExample(BuildContext context, BadgeVariant variant, String label) {
+  final String localized = label;
+  final String localizedWithIcon = '$label with icon';
   return Column(
     crossAxisAlignment: CrossAxisAlignment.center,
     mainAxisSize: MainAxisSize.min,
     children: <Widget>[
-      Badge(variant: variant, child: Text(label)),
+      Badge(variant: variant, child: Text(localized)),
       Gap(Theme.of(context).spacing.md),
       Badge(
         variant: variant,
         leading: const Icon(LucideIcons.star, size: 12),
-        child: Text('$label with icon'),
+        child: Text(localizedWithIcon),
       ),
     ],
   );
 }
 
-Widget _badgeSecondary(BuildContext context) =>
-    _badgeExample(context, BadgeVariant.secondary, 'Secondary');
+Widget _badgeSecondary(BuildContext context) => _badgeExample(
+  context,
+  BadgeVariant.secondary,
+  'Secondary',
+);
 ''',
     ),
     DocsExampleSource(
@@ -2490,23 +2522,28 @@ import 'package:<your_app>/ui/dashcn/theme/theme.dart';
 import 'package:<your_app>/ui/dashcn/components/badge/badge.dart';
 
 Widget _badgeExample(BuildContext context, BadgeVariant variant, String label) {
+  final String localized = label;
+  final String localizedWithIcon = '$label with icon';
   return Column(
     crossAxisAlignment: CrossAxisAlignment.center,
     mainAxisSize: MainAxisSize.min,
     children: <Widget>[
-      Badge(variant: variant, child: Text(label)),
+      Badge(variant: variant, child: Text(localized)),
       Gap(Theme.of(context).spacing.md),
       Badge(
         variant: variant,
         leading: const Icon(LucideIcons.star, size: 12),
-        child: Text('$label with icon'),
+        child: Text(localizedWithIcon),
       ),
     ],
   );
 }
 
-Widget _badgeOutline(BuildContext context) =>
-    _badgeExample(context, BadgeVariant.outline, 'Outline');
+Widget _badgeOutline(BuildContext context) => _badgeExample(
+  context,
+  BadgeVariant.outline,
+  'Outline',
+);
 ''',
     ),
     DocsExampleSource(
@@ -2519,23 +2556,28 @@ import 'package:<your_app>/ui/dashcn/theme/theme.dart';
 import 'package:<your_app>/ui/dashcn/components/badge/badge.dart';
 
 Widget _badgeExample(BuildContext context, BadgeVariant variant, String label) {
+  final String localized = label;
+  final String localizedWithIcon = '$label with icon';
   return Column(
     crossAxisAlignment: CrossAxisAlignment.center,
     mainAxisSize: MainAxisSize.min,
     children: <Widget>[
-      Badge(variant: variant, child: Text(label)),
+      Badge(variant: variant, child: Text(localized)),
       Gap(Theme.of(context).spacing.md),
       Badge(
         variant: variant,
         leading: const Icon(LucideIcons.star, size: 12),
-        child: Text('$label with icon'),
+        child: Text(localizedWithIcon),
       ),
     ],
   );
 }
 
-Widget _badgeDestructive(BuildContext context) =>
-    _badgeExample(context, BadgeVariant.destructive, 'Destructive');
+Widget _badgeDestructive(BuildContext context) => _badgeExample(
+  context,
+  BadgeVariant.destructive,
+  'Destructive',
+);
 ''',
     ),
   ],
@@ -2747,12 +2789,16 @@ class _CarouselShellState extends State<_CarouselShell> {
                   _playing ? LucideIcons.pause : LucideIcons.play,
                   size: 16,
                 ),
-                child: Text(_playing ? 'Pause' : 'Play'),
+                child: Text(
+                  _playing
+                        ? 'Pause'
+                        : 'Play',
+                ),
               ),
             ],
             if (widget.showCounter) ...<Widget>[
               Gap(spacing.sm),
-              Text('Slide ${_index + 1} of $_slideCount'),
+              Text('${'Slide'} ${_index + 1} / $_slideCount'),
               Gap(spacing.xs),
               Button(
                 size: ButtonSize.sm,
@@ -2761,7 +2807,7 @@ class _CarouselShellState extends State<_CarouselShell> {
                   (_slideCount - 1).toDouble(),
                   kDefaultDuration,
                 ),
-                child: const Text('Jump to last'),
+                child: Text('Jump to last'),
               ),
             ],
           ],
@@ -2982,12 +3028,16 @@ class _CarouselShellState extends State<_CarouselShell> {
                   _playing ? LucideIcons.pause : LucideIcons.play,
                   size: 16,
                 ),
-                child: Text(_playing ? 'Pause' : 'Play'),
+                child: Text(
+                  _playing
+                        ? 'Pause'
+                        : 'Play',
+                ),
               ),
             ],
             if (widget.showCounter) ...<Widget>[
               Gap(spacing.sm),
-              Text('Slide ${_index + 1} of $_slideCount'),
+              Text('${'Slide'} ${_index + 1} / $_slideCount'),
               Gap(spacing.xs),
               Button(
                 size: ButtonSize.sm,
@@ -2996,7 +3046,7 @@ class _CarouselShellState extends State<_CarouselShell> {
                   (_slideCount - 1).toDouble(),
                   kDefaultDuration,
                 ),
-                child: const Text('Jump to last'),
+                child: Text('Jump to last'),
               ),
             ],
           ],
@@ -3218,12 +3268,16 @@ class _CarouselShellState extends State<_CarouselShell> {
                   _playing ? LucideIcons.pause : LucideIcons.play,
                   size: 16,
                 ),
-                child: Text(_playing ? 'Pause' : 'Play'),
+                child: Text(
+                  _playing
+                        ? 'Pause'
+                        : 'Play',
+                ),
               ),
             ],
             if (widget.showCounter) ...<Widget>[
               Gap(spacing.sm),
-              Text('Slide ${_index + 1} of $_slideCount'),
+              Text('${'Slide'} ${_index + 1} / $_slideCount'),
               Gap(spacing.xs),
               Button(
                 size: ButtonSize.sm,
@@ -3232,7 +3286,7 @@ class _CarouselShellState extends State<_CarouselShell> {
                   (_slideCount - 1).toDouble(),
                   kDefaultDuration,
                 ),
-                child: const Text('Jump to last'),
+                child: Text('Jump to last'),
               ),
             ],
           ],
@@ -3454,12 +3508,16 @@ class _CarouselShellState extends State<_CarouselShell> {
                   _playing ? LucideIcons.pause : LucideIcons.play,
                   size: 16,
                 ),
-                child: Text(_playing ? 'Pause' : 'Play'),
+                child: Text(
+                  _playing
+                        ? 'Pause'
+                        : 'Play',
+                ),
               ),
             ],
             if (widget.showCounter) ...<Widget>[
               Gap(spacing.sm),
-              Text('Slide ${_index + 1} of $_slideCount'),
+              Text('${'Slide'} ${_index + 1} / $_slideCount'),
               Gap(spacing.xs),
               Button(
                 size: ButtonSize.sm,
@@ -3468,7 +3526,7 @@ class _CarouselShellState extends State<_CarouselShell> {
                   (_slideCount - 1).toDouble(),
                   kDefaultDuration,
                 ),
-                child: const Text('Jump to last'),
+                child: Text('Jump to last'),
               ),
             ],
           ],
@@ -3690,12 +3748,16 @@ class _CarouselShellState extends State<_CarouselShell> {
                   _playing ? LucideIcons.pause : LucideIcons.play,
                   size: 16,
                 ),
-                child: Text(_playing ? 'Pause' : 'Play'),
+                child: Text(
+                  _playing
+                        ? 'Pause'
+                        : 'Play',
+                ),
               ),
             ],
             if (widget.showCounter) ...<Widget>[
               Gap(spacing.sm),
-              Text('Slide ${_index + 1} of $_slideCount'),
+              Text('${'Slide'} ${_index + 1} / $_slideCount'),
               Gap(spacing.xs),
               Button(
                 size: ButtonSize.sm,
@@ -3704,7 +3766,7 @@ class _CarouselShellState extends State<_CarouselShell> {
                   (_slideCount - 1).toDouble(),
                   kDefaultDuration,
                 ),
-                child: const Text('Jump to last'),
+                child: Text('Jump to last'),
               ),
             ],
           ],
@@ -3911,10 +3973,12 @@ import 'package:<your_app>/ui/dashcn/theme/theme.dart';
 import 'package:<your_app>/ui/dashcn/components/chart/chart.dart';
 
 Widget _chartLineDefault(BuildContext context) {
-  return const Chart(
+  return Chart(
     labels: _areaMonths,
     tooltip: ChartTooltipConfig(showLabel: false),
-    series: <ChartSeries>[ChartSeries(label: 'Desktop', values: _barDesktop)],
+    series: <ChartSeries>[
+      ChartSeries(label: 'Desktop', values: _barDesktop),
+    ],
   );
 }
 
@@ -3940,11 +4004,13 @@ import 'package:<your_app>/ui/dashcn/theme/theme.dart';
 import 'package:<your_app>/ui/dashcn/components/chart/chart.dart';
 
 Widget _chartLineLinear(BuildContext context) {
-  return const Chart(
+  return Chart(
     lineStyle: ChartLineStyle.linear,
     labels: _areaMonths,
     tooltip: ChartTooltipConfig(showLabel: false),
-    series: <ChartSeries>[ChartSeries(label: 'Desktop', values: _barDesktop)],
+    series: <ChartSeries>[
+      ChartSeries(label: 'Desktop', values: _barDesktop),
+    ],
   );
 }
 
@@ -3970,11 +4036,13 @@ import 'package:<your_app>/ui/dashcn/theme/theme.dart';
 import 'package:<your_app>/ui/dashcn/components/chart/chart.dart';
 
 Widget _chartLineStep(BuildContext context) {
-  return const Chart(
+  return Chart(
     lineStyle: ChartLineStyle.step,
     labels: _areaMonths,
     tooltip: ChartTooltipConfig(showLabel: false),
-    series: <ChartSeries>[ChartSeries(label: 'Desktop', values: _barDesktop)],
+    series: <ChartSeries>[
+      ChartSeries(label: 'Desktop', values: _barDesktop),
+    ],
   );
 }
 
@@ -4000,7 +4068,7 @@ import 'package:<your_app>/ui/dashcn/theme/theme.dart';
 import 'package:<your_app>/ui/dashcn/components/chart/chart.dart';
 
 Widget _chartLineMultiple(BuildContext context) {
-  return const Chart(
+  return Chart(
     labels: _areaMonths,
     series: <ChartSeries>[
       ChartSeries(label: 'Desktop', values: _barDesktop),
@@ -4033,7 +4101,7 @@ import 'package:<your_app>/ui/dashcn/theme/theme.dart';
 import 'package:<your_app>/ui/dashcn/components/chart/chart.dart';
 
 Widget _chartLineDots(BuildContext context) {
-  return const Chart(
+  return Chart(
     labels: _areaMonths,
     showMarkers: true,
     series: <ChartSeries>[
@@ -4067,7 +4135,7 @@ import 'package:<your_app>/ui/dashcn/theme/theme.dart';
 import 'package:<your_app>/ui/dashcn/components/chart/chart.dart';
 
 Widget _chartLineDotsCustom(BuildContext context) {
-  return const Chart(
+  return Chart(
     labels: _areaMonths,
     showMarkers: true,
     tooltip: ChartTooltipConfig(showLabel: false),
@@ -4120,7 +4188,7 @@ Widget _chartLineDotsColors(BuildContext context) {
   );
 }
 
-const List<String> _browserNames = <String>[
+List<String> _browserNames = <String>[
   'Chrome',
   'Safari',
   'Firefox',
@@ -4149,12 +4217,14 @@ import 'package:<your_app>/ui/dashcn/theme/theme.dart';
 import 'package:<your_app>/ui/dashcn/components/chart/chart.dart';
 
 Widget _chartLineLabel(BuildContext context) {
-  return const Chart(
+  return Chart(
     labels: _areaMonths,
     showMarkers: true,
     showPointLabels: true,
     tooltip: ChartTooltipConfig(indicator: ChartTooltipIndicator.line),
-    series: <ChartSeries>[ChartSeries(label: 'Desktop', values: _barDesktop)],
+    series: <ChartSeries>[
+      ChartSeries(label: 'Desktop', values: _barDesktop),
+    ],
   );
 }
 
@@ -4190,12 +4260,15 @@ Widget _chartLineLabelCustom(BuildContext context) {
       showLabel: false,
     ),
     series: <ChartSeries>[
-      ChartSeries(label: 'Visitors', values: _browserVisitors),
+      ChartSeries(
+        label: 'Visitors',
+        values: _browserVisitors,
+      ),
     ],
   );
 }
 
-const List<String> _browserNames = <String>[
+List<String> _browserNames = <String>[
   'Chrome',
   'Safari',
   'Firefox',
@@ -4360,12 +4433,14 @@ const List<String> _areaMonths = <String>[
 const List<double> _areaDesktop = <double>[186, 305, 237, 73, 209, 214];
 
 Widget _chartAreaDefault(BuildContext context) {
-  return const Chart(
+  return Chart(
     type: ChartType.area,
     labels: _areaMonths,
     fillOpacity: 0.4,
     tooltip: ChartTooltipConfig(indicator: ChartTooltipIndicator.line),
-    series: <ChartSeries>[ChartSeries(label: 'Desktop', values: _areaDesktop)],
+    series: <ChartSeries>[
+      ChartSeries(label: 'Desktop', values: _areaDesktop),
+    ],
   );
 }
 ''',
@@ -4391,13 +4466,15 @@ const List<String> _areaMonths = <String>[
 const List<double> _areaDesktop = <double>[186, 305, 237, 73, 209, 214];
 
 Widget _chartAreaLinear(BuildContext context) {
-  return const Chart(
+  return Chart(
     type: ChartType.area,
     lineStyle: ChartLineStyle.linear,
     labels: _areaMonths,
     fillOpacity: 0.4,
     tooltip: ChartTooltipConfig(indicator: ChartTooltipIndicator.line),
-    series: <ChartSeries>[ChartSeries(label: 'Desktop', values: _areaDesktop)],
+    series: <ChartSeries>[
+      ChartSeries(label: 'Desktop', values: _areaDesktop),
+    ],
   );
 }
 ''',
@@ -4423,12 +4500,14 @@ const List<String> _areaMonths = <String>[
 const List<double> _areaDesktop = <double>[186, 305, 237, 73, 209, 214];
 
 Widget _chartAreaStep(BuildContext context) {
-  return const Chart(
+  return Chart(
     type: ChartType.area,
     lineStyle: ChartLineStyle.step,
     labels: _areaMonths,
     fillOpacity: 0.4,
-    series: <ChartSeries>[ChartSeries(label: 'Desktop', values: _areaDesktop)],
+    series: <ChartSeries>[
+      ChartSeries(label: 'Desktop', values: _areaDesktop),
+    ],
   );
 }
 ''',
@@ -4456,7 +4535,7 @@ const List<double> _areaDesktop = <double>[186, 305, 237, 73, 209, 214];
 const List<double> _areaMobile = <double>[80, 200, 120, 190, 130, 140];
 
 Widget _chartAreaLegend(BuildContext context) {
-  return const Chart(
+  return Chart(
     type: ChartType.area,
     areaMode: ChartAreaMode.stacked,
     labels: _areaMonths,
@@ -4563,7 +4642,7 @@ const List<double> _areaDesktop = <double>[186, 305, 237, 73, 209, 214];
 const List<double> _areaMobile = <double>[80, 200, 120, 190, 130, 140];
 
 Widget _chartAreaIcons(BuildContext context) {
-  return const Chart(
+  return Chart(
     type: ChartType.area,
     areaMode: ChartAreaMode.stacked,
     labels: _areaMonths,
@@ -4863,10 +4942,12 @@ import 'package:<your_app>/ui/dashcn/components/chart/chart.dart';
 const List<double> _barDesktop = <double>[186, 305, 237, 73, 209, 214];
 
 Widget _chartBarDefault(BuildContext context) {
-  return const Chart(
+  return Chart(
     type: ChartType.bar,
     labels: _areaMonths,
-    series: <ChartSeries>[ChartSeries(label: 'Desktop', values: _barDesktop)],
+    series: <ChartSeries>[
+      ChartSeries(label: 'Desktop', values: _barDesktop),
+    ],
   );
 }
 
@@ -4892,11 +4973,13 @@ import 'package:<your_app>/ui/dashcn/components/chart/chart.dart';
 const List<double> _barDesktop = <double>[186, 305, 237, 73, 209, 214];
 
 Widget _chartBarHorizontal(BuildContext context) {
-  return const Chart(
+  return Chart(
     type: ChartType.bar,
     barLayout: ChartBarLayout.horizontal,
     labels: _areaMonths,
-    series: <ChartSeries>[ChartSeries(label: 'Desktop', values: _barDesktop)],
+    series: <ChartSeries>[
+      ChartSeries(label: 'Desktop', values: _barDesktop),
+    ],
   );
 }
 
@@ -4924,7 +5007,7 @@ const List<double> _barDesktop = <double>[186, 305, 237, 73, 209, 214];
 const List<double> _barMobile = <double>[80, 200, 120, 190, 130, 140];
 
 Widget _chartBarMultiple(BuildContext context) {
-  return const Chart(
+  return Chart(
     type: ChartType.bar,
     labels: _areaMonths,
     series: <ChartSeries>[
@@ -4958,7 +5041,7 @@ const List<double> _barDesktop = <double>[186, 305, 237, 73, 209, 214];
 const List<double> _barMobile = <double>[80, 200, 120, 190, 130, 140];
 
 Widget _chartBarStacked(BuildContext context) {
-  return const Chart(
+  return Chart(
     type: ChartType.bar,
     barMode: ChartBarMode.stacked,
     labels: _areaMonths,
@@ -4991,11 +5074,13 @@ import 'package:<your_app>/ui/dashcn/components/chart/chart.dart';
 const List<double> _barDesktop = <double>[186, 305, 237, 73, 209, 214];
 
 Widget _chartBarLabel(BuildContext context) {
-  return const Chart(
+  return Chart(
     type: ChartType.bar,
     labels: _areaMonths,
     showBarLabels: true,
-    series: <ChartSeries>[ChartSeries(label: 'Desktop', values: _barDesktop)],
+    series: <ChartSeries>[
+      ChartSeries(label: 'Desktop', values: _barDesktop),
+    ],
   );
 }
 
@@ -5021,14 +5106,16 @@ import 'package:<your_app>/ui/dashcn/components/chart/chart.dart';
 const List<double> _barDesktop = <double>[186, 305, 237, 73, 209, 214];
 
 Widget _chartBarLabelCustom(BuildContext context) {
-  return const Chart(
+  return Chart(
     type: ChartType.bar,
     barLayout: ChartBarLayout.horizontal,
     labels: _areaMonths,
     showLabels: false,
     showBarLabels: true,
     showBarCategories: true,
-    series: <ChartSeries>[ChartSeries(label: 'Desktop', values: _barDesktop)],
+    series: <ChartSeries>[
+      ChartSeries(label: 'Desktop', values: _barDesktop),
+    ],
   );
 }
 
@@ -5051,7 +5138,7 @@ import 'package:<your_app>/ui/dashcn/foundation/icons/lucide_icons.dart';
 import 'package:<your_app>/ui/dashcn/theme/theme.dart';
 import 'package:<your_app>/ui/dashcn/components/chart/chart.dart';
 
-const List<String> _browserNames = <String>[
+List<String> _browserNames = <String>[
   'Chrome',
   'Safari',
   'Firefox',
@@ -5094,7 +5181,7 @@ import 'package:<your_app>/ui/dashcn/foundation/icons/lucide_icons.dart';
 import 'package:<your_app>/ui/dashcn/theme/theme.dart';
 import 'package:<your_app>/ui/dashcn/components/chart/chart.dart';
 
-const List<String> _browserNames = <String>[
+List<String> _browserNames = <String>[
   'Chrome',
   'Safari',
   'Firefox',
@@ -5141,7 +5228,7 @@ import 'package:<your_app>/ui/dashcn/theme/theme.dart';
 import 'package:<your_app>/ui/dashcn/components/chart/chart.dart';
 
 Widget _chartBarNegative(BuildContext context) {
-  return const Chart(
+  return Chart(
     type: ChartType.bar,
     labels: _areaMonths,
     series: <ChartSeries>[
@@ -5172,7 +5259,7 @@ import 'package:<your_app>/ui/dashcn/foundation/icons/lucide_icons.dart';
 import 'package:<your_app>/ui/dashcn/theme/theme.dart';
 import 'package:<your_app>/ui/dashcn/components/chart/chart.dart';
 
-const List<String> _browserNames = <String>[
+List<String> _browserNames = <String>[
   'Chrome',
   'Safari',
   'Firefox',
@@ -5183,7 +5270,7 @@ const List<String> _browserNames = <String>[
 const List<double> _browserVisitors = <double>[275, 200, 187, 173, 90];
 
 Widget _chartPieSimple(BuildContext context) {
-  return const Chart(
+  return Chart(
     type: ChartType.pie,
     height: 250,
     labels: _browserNames,
@@ -5201,7 +5288,7 @@ import 'package:<your_app>/ui/dashcn/foundation/icons/lucide_icons.dart';
 import 'package:<your_app>/ui/dashcn/theme/theme.dart';
 import 'package:<your_app>/ui/dashcn/components/chart/chart.dart';
 
-const List<String> _browserNames = <String>[
+List<String> _browserNames = <String>[
   'Chrome',
   'Safari',
   'Firefox',
@@ -5212,7 +5299,7 @@ const List<String> _browserNames = <String>[
 const List<double> _browserVisitors = <double>[275, 200, 187, 173, 90];
 
 Widget _chartPieSeparatorNone(BuildContext context) {
-  return const Chart(
+  return Chart(
     type: ChartType.pie,
     height: 250,
     labels: _browserNames,
@@ -5231,7 +5318,7 @@ import 'package:<your_app>/ui/dashcn/foundation/icons/lucide_icons.dart';
 import 'package:<your_app>/ui/dashcn/theme/theme.dart';
 import 'package:<your_app>/ui/dashcn/components/chart/chart.dart';
 
-const List<String> _browserNames = <String>[
+List<String> _browserNames = <String>[
   'Chrome',
   'Safari',
   'Firefox',
@@ -5242,7 +5329,7 @@ const List<String> _browserNames = <String>[
 const List<double> _browserVisitors = <double>[275, 200, 187, 173, 90];
 
 Widget _chartPieLabel(BuildContext context) {
-  return const Chart(
+  return Chart(
     type: ChartType.pie,
     height: 250,
     labels: _browserNames,
@@ -5261,7 +5348,7 @@ import 'package:<your_app>/ui/dashcn/foundation/icons/lucide_icons.dart';
 import 'package:<your_app>/ui/dashcn/theme/theme.dart';
 import 'package:<your_app>/ui/dashcn/components/chart/chart.dart';
 
-const List<String> _browserNames = <String>[
+List<String> _browserNames = <String>[
   'Chrome',
   'Safari',
   'Firefox',
@@ -5272,7 +5359,7 @@ const List<String> _browserNames = <String>[
 const List<double> _browserVisitors = <double>[275, 200, 187, 173, 90];
 
 Widget _chartPieLabelCustom(BuildContext context) {
-  return const Chart(
+  return Chart(
     type: ChartType.pie,
     height: 250,
     labels: _browserNames,
@@ -5291,7 +5378,7 @@ import 'package:<your_app>/ui/dashcn/foundation/icons/lucide_icons.dart';
 import 'package:<your_app>/ui/dashcn/theme/theme.dart';
 import 'package:<your_app>/ui/dashcn/components/chart/chart.dart';
 
-const List<String> _browserNames = <String>[
+List<String> _browserNames = <String>[
   'Chrome',
   'Safari',
   'Firefox',
@@ -5302,7 +5389,7 @@ const List<String> _browserNames = <String>[
 const List<double> _browserVisitors = <double>[275, 200, 187, 173, 90];
 
 Widget _chartPieLabelList(BuildContext context) {
-  return const Chart(
+  return Chart(
     type: ChartType.pie,
     height: 250,
     labels: _browserNames,
@@ -5321,7 +5408,7 @@ import 'package:<your_app>/ui/dashcn/foundation/icons/lucide_icons.dart';
 import 'package:<your_app>/ui/dashcn/theme/theme.dart';
 import 'package:<your_app>/ui/dashcn/components/chart/chart.dart';
 
-const List<String> _browserNames = <String>[
+List<String> _browserNames = <String>[
   'Chrome',
   'Safari',
   'Firefox',
@@ -5332,12 +5419,15 @@ const List<String> _browserNames = <String>[
 const List<double> _browserVisitors = <double>[275, 200, 187, 173, 90];
 
 Widget _chartPieLegend(BuildContext context) {
-  return const Chart(
+  return Chart(
     type: ChartType.pie,
     height: 250,
     labels: _browserNames,
     series: <ChartSeries>[
-      ChartSeries(label: 'Browsers', values: _browserVisitors),
+      ChartSeries(
+        label: 'Browsers',
+        values: _browserVisitors,
+      ),
     ],
   );
 }
@@ -5352,7 +5442,7 @@ import 'package:<your_app>/ui/dashcn/foundation/icons/lucide_icons.dart';
 import 'package:<your_app>/ui/dashcn/theme/theme.dart';
 import 'package:<your_app>/ui/dashcn/components/chart/chart.dart';
 
-const List<String> _browserNames = <String>[
+List<String> _browserNames = <String>[
   'Chrome',
   'Safari',
   'Firefox',
@@ -5363,7 +5453,7 @@ const List<String> _browserNames = <String>[
 const List<double> _browserVisitors = <double>[275, 200, 187, 173, 90];
 
 Widget _chartPieDonut(BuildContext context) {
-  return const Chart(
+  return Chart(
     type: ChartType.donut,
     height: 250,
     labels: _browserNames,
@@ -5381,7 +5471,7 @@ import 'package:<your_app>/ui/dashcn/foundation/icons/lucide_icons.dart';
 import 'package:<your_app>/ui/dashcn/theme/theme.dart';
 import 'package:<your_app>/ui/dashcn/components/chart/chart.dart';
 
-const List<String> _browserNames = <String>[
+List<String> _browserNames = <String>[
   'Chrome',
   'Safari',
   'Firefox',
@@ -5392,7 +5482,7 @@ const List<String> _browserNames = <String>[
 const List<double> _browserVisitors = <double>[275, 200, 187, 173, 90];
 
 Widget _chartPieDonutActive(BuildContext context) {
-  return const Chart(
+  return Chart(
     type: ChartType.donut,
     height: 250,
     labels: _browserNames,
@@ -5411,7 +5501,7 @@ import 'package:<your_app>/ui/dashcn/foundation/icons/lucide_icons.dart';
 import 'package:<your_app>/ui/dashcn/theme/theme.dart';
 import 'package:<your_app>/ui/dashcn/components/chart/chart.dart';
 
-const List<String> _browserNames = <String>[
+List<String> _browserNames = <String>[
   'Chrome',
   'Safari',
   'Firefox',
@@ -5422,7 +5512,7 @@ const List<String> _browserNames = <String>[
 const List<double> _browserVisitors = <double>[275, 200, 187, 173, 90];
 
 Widget _chartPieDonutText(BuildContext context) {
-  return const Chart(
+  return Chart(
     type: ChartType.donut,
     height: 250,
     labels: _browserNames,
@@ -5443,16 +5533,28 @@ import 'package:<your_app>/ui/dashcn/theme/theme.dart';
 import 'package:<your_app>/ui/dashcn/components/chart/chart.dart';
 
 Widget _chartPieStacked(BuildContext context) {
-  return const Chart(
+  return Chart(
     type: ChartType.donut,
     height: 250,
-    labels: <String>['January', 'February', 'March', 'April', 'May'],
+    labels: <String>[
+      'January',
+      'February',
+      'March',
+      'April',
+      'May',
+    ],
     showLegend: false,
     pie: ChartPieConfig(stacked: true),
     tooltip: ChartTooltipConfig(indicator: ChartTooltipIndicator.line),
     series: <ChartSeries>[
-      ChartSeries(label: 'Desktop', values: <double>[186, 305, 237, 173, 209]),
-      ChartSeries(label: 'Mobile', values: <double>[80, 200, 120, 190, 130]),
+      ChartSeries(
+        label: 'Desktop',
+        values: <double>[186, 305, 237, 173, 209],
+      ),
+      ChartSeries(
+        label: 'Mobile',
+        values: <double>[80, 200, 120, 190, 130],
+      ),
     ],
   );
 }
@@ -5486,7 +5588,7 @@ class _PieInteractive extends StatefulWidget {
 }
 
 class _PieInteractiveState extends State<_PieInteractive> {
-  static const List<String> months = <String>[
+  static List<String> months = <String>[
     'January',
     'February',
     'March',
@@ -5683,10 +5785,13 @@ import 'package:<your_app>/ui/dashcn/theme/theme.dart';
 import 'package:<your_app>/ui/dashcn/components/chart/chart.dart';
 
 Widget _chartScatter(BuildContext context) {
-  return const Chart(
+  return Chart(
     type: ChartType.scatter,
     series: <ChartSeries>[
-      ChartSeries(label: 'Latency', values: <double>[2, 5, 3, 8, 6, 9, 4]),
+      ChartSeries(
+        label: 'Latency',
+        values: <double>[2, 5, 3, 8, 6, 9, 4],
+      ),
     ],
   );
 }
@@ -5740,8 +5845,11 @@ class _ChartStreamingState extends State<_ChartStreaming> {
     super.initState();
     _controller = ChartController(
       maxPoints: 40,
-      initial: const <ChartSeries>[
-        ChartSeries(label: 'Live', values: <double>[3, 5, 2, 6, 4, 7]),
+      initial: <ChartSeries>[
+        ChartSeries(
+          label: 'Live',
+          values: <double>[3, 5, 2, 6, 4, 7],
+        ),
       ],
     );
     _timer = Timer.periodic(const Duration(milliseconds: 800), (_) {
@@ -5779,7 +5887,7 @@ import 'package:<your_app>/ui/dashcn/foundation/icons/lucide_icons.dart';
 import 'package:<your_app>/ui/dashcn/theme/theme.dart';
 import 'package:<your_app>/ui/dashcn/components/chart/chart.dart';
 
-const List<String> _radarMonths = <String>[
+List<String> _radarMonths = <String>[
   'January',
   'February',
   'March',
@@ -5791,11 +5899,13 @@ const List<String> _radarMonths = <String>[
 const List<double> _radarDesktop = <double>[186, 305, 237, 73, 209, 214];
 
 Widget _chartRadarDefault(BuildContext context) {
-  return const Chart(
+  return Chart(
     type: ChartType.radar,
     labels: _radarMonths,
     height: 260,
-    series: <ChartSeries>[ChartSeries(label: 'Desktop', values: _radarDesktop)],
+    series: <ChartSeries>[
+      ChartSeries(label: 'Desktop', values: _radarDesktop),
+    ],
   );
 }
 ''',
@@ -5809,7 +5919,7 @@ import 'package:<your_app>/ui/dashcn/foundation/icons/lucide_icons.dart';
 import 'package:<your_app>/ui/dashcn/theme/theme.dart';
 import 'package:<your_app>/ui/dashcn/components/chart/chart.dart';
 
-const List<String> _radarMonths = <String>[
+List<String> _radarMonths = <String>[
   'January',
   'February',
   'March',
@@ -5821,12 +5931,14 @@ const List<String> _radarMonths = <String>[
 const List<double> _radarDesktop = <double>[186, 305, 237, 73, 209, 214];
 
 Widget _chartRadarDots(BuildContext context) {
-  return const Chart(
+  return Chart(
     type: ChartType.radar,
     labels: _radarMonths,
     height: 260,
     showMarkers: true,
-    series: <ChartSeries>[ChartSeries(label: 'Desktop', values: _radarDesktop)],
+    series: <ChartSeries>[
+      ChartSeries(label: 'Desktop', values: _radarDesktop),
+    ],
   );
 }
 ''',
@@ -5840,7 +5952,7 @@ import 'package:<your_app>/ui/dashcn/foundation/icons/lucide_icons.dart';
 import 'package:<your_app>/ui/dashcn/theme/theme.dart';
 import 'package:<your_app>/ui/dashcn/components/chart/chart.dart';
 
-const List<String> _radarMonths = <String>[
+List<String> _radarMonths = <String>[
   'January',
   'February',
   'March',
@@ -5852,12 +5964,16 @@ const List<String> _radarMonths = <String>[
 const List<double> _radarDesktop = <double>[186, 305, 237, 73, 209, 214];
 
 Widget _chartRadarLinesOnly(BuildContext context) {
-  return const Chart(
+  return Chart(
     type: ChartType.radar,
     labels: _radarMonths,
     height: 260,
     series: <ChartSeries>[
-      ChartSeries(label: 'Desktop', values: _radarDesktop, fillOpacity: 0),
+      ChartSeries(
+        label: 'Desktop',
+        values: _radarDesktop,
+        fillOpacity: 0,
+      ),
     ],
   );
 }
@@ -5872,7 +5988,7 @@ import 'package:<your_app>/ui/dashcn/foundation/icons/lucide_icons.dart';
 import 'package:<your_app>/ui/dashcn/theme/theme.dart';
 import 'package:<your_app>/ui/dashcn/components/chart/chart.dart';
 
-const List<String> _radarMonths = <String>[
+List<String> _radarMonths = <String>[
   'January',
   'February',
   'March',
@@ -5886,7 +6002,7 @@ const List<double> _radarDesktop = <double>[186, 305, 237, 73, 209, 214];
 const List<double> _radarMobile = <double>[80, 200, 120, 190, 130, 140];
 
 Widget _chartRadarLabelCustom(BuildContext context) {
-  return const Chart(
+  return Chart(
     type: ChartType.radar,
     labels: _radarMonths,
     height: 260,
@@ -5908,7 +6024,7 @@ import 'package:<your_app>/ui/dashcn/foundation/icons/lucide_icons.dart';
 import 'package:<your_app>/ui/dashcn/theme/theme.dart';
 import 'package:<your_app>/ui/dashcn/components/chart/chart.dart';
 
-const List<String> _radarMonths = <String>[
+List<String> _radarMonths = <String>[
   'January',
   'February',
   'March',
@@ -5920,12 +6036,14 @@ const List<String> _radarMonths = <String>[
 const List<double> _radarDesktop = <double>[186, 305, 237, 73, 209, 214];
 
 Widget _chartRadarGridCustom(BuildContext context) {
-  return const Chart(
+  return Chart(
     type: ChartType.radar,
     labels: _radarMonths,
     height: 260,
     radar: ChartRadarConfig(rings: 1, showSpokes: false),
-    series: <ChartSeries>[ChartSeries(label: 'Desktop', values: _radarDesktop)],
+    series: <ChartSeries>[
+      ChartSeries(label: 'Desktop', values: _radarDesktop),
+    ],
   );
 }
 ''',
@@ -5939,7 +6057,7 @@ import 'package:<your_app>/ui/dashcn/foundation/icons/lucide_icons.dart';
 import 'package:<your_app>/ui/dashcn/theme/theme.dart';
 import 'package:<your_app>/ui/dashcn/components/chart/chart.dart';
 
-const List<String> _radarMonths = <String>[
+List<String> _radarMonths = <String>[
   'January',
   'February',
   'March',
@@ -5951,12 +6069,14 @@ const List<String> _radarMonths = <String>[
 const List<double> _radarDesktop = <double>[186, 305, 237, 73, 209, 214];
 
 Widget _chartRadarGridNone(BuildContext context) {
-  return const Chart(
+  return Chart(
     type: ChartType.radar,
     labels: _radarMonths,
     height: 260,
     radar: ChartRadarConfig(grid: ChartRadarGrid.none),
-    series: <ChartSeries>[ChartSeries(label: 'Desktop', values: _radarDesktop)],
+    series: <ChartSeries>[
+      ChartSeries(label: 'Desktop', values: _radarDesktop),
+    ],
   );
 }
 ''',
@@ -5970,7 +6090,7 @@ import 'package:<your_app>/ui/dashcn/foundation/icons/lucide_icons.dart';
 import 'package:<your_app>/ui/dashcn/theme/theme.dart';
 import 'package:<your_app>/ui/dashcn/components/chart/chart.dart';
 
-const List<String> _radarMonths = <String>[
+List<String> _radarMonths = <String>[
   'January',
   'February',
   'March',
@@ -5982,12 +6102,14 @@ const List<String> _radarMonths = <String>[
 const List<double> _radarDesktop = <double>[186, 305, 237, 73, 209, 214];
 
 Widget _chartRadarGridCircle(BuildContext context) {
-  return const Chart(
+  return Chart(
     type: ChartType.radar,
     labels: _radarMonths,
     height: 260,
     radar: ChartRadarConfig(grid: ChartRadarGrid.circle),
-    series: <ChartSeries>[ChartSeries(label: 'Desktop', values: _radarDesktop)],
+    series: <ChartSeries>[
+      ChartSeries(label: 'Desktop', values: _radarDesktop),
+    ],
   );
 }
 ''',
@@ -6001,7 +6123,7 @@ import 'package:<your_app>/ui/dashcn/foundation/icons/lucide_icons.dart';
 import 'package:<your_app>/ui/dashcn/theme/theme.dart';
 import 'package:<your_app>/ui/dashcn/components/chart/chart.dart';
 
-const List<String> _radarMonths = <String>[
+List<String> _radarMonths = <String>[
   'January',
   'February',
   'March',
@@ -6013,12 +6135,14 @@ const List<String> _radarMonths = <String>[
 const List<double> _radarDesktop = <double>[186, 305, 237, 73, 209, 214];
 
 Widget _chartRadarGridCircleNoLines(BuildContext context) {
-  return const Chart(
+  return Chart(
     type: ChartType.radar,
     labels: _radarMonths,
     height: 260,
     radar: ChartRadarConfig(grid: ChartRadarGrid.circle, showSpokes: false),
-    series: <ChartSeries>[ChartSeries(label: 'Desktop', values: _radarDesktop)],
+    series: <ChartSeries>[
+      ChartSeries(label: 'Desktop', values: _radarDesktop),
+    ],
   );
 }
 ''',
@@ -6032,7 +6156,7 @@ import 'package:<your_app>/ui/dashcn/foundation/icons/lucide_icons.dart';
 import 'package:<your_app>/ui/dashcn/theme/theme.dart';
 import 'package:<your_app>/ui/dashcn/components/chart/chart.dart';
 
-const List<String> _radarMonths = <String>[
+List<String> _radarMonths = <String>[
   'January',
   'February',
   'March',
@@ -6044,12 +6168,14 @@ const List<String> _radarMonths = <String>[
 const List<double> _radarDesktop = <double>[186, 305, 237, 73, 209, 214];
 
 Widget _chartRadarGridCircleFilled(BuildContext context) {
-  return const Chart(
+  return Chart(
     type: ChartType.radar,
     labels: _radarMonths,
     height: 260,
     radar: ChartRadarConfig(grid: ChartRadarGrid.circle, filled: true),
-    series: <ChartSeries>[ChartSeries(label: 'Desktop', values: _radarDesktop)],
+    series: <ChartSeries>[
+      ChartSeries(label: 'Desktop', values: _radarDesktop),
+    ],
   );
 }
 ''',
@@ -6063,7 +6189,7 @@ import 'package:<your_app>/ui/dashcn/foundation/icons/lucide_icons.dart';
 import 'package:<your_app>/ui/dashcn/theme/theme.dart';
 import 'package:<your_app>/ui/dashcn/components/chart/chart.dart';
 
-const List<String> _radarMonths = <String>[
+List<String> _radarMonths = <String>[
   'January',
   'February',
   'March',
@@ -6075,12 +6201,14 @@ const List<String> _radarMonths = <String>[
 const List<double> _radarDesktop = <double>[186, 305, 237, 73, 209, 214];
 
 Widget _chartRadarGridFilled(BuildContext context) {
-  return const Chart(
+  return Chart(
     type: ChartType.radar,
     labels: _radarMonths,
     height: 260,
     radar: ChartRadarConfig(filled: true),
-    series: <ChartSeries>[ChartSeries(label: 'Desktop', values: _radarDesktop)],
+    series: <ChartSeries>[
+      ChartSeries(label: 'Desktop', values: _radarDesktop),
+    ],
   );
 }
 ''',
@@ -6094,7 +6222,7 @@ import 'package:<your_app>/ui/dashcn/foundation/icons/lucide_icons.dart';
 import 'package:<your_app>/ui/dashcn/theme/theme.dart';
 import 'package:<your_app>/ui/dashcn/components/chart/chart.dart';
 
-const List<String> _radarMonths = <String>[
+List<String> _radarMonths = <String>[
   'January',
   'February',
   'March',
@@ -6108,7 +6236,7 @@ const List<double> _radarDesktop = <double>[186, 305, 237, 73, 209, 214];
 const List<double> _radarMobile = <double>[80, 200, 120, 190, 130, 140];
 
 Widget _chartRadarMultiple(BuildContext context) {
-  return const Chart(
+  return Chart(
     type: ChartType.radar,
     labels: _radarMonths,
     height: 260,
@@ -6129,7 +6257,7 @@ import 'package:<your_app>/ui/dashcn/foundation/icons/lucide_icons.dart';
 import 'package:<your_app>/ui/dashcn/theme/theme.dart';
 import 'package:<your_app>/ui/dashcn/components/chart/chart.dart';
 
-const List<String> _radarMonths = <String>[
+List<String> _radarMonths = <String>[
   'January',
   'February',
   'March',
@@ -6143,7 +6271,7 @@ const List<double> _radarDesktop = <double>[186, 305, 237, 73, 209, 214];
 const List<double> _radarMobile = <double>[80, 200, 120, 190, 130, 140];
 
 Widget _chartRadarLegend(BuildContext context) {
-  return const Chart(
+  return Chart(
     type: ChartType.radar,
     labels: _radarMonths,
     height: 260,
@@ -6166,7 +6294,7 @@ import 'package:<your_app>/ui/dashcn/components/chart/chart.dart';
 
 const List<double> _radialBrowserValues = <double>[275, 200, 187, 173, 90];
 
-const List<String> _radialBrowserLabels = <String>[
+List<String> _radialBrowserLabels = <String>[
   'Chrome',
   'Safari',
   'Firefox',
@@ -6204,7 +6332,7 @@ import 'package:<your_app>/ui/dashcn/theme/theme.dart';
 import 'package:<your_app>/ui/dashcn/components/chart/chart.dart';
 
 Widget _chartRadialLabel(BuildContext context) {
-  return const Chart(
+  return Chart(
     type: ChartType.radial,
     height: 260,
     showLegend: false,
@@ -6231,7 +6359,7 @@ import 'package:<your_app>/ui/dashcn/components/chart/chart.dart';
 
 const List<double> _radialBrowserValues = <double>[275, 200, 187, 173, 90];
 
-const List<String> _radialBrowserLabels = <String>[
+List<String> _radialBrowserLabels = <String>[
   'Chrome',
   'Safari',
   'Firefox',
@@ -6270,7 +6398,7 @@ import 'package:<your_app>/ui/dashcn/theme/theme.dart';
 import 'package:<your_app>/ui/dashcn/components/chart/chart.dart';
 
 Widget _chartRadialText(BuildContext context) {
-  return const Chart(
+  return Chart(
     type: ChartType.radial,
     height: 260,
     showLegend: false,
@@ -6294,7 +6422,7 @@ import 'package:<your_app>/ui/dashcn/theme/theme.dart';
 import 'package:<your_app>/ui/dashcn/components/chart/chart.dart';
 
 Widget _chartRadialShape(BuildContext context) {
-  return const Chart(
+  return Chart(
     type: ChartType.radial,
     height: 260,
     showLegend: false,
@@ -6318,7 +6446,7 @@ import 'package:<your_app>/ui/dashcn/theme/theme.dart';
 import 'package:<your_app>/ui/dashcn/components/chart/chart.dart';
 
 Widget _chartRadialStacked(BuildContext context) {
-  return const Chart(
+  return Chart(
     type: ChartType.radial,
     height: 260,
     showLegend: false,
@@ -6327,7 +6455,10 @@ Widget _chartRadialStacked(BuildContext context) {
     radial: ChartRadialConfig(sweep: 0.5, stacked: true, rounded: true),
     series: <ChartSeries>[
       ChartSeries(label: 'Mobile', values: <double>[570]),
-      ChartSeries(label: 'Desktop', values: <double>[1260]),
+      ChartSeries(
+        label: 'Desktop',
+        values: <double>[1260],
+      ),
     ],
   );
 }
@@ -6368,9 +6499,15 @@ Chart _tooltipBase({
     tooltip: tooltip,
     series:
         series ??
-        const <ChartSeries>[
-          ChartSeries(label: 'Running', values: _tooltipRunning),
-          ChartSeries(label: 'Swimming', values: _tooltipSwimming),
+        <ChartSeries>[
+          ChartSeries(
+            label: 'Running',
+            values: _tooltipRunning,
+          ),
+          ChartSeries(
+            label: 'Swimming',
+            values: _tooltipSwimming,
+          ),
         ],
   );
 }
@@ -6413,9 +6550,15 @@ Chart _tooltipBase({
     tooltip: tooltip,
     series:
         series ??
-        const <ChartSeries>[
-          ChartSeries(label: 'Running', values: _tooltipRunning),
-          ChartSeries(label: 'Swimming', values: _tooltipSwimming),
+        <ChartSeries>[
+          ChartSeries(
+            label: 'Running',
+            values: _tooltipRunning,
+          ),
+          ChartSeries(
+            label: 'Swimming',
+            values: _tooltipSwimming,
+          ),
         ],
   );
 }
@@ -6460,9 +6603,15 @@ Chart _tooltipBase({
     tooltip: tooltip,
     series:
         series ??
-        const <ChartSeries>[
-          ChartSeries(label: 'Running', values: _tooltipRunning),
-          ChartSeries(label: 'Swimming', values: _tooltipSwimming),
+        <ChartSeries>[
+          ChartSeries(
+            label: 'Running',
+            values: _tooltipRunning,
+          ),
+          ChartSeries(
+            label: 'Swimming',
+            values: _tooltipSwimming,
+          ),
         ],
   );
 }
@@ -6507,9 +6656,15 @@ Chart _tooltipBase({
     tooltip: tooltip,
     series:
         series ??
-        const <ChartSeries>[
-          ChartSeries(label: 'Running', values: _tooltipRunning),
-          ChartSeries(label: 'Swimming', values: _tooltipSwimming),
+        <ChartSeries>[
+          ChartSeries(
+            label: 'Running',
+            values: _tooltipRunning,
+          ),
+          ChartSeries(
+            label: 'Swimming',
+            values: _tooltipSwimming,
+          ),
         ],
   );
 }
@@ -6559,9 +6714,15 @@ Chart _tooltipBase({
     tooltip: tooltip,
     series:
         series ??
-        const <ChartSeries>[
-          ChartSeries(label: 'Running', values: _tooltipRunning),
-          ChartSeries(label: 'Swimming', values: _tooltipSwimming),
+        <ChartSeries>[
+          ChartSeries(
+            label: 'Running',
+            values: _tooltipRunning,
+          ),
+          ChartSeries(
+            label: 'Swimming',
+            values: _tooltipSwimming,
+          ),
         ],
   );
 }
@@ -6608,9 +6769,15 @@ Chart _tooltipBase({
     tooltip: tooltip,
     series:
         series ??
-        const <ChartSeries>[
-          ChartSeries(label: 'Running', values: _tooltipRunning),
-          ChartSeries(label: 'Swimming', values: _tooltipSwimming),
+        <ChartSeries>[
+          ChartSeries(
+            label: 'Running',
+            values: _tooltipRunning,
+          ),
+          ChartSeries(
+            label: 'Swimming',
+            values: _tooltipSwimming,
+          ),
         ],
   );
 }
@@ -6654,15 +6821,21 @@ Chart _tooltipBase({
     tooltip: tooltip,
     series:
         series ??
-        const <ChartSeries>[
-          ChartSeries(label: 'Running', values: _tooltipRunning),
-          ChartSeries(label: 'Swimming', values: _tooltipSwimming),
+        <ChartSeries>[
+          ChartSeries(
+            label: 'Running',
+            values: _tooltipRunning,
+          ),
+          ChartSeries(
+            label: 'Swimming',
+            values: _tooltipSwimming,
+          ),
         ],
   );
 }
 
 Widget _chartTooltipFormatter(BuildContext context) => _tooltipBase(
-  tooltip: const ChartTooltipConfig(showLabel: false, valueSuffix: ' kcal'),
+  tooltip: ChartTooltipConfig(showLabel: false, valueSuffix: ' kcal'),
 );
 ''',
     ),
@@ -6701,16 +6874,22 @@ Chart _tooltipBase({
     tooltip: tooltip,
     series:
         series ??
-        const <ChartSeries>[
-          ChartSeries(label: 'Running', values: _tooltipRunning),
-          ChartSeries(label: 'Swimming', values: _tooltipSwimming),
+        <ChartSeries>[
+          ChartSeries(
+            label: 'Running',
+            values: _tooltipRunning,
+          ),
+          ChartSeries(
+            label: 'Swimming',
+            values: _tooltipSwimming,
+          ),
         ],
   );
 }
 
 Widget _chartTooltipIcons(BuildContext context) => _tooltipBase(
   tooltip: const ChartTooltipConfig(showLabel: false),
-  series: const <ChartSeries>[
+  series: <ChartSeries>[
     ChartSeries(
       label: 'Running',
       values: _tooltipRunning,
@@ -6760,15 +6939,21 @@ Chart _tooltipBase({
     tooltip: tooltip,
     series:
         series ??
-        const <ChartSeries>[
-          ChartSeries(label: 'Running', values: _tooltipRunning),
-          ChartSeries(label: 'Swimming', values: _tooltipSwimming),
+        <ChartSeries>[
+          ChartSeries(
+            label: 'Running',
+            values: _tooltipRunning,
+          ),
+          ChartSeries(
+            label: 'Swimming',
+            values: _tooltipSwimming,
+          ),
         ],
   );
 }
 
 Widget _chartTooltipAdvanced(BuildContext context) => _tooltipBase(
-  tooltip: const ChartTooltipConfig(
+  tooltip: ChartTooltipConfig(
     showLabel: false,
     valueSuffix: ' kcal',
     showTotal: true,
@@ -6840,17 +7025,25 @@ class _ChatConversation extends StatelessWidget {
           children: <Widget>[
             ChatGroup(
               avatarSuffix: _end,
-              children: const <Widget>[
-                ChatBubble(child: Text('Did you remember the meeting time?')),
-                ChatBubble(child: Text('Please reply ASAP.')),
+              children: <Widget>[
+                ChatBubble(
+                  child: Text(
+                    'Did you remember the meeting time?',
+                  ),
+                ),
+                ChatBubble(
+                  child: Text('Please reply ASAP.'),
+                ),
               ],
             ),
             Gap(spacing.lg),
             ChatGroup(
               avatarPrefix: _start,
-              children: const <Widget>[
+              children: <Widget>[
                 ChatBubble(child: Text('Around 6 or 7?')),
-                ChatBubble(child: Text('New phone who dis?')),
+                ChatBubble(
+                  child: Text('New phone who dis?'),
+                ),
               ],
             ),
           ],
@@ -6925,17 +7118,25 @@ class _ChatConversation extends StatelessWidget {
           children: <Widget>[
             ChatGroup(
               avatarSuffix: _end,
-              children: const <Widget>[
-                ChatBubble(child: Text('Did you remember the meeting time?')),
-                ChatBubble(child: Text('Please reply ASAP.')),
+              children: <Widget>[
+                ChatBubble(
+                  child: Text(
+                    'Did you remember the meeting time?',
+                  ),
+                ),
+                ChatBubble(
+                  child: Text('Please reply ASAP.'),
+                ),
               ],
             ),
             Gap(spacing.lg),
             ChatGroup(
               avatarPrefix: _start,
-              children: const <Widget>[
+              children: <Widget>[
                 ChatBubble(child: Text('Around 6 or 7?')),
-                ChatBubble(child: Text('New phone who dis?')),
+                ChatBubble(
+                  child: Text('New phone who dis?'),
+                ),
               ],
             ),
           ],
@@ -6953,11 +7154,13 @@ Widget _chatIncoming(BuildContext context) {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: const <Widget>[
+        children: <Widget>[
           ChatGroup(
             avatarPrefix: _ChatConversation._start,
             children: <Widget>[
-              ChatBubble(child: Text('Is the build green yet?')),
+              ChatBubble(
+                child: Text('Is the build green yet?'),
+              ),
             ],
           ),
         ],
@@ -7029,17 +7232,25 @@ class _ChatConversation extends StatelessWidget {
           children: <Widget>[
             ChatGroup(
               avatarSuffix: _end,
-              children: const <Widget>[
-                ChatBubble(child: Text('Did you remember the meeting time?')),
-                ChatBubble(child: Text('Please reply ASAP.')),
+              children: <Widget>[
+                ChatBubble(
+                  child: Text(
+                    'Did you remember the meeting time?',
+                  ),
+                ),
+                ChatBubble(
+                  child: Text('Please reply ASAP.'),
+                ),
               ],
             ),
             Gap(spacing.lg),
             ChatGroup(
               avatarPrefix: _start,
-              children: const <Widget>[
+              children: <Widget>[
                 ChatBubble(child: Text('Around 6 or 7?')),
-                ChatBubble(child: Text('New phone who dis?')),
+                ChatBubble(
+                  child: Text('New phone who dis?'),
+                ),
               ],
             ),
           ],
@@ -7057,11 +7268,15 @@ Widget _chatOutgoing(BuildContext context) {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: const <Widget>[
+        children: <Widget>[
           ChatGroup(
             avatarSuffix: _ChatConversation._end,
             children: <Widget>[
-              ChatBubble(child: Text('Deploying now - two minutes.')),
+              ChatBubble(
+                child: Text(
+                  'Deploying now - two minutes.',
+                ),
+              ),
             ],
           ),
         ],
@@ -7133,17 +7348,25 @@ class _ChatConversation extends StatelessWidget {
           children: <Widget>[
             ChatGroup(
               avatarSuffix: _end,
-              children: const <Widget>[
-                ChatBubble(child: Text('Did you remember the meeting time?')),
-                ChatBubble(child: Text('Please reply ASAP.')),
+              children: <Widget>[
+                ChatBubble(
+                  child: Text(
+                    'Did you remember the meeting time?',
+                  ),
+                ),
+                ChatBubble(
+                  child: Text('Please reply ASAP.'),
+                ),
               ],
             ),
             Gap(spacing.lg),
             ChatGroup(
               avatarPrefix: _start,
-              children: const <Widget>[
+              children: <Widget>[
                 ChatBubble(child: Text('Around 6 or 7?')),
-                ChatBubble(child: Text('New phone who dis?')),
+                ChatBubble(
+                  child: Text('New phone who dis?'),
+                ),
               ],
             ),
           ],
@@ -7175,7 +7398,7 @@ class _ChatGroupedState extends State<_ChatGrouped> {
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
-            const ChatGroup(
+            ChatGroup(
               avatarPrefix: _ChatConversation._start,
               children: <Widget>[
                 ChatBubble(child: Text('First message')),
@@ -7197,7 +7420,7 @@ class _ChatGroupedState extends State<_ChatGrouped> {
                   child: Text('\u{1F389} ${_party ? 2 : 1}'),
                 ),
               ],
-              child: const ChatBubble(child: Text('Nice work!')),
+              child: ChatBubble(child: Text('Nice work!')),
             ),
             Gap(spacing.lg),
             ComponentTheme<ChatTheme>(
@@ -7206,9 +7429,11 @@ class _ChatGroupedState extends State<_ChatGrouped> {
                 background: ThemedColor.ref(ColorRef.accent),
                 foreground: ThemedColor.ref(ColorRef.accentForeground),
               ),
-              child: const ChatGroup(
+              child: ChatGroup(
                 children: <Widget>[
-                  ChatBubble(child: Text('Accented group bubble.')),
+                  ChatBubble(
+                    child: Text('Accented group bubble.'),
+                  ),
                 ],
               ),
             ),
@@ -7246,7 +7471,7 @@ class _LiveMessage {
 }
 
 /// Canned agent replies, cycled in order.
-const List<String> _liveReplies = <String>[
+List<String> _liveReplies = <String>[
   'Got it — pulling up your payout history now.',
   'That month was prorated after the reissue; I can send the breakdown.',
   'All set — refresh the report to see the corrected split.',
@@ -7264,8 +7489,14 @@ class _ChatLive extends StatefulWidget {
 
 class _ChatLiveState extends State<_ChatLive> {
   final List<_LiveMessage> _messages = <_LiveMessage>[
-    const _LiveMessage('Can you re-check the 2026-01 payout?', true),
-    const _LiveMessage('I see it — that month was prorated.', false),
+    _LiveMessage(
+      'Can you re-check the 2026-01 payout?',
+      true,
+    ),
+    _LiveMessage(
+      'I see it — that month was prorated.',
+      false,
+    ),
   ];
   final TextEditingController _reply = TextEditingController();
   final ScrollController _scroll = ScrollController();
@@ -7385,7 +7616,7 @@ class _ChatLiveState extends State<_ChatLive> {
                 leading: const Icon(LucideIcons.send, size: 14),
                 enabled: _canSend,
                 onPressed: _send,
-                child: const Text('Send'),
+                child: Text('Send'),
               ),
             ),
           ],
@@ -7458,7 +7689,7 @@ class _RemovableChips extends StatefulWidget {
 }
 
 class _RemovableChipsState extends State<_RemovableChips> {
-  static const List<String> _all = <String>[
+  static final List<String> _all = <String>[
     'Design system',
     'Flutter',
     'Accessibility',
@@ -7496,7 +7727,8 @@ class _RemovableChipsState extends State<_RemovableChips> {
                 ),
                 child: Text(tag),
               ),
-            if (_tags.isEmpty) const Chip(child: Text('No tags')),
+            if (_tags.isEmpty)
+              Chip(child: Text('No tags')),
           ],
         ),
         Gap(spacing.sm),
@@ -7510,13 +7742,16 @@ class _RemovableChipsState extends State<_RemovableChips> {
                 size: ButtonSize.sm,
                 variant: ButtonVariant.outline,
                 onPressed: _reset,
-                child: const Text('Reset'),
+                child: Text('Reset'),
               ),
             ],
           ],
         ),
         Gap(spacing.xs),
-        _hint(context, 'Tip: focus a chip and press Backspace to remove it.'),
+        _hint(
+          context,
+          'Tip: focus a chip and press Backspace to remove it.',
+        ),
       ],
     );
   }
@@ -7544,7 +7779,7 @@ class _FilterChips extends StatefulWidget {
 }
 
 class _FilterChipsState extends State<_FilterChips> {
-  static const List<String> _options = <String>[
+  static final List<String> _options = <String>[
     'Music',
     'Sports',
     'Travel',
@@ -7610,21 +7845,21 @@ Widget _chipsWithIcon(BuildContext context) {
     child: Wrap(
       spacing: spacing.sm,
       runSpacing: spacing.sm,
-      children: const <Widget>[
+      children: <Widget>[
         Chip(
-          leading: Icon(LucideIcons.star, size: 12),
+          leading: const Icon(LucideIcons.star, size: 12),
           child: Text('Featured'),
         ),
         Chip(
-          leading: Icon(LucideIcons.check, size: 12),
+          leading: const Icon(LucideIcons.check, size: 12),
           child: Text('Verified'),
         ),
         Chip(
-          leading: Icon(LucideIcons.folder, size: 12),
+          leading: const Icon(LucideIcons.folder, size: 12),
           child: Text('Archived'),
         ),
         Chip(
-          trailing: Icon(LucideIcons.chevronRight, size: 12),
+          trailing: const Icon(LucideIcons.chevronRight, size: 12),
           child: Text('See all'),
         ),
       ],
@@ -7654,19 +7889,28 @@ Widget _chipsVariants(BuildContext context) {
         spacing: spacing.sm,
         runSpacing: spacing.sm,
         crossAxisAlignment: WrapCrossAlignment.center,
-        children: const <Widget>[
+        children: <Widget>[
           Chip(child: Text('Active')),
-          Chip(variant: ButtonVariant.outline, child: Text('On hold')),
-          Chip(variant: ButtonVariant.destructive, child: Text('Overdue')),
-          Chip(variant: ButtonVariant.ghost, child: Text('Draft')),
+          Chip(
+            variant: ButtonVariant.outline,
+            child: Text('On hold'),
+          ),
+          Chip(
+            variant: ButtonVariant.destructive,
+            child: Text('Overdue'),
+          ),
+          Chip(
+            variant: ButtonVariant.ghost,
+            child: Text('Draft'),
+          ),
         ],
       ),
       Gap(spacing.sm),
-      const Wrap(
+      Wrap(
         crossAxisAlignment: WrapCrossAlignment.center,
         children: <Widget>[
           Chip(
-            theme: ChipTheme(
+            theme: const ChipTheme(
               padding: EdgeInsets.symmetric(horizontal: 12, vertical: 6),
             ),
             child: Text('Large'),
@@ -7763,14 +8007,14 @@ Widget _dividerLabelled(BuildContext context) {
     crossAxisAlignment: CrossAxisAlignment.stretch,
     mainAxisSize: MainAxisSize.min,
     children: <Widget>[
-      const Divider(label: Text('or continue with')),
+      Divider(label: Text('or continue with')),
       Gap(spacing.sm),
-      const Divider(
+      Divider(
         labelAlignment: DividerLabelAlignment.start,
         label: Text('New this week'),
       ),
       Gap(spacing.sm),
-      const Divider(
+      Divider(
         labelAlignment: DividerLabelAlignment.end,
         label: Text('Archived'),
       ),
@@ -7794,7 +8038,7 @@ Widget _dividerVertical(BuildContext context) {
     child: Row(
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.stretch,
-      children: const <Widget>[
+      children: <Widget>[
         Text('Inbox'),
         Divider(axis: Axis.vertical),
         Text('Archive'),
@@ -7855,7 +8099,9 @@ class _EmptyStateNoResultsState extends State<_EmptyStateNoResults> {
           variant: EmptyStateVariant.noResults,
           primaryAction: EmptyStateAction(
             label: 'Clear filters',
-            onPressed: () => setState(() => _status = 'Filters cleared.'),
+            onPressed: () => setState(
+              () => _status = 'Filters cleared.',
+            ),
           ),
         ),
         Gap(Theme.of(context).spacing.md),
@@ -7918,12 +8164,16 @@ class _EmptyStateEmptyState extends State<_EmptyStateEmpty> {
           variant: EmptyStateVariant.empty,
           primaryAction: EmptyStateAction(
             label: 'Create project',
-            onPressed: () => setState(() => _status = 'Created a project.'),
+            onPressed: () => setState(
+              () => _status = 'Created a project.',
+            ),
           ),
           secondaryAction: EmptyStateAction(
             label: 'Import',
             variant: ButtonVariant.outline,
-            onPressed: () => setState(() => _status = 'Importing a project.'),
+            onPressed: () => setState(
+              () => _status = 'Importing a project.',
+            ),
           ),
         ),
         Gap(Theme.of(context).spacing.md),
@@ -7985,12 +8235,14 @@ class _EmptyStateErrorState extends State<_EmptyStateError> {
           variant: EmptyStateVariant.errorFallback,
           primaryAction: EmptyStateAction(
             label: 'Try again',
-            onPressed: () => setState(() => _status = 'Retrying...'),
+            onPressed: () =>
+                setState(() => _status = 'Retrying...'),
           ),
           footerAction: EmptyStateAction(
             label: 'Report this',
             variant: ButtonVariant.link,
-            onPressed: () => setState(() => _status = 'Report sent.'),
+            onPressed: () =>
+                setState(() => _status = 'Report sent.'),
           ),
         ),
         Gap(Theme.of(context).spacing.md),
@@ -8019,14 +8271,14 @@ Widget _emptyStateCompact(BuildContext context) {
     crossAxisAlignment: CrossAxisAlignment.start,
     mainAxisSize: MainAxisSize.min,
     children: <Widget>[
-      const EmptyState(
+      EmptyState(
         size: EmptyStateSize.compact,
         variant: EmptyStateVariant.empty,
         title: Text('Nothing here yet'),
         primaryAction: EmptyStateAction(label: 'Create'),
       ),
       Gap(spacing.xl),
-      const EmptyState(
+      EmptyState(
         size: EmptyStateSize.compact,
         variant: EmptyStateVariant.noResults,
         showIconContainer: false,
@@ -8064,7 +8316,6 @@ class _FeatureCarouselDefaultFeatureCarouselState
     extends State<_FeatureCarouselDefaultFeatureCarousel> {
   late final FeatureCarouselController _controller = FeatureCarouselController(
     autoPlay: false,
-    primaryActionLabel: 'Get started',
   );
 
   @override
@@ -8080,7 +8331,7 @@ class _FeatureCarouselDefaultFeatureCarouselState
         width: 420,
         child: FeatureCarousel(
           controller: _controller,
-          items: const <FeatureCarouselItem>[
+          items: <FeatureCarouselItem>[
             FeatureCarouselItem(
               title: 'Fast',
               description: 'Ship a build in seconds.',
@@ -8128,10 +8379,16 @@ Widget _featureCarouselThemed(BuildContext context) {
           cardFill: ThemedColor.ref(ColorRef.popover),
           radius: 20,
         ),
-        child: const FeatureCarousel(
+        child: FeatureCarousel(
           items: <FeatureCarouselItem>[
-            FeatureCarouselItem(title: 'Themed', icon: LucideIcons.sparkles),
-            FeatureCarouselItem(title: 'Accent', icon: LucideIcons.star),
+            FeatureCarouselItem(
+              title: 'Themed',
+              icon: LucideIcons.sparkles,
+            ),
+            FeatureCarouselItem(
+              title: 'Accent',
+              icon: LucideIcons.star,
+            ),
           ],
         ),
       ),
@@ -8183,9 +8440,15 @@ class _FeatureCarouselCardsOnlyCarouselState
   Widget build(BuildContext context) {
     return FeatureCarousel(
       controller: _controller,
-      items: const <FeatureCarouselItem>[
-        FeatureCarouselItem(title: 'Cards only', icon: LucideIcons.image),
-        FeatureCarouselItem(title: 'No chrome', icon: LucideIcons.circle),
+      items: <FeatureCarouselItem>[
+        FeatureCarouselItem(
+          title: 'Cards only',
+          icon: LucideIcons.image,
+        ),
+        FeatureCarouselItem(
+          title: 'No chrome',
+          icon: LucideIcons.circle,
+        ),
       ],
     );
   }
@@ -8210,7 +8473,7 @@ Widget _featureCarouselLabelled(BuildContext context) {
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisSize: MainAxisSize.min,
       children: <Widget>[
-        const SizedBox(
+        SizedBox(
           width: 420,
           child: FeatureCarousel(
             items: <FeatureCarouselItem>[
@@ -8458,7 +8721,7 @@ Widget _kbdInMenuItem(BuildContext context) {
     alignment: Alignment.center,
     child: ConstrainedBox(
       constraints: const BoxConstraints(maxWidth: 300),
-      child: const Card(
+      child: Card(
         padding: EdgeInsets.symmetric(horizontal: 12, vertical: 8),
         child: Row(
           children: <Widget>[
@@ -8537,7 +8800,9 @@ class _KbdLiveState extends State<_KbdLive> {
       child: Actions(
         actions: <Type, Action<Intent>>{
           _OpenPaletteIntent: CallbackAction<_OpenPaletteIntent>(
-            onInvoke: (_) => setState(() => _status = 'Command palette opened'),
+            onInvoke: (_) => setState(
+              () => _status = 'Command palette opened',
+            ),
           ),
         },
         child: Focus(
@@ -8617,7 +8882,7 @@ import 'package:<your_app>/ui/dashcn/components/list_tile/list_tile.dart';
 Widget _wrap(Widget child) => SizedBox(width: 360, child: child);
 
 Widget _default(BuildContext context) => _wrap(
-  const ListTile(
+  ListTile(
     leading: Icon(LucideIcons.user),
     title: Text('Title'),
     subtitle: Text('Subtitle'),
@@ -8638,7 +8903,7 @@ import 'package:<your_app>/ui/dashcn/components/list_tile/list_tile.dart';
 Widget _wrap(Widget child) => SizedBox(width: 360, child: child);
 
 Widget _compact(BuildContext context) => _wrap(
-  const ListTile(
+  ListTile(
     densityTokens: DensityTokens.compact,
     leading: Icon(LucideIcons.user),
     title: Text('Compact (default)'),
@@ -8660,7 +8925,7 @@ import 'package:<your_app>/ui/dashcn/components/list_tile/list_tile.dart';
 Widget _wrap(Widget child) => SizedBox(width: 360, child: child);
 
 Widget _comfortable(BuildContext context) => _wrap(
-  const ListTile(
+  ListTile(
     densityTokens: DensityTokens.comfortable,
     leading: Icon(LucideIcons.user),
     title: Text('Comfortable'),
@@ -8682,7 +8947,7 @@ import 'package:<your_app>/ui/dashcn/components/list_tile/list_tile.dart';
 Widget _wrap(Widget child) => SizedBox(width: 360, child: child);
 
 Widget _avatar(BuildContext context) => _wrap(
-  const ListTile(
+  ListTile(
     leading: Avatar(initials: 'IB', size: 32),
     title: Text('Avatar 32 (compact)'),
     subtitle: Text('Avatar sizes follow density'),
@@ -8703,7 +8968,7 @@ import 'package:<your_app>/ui/dashcn/components/list_tile/list_tile.dart';
 Widget _wrap(Widget child) => SizedBox(width: 360, child: child);
 
 Widget _avatarComfortable(BuildContext context) => _wrap(
-  const ListTile(
+  ListTile(
     densityTokens: DensityTokens.comfortable,
     leading: Avatar(initials: 'IB', size: 40),
     title: Text('Avatar 40 (comfortable)'),
@@ -8725,7 +8990,7 @@ import 'package:<your_app>/ui/dashcn/components/list_tile/list_tile.dart';
 Widget _wrap(Widget child) => SizedBox(width: 360, child: child);
 
 Widget _dense(BuildContext context) => _wrap(
-  const ListTile(
+  ListTile(
     dense: true,
     leading: Icon(LucideIcons.user),
     title: Text('Dense tile'),
@@ -8747,11 +9012,13 @@ import 'package:<your_app>/ui/dashcn/components/list_tile/list_tile.dart';
 Widget _wrap(Widget child) => SizedBox(width: 360, child: child);
 
 Widget _threeLine(BuildContext context) => _wrap(
-  const ListTile(
+  ListTile(
     isThreeLine: true,
     leading: Icon(LucideIcons.user),
     title: Text('Three-line title'),
-    subtitle: Text('A longer subtitle that spans multiple lines in the tile.'),
+    subtitle: Text(
+      'A longer subtitle that spans multiple lines in the tile.',
+    ),
     trailing: Icon(LucideIcons.chevronRight),
   ),
 );
@@ -8769,7 +9036,7 @@ import 'package:<your_app>/ui/dashcn/components/list_tile/list_tile.dart';
 Widget _wrap(Widget child) => SizedBox(width: 360, child: child);
 
 Widget _selected(BuildContext context) => _wrap(
-  const ListTile(
+  ListTile(
     selected: true,
     leading: Icon(LucideIcons.check),
     title: Text('Selected'),
@@ -8790,7 +9057,7 @@ import 'package:<your_app>/ui/dashcn/components/list_tile/list_tile.dart';
 Widget _wrap(Widget child) => SizedBox(width: 360, child: child);
 
 Widget _disabled(BuildContext context) => _wrap(
-  const ListTile(
+  ListTile(
     enabled: false,
     leading: Icon(LucideIcons.user),
     title: Text('Disabled'),
@@ -8817,8 +9084,8 @@ Widget _customized(BuildContext context) => _wrap(
       titleStyle: TextStyle(fontWeight: FontWeight.w700),
     ),
     leading: const Icon(LucideIcons.star),
-    title: const Text('Customized'),
-    subtitle: const Text('With style override'),
+    title: Text('Customized'),
+    subtitle: Text('With style override'),
     trailing: const Icon(LucideIcons.heart),
   ),
 );
@@ -8836,11 +9103,20 @@ import 'package:<your_app>/ui/dashcn/components/list_tile/list_tile.dart';
 Widget _wrap(Widget child) => SizedBox(width: 360, child: child);
 
 Widget _grouped(BuildContext context) => _wrap(
-  const ListTileGroup(
+  ListTileGroup(
     children: <Widget>[
-      ListTile(title: Text('First'), leading: Icon(LucideIcons.user)),
-      ListTile(title: Text('Second'), leading: Icon(LucideIcons.user)),
-      ListTile(title: Text('Third'), leading: Icon(LucideIcons.user)),
+      ListTile(
+        title: Text('First'),
+        leading: Icon(LucideIcons.user),
+      ),
+      ListTile(
+        title: Text('Second'),
+        leading: Icon(LucideIcons.user),
+      ),
+      ListTile(
+        title: Text('Third'),
+        leading: Icon(LucideIcons.user),
+      ),
     ],
   ),
 );
@@ -8998,7 +9274,7 @@ class _SheetBody extends StatelessWidget {
             size: ButtonSize.sm,
             variant: ButtonVariant.outline,
             onPressed: controller.close,
-            child: const Text('Done'),
+            child: Text('Done'),
           ),
         ],
       ),
@@ -9056,21 +9332,21 @@ class _SheetDemoState extends State<_SheetDemo> {
             Button(
               size: ButtonSize.sm,
               onPressed: _controller.open,
-              child: const Text('Open sheet'),
+              child: Text('Open sheet'),
             ),
             if (widget.stages.length > 2) ...<Widget>[
               Button(
                 size: ButtonSize.sm,
                 variant: ButtonVariant.secondary,
                 onPressed: () => _controller.animateTo(widget.stages[1]),
-                child: const Text('Half'),
+                child: Text('Half'),
               ),
             ],
             Button(
               size: ButtonSize.sm,
               variant: ButtonVariant.outline,
               onPressed: _controller.close,
-              child: const Text('Close'),
+              child: Text('Close'),
             ),
             if (widget.showFraction)
               ListenableBuilder(
@@ -9114,7 +9390,7 @@ class _SheetDemoState extends State<_SheetDemo> {
 }
 
 /// Bottom sheet, starting open so the chrome is visible.
-Widget _sheetBottom(BuildContext context) => const _SheetDemo(
+Widget _sheetBottom(BuildContext context) => _SheetDemo(
   position: OverlayPosition.bottom,
   title: 'Bottom sheet',
   initialStage: SheetStage.expanded(),
@@ -9161,7 +9437,7 @@ class _SheetBody extends StatelessWidget {
             size: ButtonSize.sm,
             variant: ButtonVariant.outline,
             onPressed: controller.close,
-            child: const Text('Done'),
+            child: Text('Done'),
           ),
         ],
       ),
@@ -9219,21 +9495,21 @@ class _SheetDemoState extends State<_SheetDemo> {
             Button(
               size: ButtonSize.sm,
               onPressed: _controller.open,
-              child: const Text('Open sheet'),
+              child: Text('Open sheet'),
             ),
             if (widget.stages.length > 2) ...<Widget>[
               Button(
                 size: ButtonSize.sm,
                 variant: ButtonVariant.secondary,
                 onPressed: () => _controller.animateTo(widget.stages[1]),
-                child: const Text('Half'),
+                child: Text('Half'),
               ),
             ],
             Button(
               size: ButtonSize.sm,
               variant: ButtonVariant.outline,
               onPressed: _controller.close,
-              child: const Text('Close'),
+              child: Text('Close'),
             ),
             if (widget.showFraction)
               ListenableBuilder(
@@ -9277,8 +9553,10 @@ class _SheetDemoState extends State<_SheetDemo> {
 }
 
 /// Right-side sheet.
-Widget _sheetRight(BuildContext context) =>
-    const _SheetDemo(position: OverlayPosition.right, title: 'Right sheet');
+Widget _sheetRight(BuildContext context) => _SheetDemo(
+  position: OverlayPosition.right,
+  title: 'Right sheet',
+);
 ''',
     ),
     DocsExampleSource(
@@ -9321,7 +9599,7 @@ class _SheetBody extends StatelessWidget {
             size: ButtonSize.sm,
             variant: ButtonVariant.outline,
             onPressed: controller.close,
-            child: const Text('Done'),
+            child: Text('Done'),
           ),
         ],
       ),
@@ -9379,21 +9657,21 @@ class _SheetDemoState extends State<_SheetDemo> {
             Button(
               size: ButtonSize.sm,
               onPressed: _controller.open,
-              child: const Text('Open sheet'),
+              child: Text('Open sheet'),
             ),
             if (widget.stages.length > 2) ...<Widget>[
               Button(
                 size: ButtonSize.sm,
                 variant: ButtonVariant.secondary,
                 onPressed: () => _controller.animateTo(widget.stages[1]),
-                child: const Text('Half'),
+                child: Text('Half'),
               ),
             ],
             Button(
               size: ButtonSize.sm,
               variant: ButtonVariant.outline,
               onPressed: _controller.close,
-              child: const Text('Close'),
+              child: Text('Close'),
             ),
             if (widget.showFraction)
               ListenableBuilder(
@@ -9437,8 +9715,10 @@ class _SheetDemoState extends State<_SheetDemo> {
 }
 
 /// Left-side sheet.
-Widget _sheetLeft(BuildContext context) =>
-    const _SheetDemo(position: OverlayPosition.left, title: 'Left sheet');
+Widget _sheetLeft(BuildContext context) => _SheetDemo(
+  position: OverlayPosition.left,
+  title: 'Left sheet',
+);
 ''',
     ),
     DocsExampleSource(
@@ -9481,7 +9761,7 @@ class _SheetBody extends StatelessWidget {
             size: ButtonSize.sm,
             variant: ButtonVariant.outline,
             onPressed: controller.close,
-            child: const Text('Done'),
+            child: Text('Done'),
           ),
         ],
       ),
@@ -9539,21 +9819,21 @@ class _SheetDemoState extends State<_SheetDemo> {
             Button(
               size: ButtonSize.sm,
               onPressed: _controller.open,
-              child: const Text('Open sheet'),
+              child: Text('Open sheet'),
             ),
             if (widget.stages.length > 2) ...<Widget>[
               Button(
                 size: ButtonSize.sm,
                 variant: ButtonVariant.secondary,
                 onPressed: () => _controller.animateTo(widget.stages[1]),
-                child: const Text('Half'),
+                child: Text('Half'),
               ),
             ],
             Button(
               size: ButtonSize.sm,
               variant: ButtonVariant.outline,
               onPressed: _controller.close,
-              child: const Text('Close'),
+              child: Text('Close'),
             ),
             if (widget.showFraction)
               ListenableBuilder(
@@ -9597,8 +9877,10 @@ class _SheetDemoState extends State<_SheetDemo> {
 }
 
 /// Top sheet.
-Widget _sheetTop(BuildContext context) =>
-    const _SheetDemo(position: OverlayPosition.top, title: 'Top sheet');
+Widget _sheetTop(BuildContext context) => _SheetDemo(
+  position: OverlayPosition.top,
+  title: 'Top sheet',
+);
 ''',
     ),
     DocsExampleSource(
@@ -9641,7 +9923,7 @@ class _SheetBody extends StatelessWidget {
             size: ButtonSize.sm,
             variant: ButtonVariant.outline,
             onPressed: controller.close,
-            child: const Text('Done'),
+            child: Text('Done'),
           ),
         ],
       ),
@@ -9699,21 +9981,21 @@ class _SheetDemoState extends State<_SheetDemo> {
             Button(
               size: ButtonSize.sm,
               onPressed: _controller.open,
-              child: const Text('Open sheet'),
+              child: Text('Open sheet'),
             ),
             if (widget.stages.length > 2) ...<Widget>[
               Button(
                 size: ButtonSize.sm,
                 variant: ButtonVariant.secondary,
                 onPressed: () => _controller.animateTo(widget.stages[1]),
-                child: const Text('Half'),
+                child: Text('Half'),
               ),
             ],
             Button(
               size: ButtonSize.sm,
               variant: ButtonVariant.outline,
               onPressed: _controller.close,
-              child: const Text('Close'),
+              child: Text('Close'),
             ),
             if (widget.showFraction)
               ListenableBuilder(
@@ -9757,7 +10039,7 @@ class _SheetDemoState extends State<_SheetDemo> {
 }
 
 /// Snap points: closed, half and expanded with a live fraction readout.
-Widget _sheetSnapping(BuildContext context) => const _SheetDemo(
+Widget _sheetSnapping(BuildContext context) => _SheetDemo(
   position: OverlayPosition.bottom,
   title: 'Snap points',
   stages: <SheetStage>[
@@ -9796,13 +10078,37 @@ class _Member {
 }
 
 /// Six rows so pagination has two pages of four.
-const List<_Member> _members = <_Member>[
-  _Member('Avery', 'Designer', 'Active'),
-  _Member('Jordan', 'Engineer', 'Active'),
-  _Member('Casey', 'Manager', 'Away'),
-  _Member('Riley', 'Writer', 'Offline'),
-  _Member('Quinn', 'Engineer', 'Active'),
-  _Member('Skyler', 'Designer', 'Away'),
+List<_Member> _members = <_Member>[
+  _Member(
+    'Avery',
+    'Designer',
+    'Active',
+  ),
+  _Member(
+    'Jordan',
+    'Engineer',
+    'Active',
+  ),
+  _Member(
+    'Casey',
+    'Manager',
+    'Away',
+  ),
+  _Member(
+    'Riley',
+    'Writer',
+    'Offline',
+  ),
+  _Member(
+    'Quinn',
+    'Engineer',
+    'Active',
+  ),
+  _Member(
+    'Skyler',
+    'Designer',
+    'Away',
+  ),
 ];
 
 /// Badge variant for a member status.
@@ -10009,7 +10315,7 @@ class _DataTableState extends State<_DataTable> {
                           onTap: () => _sort(_roleColumn),
                         ),
                       ),
-                      const TableViewCell(child: Text('Status')),
+                      TableViewCell(child: Text('Status')),
                     ],
                   ),
                   for (final _Member member in visible)
@@ -10027,7 +10333,9 @@ class _DataTableState extends State<_DataTable> {
                           ),
                         ),
                         TableViewCell(child: Text(member.name)),
-                        TableViewCell(child: Text(member.role)),
+                        TableViewCell(
+                          child: Text(member.role),
+                        ),
                         TableViewCell(
                           child: Align(
                             alignment: AlignmentDirectional.centerStart,
@@ -10076,7 +10384,7 @@ class _DataTableState extends State<_DataTable> {
                               : const Icon(LucideIcons.chevronLeft, size: 14),
                           child: narrow
                               ? const Icon(LucideIcons.chevronLeft, size: 14)
-                              : const Text('Prev'),
+                              : Text('Prev'),
                         ),
                         Gap(theme.spacing.sm),
                         Text(
@@ -10098,7 +10406,7 @@ class _DataTableState extends State<_DataTable> {
                               : const Icon(LucideIcons.chevronRight, size: 14),
                           child: narrow
                               ? const Icon(LucideIcons.chevronRight, size: 14)
-                              : const Text('Next'),
+                              : Text('Next'),
                         ),
                       ],
                     ),
@@ -10209,7 +10517,10 @@ class _InvoicesTableState extends State<_InvoicesTable> {
               ),
               TableViewFooter(
                 cells: <TableViewCell>[
-                  TableViewCell(columnSpan: 3, child: Text('Total')),
+                  TableViewCell(
+                    columnSpan: 3,
+                    child: Text('Total'),
+                  ),
                   TableViewCell(child: Text('\$750.00')),
                 ],
               ),
@@ -10238,7 +10549,7 @@ import 'package:<your_app>/ui/dashcn/components/timeline/timeline.dart';
 Widget _default(BuildContext context) {
   return ConstrainedBox(
     constraints: const BoxConstraints(maxWidth: 400),
-    child: const Timeline(
+    child: Timeline(
       data: <TimelineData>[
         TimelineData(
           time: Text('09:00'),
@@ -10273,7 +10584,7 @@ import 'package:<your_app>/ui/dashcn/components/timeline/timeline.dart';
 Widget _compact(BuildContext context) {
   return ConstrainedBox(
     constraints: const BoxConstraints(maxWidth: 400),
-    child: const ComponentTheme<TimelineTheme>(
+    child: ComponentTheme<TimelineTheme>(
       data: TimelineTheme(
         dotSize: 8,
         connectorThickness: 1,
@@ -10283,8 +10594,14 @@ Widget _compact(BuildContext context) {
       child: Timeline(
         timeConstraints: BoxConstraints(minWidth: 72, maxWidth: 72),
         data: <TimelineData>[
-          TimelineData(time: Text('Mon'), title: Text('Compact')),
-          TimelineData(time: Text('Tue'), title: Text('scoped leg')),
+          TimelineData(
+            time: Text('Mon'),
+            title: Text('Compact'),
+          ),
+          TimelineData(
+            time: Text('Tue'),
+            title: Text('scoped leg'),
+          ),
         ],
       ),
     ),
@@ -10304,17 +10621,35 @@ import 'package:<your_app>/ui/dashcn/components/tracker/tracker.dart';
 
 /// All four levels.
 Widget _default(BuildContext context) {
-  return const SizedBox(
+  return SizedBox(
     width: 320,
     child: Tracker(
       semanticLabel: 'Activity tracker',
       data: <TrackerData>[
-        TrackerData(tooltip: Text('Healthy'), level: TrackerLevel.fine),
-        TrackerData(tooltip: Text('Degraded'), level: TrackerLevel.warning),
-        TrackerData(tooltip: Text('Down'), level: TrackerLevel.critical),
-        TrackerData(tooltip: Text('No data'), level: TrackerLevel.unknown),
-        TrackerData(tooltip: Text('Healthy'), level: TrackerLevel.fine),
-        TrackerData(tooltip: Text('Healthy'), level: TrackerLevel.fine),
+        TrackerData(
+          tooltip: Text('Healthy'),
+          level: TrackerLevel.fine,
+        ),
+        TrackerData(
+          tooltip: Text('Degraded'),
+          level: TrackerLevel.warning,
+        ),
+        TrackerData(
+          tooltip: Text('Down'),
+          level: TrackerLevel.critical,
+        ),
+        TrackerData(
+          tooltip: Text('No data'),
+          level: TrackerLevel.unknown,
+        ),
+        TrackerData(
+          tooltip: Text('Healthy'),
+          level: TrackerLevel.fine,
+        ),
+        TrackerData(
+          tooltip: Text('Healthy'),
+          level: TrackerLevel.fine,
+        ),
       ],
     ),
   );
@@ -10331,14 +10666,17 @@ import 'package:<your_app>/ui/dashcn/components/tracker/tracker.dart';
 
 /// Taller segments with a wider gap through the widget leg.
 Widget _customSize(BuildContext context) {
-  return const SizedBox(
+  return SizedBox(
     width: 320,
     child: Tracker(
       theme: TrackerTheme(itemHeight: 24, gap: 4, radius: 4),
       data: <TrackerData>[
         TrackerData(tooltip: Text('One'), level: TrackerLevel.fine),
         TrackerData(tooltip: Text('Two'), level: TrackerLevel.critical),
-        TrackerData(tooltip: Text('Three'), level: TrackerLevel.warning),
+        TrackerData(
+          tooltip: Text('Three'),
+          level: TrackerLevel.warning,
+        ),
       ],
     ),
   );
@@ -10355,7 +10693,7 @@ import 'package:<your_app>/ui/dashcn/components/tracker/tracker.dart';
 
 /// Fine segments tinted with the primary token through a scoped theme.
 Widget _themed(BuildContext context) {
-  return const SizedBox(
+  return SizedBox(
     width: 320,
     child: ComponentTheme<TrackerTheme>(
       data: TrackerTheme(
@@ -10366,7 +10704,10 @@ Widget _themed(BuildContext context) {
         data: <TrackerData>[
           TrackerData(tooltip: Text('One'), level: TrackerLevel.fine),
           TrackerData(tooltip: Text('Two'), level: TrackerLevel.fine),
-          TrackerData(tooltip: Text('Three'), level: TrackerLevel.fine),
+          TrackerData(
+            tooltip: Text('Three'),
+            level: TrackerLevel.fine,
+          ),
         ],
       ),
     ),
@@ -10420,7 +10761,7 @@ List<TreeNode<_FileEntry>> _toNodes(
     ),
 ];
 
-List<_FileEntry> _files() => const <_FileEntry>[
+List<_FileEntry> _files() => <_FileEntry>[
   _FileEntry(
     'Documents',
     folder: true,
@@ -10479,7 +10820,9 @@ String _selectedLabel(List<TreeNode<_FileEntry>> nodes) {
   }
 
   visit(nodes);
-  return names.isEmpty ? 'Nothing selected' : 'Selected: ${names.join(', ')}';
+  return names.isEmpty
+      ? 'Nothing selected'
+      : 'Selected: ${names.join(', ')}';
 }
 
 /// Shared file-tree shell: expand/collapse, selection and a status line.
@@ -10709,7 +11052,7 @@ List<TreeNode<_FileEntry>> _toNodes(
     ),
 ];
 
-List<_FileEntry> _files() => const <_FileEntry>[
+List<_FileEntry> _files() => <_FileEntry>[
   _FileEntry(
     'Documents',
     folder: true,
@@ -10768,7 +11111,9 @@ String _selectedLabel(List<TreeNode<_FileEntry>> nodes) {
   }
 
   visit(nodes);
-  return names.isEmpty ? 'Nothing selected' : 'Selected: ${names.join(', ')}';
+  return names.isEmpty
+      ? 'Nothing selected'
+      : 'Selected: ${names.join(', ')}';
 }
 
 /// Shared file-tree shell: expand/collapse, selection and a status line.
@@ -11003,7 +11348,7 @@ List<TreeNode<_FileEntry>> _toNodes(
     ),
 ];
 
-List<_FileEntry> _files() => const <_FileEntry>[
+List<_FileEntry> _files() => <_FileEntry>[
   _FileEntry(
     'Documents',
     folder: true,
@@ -11062,7 +11407,9 @@ String _selectedLabel(List<TreeNode<_FileEntry>> nodes) {
   }
 
   visit(nodes);
-  return names.isEmpty ? 'Nothing selected' : 'Selected: ${names.join(', ')}';
+  return names.isEmpty
+      ? 'Nothing selected'
+      : 'Selected: ${names.join(', ')}';
 }
 
 /// Shared file-tree shell: expand/collapse, selection and a status line.
@@ -11337,7 +11684,9 @@ String _selectedLabel(List<TreeNode<_FileEntry>> nodes) {
   }
 
   visit(nodes);
-  return names.isEmpty ? 'Nothing selected' : 'Selected: ${names.join(', ')}';
+  return names.isEmpty
+      ? 'Nothing selected'
+      : 'Selected: ${names.join(', ')}';
 }
 
 /// Shared file-tree shell: expand/collapse, selection and a status line.
@@ -11542,7 +11891,7 @@ class _LargeTreeState extends State<_LargeTree> {
         for (int i = 1; i <= 20; i++) _FileEntry('icon_$i.svg'),
       ],
     ),
-    const _FileEntry('Shared', folder: true, lazy: true),
+    _FileEntry('Shared', folder: true, lazy: true),
     for (int i = 1; i <= 40; i++) _FileEntry('note_$i.md'),
   ];
 
@@ -11983,11 +12332,11 @@ Widget _datePickerSingle(BuildContext context) {
     crossAxisAlignment: CrossAxisAlignment.start,
     mainAxisSize: MainAxisSize.min,
     children: <Widget>[
-      const _DatePickerLabel('Empty trigger'),
+      _DatePickerLabel('Empty trigger'),
       Gap(spacing.sm),
       DatePicker(value: null, onChanged: (DateTime? value) {}),
       Gap(spacing.lg),
-      const _DatePickerLabel('Filled trigger'),
+      _DatePickerLabel('Filled trigger'),
       Gap(spacing.sm),
       DatePicker(value: _datePickerToday, onChanged: (DateTime? value) {}),
     ],
@@ -12031,11 +12380,11 @@ Widget _datePickerRange(BuildContext context) {
     crossAxisAlignment: CrossAxisAlignment.start,
     mainAxisSize: MainAxisSize.min,
     children: <Widget>[
-      const _DatePickerLabel('Empty range trigger'),
+      _DatePickerLabel('Empty range trigger'),
       Gap(spacing.sm),
       DateRangePicker(value: null, onChanged: (DateTimeRange? value) {}),
       Gap(spacing.lg),
-      const _DatePickerLabel('Filled range trigger'),
+      _DatePickerLabel('Filled range trigger'),
       Gap(spacing.sm),
       DateRangePicker(
         value: DateTimeRange(
@@ -12061,7 +12410,7 @@ import 'package:<your_app>/ui/dashcn/components/date_picker/date_picker.dart';
 
 /// The dialog prompt with a title.
 Widget _datePickerDialog(BuildContext context) {
-  return const DatePicker(
+  return DatePicker(
     value: null,
     mode: PromptMode.dialog,
     dialogTitle: Text('Pick a date'),
@@ -12314,8 +12663,8 @@ class _AlertCompactState extends State<_AlertCompact> {
         children: <Widget>[
           if (!_dismissed)
             Alert(
-              title: const Text('Notification'),
-              content: const Text('You have a new message.'),
+              title: Text('Notification'),
+              content: Text('You have a new message.'),
               trailing: Button(
                 size: ButtonSize.sm,
                 variant: ButtonVariant.ghost,
@@ -12333,7 +12682,7 @@ class _AlertCompactState extends State<_AlertCompact> {
             size: ButtonSize.sm,
             variant: ButtonVariant.outline,
             onPressed: () => setState(() => _dismissed = false),
-            child: const Text('Show again'),
+            child: Text('Show again'),
           ),
         ],
       ),
@@ -12359,11 +12708,11 @@ import 'package:<your_app>/ui/dashcn/components/progress/progress.dart';
 Widget _progressDeterminate(BuildContext context) {
   final spacing = Theme.of(context).spacing;
   final bar = <Widget>[
-    const Progress(value: 0.25, semanticsLabel: 'Quarter'),
+    Progress(value: 0.25, semanticsLabel: 'Quarter'),
     Gap(spacing.lg),
-    const Progress(value: 0.6, semanticsLabel: 'Sixty percent'),
+    Progress(value: 0.6, semanticsLabel: 'Sixty percent'),
     Gap(spacing.lg),
-    const Progress(
+    Progress(
       value: 0.85,
       showSparks: true,
       semanticsLabel: 'Eighty five percent',
@@ -12469,7 +12818,7 @@ import 'package:<your_app>/ui/dashcn/components/progress/progress.dart';
 
 /// Indeterminate mode.
 Widget _progressIndeterminate(BuildContext context) {
-  return const Progress(semanticsLabel: 'Loading');
+  return Progress(semanticsLabel: 'Loading');
 }
 ''',
     ),
@@ -12502,7 +12851,11 @@ class _SkeletonSkeletonToggle extends StatelessWidget {
       size: ButtonSize.sm,
       variant: ButtonVariant.outline,
       onPressed: onPressed,
-      child: Text(loading ? 'Show content' : 'Show skeleton'),
+      child: Text(
+        loading
+            ? 'Show content'
+            : 'Show skeleton',
+      ),
     );
   }
 }
@@ -12753,7 +13106,7 @@ Widget _default(BuildContext context) => _Trigger(
   label: 'Show toast',
   onPressed: () => showToast(
     context,
-    builder: (context) => const Text('Saved to your workspace.'),
+    builder: (context) => Text('Saved to your workspace.'),
   ),
 );
 ''',
@@ -12845,12 +13198,12 @@ class _ActionTrigger extends StatelessWidget {
           spacing: Theme.of(toastContext).spacing.md,
           crossAxisAlignment: WrapCrossAlignment.center,
           children: <Widget>[
-            const Text('Deployment started.'),
+            Text('Deployment started.'),
             Button(
               variant: ButtonVariant.secondary,
               size: ButtonSize.sm,
               onPressed: () => toastControllerOf(toastContext)?.dismissAll(),
-              child: const Text('View'),
+              child: Text('View'),
             ),
           ],
         ),
@@ -12908,7 +13261,7 @@ import 'package:<your_app>/ui/dashcn/theme/theme.dart';
 import 'package:<your_app>/ui/dashcn/components/input/input.dart';
 import 'package:<your_app>/ui/dashcn/components/autocomplete/autocomplete.dart';
 
-const List<String> _autocompleteFruits = <String>[
+List<String> _autocompleteFruits = <String>[
   'Apple',
   'Apricot',
   'Avocado',
@@ -12995,7 +13348,9 @@ class _AutocompleteAutoCompleteFieldState
 
 /// The default replacement mode.
 Widget _autocompleteDefault(BuildContext context) =>
-    const _AutocompleteAutoCompleteField(hint: 'replaces the word');
+    _AutocompleteAutoCompleteField(
+      hint: 'replaces the word',
+    );
 ''',
     ),
     DocsExampleSource(
@@ -13008,7 +13363,7 @@ import 'package:<your_app>/ui/dashcn/theme/theme.dart';
 import 'package:<your_app>/ui/dashcn/components/input/input.dart';
 import 'package:<your_app>/ui/dashcn/components/autocomplete/autocomplete.dart';
 
-const List<String> _autocompleteFruits = <String>[
+List<String> _autocompleteFruits = <String>[
   'Apple',
   'Apricot',
   'Avocado',
@@ -13095,7 +13450,7 @@ class _AutocompleteAutoCompleteFieldState
 
 /// Append mode: the suggestion is inserted at the caret.
 Widget _autocompleteAppend(BuildContext context) =>
-    const _AutocompleteAutoCompleteField(
+    _AutocompleteAutoCompleteField(
       hint: 'appended at the caret',
       mode: AutoCompleteMode.append,
     );
@@ -13111,7 +13466,7 @@ import 'package:<your_app>/ui/dashcn/theme/theme.dart';
 import 'package:<your_app>/ui/dashcn/components/input/input.dart';
 import 'package:<your_app>/ui/dashcn/components/autocomplete/autocomplete.dart';
 
-const List<String> _autocompleteFruits = <String>[
+List<String> _autocompleteFruits = <String>[
   'Apple',
   'Apricot',
   'Avocado',
@@ -13198,7 +13553,7 @@ class _AutocompleteAutoCompleteFieldState
 
 /// Replace-all mode: the whole field is replaced.
 Widget _autocompleteReplaceAll(BuildContext context) =>
-    const _AutocompleteAutoCompleteField(
+    _AutocompleteAutoCompleteField(
       hint: 'replaces the whole field',
       mode: AutoCompleteMode.replaceAll,
     );
@@ -13214,7 +13569,7 @@ import 'package:<your_app>/ui/dashcn/theme/theme.dart';
 import 'package:<your_app>/ui/dashcn/components/input/input.dart';
 import 'package:<your_app>/ui/dashcn/components/autocomplete/autocomplete.dart';
 
-const List<String> _autocompleteFruits = <String>[
+List<String> _autocompleteFruits = <String>[
   'Apple',
   'Apricot',
   'Avocado',
@@ -13301,7 +13656,7 @@ class _AutocompleteAutoCompleteFieldState
 
 /// A custom completer plus a custom row builder.
 Widget _autocompleteCustomRow(BuildContext context) =>
-    const _AutocompleteAutoCompleteField(
+    _AutocompleteAutoCompleteField(
       hint: 'with a padded completion',
       completer: _autocompletePad,
       itemBuilder: _autocompleteBoldWhenSelected,
@@ -13637,7 +13992,7 @@ class _ChipInputReadOnlyChips extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const ChipInput<String>(
+    return ChipInput<String>(
       hintText: 'Tokens without a remove button',
       initialChips: <String>['flutter', 'dashcn'],
       theme: ChipInputTheme(removable: false),
@@ -13670,8 +14025,9 @@ class _ChipInputValidatedChips extends StatelessWidget {
     return ChipInput<String>(
       hintText: 'Needs at least two chips',
       initialChips: const <String>['flutter'],
-      validator: (List<String> chips) =>
-          chips.length < 2 ? 'Pick at least two chips.' : null,
+      validator: (List<String> chips) => chips.length < 2
+          ? 'Pick at least two chips.'
+          : null,
       onChipSubmit: _chipInputReject,
     );
   }
@@ -13757,7 +14113,7 @@ class _DropzoneDemoState extends State<_DropzoneDemo> {
           child: Dropzone(
             state: _state,
             isDragOver: _dragOver,
-            hint: const Text('Up to 10 MB each.'),
+            hint: Text('Up to 10 MB each.'),
             onBrowse: _browse,
           ),
         ),
@@ -13799,7 +14155,7 @@ import 'package:<your_app>/ui/dashcn/components/dropzone/dropzone.dart';
 
 /// The zone while a drag hovers over it.
 Widget _dropzoneDragOver(BuildContext context) {
-  return const Dropzone(
+  return Dropzone(
     isDragOver: true,
     hint: Text('Release to upload.'),
     onBrowse: _dropzoneBrowse,
@@ -13866,9 +14222,11 @@ import 'package:<your_app>/ui/dashcn/components/dropzone/dropzone.dart';
 
 /// The zone with a custom hint instead of the default content.
 Widget _dropzoneCustom(BuildContext context) {
-  return const Dropzone(
+  return Dropzone(
     showAction: false,
-    content: Text('Drop a folder here to upload it whole.'),
+    content: Text(
+      'Drop a folder here to upload it whole.',
+    ),
   );
 }
 ''',
@@ -13884,14 +14242,14 @@ import 'package:<your_app>/ui/dashcn/components/file_picker/file_picker.dart';
 /// Fake platform picker used by the examples.
 Future<List<FileValue>> _fakePick(FileUploadPickRequest request) async {
   return <FileValue>[
-    const FileValue(
+    FileValue(
       id: 'pick-pdf',
       name: 'report.pdf',
       size: 482000,
       mimeType: 'application/pdf',
     ),
     if (request.allowMultiple)
-      const FileValue(
+      FileValue(
         id: 'pick-png',
         name: 'photo.png',
         size: 1200000,
@@ -13958,14 +14316,14 @@ import 'package:<your_app>/ui/dashcn/components/file_picker/file_picker.dart';
 /// Fake platform picker used by the examples.
 Future<List<FileValue>> _fakePick(FileUploadPickRequest request) async {
   return <FileValue>[
-    const FileValue(
+    FileValue(
       id: 'pick-pdf',
       name: 'report.pdf',
       size: 482000,
       mimeType: 'application/pdf',
     ),
     if (request.allowMultiple)
-      const FileValue(
+      FileValue(
         id: 'pick-png',
         name: 'photo.png',
         size: 1200000,
@@ -14032,14 +14390,14 @@ import 'package:<your_app>/ui/dashcn/components/file_picker/file_picker.dart';
 /// Fake platform picker used by the examples.
 Future<List<FileValue>> _fakePick(FileUploadPickRequest request) async {
   return <FileValue>[
-    const FileValue(
+    FileValue(
       id: 'pick-pdf',
       name: 'report.pdf',
       size: 482000,
       mimeType: 'application/pdf',
     ),
     if (request.allowMultiple)
-      const FileValue(
+      FileValue(
         id: 'pick-png',
         name: 'photo.png',
         size: 1200000,
@@ -14103,15 +14461,15 @@ class _DefaultFormState extends State<_DefaultForm> {
           children: <Widget>[
             FormItem<String>(
               key: _emailKey,
-              label: const Text('Email'),
-              hint: const Text('We never share it.'),
+              label: Text('Email'),
+              hint: Text('We never share it.'),
               validator: const NotEmptyValidator() & const EmailValidator(),
               child: const Input(),
             ),
             Gap(theme.spacing.lg),
             Button(
               onPressed: () => _controller.submit(context),
-              child: const Text('Submit'),
+              child: Text('Submit'),
             ),
             Gap(theme.spacing.sm),
             Text(_result),
@@ -14162,8 +14520,10 @@ class _ValidatingFormState extends State<_ValidatingForm> {
         controller: _controller,
         child: FormItem<String>(
           key: _emailKey,
-          label: const Text('Email'),
-          hint: const Text('The message shows only once you type.'),
+          label: Text('Email'),
+          hint: Text(
+            'The message shows only once you type.',
+          ),
           validator: const NotEmptyValidator() & const EmailValidator(),
           showErrors: const <FormValidationMode>{FormValidationMode.changed},
           child: const Input(),
@@ -14383,7 +14743,7 @@ Widget _inputDefault(BuildContext context) {
     child: Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       mainAxisSize: MainAxisSize.min,
-      children: const <Widget>[
+      children: <Widget>[
         _InputSection('Email'),
         Input(hintText: 'Email'),
       ],
@@ -14441,16 +14801,18 @@ class _InputWithIconState extends State<_InputWithIcon> {
             ],
           ),
           Gap(spacing.lg),
-          const Input(
+          Input(
             obscureText: true,
             hintText: 'Password',
-            features: <InputFeature>[InputPasswordToggleFeature()],
+            features: const <InputFeature>[InputPasswordToggleFeature()],
           ),
           Gap(spacing.lg),
-          const Input(
+          Input(
             keyboardType: TextInputType.number,
             hintText: 'Quantity',
-            features: <InputFeature>[InputSpinnerFeature(min: 0, max: 10)],
+            features: const <InputFeature>[
+              InputSpinnerFeature(min: 0, max: 10),
+            ],
           ),
         ],
       ),
@@ -14501,7 +14863,7 @@ Widget _inputInvalid(BuildContext context) {
     child: Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       mainAxisSize: MainAxisSize.min,
-      children: const <Widget>[
+      children: <Widget>[
         _InputSection('Invalid'),
         Input(
           hintText: 'Invalid while non-empty',
@@ -14513,7 +14875,9 @@ Widget _inputInvalid(BuildContext context) {
           hintText: 'With helper rows',
           features: <InputFeature>[
             InputAboveBelowFeature.above(Text('Label')),
-            InputAboveBelowFeature.below(Text('Helper text')),
+            InputAboveBelowFeature.below(
+              Text('Helper text'),
+            ),
             InputHintFeature(popupBuilder: _inputHintPopup),
           ],
         ),
@@ -14522,10 +14886,12 @@ Widget _inputInvalid(BuildContext context) {
   );
 }
 
-String? _inputNotAllowed(String? value) =>
-    (value ?? '').isEmpty ? null : 'This value is not allowed.';
+String? _inputNotAllowed(String? value) => (value ?? '').isEmpty
+    ? null
+    : 'This value is not allowed.';
 
-Widget _inputHintPopup(BuildContext context) => const Text('Extra information');
+Widget _inputHintPopup(BuildContext context) =>
+    Text('Extra information');
 ''',
     ),
     DocsExampleSource(
@@ -14570,11 +14936,11 @@ Widget _inputDisabled(BuildContext context) {
       crossAxisAlignment: CrossAxisAlignment.stretch,
       mainAxisSize: MainAxisSize.min,
       children: <Widget>[
-        const _InputSection('Disabled'),
-        const Input(hintText: 'Disabled', enabled: false),
+        _InputSection('Disabled'),
+        Input(hintText: 'Disabled', enabled: false),
         Gap(spacing.lg),
-        const _InputSection('Read-only'),
-        const Input(
+        _InputSection('Read-only'),
+        Input(
           hintText: 'Read-only',
           readOnly: true,
           initialValue: 'Read-only value',
@@ -14831,7 +15197,7 @@ class _GridExampleState extends State<_GridExample> {
     return SizedBox(
       width: 320,
       child: ItemPickerDialog<String>(
-        items: const ItemList<String>(<String>['A', 'B', 'C', 'D']),
+        items: ItemList<String>(<String>['A', 'B', 'C', 'D']),
         builder: (BuildContext context, String value) =>
             ItemPickerOption<String>(
               value: value,
@@ -14844,7 +15210,7 @@ class _GridExampleState extends State<_GridExample> {
   }
 }
 
-Widget _grid(BuildContext context) => const _GridExample();
+Widget _grid(BuildContext context) => _GridExample();
 ''',
     ),
     DocsExampleSource(
@@ -14865,14 +15231,18 @@ class _ListExample extends StatefulWidget {
 class _ListExampleState extends State<_ListExample> {
   String? _value = 'Coral';
 
-  static const List<String> _items = <String>['Coral', 'Mint', 'Sky'];
+  static final List<String> _items = <String>[
+    'Coral',
+    'Mint',
+    'Sky',
+  ];
 
   @override
   Widget build(BuildContext context) {
     return SizedBox(
       width: 320,
       child: ItemPickerDialog<String>(
-        items: const ItemList<String>(_items),
+        items: ItemList<String>(_items),
         layout: ItemPickerLayout.list,
         builder: (BuildContext context, String value) =>
             ItemPickerOption<String>(
@@ -14909,7 +15279,7 @@ class _Swatch extends StatelessWidget {
   }
 }
 
-Widget _list(BuildContext context) => const _ListExample();
+Widget _list(BuildContext context) => _ListExample();
 ''',
     ),
   ],
@@ -14920,7 +15290,7 @@ Widget _list(BuildContext context) => const _ListExample();
       code: r'''import 'package:flutter/widgets.dart';
 import 'package:<your_app>/ui/dashcn/components/multi_select/multi_select.dart';
 
-const List<String> _options = <String>[
+List<String> _options = <String>[
   'Apple',
   'Banana',
   'Cherry',
@@ -14946,12 +15316,18 @@ class _DefaultExampleState extends State<_DefaultExample> {
       child: MultiSelect<String>(
         value: _fruits,
         onChanged: (Iterable<String>? value) => setState(() => _fruits = value),
-        placeholder: const Text('Select fruits'),
+        placeholder: Text('Select fruits'),
         itemBuilder: (BuildContext context, String value) =>
-            MultiSelectChip<String>(value: value, child: Text(value)),
+            MultiSelectChip<String>(
+              value: value,
+              child: Text(value),
+            ),
         items: <Widget>[
           for (final String fruit in _options)
-            MultiSelectItem<String>(value: fruit, child: Text(fruit)),
+            MultiSelectItem<String>(
+              value: fruit,
+              child: Text(fruit),
+            ),
         ],
       ),
     );
@@ -14967,7 +15343,7 @@ Widget _default(BuildContext context) => const _DefaultExample();
       code: r'''import 'package:flutter/widgets.dart';
 import 'package:<your_app>/ui/dashcn/components/multi_select/multi_select.dart';
 
-const List<String> _options = <String>[
+List<String> _options = <String>[
   'Apple',
   'Banana',
   'Cherry',
@@ -14984,7 +15360,11 @@ class _BadgesExample extends StatefulWidget {
 }
 
 class _BadgesExampleState extends State<_BadgesExample> {
-  Iterable<String>? _fruits = <String>['Apple', 'Cherry', 'Grape'];
+  Iterable<String>? _fruits = <String>[
+    'Apple',
+    'Cherry',
+    'Grape',
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -14993,12 +15373,18 @@ class _BadgesExampleState extends State<_BadgesExample> {
       child: MultiSelect<String>(
         value: _fruits,
         onChanged: (Iterable<String>? value) => setState(() => _fruits = value),
-        placeholder: const Text('Select fruits'),
+        placeholder: Text('Select fruits'),
         itemBuilder: (BuildContext context, String value) =>
-            MultiSelectChip<String>(value: value, child: Text(value)),
+            MultiSelectChip<String>(
+              value: value,
+              child: Text(value),
+            ),
         items: <Widget>[
           for (final String fruit in _options)
-            MultiSelectItem<String>(value: fruit, child: Text(fruit)),
+            MultiSelectItem<String>(
+              value: fruit,
+              child: Text(fruit),
+            ),
         ],
       ),
     );
@@ -15014,7 +15400,7 @@ Widget _withBadges(BuildContext context) => const _BadgesExample();
       code: r'''import 'package:flutter/widgets.dart';
 import 'package:<your_app>/ui/dashcn/components/multi_select/multi_select.dart';
 
-const List<String> _options = <String>[
+List<String> _options = <String>[
   'Apple',
   'Banana',
   'Cherry',
@@ -15041,12 +15427,18 @@ class _DisabledExampleState extends State<_DisabledExample> {
         value: _fruits,
         onChanged: (Iterable<String>? value) => setState(() => _fruits = value),
         enabled: false,
-        placeholder: const Text('Select fruits'),
+        placeholder: Text('Select fruits'),
         itemBuilder: (BuildContext context, String value) =>
-            MultiSelectChip<String>(value: value, child: Text(value)),
+            MultiSelectChip<String>(
+              value: value,
+              child: Text(value),
+            ),
         items: <Widget>[
           for (final String fruit in _options)
-            MultiSelectItem<String>(value: fruit, child: Text(fruit)),
+            MultiSelectItem<String>(
+              value: fruit,
+              child: Text(fruit),
+            ),
         ],
       ),
     );
@@ -15228,7 +15620,7 @@ class _CustomCountriesPhoneState extends State<_CustomCountriesPhone> {
     return PhoneInput(
       initialCountry: const Country(dialCode: '+44', code: 'GB'),
       initialValue: _value,
-      countries: const <CountryInfo>[
+      countries: <CountryInfo>[
         CountryInfo('GB', '+44', 'GBP', 'United Kingdom'),
         CountryInfo('IE', '+353', 'EUR', 'Ireland'),
         CountryInfo('FR', '+33', 'EUR', 'France'),
@@ -15281,7 +15673,7 @@ class _InvalidPhoneState extends State<_InvalidPhone> {
     return FormScope(
       child: FormItem<PhoneNumber>(
         key: const FormKey<PhoneNumber>('preview-phone-invalid'),
-        label: const Text('Phone'),
+        label: Text('Phone'),
         validator: const PhoneNumberValidator(),
         showErrors: const <FormValidationMode>{
           FormValidationMode.initial,
@@ -15325,10 +15717,16 @@ class _RowsDemoState extends State<_RowsDemo> {
     return RadioSet<String>(
       value: _plan,
       onChanged: (String value) => setState(() => _plan = value),
-      items: const <Widget>[
-        RadioItem<String>(value: 'free', label: Text('Free')),
+      items: <Widget>[
+        RadioItem<String>(
+          value: 'free',
+          label: Text('Free'),
+        ),
         RadioItem<String>(value: 'pro', label: Text('Pro')),
-        RadioItem<String>(value: 'team', label: Text('Team')),
+        RadioItem<String>(
+          value: 'team',
+          label: Text('Team'),
+        ),
       ],
     );
   }
@@ -15364,7 +15762,7 @@ class _CardsDemoState extends State<_CardsDemo> {
           RadioCard<String>(
             value: plan,
             child: Text(
-              plan,
+              plan == 'free' ? 'Free' : 'Pro',
               style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
             ),
           ),
@@ -15386,7 +15784,7 @@ import 'package:<your_app>/ui/dashcn/foundation/gap.dart';
 import 'package:<your_app>/ui/dashcn/theme/theme.dart';
 import 'package:<your_app>/ui/dashcn/components/search_bar/search_bar.dart';
 
-const List<String> _searchFruits = <String>[
+List<String> _searchFruits = <String>[
   'Apple',
   'Apricot',
   'Avocado',
@@ -15452,7 +15850,9 @@ class _SearchBarDefaultState extends State<_SearchBarDefault> {
           Gap(spacing.sm),
           _StatusLine(
             _selected.isEmpty
-                ? (_query.isEmpty ? 'Type to filter' : 'query: $_query')
+                ? (_query.isEmpty
+                      ? 'Type to filter'
+                      : 'query: $_query')
                 : 'Selected $_selected for "$_query"',
           ),
         ],
@@ -15501,14 +15901,22 @@ class _SearchBarGroups extends StatefulWidget {
 class _SearchBarGroupsState extends State<_SearchBarGroups> {
   String _selected = '';
 
-  static const List<SearchBarGroup<String>> _groups = <SearchBarGroup<String>>[
+  static final List<SearchBarGroup<String>> _groups = <SearchBarGroup<String>>[
     SearchBarGroup<String>(
       label: 'Suggestions',
-      items: <String>['Calendar', 'Search Emoji', 'Launch'],
+      items: <String>[
+        'Calendar',
+        'Search Emoji',
+        'Launch',
+      ],
     ),
     SearchBarGroup<String>(
       label: 'Settings',
-      items: <String>['Profile', 'Mail', 'Settings'],
+      items: <String>[
+        'Profile',
+        'Mail',
+        'Settings',
+      ],
     ),
   ];
 
@@ -15527,7 +15935,11 @@ class _SearchBarGroupsState extends State<_SearchBarGroups> {
             onSelected: (String item) => setState(() => _selected = item),
           ),
           Gap(spacing.sm),
-          _StatusLine(_selected.isEmpty ? 'Pick a command' : 'Ran $_selected'),
+          _StatusLine(
+            _selected.isEmpty
+                ? 'Pick a command'
+                : 'Ran $_selected',
+          ),
         ],
       ),
     );
@@ -15545,7 +15957,7 @@ import 'package:<your_app>/ui/dashcn/foundation/gap.dart';
 import 'package:<your_app>/ui/dashcn/theme/theme.dart';
 import 'package:<your_app>/ui/dashcn/components/search_bar/search_bar.dart';
 
-const List<String> _searchFruits = <String>[
+List<String> _searchFruits = <String>[
   'Apple',
   'Apricot',
   'Avocado',
@@ -15605,7 +16017,8 @@ class _SearchBarCancelState extends State<_SearchBarCancel> {
             items: _searchFruits,
             hintText: 'Search fruit',
             showCancelButton: true,
-            onCancelled: () => setState(() => _status = 'Cancelled'),
+            onCancelled: () =>
+                setState(() => _status = 'Cancelled'),
             onSelected: (String item) =>
                 setState(() => _status = 'Selected $item'),
           ),
@@ -15628,7 +16041,7 @@ import 'package:<your_app>/ui/dashcn/foundation/gap.dart';
 import 'package:<your_app>/ui/dashcn/theme/theme.dart';
 import 'package:<your_app>/ui/dashcn/components/search_bar/search_bar.dart';
 
-const List<String> _searchFruits = <String>[
+List<String> _searchFruits = <String>[
   'Apple',
   'Apricot',
   'Avocado',
@@ -15692,7 +16105,9 @@ class _SearchBarCustomRowState extends State<_SearchBarCustomRow> {
           ),
           Gap(Theme.of(context).spacing.sm),
           _StatusLine(
-            _selected.isEmpty ? 'Custom rows' : 'Selected $_selected',
+            _selected.isEmpty
+                ? 'Custom rows'
+                : 'Selected $_selected',
           ),
         ],
       ),
@@ -15730,10 +16145,16 @@ class _SegmentedDefaultState extends State<_SegmentedDefault> {
       child: SegmentedControl<String>(
         value: _value,
         onChanged: (String value) => setState(() => _value = value),
-        segments: const <SegmentedControlSegment<String>>[
+        segments: <SegmentedControlSegment<String>>[
           SegmentedControlSegment<String>(value: 'day', label: Text('Day')),
-          SegmentedControlSegment<String>(value: 'week', label: Text('Week')),
-          SegmentedControlSegment<String>(value: 'month', label: Text('Month')),
+          SegmentedControlSegment<String>(
+            value: 'week',
+            label: Text('Week'),
+          ),
+          SegmentedControlSegment<String>(
+            value: 'month',
+            label: Text('Month'),
+          ),
         ],
       ),
     );
@@ -15768,7 +16189,7 @@ class _SegmentedIconsState extends State<_SegmentedIcons> {
       child: SegmentedControl<int>(
         value: _value,
         onChanged: (int value) => setState(() => _value = value),
-        segments: const <SegmentedControlSegment<int>>[
+        segments: <SegmentedControlSegment<int>>[
           SegmentedControlSegment<int>(
             value: 0,
             icon: Icon(LucideIcons.list),
@@ -15820,7 +16241,7 @@ class _SegmentedMultipleState extends State<_SegmentedMultiple> {
         values: _values,
         onValuesChanged: (Set<String> values) =>
             setState(() => _values = values),
-        segments: const <SegmentedControlSegment<String>>[
+        segments: <SegmentedControlSegment<String>>[
           SegmentedControlSegment<String>(
             value: 'bold',
             icon: Icon(LucideIcons.bold),
@@ -15915,10 +16336,13 @@ class _SegmentedFullWidthState extends State<_SegmentedFullWidth> {
           expand: true,
           value: _value,
           onChanged: (int value) => setState(() => _value = value),
-          segments: const <SegmentedControlSegment<int>>[
+          segments: <SegmentedControlSegment<int>>[
             SegmentedControlSegment<int>(value: 0, label: Text('One')),
             SegmentedControlSegment<int>(value: 1, label: Text('Two')),
-            SegmentedControlSegment<int>(value: 2, label: Text('Three')),
+            SegmentedControlSegment<int>(
+              value: 2,
+              label: Text('Three'),
+            ),
           ],
         ),
       ),
@@ -15939,11 +16363,11 @@ import 'package:<your_app>/ui/dashcn/components/segmented_control/segmented_cont
 
 /// A customised control: a rounded track and a filled thumb.
 Widget _segmentedCustomized(BuildContext context) {
-  return const Center(
+  return Center(
     child: SegmentedControl<String>(
       value: 'left',
       onChanged: _noop,
-      style: SegmentedControlStyle(
+      style: const SegmentedControlStyle(
         background: ThemedColor.ref(ColorRef.accent, alpha: 0.25),
         thumbBackground: ThemedColor.ref(ColorRef.accent),
         thumbBorderColor: ThemedColor.ref(ColorRef.accent),
@@ -15952,8 +16376,14 @@ Widget _segmentedCustomized(BuildContext context) {
         padding: EdgeInsets.all(4),
       ),
       segments: <SegmentedControlSegment<String>>[
-        SegmentedControlSegment<String>(value: 'left', label: Text('Left')),
-        SegmentedControlSegment<String>(value: 'right', label: Text('Right')),
+        SegmentedControlSegment<String>(
+          value: 'left',
+          label: Text('Left'),
+        ),
+        SegmentedControlSegment<String>(
+          value: 'right',
+          label: Text('Right'),
+        ),
       ],
     ),
   );
@@ -15981,7 +16411,7 @@ class _FruitSelect extends StatefulWidget {
 class _FruitSelectState extends State<_FruitSelect> {
   String? _fruit;
 
-  static const List<String> _fruits = <String>[
+  static final List<String> _fruits = <String>[
     'Apple',
     'Banana',
     'Cherry',
@@ -15996,11 +16426,15 @@ class _FruitSelectState extends State<_FruitSelect> {
       child: Select<String>(
         value: _fruit,
         onChanged: (String? value) => setState(() => _fruit = value),
-        placeholder: const Text('Select a fruit'),
-        itemBuilder: (BuildContext context, String value) => Text(value),
+        placeholder: Text('Select a fruit'),
+        itemBuilder: (BuildContext context, String value) =>
+            Text(value),
         items: <Widget>[
           for (final String fruit in _fruits)
-            SelectItem<String>(value: fruit, child: Text(fruit)),
+            SelectItem<String>(
+              value: fruit,
+              child: Text(fruit),
+            ),
         ],
       ),
     );
@@ -16034,23 +16468,36 @@ class _GroupedSelectState extends State<_GroupedSelect> {
       child: Select<String>(
         value: _produce,
         onChanged: (String? value) => setState(() => _produce = value),
-        placeholder: const Text('Select produce'),
-        itemBuilder: (BuildContext context, String value) => Text(value),
-        items: const <Widget>[
+        placeholder: Text('Select produce'),
+        itemBuilder: (BuildContext context, String value) =>
+            Text(value),
+        items: <Widget>[
           SelectItem<String>(
             value: '__fruits',
             enabled: false,
             child: Text('Fruits'),
           ),
-          SelectItem<String>(value: 'Apple', child: Text('Apple')),
-          SelectItem<String>(value: 'Banana', child: Text('Banana')),
+          SelectItem<String>(
+            value: 'Apple',
+            child: Text('Apple'),
+          ),
+          SelectItem<String>(
+            value: 'Banana',
+            child: Text('Banana'),
+          ),
           SelectItem<String>(
             value: '__vegetables',
             enabled: false,
             child: Text('Vegetables'),
           ),
-          SelectItem<String>(value: 'Carrot', child: Text('Carrot')),
-          SelectItem<String>(value: 'Lettuce', child: Text('Lettuce')),
+          SelectItem<String>(
+            value: 'Carrot',
+            child: Text('Carrot'),
+          ),
+          SelectItem<String>(
+            value: 'Lettuce',
+            child: Text('Lettuce'),
+          ),
         ],
       ),
     );
@@ -16074,11 +16521,18 @@ Widget _disabled(BuildContext context) {
       value: 'Apple',
       onChanged: (String? value) {},
       enabled: false,
-      placeholder: const Text('Select a fruit'),
-      itemBuilder: (BuildContext context, String value) => Text(value),
-      items: const <Widget>[
-        SelectItem<String>(value: 'Apple', child: Text('Apple')),
-        SelectItem<String>(value: 'Banana', child: Text('Banana')),
+      placeholder: Text('Select a fruit'),
+      itemBuilder: (BuildContext context, String value) =>
+          Text(value),
+      items: <Widget>[
+        SelectItem<String>(
+          value: 'Apple',
+          child: Text('Apple'),
+        ),
+        SelectItem<String>(
+          value: 'Banana',
+          child: Text('Banana'),
+        ),
       ],
     ),
   );
@@ -16155,7 +16609,12 @@ class _InteractivePadState extends State<_InteractivePad> {
                     : () => setState(_controller.clear),
               ),
               const Spacer(),
-              Text(_count == 1 ? '1 stroke' : '$_count strokes', style: label),
+              Text(
+                _count == 1
+                    ? '1 stroke'
+                    : '$_count strokes',
+                style: label,
+              ),
             ],
           ),
         ],
@@ -16512,7 +16971,7 @@ class _ControlledSwitchState extends State<_ControlledSwitch> {
     return Switch(
       value: _value,
       onChanged: (bool value) => setState(() => _value = value),
-      label: const Text('Airplane mode'),
+      label: Text('Airplane mode'),
     );
   }
 }
@@ -16553,12 +17012,12 @@ class _SwitchRowsState extends State<_SwitchRows> {
         Switch(
           value: _notifications,
           onChanged: (bool value) => setState(() => _notifications = value),
-          label: const Text('Notifications'),
+          label: Text('Notifications'),
         ),
         Switch(
           value: _sounds,
           onChanged: (bool value) => setState(() => _sounds = value),
-          label: const Text('Sounds'),
+          label: Text('Sounds'),
         ),
       ],
     );
@@ -16609,7 +17068,7 @@ class _ControllerSwitchState extends State<_ControllerSwitch> {
       children: <Widget>[
         Switch(
           controller: _controller,
-          label: const Text('Driven by a controller'),
+          label: Text('Driven by a controller'),
         ),
         Text('value: ${_controller.value}'),
       ],
@@ -16633,8 +17092,11 @@ Widget _disabled(BuildContext context) {
   return Wrap(
     spacing: spacing.xl,
     runSpacing: spacing.md,
-    children: const <Widget>[
-      Switch(value: true, label: Text('Notifications (on)')),
+    children: <Widget>[
+      Switch(
+        value: true,
+        label: Text('Notifications (on)'),
+      ),
       Switch(value: false, label: Text('Sounds (off)')),
     ],
   );
@@ -16652,7 +17114,7 @@ import 'package:<your_app>/ui/dashcn/components/text_area/text_area.dart';
 
 /// The default three-line field.
 Widget _default(BuildContext context) {
-  return const SizedBox(
+  return SizedBox(
     width: 320,
     child: TextArea(initialValue: 'Hello, World!'),
   );
@@ -16668,7 +17130,7 @@ import 'package:<your_app>/ui/dashcn/components/text_area/text_area.dart';
 
 /// A taller field with placeholder text.
 Widget _placeholder(BuildContext context) {
-  return const SizedBox(
+  return SizedBox(
     width: 320,
     child: TextArea(
       placeholder: Text('Type your message here...'),
@@ -16687,7 +17149,7 @@ import 'package:<your_app>/ui/dashcn/components/text_area/text_area.dart';
 
 /// A field that grows with its content.
 Widget _resizable(BuildContext context) {
-  return const SizedBox(
+  return SizedBox(
     width: 320,
     child: TextArea(
       hintText: 'No cap: paste a long paragraph',
@@ -16728,8 +17190,9 @@ class _InvalidAreaState extends State<_InvalidArea> {
           TextArea(
             initialValue: 'abc',
             minLines: 2,
-            validator: (String? value) =>
-                (value ?? '').length < 8 ? 'At least 8 characters' : null,
+            validator: (String? value) => (value ?? '').length < 8
+                ? 'At least 8 characters'
+                : null,
             onChanged: (String value) => setState(() => _code = value),
           ),
           SizedBox(height: spacing.sm),
@@ -16755,9 +17218,12 @@ import 'package:<your_app>/ui/dashcn/components/text_area/text_area.dart';
 
 /// A disabled field.
 Widget _disabled(BuildContext context) {
-  return const SizedBox(
+  return SizedBox(
     width: 320,
-    child: TextArea(initialValue: 'Disabled', enabled: false),
+    child: TextArea(
+      initialValue: 'Disabled',
+      enabled: false,
+    ),
   );
 }
 ''',
@@ -16911,7 +17377,7 @@ class _LoopingWheel extends StatefulWidget {
 }
 
 class _LoopingWheelState extends State<_LoopingWheel> {
-  static const List<String> _colours = <String>[
+  static final List<String> _colours = <String>[
     'Red',
     'Orange',
     'Yellow',
@@ -17041,7 +17507,11 @@ class _CustomizedWheel extends StatefulWidget {
 }
 
 class _CustomizedWheelState extends State<_CustomizedWheel> {
-  static const List<String> _sizes = <String>['Small', 'Medium', 'Large'];
+  static final List<String> _sizes = <String>[
+    'Small',
+    'Medium',
+    'Large',
+  ];
   static const List<String> _codes = <String>['S', 'M', 'L', 'XL'];
   List<int> _value = <int>[1, 0];
 
@@ -17089,11 +17559,13 @@ import 'package:<your_app>/ui/dashcn/components/wheel_picker/wheel_picker.dart';
 
 /// A read-only wheel with no callback.
 Widget _readOnly(BuildContext context) {
-  return const SizedBox(
+  return SizedBox(
     width: 120,
     child: WheelPicker(
       columns: <WheelColumn>[
-        WheelColumn(items: <String>['One', 'Two', 'Three']),
+        WheelColumn(
+          items: <String>['One', 'Two', 'Three'],
+        ),
       ],
       initialValue: <int>[1],
     ),
@@ -17118,22 +17590,28 @@ Widget _accordionDefault(BuildContext context) {
     child: Accordion(
       items: <Widget>[
         AccordionItem(
-          trigger: AccordionTrigger(child: Text('Is it accessible?')),
+          trigger: AccordionTrigger(
+            child: Text('Is it accessible?'),
+          ),
           content: Text(
-            'Yes. It follows the WAI-ARIA disclosure pattern and responds '
-            'to Enter and Space.',
+            'Yes. It follows the WAI-ARIA disclosure pattern and responds to Enter and Space.',
           ),
         ),
         AccordionItem(
-          trigger: AccordionTrigger(child: Text('Is it styled?')),
+          trigger: AccordionTrigger(
+            child: Text('Is it styled?'),
+          ),
           content: Text(
-            'Yes. Defaults come from the global tokens and every part is '
-            'overridable through AccordionTheme.',
+            'Yes. Defaults come from the global tokens and every part is overridable through AccordionTheme.',
           ),
         ),
         AccordionItem(
-          trigger: AccordionTrigger(child: Text('Is it animated?')),
-          content: Text('Yes. Items animate with the theme duration.'),
+          trigger: AccordionTrigger(
+            child: Text('Is it animated?'),
+          ),
+          content: Text(
+            'Yes. Items animate with the theme duration.',
+          ),
         ),
       ],
     ),
@@ -17156,23 +17634,29 @@ Widget _accordionExpanded(BuildContext context) {
     child: Accordion(
       items: <Widget>[
         AccordionItem(
-          trigger: AccordionTrigger(child: Text('Is it accessible?')),
+          trigger: AccordionTrigger(
+            child: Text('Is it accessible?'),
+          ),
           content: Text(
-            'Yes. It follows the WAI-ARIA disclosure pattern and responds '
-            'to Enter and Space.',
+            'Yes. It follows the WAI-ARIA disclosure pattern and responds to Enter and Space.',
           ),
         ),
         AccordionItem(
           expanded: true,
-          trigger: AccordionTrigger(child: Text('Is it styled?')),
+          trigger: AccordionTrigger(
+            child: Text('Is it styled?'),
+          ),
           content: Text(
-            'Yes. Defaults come from the global tokens and every part is '
-            'overridable through AccordionTheme.',
+            'Yes. Defaults come from the global tokens and every part is overridable through AccordionTheme.',
           ),
         ),
         AccordionItem(
-          trigger: AccordionTrigger(child: Text('Is it animated?')),
-          content: Text('Yes. Items animate with the theme duration.'),
+          trigger: AccordionTrigger(
+            child: Text('Is it animated?'),
+          ),
+          content: Text(
+            'Yes. Items animate with the theme duration.',
+          ),
         ),
       ],
     ),
@@ -17213,14 +17697,20 @@ class _AccordionTwoItemAccordion extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Accordion(
+    return Accordion(
       items: <Widget>[
         AccordionItem(
-          trigger: AccordionTrigger(child: Text('Shipping')),
-          content: Text('Dispatched within two working days.'),
+          trigger: AccordionTrigger(
+            child: Text('Shipping'),
+          ),
+          content: Text(
+            'Dispatched within two working days.',
+          ),
         ),
         AccordionItem(
-          trigger: AccordionTrigger(child: Text('Returns')),
+          trigger: AccordionTrigger(
+            child: Text('Returns'),
+          ),
           content: Text('Free returns within 30 days.'),
         ),
       ],
@@ -17269,20 +17759,24 @@ class _CardDefaultState extends State<_CardDefault> {
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisSize: MainAxisSize.min,
               children: <Widget>[
-                const CardHeader(
+                CardHeader(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisSize: MainAxisSize.min,
                     children: <Widget>[
-                      CardTitle(child: Text('Deployments')),
+                      CardTitle(
+                        child: Text('Deployments'),
+                      ),
                       CardDescription(
-                        child: Text('Ship a new build to production.'),
+                        child: Text(
+                          'Ship a new build to production.',
+                        ),
                       ),
                     ],
                   ),
                 ),
                 Gap(spacing.lg),
-                const CardContent(
+                CardContent(
                   child: Text(
                     'Every deploy is immutable; roll back from the history tab.',
                   ),
@@ -17298,15 +17792,18 @@ class _CardDefaultState extends State<_CardDefault> {
                         Button(
                           size: ButtonSize.sm,
                           variant: ButtonVariant.ghost,
-                          onPressed: () =>
-                              setState(() => _status = 'Deploy cancelled'),
-                          child: const Text('Cancel'),
+                          onPressed: () => setState(
+                            () => _status = 'Deploy cancelled',
+                          ),
+                          child: Text('Cancel'),
                         ),
                         Button(
                           size: ButtonSize.sm,
-                          onPressed: () =>
-                              setState(() => _status = 'Deploy queued'),
-                          child: const Text('Deploy'),
+                          onPressed: () => setState(
+                            () =>
+                                _status = 'Deploy queued',
+                          ),
+                          child: Text('Deploy'),
                         ),
                       ];
                       if (!stack) {
@@ -17386,14 +17883,16 @@ Widget _cardWithMedia(BuildContext context) {
               ),
             ),
           ),
-          const CardHeader(
+          CardHeader(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisSize: MainAxisSize.min,
               children: <Widget>[
                 CardTitle(child: Text('Cover art')),
                 CardDescription(
-                  child: Text('Generated from the preset palette.'),
+                  child: Text(
+                    'Generated from the preset palette.',
+                  ),
                 ),
               ],
             ),
@@ -17440,7 +17939,7 @@ class _CardWithFooterState extends State<_CardWithFooter> {
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisSize: MainAxisSize.min,
               children: <Widget>[
-                const CardTitle(child: Text('Billing')),
+                CardTitle(child: Text('Billing')),
                 Gap(theme.spacing.xs),
                 Text(
                   'Bare card, default padding',
@@ -17452,9 +17951,10 @@ class _CardWithFooterState extends State<_CardWithFooter> {
                   child: Button(
                     size: ButtonSize.sm,
                     variant: ButtonVariant.outline,
-                    onPressed: () =>
-                        setState(() => _status = 'Opened the plan'),
-                    child: const Text('Manage plan'),
+                    onPressed: () => setState(
+                      () => _status = 'Opened the plan',
+                    ),
+                    child: Text('Manage plan'),
                   ),
                 ),
               ],
@@ -17502,7 +18002,7 @@ class _Tile {
   final int chart;
 }
 
-const List<_Tile> _tiles = <_Tile>[
+List<_Tile> _tiles = <_Tile>[
   _Tile(
     title: 'Sunset',
     subtitle: '18:42 · Lisbon',
@@ -17631,7 +18131,7 @@ class _Tile {
   final int chart;
 }
 
-const List<_Tile> _tiles = <_Tile>[
+List<_Tile> _tiles = <_Tile>[
   _Tile(
     title: 'Sunset',
     subtitle: '18:42 · Lisbon',
@@ -17698,7 +18198,9 @@ class _CardImageHorizontalState extends State<_CardImageHorizontal> {
         ),
         Gap(theme.spacing.sm),
         Text(
-          _opened ? 'Opened "${_tiles[1].title}"' : 'Tap the card to open it',
+          _opened
+              ? 'Opened "${_tiles[1].title}"'
+              : 'Tap the card to open it',
           style: TextStyle(fontSize: 12, color: theme.colors.mutedForeground),
         ),
       ],
@@ -17736,7 +18238,7 @@ class _Tile {
   final int chart;
 }
 
-const List<_Tile> _tiles = <_Tile>[
+List<_Tile> _tiles = <_Tile>[
   _Tile(
     title: 'Sunset',
     subtitle: '18:42 · Lisbon',
@@ -17786,7 +18288,7 @@ class _CardImageDisabledPairState extends State<_CardImageDisabledPair> {
           width: 200,
           child: CardImage(
             image: _thumb(context, _tiles[1]),
-            title: const Text('Archived'),
+            title: Text('Archived'),
             subtitle: const Text('read-only'),
             enabled: false,
             onPressed: () {},
@@ -17802,7 +18304,7 @@ class _CardImageDisabledPairState extends State<_CardImageDisabledPair> {
                 fontWeight: _opened ? FontWeight.w600 : FontWeight.w400,
               ),
             ),
-            subtitle: const Text('tap to open'),
+            subtitle: Text('tap to open'),
             trailing: const Icon(LucideIcons.chevronRight, size: 16),
             onPressed: () => setState(() => _opened = !_opened),
           ),
@@ -17850,7 +18352,9 @@ class _CollapsibleUncontrolled extends StatelessWidget {
       constraints: const BoxConstraints(maxWidth: 360),
       child: Collapsible(
         children: <Widget>[
-          const CollapsibleTrigger(child: Text('Recent activity')),
+          CollapsibleTrigger(
+            child: Text('Recent activity'),
+          ),
           Gap(spacing.sm),
           _collapsibleRow(context, '@mibrar-dev/dashcn'),
           CollapsibleContent(
@@ -17916,10 +18420,15 @@ class _CollapsibleControlledState extends State<_CollapsibleControlled> {
         isExpanded: _expanded,
         onExpansionChanged: (bool value) => setState(() => _expanded = value),
         children: <Widget>[
-          const CollapsibleTrigger(child: Text('Controlled section')),
+          CollapsibleTrigger(
+            child: Text('Controlled section'),
+          ),
           Gap(spacing.sm),
           CollapsibleContent(
-            child: _collapsibleRow(context, 'Toggled by the parent'),
+            child: _collapsibleRow(
+              context,
+              'Toggled by the parent',
+            ),
           ),
           Gap(spacing.sm),
           Text(_expanded ? 'open' : 'closed'),
@@ -17944,7 +18453,9 @@ import 'package:<your_app>/ui/dashcn/theme/density_tokens.dart';
 import 'package:<your_app>/ui/dashcn/theme/theme.dart';
 import 'package:<your_app>/ui/dashcn/components/filter_bar/filter_bar.dart';
 
-const List<FilterSortOption> _sortOptions = <FilterSortOption>[
+List<FilterSortOption> _sortOptions([
+  BuildContext? context,
+]) => <FilterSortOption>[
   FilterSortOption(id: 'newest', label: 'Newest'),
   FilterSortOption(id: 'oldest', label: 'Oldest'),
   FilterSortOption(id: 'popular', label: 'Most popular'),
@@ -17968,7 +18479,7 @@ class _DefaultFilterBarState extends State<_DefaultFilterBar> {
       child: FilterBar(
         state: _state,
         onStateChanged: (FilterState next) => setState(() => _state = next),
-        sortOptions: _sortOptions,
+        sortOptions: _sortOptions(context),
         resultsCount: 42,
         presentation: FilterBarPresentation.inline,
       ),
@@ -17988,7 +18499,9 @@ import 'package:<your_app>/ui/dashcn/theme/density_tokens.dart';
 import 'package:<your_app>/ui/dashcn/theme/theme.dart';
 import 'package:<your_app>/ui/dashcn/components/filter_bar/filter_bar.dart';
 
-const List<FilterSortOption> _sortOptions = <FilterSortOption>[
+List<FilterSortOption> _sortOptions([
+  BuildContext? context,
+]) => <FilterSortOption>[
   FilterSortOption(id: 'newest', label: 'Newest'),
   FilterSortOption(id: 'oldest', label: 'Oldest'),
   FilterSortOption(id: 'popular', label: 'Most popular'),
@@ -18003,11 +18516,14 @@ class _ChipsFilterBar extends StatefulWidget {
 }
 
 class _ChipsFilterBarState extends State<_ChipsFilterBar> {
-  FilterState _state = const FilterState(
+  FilterState _state = FilterState(
     sortId: 'newest',
     chips: <FilterChipData>[
       FilterChipData(key: 'tag:design', label: 'Tag: Design'),
-      FilterChipData(key: 'status:active', label: 'Status: Active'),
+      FilterChipData(
+        key: 'status:active',
+        label: 'Status: Active',
+      ),
     ],
   );
 
@@ -18018,7 +18534,7 @@ class _ChipsFilterBarState extends State<_ChipsFilterBar> {
       child: FilterBar(
         state: _state,
         onStateChanged: (FilterState next) => setState(() => _state = next),
-        sortOptions: _sortOptions,
+        sortOptions: _sortOptions(context),
         resultsCount: 3,
         presentation: FilterBarPresentation.inline,
       ),
@@ -18038,7 +18554,9 @@ import 'package:<your_app>/ui/dashcn/theme/density_tokens.dart';
 import 'package:<your_app>/ui/dashcn/theme/theme.dart';
 import 'package:<your_app>/ui/dashcn/components/filter_bar/filter_bar.dart';
 
-const List<FilterSortOption> _sortOptions = <FilterSortOption>[
+List<FilterSortOption> _sortOptions([
+  BuildContext? context,
+]) => <FilterSortOption>[
   FilterSortOption(id: 'newest', label: 'Newest'),
   FilterSortOption(id: 'oldest', label: 'Oldest'),
   FilterSortOption(id: 'popular', label: 'Most popular'),
@@ -18062,7 +18580,7 @@ class _OverflowFilterBarState extends State<_OverflowFilterBar> {
       child: FilterBar(
         state: _state,
         onStateChanged: (FilterState next) => setState(() => _state = next),
-        sortOptions: _sortOptions,
+        sortOptions: _sortOptions(context),
         enableDateRange: true,
         resultsCount: 12,
         // Anchored compact popup menu (the canonical anchored variant).
@@ -18084,7 +18602,9 @@ import 'package:<your_app>/ui/dashcn/theme/density_tokens.dart';
 import 'package:<your_app>/ui/dashcn/theme/theme.dart';
 import 'package:<your_app>/ui/dashcn/components/filter_bar/filter_bar.dart';
 
-const List<FilterSortOption> _sortOptions = <FilterSortOption>[
+List<FilterSortOption> _sortOptions([
+  BuildContext? context,
+]) => <FilterSortOption>[
   FilterSortOption(id: 'newest', label: 'Newest'),
   FilterSortOption(id: 'oldest', label: 'Oldest'),
   FilterSortOption(id: 'popular', label: 'Most popular'),
@@ -18108,7 +18628,7 @@ class _DialogFilterBarState extends State<_DialogFilterBar> {
       child: FilterBar(
         state: _state,
         onStateChanged: (FilterState next) => setState(() => _state = next),
-        sortOptions: _sortOptions,
+        sortOptions: _sortOptions(context),
         enableDateRange: true,
         resultsCount: 12,
         // Centred dialog: same tokens as the inline bar and popup menu.
@@ -18130,7 +18650,9 @@ import 'package:<your_app>/ui/dashcn/theme/density_tokens.dart';
 import 'package:<your_app>/ui/dashcn/theme/theme.dart';
 import 'package:<your_app>/ui/dashcn/components/filter_bar/filter_bar.dart';
 
-const List<FilterSortOption> _sortOptions = <FilterSortOption>[
+List<FilterSortOption> _sortOptions([
+  BuildContext? context,
+]) => <FilterSortOption>[
   FilterSortOption(id: 'newest', label: 'Newest'),
   FilterSortOption(id: 'oldest', label: 'Oldest'),
   FilterSortOption(id: 'popular', label: 'Most popular'),
@@ -18154,7 +18676,7 @@ class _SheetFilterBarState extends State<_SheetFilterBar> {
       child: FilterBar(
         state: _state,
         onStateChanged: (FilterState next) => setState(() => _state = next),
-        sortOptions: _sortOptions,
+        sortOptions: _sortOptions(context),
         enableDateRange: true,
         resultsCount: 12,
         // Bottom sheet on phone widths via the drawer sheet scaffold.
@@ -18176,7 +18698,9 @@ import 'package:<your_app>/ui/dashcn/theme/density_tokens.dart';
 import 'package:<your_app>/ui/dashcn/theme/theme.dart';
 import 'package:<your_app>/ui/dashcn/components/filter_bar/filter_bar.dart';
 
-const List<FilterSortOption> _sortOptions = <FilterSortOption>[
+List<FilterSortOption> _sortOptions([
+  BuildContext? context,
+]) => <FilterSortOption>[
   FilterSortOption(id: 'newest', label: 'Newest'),
   FilterSortOption(id: 'oldest', label: 'Oldest'),
   FilterSortOption(id: 'popular', label: 'Most popular'),
@@ -18191,9 +18715,11 @@ class _OpenMenuFilterBar extends StatefulWidget {
 }
 
 class _OpenMenuFilterBarState extends State<_OpenMenuFilterBar> {
-  FilterState _state = const FilterState(
+  FilterState _state = FilterState(
     sortId: 'newest',
-    chips: <FilterChipData>[FilterChipData(key: 'tag:ui', label: 'Tag: UI')],
+    chips: <FilterChipData>[
+      FilterChipData(key: 'tag:ui', label: 'Tag: UI'),
+    ],
   );
 
   @override
@@ -18207,7 +18733,7 @@ class _OpenMenuFilterBarState extends State<_OpenMenuFilterBar> {
           FilterBar(
             state: _state,
             onStateChanged: (FilterState next) => setState(() => _state = next),
-            sortOptions: _sortOptions,
+            sortOptions: _sortOptions(context),
             resultsCount: 7,
             presentation: FilterBarPresentation.menu,
           ),
@@ -18224,7 +18750,7 @@ class _OpenMenuFilterBarState extends State<_OpenMenuFilterBar> {
               children: <Widget>[
                 FilterBarSortControl(
                   value: _state.sortId,
-                  options: _sortOptions,
+                  options: _sortOptions(context),
                   onChanged: (String? next) =>
                       setState(() => _state = _state.copyWith(sortId: next)),
                   width: double.infinity,
@@ -18250,7 +18776,9 @@ import 'package:<your_app>/ui/dashcn/theme/density_tokens.dart';
 import 'package:<your_app>/ui/dashcn/theme/theme.dart';
 import 'package:<your_app>/ui/dashcn/components/filter_bar/filter_bar.dart';
 
-const List<FilterSortOption> _sortOptions = <FilterSortOption>[
+List<FilterSortOption> _sortOptions([
+  BuildContext? context,
+]) => <FilterSortOption>[
   FilterSortOption(id: 'newest', label: 'Newest'),
   FilterSortOption(id: 'oldest', label: 'Oldest'),
   FilterSortOption(id: 'popular', label: 'Most popular'),
@@ -18275,7 +18803,7 @@ class _CustomizedFilterBarState extends State<_CustomizedFilterBar> {
       child: FilterBar(
         state: _state,
         onStateChanged: (FilterState next) => setState(() => _state = next),
-        sortOptions: _sortOptions,
+        sortOptions: _sortOptions(context),
         resultsCount: 19,
         densityTokens: DensityTokens.comfortable,
         presentation: FilterBarPresentation.inline,
@@ -18330,13 +18858,12 @@ Widget _defaultMarquee(BuildContext context) {
         children: <Widget>[
           Icon(LucideIcons.bell, size: 16, color: theme.colors.primary),
           Gap(theme.spacing.sm),
-          const Expanded(
+          Expanded(
             child: OverflowMarquee(
               speed: 45.0,
               gap: 28.0,
               child: Text(
-                'Breaking News: dashcn continuous marquee components now live across all platforms! • '
-                'Seamless looping with soft edge fades • Fully keyboard accessible',
+                'Breaking News: dashcn continuous marquee components now live across all platforms! • Seamless looping with soft edge fades • Fully keyboard accessible',
               ),
             ),
           ),
@@ -18420,13 +18947,15 @@ class _NowPlayingState extends State<_NowPlaying> {
                     controller: _controller,
                     speed: 40.0,
                     gap: 32.0,
-                    child: const Text(
+                    child: Text(
                       'Midnight City — M83 (Extended Club Mix, 2024 Remaster)',
                       style: TextStyle(fontWeight: FontWeight.w600),
                     ),
                   ),
                   Text(
-                    _controller.isPlaying ? 'Playing · Synthwave' : 'Paused',
+                    _controller.isPlaying
+                        ? 'Playing · Synthwave'
+                        : 'Paused',
                     style: TextStyle(
                       fontSize: 12,
                       color: theme.colors.mutedForeground,
@@ -18444,7 +18973,9 @@ class _NowPlayingState extends State<_NowPlaying> {
                 setState(() {});
               },
               child: Semantics(
-                label: _controller.isPlaying ? 'Pause' : 'Play',
+                label: _controller.isPlaying
+                    ? 'Pause'
+                    : 'Play',
                 child: Icon(
                   _controller.isPlaying ? LucideIcons.pause : LucideIcons.play,
                   size: 16,
@@ -18499,10 +19030,8 @@ Widget _newsTicker(BuildContext context) {
               speed: 55.0,
               gap: 32.0,
               child: Text(
-                'dashcn 1.0 ships 145 components • '
-                'pull-to-refresh learns trackpads • '
-                'continuous marquees loop seamlessly • '
-                'cards never collapse',
+                'dashcn 1.0 ships 145 components • pull-to-refresh learns trackpads • '
+                'continuous marquees loop seamlessly • cards never collapse',
               ),
             ),
           ),
@@ -18542,7 +19071,7 @@ Widget _verticalCredits(BuildContext context) {
     height: 96,
     child: _band(
       context,
-      const Center(
+      Center(
         child: OverflowMarquee(
           direction: AxisDirectional.up,
           speed: 25.0,
@@ -18550,7 +19079,10 @@ Widget _verticalCredits(BuildContext context) {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
-              Text('Directed by dashcn Team', style: TextStyle(fontSize: 13)),
+              Text(
+                'Directed by dashcn Team',
+                style: TextStyle(fontSize: 13),
+              ),
               Text(
                 'Original Score by Synthwave',
                 style: TextStyle(fontSize: 12),
@@ -18609,7 +19141,7 @@ Widget _rtlTicker(BuildContext context) {
               children: <Widget>[
                 const Badge(child: Text('عاجل')),
                 Gap(theme.spacing.sm),
-                const Expanded(
+                Expanded(
                   child: OverflowMarquee(
                     direction: AxisDirectional.start,
                     speed: 45.0,
@@ -18673,7 +19205,7 @@ Widget _customizedMarquee(BuildContext context) {
           padding: EdgeInsets.only(left: theme.spacing.sm),
           child: Icon(LucideIcons.zap, size: 16, color: theme.colors.primary),
         ),
-        child: const Text(
+        child: Text(
           'Custom speed: 75 px/s • Custom gap: 40 px • Custom edge fades • Pinned builder slots',
           style: TextStyle(fontWeight: FontWeight.w500),
         ),
@@ -18720,14 +19252,17 @@ Widget _absolute(BuildContext context) {
   // P7-TH1: the box hugs the declared sizes (120 + 1px handle + 200) so the
   // demo centres exactly; a wider box would strand transparent leftover on
   // the right because absolute panels pack from the start.
-  return const SizedBox(
+  return SizedBox(
     width: 321,
     height: 140,
     child: ResizablePanelGroup(
       children: <Widget>[
         ResizablePanel(defaultSize: 120, child: _Pane('Sidebar')),
         ResizableHandle(withHandle: true),
-        ResizablePanel(defaultSize: 200, child: _Pane('Main')),
+        ResizablePanel(
+          defaultSize: 200,
+          child: _Pane('Main'),
+        ),
       ],
     ),
   );
@@ -18766,7 +19301,7 @@ class _Pane extends StatelessWidget {
 
 /// Panes sharing space by flex.
 Widget _flexible(BuildContext context) {
-  return const SizedBox(
+  return SizedBox(
     width: 360,
     height: 140,
     child: ResizablePanelGroup(
@@ -18845,11 +19380,13 @@ class _ScaffoldDefaultState extends State<_ScaffoldDefault> {
                   _AppBarAction(
                     icon: LucideIcons.chevronLeft,
                     label: 'Back',
-                    onPressed: () => setState(() => _lastAction = 'Went back'),
+                    onPressed: () => setState(
+                      () => _lastAction = 'Went back',
+                    ),
                   ),
                 ],
-                title: const Text('My Application'),
-                subtitle: const Text('Dashboard'),
+                title: Text('My Application'),
+                subtitle: Text('Dashboard'),
                 trailing: <Widget>[
                   _AppBarAction(
                     icon: LucideIcons.ellipsis,
@@ -18861,11 +19398,13 @@ class _ScaffoldDefaultState extends State<_ScaffoldDefault> {
             ],
             footers: <Widget>[
               AppBar(
-                title: const Text('Status'),
-                subtitle: const Text('All systems go'),
+                title: Text('Status'),
+                subtitle: Text('All systems go'),
               ),
             ],
-            child: const Center(child: Text('Main content area')),
+            child: Center(
+              child: Text('Main content area'),
+            ),
           ),
         ),
         Gap(theme.spacing.md),
@@ -18882,16 +19421,16 @@ class _ScaffoldDefaultState extends State<_ScaffoldDefault> {
       context: context,
       children: <Widget>[
         MenuButton(
-          child: const Text('Rename'),
+          child: Text('Rename'),
           onPressed: (_) => _run('Rename chosen'),
         ),
         MenuButton(
-          child: const Text('Duplicate'),
+          child: Text('Duplicate'),
           onPressed: (_) => _run('Duplicated'),
         ),
         const MenuSeparator(),
         MenuButton(
-          child: const Text('Archive'),
+          child: Text('Archive'),
           onPressed: (_) => _run('Archived'),
         ),
       ],
@@ -18918,7 +19457,7 @@ import 'package:<your_app>/ui/dashcn/components/scaffold/scaffold.dart';
 
 /// A shell showing the loading bar over fetching content.
 Widget _withLoading(BuildContext context) {
-  return const SizedBox(
+  return SizedBox(
     width: 360,
     height: 200,
     child: Scaffold(
@@ -19176,7 +19715,12 @@ class _ListDemo extends StatefulWidget {
 }
 
 class _ListDemoState extends State<_ListDemo> {
-  final List<String> _items = <String>['Alpha', 'Beta', 'Gamma', 'Delta'];
+  final List<String> _items = <String>[
+    'Alpha',
+    'Beta',
+    'Gamma',
+    'Delta',
+  ];
 
   void _move(String dragged, String target, bool above) {
     setState(() {
@@ -19350,19 +19894,25 @@ import 'package:<your_app>/ui/dashcn/components/steps/steps.dart';
 
 /// The default vertical flow.
 Widget _default(BuildContext context) {
-  return const Steps(
+  return Steps(
     children: <Widget>[
       StepItem(
         title: Text('Account'),
-        content: <Widget>[Text('Sign up with your email address.')],
+        content: <Widget>[
+          Text('Sign up with your email address.'),
+        ],
       ),
       StepItem(
         title: Text('Verify'),
-        content: <Widget>[Text('Check your inbox for a code.')],
+        content: <Widget>[
+          Text('Check your inbox for a code.'),
+        ],
       ),
       StepItem(
         title: Text('Profile'),
-        content: <Widget>[Text('Add your personal information.')],
+        content: <Widget>[
+          Text('Add your personal information.'),
+        ],
       ),
     ],
   );
@@ -19378,16 +19928,22 @@ import 'package:<your_app>/ui/dashcn/components/steps/steps.dart';
 
 /// Larger indicators tinted with the primary token.
 Widget _custom(BuildContext context) {
-  return const Steps(
-    theme: StepsTheme(
+  return Steps(
+    theme: const StepsTheme(
       indicatorSize: 32,
       indicatorColor: ThemedColor.ref(ColorRef.primary),
       indicatorForeground: ThemedColor.ref(ColorRef.primaryForeground),
       connectorColor: ThemedColor.ref(ColorRef.primary, alpha: 0.4),
     ),
     children: <Widget>[
-      StepItem(title: Text('Cart'), content: <Widget>[Text('Review items.')]),
-      StepItem(title: Text('Pay'), content: <Widget>[Text('Choose a method.')]),
+      StepItem(
+        title: Text('Cart'),
+        content: <Widget>[Text('Review items.')],
+      ),
+      StepItem(
+        title: Text('Pay'),
+        content: <Widget>[Text('Choose a method.')],
+      ),
     ],
   );
 }
@@ -19402,9 +19958,12 @@ import 'package:<your_app>/ui/dashcn/components/steps/steps.dart';
 
 /// A single step.
 Widget _single(BuildContext context) {
-  return const Steps(
+  return Steps(
     children: <Widget>[
-      StepItem(title: Text('Done'), content: <Widget>[Text('Nothing else.')]),
+      StepItem(
+        title: Text('Done'),
+        content: <Widget>[Text('Nothing else.')],
+      ),
     ],
   );
 }
@@ -19423,7 +19982,7 @@ import 'package:<your_app>/ui/dashcn/components/button/button.dart';
 import 'package:<your_app>/ui/dashcn/components/command/command.dart';
 
 /// Commands the palette offers.
-const List<String> _commandValues = <String>[
+List<String> _commandValues = <String>[
   'Calendar',
   'Search Emoji',
   'Launch',
@@ -19480,7 +20039,7 @@ class _CommandPaletteState extends State<_CommandPalette> {
                       );
                     }
                   } else {
-                    for (final String group in const <String>[
+                    for (final String group in <String>[
                       'Suggestions',
                       'Settings',
                     ]) {
@@ -19523,7 +20082,7 @@ class _CommandPaletteState extends State<_CommandPalette> {
             Text(
               _lastCommand == null
                   ? 'Run a command to see it here'
-                  : 'Ran $_lastCommand',
+                  : '${'Ran'} ${_lastCommand!}',
               style: TextStyle(
                 fontSize: 12,
                 color: Theme.of(context).colors.mutedForeground,
@@ -19551,7 +20110,7 @@ import 'package:<your_app>/ui/dashcn/components/button/button.dart';
 import 'package:<your_app>/ui/dashcn/components/command/command.dart';
 
 /// Commands the palette offers.
-const List<String> _commandValues = <String>[
+List<String> _commandValues = <String>[
   'Calendar',
   'Search Emoji',
   'Launch',
@@ -19608,7 +20167,7 @@ class _CommandPaletteState extends State<_CommandPalette> {
                       );
                     }
                   } else {
-                    for (final String group in const <String>[
+                    for (final String group in <String>[
                       'Suggestions',
                       'Settings',
                     ]) {
@@ -19651,7 +20210,7 @@ class _CommandPaletteState extends State<_CommandPalette> {
             Text(
               _lastCommand == null
                   ? 'Run a command to see it here'
-                  : 'Ran $_lastCommand',
+                  : '${'Ran'} ${_lastCommand!}',
               style: TextStyle(
                 fontSize: 12,
                 color: Theme.of(context).colors.mutedForeground,
@@ -19680,7 +20239,7 @@ import 'package:<your_app>/ui/dashcn/components/button/button.dart';
 import 'package:<your_app>/ui/dashcn/components/command/command.dart';
 
 /// Commands the palette offers.
-const List<String> _commandValues = <String>[
+List<String> _commandValues = <String>[
   'Calendar',
   'Search Emoji',
   'Launch',
@@ -19697,7 +20256,10 @@ class _CommandDialogTrigger extends StatelessWidget {
     final List<String> ranked = rankCommandLabels(_commandValues, query);
     yield <Widget>[
       for (final String value in ranked)
-        SubFocusListItem(minHeight: 48, title: Text(value)),
+        SubFocusListItem(
+          minHeight: 48,
+          title: Text(value),
+        ),
     ];
   }
 
@@ -19708,7 +20270,7 @@ class _CommandDialogTrigger extends StatelessWidget {
       size: ButtonSize.sm,
       onPressed: () =>
           showCommandDialog<void>(context: context, builder: _results),
-      child: const Text('Open command palette'),
+      child: Text('Open command palette'),
     );
   }
 }
@@ -19727,7 +20289,7 @@ import 'package:<your_app>/ui/dashcn/components/button/button.dart';
 import 'package:<your_app>/ui/dashcn/components/command/command.dart';
 
 /// Commands the palette offers.
-const List<String> _commandValues = <String>[
+List<String> _commandValues = <String>[
   'Calendar',
   'Search Emoji',
   'Launch',
@@ -19911,28 +20473,29 @@ class _ContextMenuSurfaceState extends State<_ContextMenuSurface> {
             semanticsLabel: 'Actions for ${widget.hintAction}',
             items: <Widget>[
               MenuButton(
-                child: const Text('Back'),
+                child: Text('Back'),
                 onPressed: (_) => _run('Went back'),
               ),
               MenuButton(
-                child: const Text('Reload'),
-                onPressed: (_) => _run('Reloaded the page'),
+                child: Text('Reload'),
+                onPressed: (_) =>
+                    _run('Reloaded the page'),
               ),
               MenuButton(
-                trailing: const MenuShortcut(shortcut: '⌘C'),
-                child: const Text('Copy link'),
+                trailing: MenuShortcut(shortcut: '⌘C'),
+                child: Text('Copy link'),
                 onPressed: (_) => _run('Copied the link'),
               ),
               const MenuSeparator(),
               MenuButton(
                 trailing: const Icon(LucideIcons.chevronRight, size: 14),
                 enabled: widget.withSubmenu,
-                child: const Text('More tools'),
+                child: Text('More tools'),
                 onPressed: (_) {},
               ),
               MenuButton(
                 enabled: false,
-                child: const Text('Inspect'),
+                child: Text('Inspect'),
                 onPressed: (_) {},
               ),
             ],
@@ -19940,7 +20503,8 @@ class _ContextMenuSurfaceState extends State<_ContextMenuSurface> {
           ),
           SizedBox(height: theme.spacing.md),
           Text(
-            _lastAction ?? 'Pick an action from the menu',
+            _lastAction ??
+                  'Pick an action from the menu',
             style: TextStyle(fontSize: 12, color: theme.colors.mutedForeground),
           ),
         ],
@@ -20099,28 +20663,29 @@ class _ContextMenuSurfaceState extends State<_ContextMenuSurface> {
             semanticsLabel: 'Actions for ${widget.hintAction}',
             items: <Widget>[
               MenuButton(
-                child: const Text('Back'),
+                child: Text('Back'),
                 onPressed: (_) => _run('Went back'),
               ),
               MenuButton(
-                child: const Text('Reload'),
-                onPressed: (_) => _run('Reloaded the page'),
+                child: Text('Reload'),
+                onPressed: (_) =>
+                    _run('Reloaded the page'),
               ),
               MenuButton(
-                trailing: const MenuShortcut(shortcut: '⌘C'),
-                child: const Text('Copy link'),
+                trailing: MenuShortcut(shortcut: '⌘C'),
+                child: Text('Copy link'),
                 onPressed: (_) => _run('Copied the link'),
               ),
               const MenuSeparator(),
               MenuButton(
                 trailing: const Icon(LucideIcons.chevronRight, size: 14),
                 enabled: widget.withSubmenu,
-                child: const Text('More tools'),
+                child: Text('More tools'),
                 onPressed: (_) {},
               ),
               MenuButton(
                 enabled: false,
-                child: const Text('Inspect'),
+                child: Text('Inspect'),
                 onPressed: (_) {},
               ),
             ],
@@ -20128,7 +20693,8 @@ class _ContextMenuSurfaceState extends State<_ContextMenuSurface> {
           ),
           SizedBox(height: theme.spacing.md),
           Text(
-            _lastAction ?? 'Pick an action from the menu',
+            _lastAction ??
+                  'Pick an action from the menu',
             style: TextStyle(fontSize: 12, color: theme.colors.mutedForeground),
           ),
         ],
@@ -20140,8 +20706,10 @@ class _ContextMenuSurfaceState extends State<_ContextMenuSurface> {
 }
 
 /// A surface whose menu row opens a submenu.
-Widget _contextMenuWithSubmenu(BuildContext context) =>
-    const _ContextMenuSurface(hintAction: 'this card', withSubmenu: true);
+Widget _contextMenuWithSubmenu(BuildContext context) => _ContextMenuSurface(
+  hintAction: 'this card',
+  withSubmenu: true,
+);
 ''',
     ),
     DocsExampleSource(
@@ -20288,28 +20856,29 @@ class _ContextMenuSurfaceState extends State<_ContextMenuSurface> {
             semanticsLabel: 'Actions for ${widget.hintAction}',
             items: <Widget>[
               MenuButton(
-                child: const Text('Back'),
+                child: Text('Back'),
                 onPressed: (_) => _run('Went back'),
               ),
               MenuButton(
-                child: const Text('Reload'),
-                onPressed: (_) => _run('Reloaded the page'),
+                child: Text('Reload'),
+                onPressed: (_) =>
+                    _run('Reloaded the page'),
               ),
               MenuButton(
-                trailing: const MenuShortcut(shortcut: '⌘C'),
-                child: const Text('Copy link'),
+                trailing: MenuShortcut(shortcut: '⌘C'),
+                child: Text('Copy link'),
                 onPressed: (_) => _run('Copied the link'),
               ),
               const MenuSeparator(),
               MenuButton(
                 trailing: const Icon(LucideIcons.chevronRight, size: 14),
                 enabled: widget.withSubmenu,
-                child: const Text('More tools'),
+                child: Text('More tools'),
                 onPressed: (_) {},
               ),
               MenuButton(
                 enabled: false,
-                child: const Text('Inspect'),
+                child: Text('Inspect'),
                 onPressed: (_) {},
               ),
             ],
@@ -20317,7 +20886,8 @@ class _ContextMenuSurfaceState extends State<_ContextMenuSurface> {
           ),
           SizedBox(height: theme.spacing.md),
           Text(
-            _lastAction ?? 'Pick an action from the menu',
+            _lastAction ??
+                  'Pick an action from the menu',
             style: TextStyle(fontSize: 12, color: theme.colors.mutedForeground),
           ),
         ],
@@ -20492,28 +21062,29 @@ class _ContextMenuSurfaceState extends State<_ContextMenuSurface> {
             semanticsLabel: 'Actions for ${widget.hintAction}',
             items: <Widget>[
               MenuButton(
-                child: const Text('Back'),
+                child: Text('Back'),
                 onPressed: (_) => _run('Went back'),
               ),
               MenuButton(
-                child: const Text('Reload'),
-                onPressed: (_) => _run('Reloaded the page'),
+                child: Text('Reload'),
+                onPressed: (_) =>
+                    _run('Reloaded the page'),
               ),
               MenuButton(
-                trailing: const MenuShortcut(shortcut: '⌘C'),
-                child: const Text('Copy link'),
+                trailing: MenuShortcut(shortcut: '⌘C'),
+                child: Text('Copy link'),
                 onPressed: (_) => _run('Copied the link'),
               ),
               const MenuSeparator(),
               MenuButton(
                 trailing: const Icon(LucideIcons.chevronRight, size: 14),
                 enabled: widget.withSubmenu,
-                child: const Text('More tools'),
+                child: Text('More tools'),
                 onPressed: (_) {},
               ),
               MenuButton(
                 enabled: false,
-                child: const Text('Inspect'),
+                child: Text('Inspect'),
                 onPressed: (_) {},
               ),
             ],
@@ -20521,7 +21092,8 @@ class _ContextMenuSurfaceState extends State<_ContextMenuSurface> {
           ),
           SizedBox(height: theme.spacing.md),
           Text(
-            _lastAction ?? 'Pick an action from the menu',
+            _lastAction ??
+                  'Pick an action from the menu',
             style: TextStyle(fontSize: 12, color: theme.colors.mutedForeground),
           ),
         ],
@@ -20533,12 +21105,11 @@ class _ContextMenuSurfaceState extends State<_ContextMenuSurface> {
 }
 
 /// The padded hit region, drawn as a muted wash around the card.
-Widget _contextMenuExpandedTarget(BuildContext context) =>
-    const _ContextMenuSurface(
-      hintAction: 'the wash',
-      targetPadding: EdgeInsets.all(28),
-      showTargetOutline: true,
-    );
+Widget _contextMenuExpandedTarget(BuildContext context) => _ContextMenuSurface(
+  hintAction: 'the wash',
+  targetPadding: EdgeInsets.all(28),
+  showTargetOutline: true,
+);
 ''',
     ),
     DocsExampleSource(
@@ -20685,28 +21256,29 @@ class _ContextMenuSurfaceState extends State<_ContextMenuSurface> {
             semanticsLabel: 'Actions for ${widget.hintAction}',
             items: <Widget>[
               MenuButton(
-                child: const Text('Back'),
+                child: Text('Back'),
                 onPressed: (_) => _run('Went back'),
               ),
               MenuButton(
-                child: const Text('Reload'),
-                onPressed: (_) => _run('Reloaded the page'),
+                child: Text('Reload'),
+                onPressed: (_) =>
+                    _run('Reloaded the page'),
               ),
               MenuButton(
-                trailing: const MenuShortcut(shortcut: '⌘C'),
-                child: const Text('Copy link'),
+                trailing: MenuShortcut(shortcut: '⌘C'),
+                child: Text('Copy link'),
                 onPressed: (_) => _run('Copied the link'),
               ),
               const MenuSeparator(),
               MenuButton(
                 trailing: const Icon(LucideIcons.chevronRight, size: 14),
                 enabled: widget.withSubmenu,
-                child: const Text('More tools'),
+                child: Text('More tools'),
                 onPressed: (_) {},
               ),
               MenuButton(
                 enabled: false,
-                child: const Text('Inspect'),
+                child: Text('Inspect'),
                 onPressed: (_) {},
               ),
             ],
@@ -20714,7 +21286,8 @@ class _ContextMenuSurfaceState extends State<_ContextMenuSurface> {
           ),
           SizedBox(height: theme.spacing.md),
           Text(
-            _lastAction ?? 'Pick an action from the menu',
+            _lastAction ??
+                  'Pick an action from the menu',
             style: TextStyle(fontSize: 12, color: theme.colors.mutedForeground),
           ),
         ],
@@ -20726,13 +21299,12 @@ class _ContextMenuSurfaceState extends State<_ContextMenuSurface> {
 }
 
 /// A customized menu: clamped width plus a per-instance surface override.
-Widget _contextMenuCompactMenu(BuildContext context) =>
-    const _ContextMenuSurface(
-      hintAction: 'this card',
-      menuMinWidth: 200,
-      menuMaxWidth: 240,
-      popupTheme: MenuPopupTheme(padding: EdgeInsetsDensity.pxAll(8)),
-    );
+Widget _contextMenuCompactMenu(BuildContext context) => _ContextMenuSurface(
+  hintAction: 'this card',
+  menuMinWidth: 200,
+  menuMaxWidth: 240,
+  popupTheme: MenuPopupTheme(padding: EdgeInsetsDensity.pxAll(8)),
+);
 ''',
     ),
   ],
@@ -20783,35 +21355,37 @@ class _DropdownMenuDropdownState extends State<_DropdownMenuDropdown> {
             child: DropdownMenu(
               children: <Widget>[
                 MenuButton(
-                  child: const Text('Profile'),
-                  onPressed: (_) => _run('Opened the profile'),
+                  child: Text('Profile'),
+                  onPressed: (_) =>
+                      _run('Opened the profile'),
                 ),
                 MenuButton(
-                  child: const Text('Settings'),
-                  onPressed: (_) => _run('Opened settings'),
+                  child: Text('Settings'),
+                  onPressed: (_) =>
+                      _run('Opened settings'),
                 ),
                 const MenuSeparator(),
                 if (widget.withShortcut)
                   MenuButton(
-                    trailing: const MenuShortcut(shortcut: '⌘Q'),
-                    child: const Text('Sign out'),
+                    trailing: MenuShortcut(shortcut: '⌘Q'),
+                    child: Text('Sign out'),
                     onPressed: (_) => _run('Signed out'),
                   )
                 else
                   MenuButton(
-                    child: const Text('Sign out'),
+                    child: Text('Sign out'),
                     onPressed: (_) => _run('Signed out'),
                   ),
                 if (widget.withCheckbox) ...<Widget>[
                   const MenuSeparator(),
                   MenuButton(
                     trailing: Text(_statusBar ? 'on' : 'off'),
-                    child: const Text('Show status bar'),
+                    child: Text('Show status bar'),
                     onPressed: (_) => setState(() => _statusBar = !_statusBar),
                   ),
                   MenuButton(
                     trailing: Text(_bookmarks ? 'on' : 'off'),
-                    child: const Text('Show bookmarks bar'),
+                    child: Text('Show bookmarks bar'),
                     onPressed: (_) => setState(() => _bookmarks = !_bookmarks),
                   ),
                 ],
@@ -20885,35 +21459,37 @@ class _DropdownMenuDropdownState extends State<_DropdownMenuDropdown> {
             child: DropdownMenu(
               children: <Widget>[
                 MenuButton(
-                  child: const Text('Profile'),
-                  onPressed: (_) => _run('Opened the profile'),
+                  child: Text('Profile'),
+                  onPressed: (_) =>
+                      _run('Opened the profile'),
                 ),
                 MenuButton(
-                  child: const Text('Settings'),
-                  onPressed: (_) => _run('Opened settings'),
+                  child: Text('Settings'),
+                  onPressed: (_) =>
+                      _run('Opened settings'),
                 ),
                 const MenuSeparator(),
                 if (widget.withShortcut)
                   MenuButton(
-                    trailing: const MenuShortcut(shortcut: '⌘Q'),
-                    child: const Text('Sign out'),
+                    trailing: MenuShortcut(shortcut: '⌘Q'),
+                    child: Text('Sign out'),
                     onPressed: (_) => _run('Signed out'),
                   )
                 else
                   MenuButton(
-                    child: const Text('Sign out'),
+                    child: Text('Sign out'),
                     onPressed: (_) => _run('Signed out'),
                   ),
                 if (widget.withCheckbox) ...<Widget>[
                   const MenuSeparator(),
                   MenuButton(
                     trailing: Text(_statusBar ? 'on' : 'off'),
-                    child: const Text('Show status bar'),
+                    child: Text('Show status bar'),
                     onPressed: (_) => setState(() => _statusBar = !_statusBar),
                   ),
                   MenuButton(
                     trailing: Text(_bookmarks ? 'on' : 'off'),
-                    child: const Text('Show bookmarks bar'),
+                    child: Text('Show bookmarks bar'),
                     onPressed: (_) => setState(() => _bookmarks = !_bookmarks),
                   ),
                 ],
@@ -20987,35 +21563,37 @@ class _DropdownMenuDropdownState extends State<_DropdownMenuDropdown> {
             child: DropdownMenu(
               children: <Widget>[
                 MenuButton(
-                  child: const Text('Profile'),
-                  onPressed: (_) => _run('Opened the profile'),
+                  child: Text('Profile'),
+                  onPressed: (_) =>
+                      _run('Opened the profile'),
                 ),
                 MenuButton(
-                  child: const Text('Settings'),
-                  onPressed: (_) => _run('Opened settings'),
+                  child: Text('Settings'),
+                  onPressed: (_) =>
+                      _run('Opened settings'),
                 ),
                 const MenuSeparator(),
                 if (widget.withShortcut)
                   MenuButton(
-                    trailing: const MenuShortcut(shortcut: '⌘Q'),
-                    child: const Text('Sign out'),
+                    trailing: MenuShortcut(shortcut: '⌘Q'),
+                    child: Text('Sign out'),
                     onPressed: (_) => _run('Signed out'),
                   )
                 else
                   MenuButton(
-                    child: const Text('Sign out'),
+                    child: Text('Sign out'),
                     onPressed: (_) => _run('Signed out'),
                   ),
                 if (widget.withCheckbox) ...<Widget>[
                   const MenuSeparator(),
                   MenuButton(
                     trailing: Text(_statusBar ? 'on' : 'off'),
-                    child: const Text('Show status bar'),
+                    child: Text('Show status bar'),
                     onPressed: (_) => setState(() => _statusBar = !_statusBar),
                   ),
                   MenuButton(
                     trailing: Text(_bookmarks ? 'on' : 'off'),
-                    child: const Text('Show bookmarks bar'),
+                    child: Text('Show bookmarks bar'),
                     onPressed: (_) => setState(() => _bookmarks = !_bookmarks),
                   ),
                 ],
@@ -21068,22 +21646,25 @@ class _DropdownMenuTrigger extends StatelessWidget {
         context: context,
         children: <Widget>[
           MenuButton(
-            child: const Text('Profile'),
-            onPressed: (_) => closeOverlay(context, 'Profile'),
+            child: Text('Profile'),
+            onPressed: (_) =>
+                closeOverlay(context, 'Profile'),
           ),
           MenuButton(
-            child: const Text('Settings'),
-            onPressed: (_) => closeOverlay(context, 'Settings'),
+            child: Text('Settings'),
+            onPressed: (_) =>
+                closeOverlay(context, 'Settings'),
           ),
           const MenuSeparator(),
           MenuButton(
-            trailing: const MenuShortcut(shortcut: '⌘Q'),
-            child: const Text('Sign out'),
-            onPressed: (_) => closeOverlay(context, 'Sign out'),
+            trailing: MenuShortcut(shortcut: '⌘Q'),
+            child: Text('Sign out'),
+            onPressed: (_) =>
+                closeOverlay(context, 'Sign out'),
           ),
         ],
       ),
-      child: const Text('Open menu'),
+      child: Text('Open menu'),
     );
   }
 }
@@ -21107,7 +21688,7 @@ import 'package:<your_app>/ui/dashcn/components/dropdown_menu/dropdown_menu.dart
 
 /// A customized surface: widget-leg theme override (tinted fill).
 Widget _dropdownMenuCustomized(BuildContext context) {
-  return const SizedBox(
+  return SizedBox(
     width: 220,
     child: DropdownMenu(
       theme: MenuPopupTheme(background: ThemedColor.value(Color(0xFFF0FDF4))),
@@ -21155,36 +21736,42 @@ class _MenuDefaultState extends State<_MenuDefault> {
               autofocus: false,
               children: <Widget>[
                 MenuButton(
-                  child: const Text('Cut'),
-                  onPressed: (_) => _run('Cut the selection'),
+                  child: Text('Cut'),
+                  onPressed: (_) =>
+                      _run('Cut the selection'),
                 ),
                 MenuButton(
-                  child: const Text('Copy'),
-                  onPressed: (_) => _run('Copied to the clipboard'),
+                  child: Text('Copy'),
+                  onPressed: (_) =>
+                      _run('Copied to the clipboard'),
                 ),
                 MenuButton(
-                  child: const Text('Paste'),
-                  onPressed: (_) => _run('Pasted from the clipboard'),
+                  child: Text('Paste'),
+                  onPressed: (_) =>
+                      _run('Pasted from the clipboard'),
                 ),
                 const MenuSeparator(),
                 MenuButton(
                   subMenu: <Widget>[
                     MenuButton(
-                      child: const Text('Email'),
-                      onPressed: (_) => _run('Shared by email'),
+                      child: Text('Email'),
+                      onPressed: (_) =>
+                          _run('Shared by email'),
                     ),
                     MenuButton(
-                      child: const Text('Link'),
-                      onPressed: (_) => _run('Copied a share link'),
+                      child: Text('Link'),
+                      onPressed: (_) =>
+                          _run('Copied a share link'),
                     ),
                   ],
                   onPressed: (_) {},
-                  child: const Text('Share'),
+                  child: Text('Share'),
                 ),
                 MenuButton(
                   destructive: true,
-                  onPressed: (_) => _run('Deleted the selection'),
-                  child: const Text('Delete'),
+                  onPressed: (_) =>
+                      _run('Deleted the selection'),
+                  child: Text('Delete'),
                 ),
               ],
             ),
@@ -21233,13 +21820,13 @@ class _CheckboxExampleState extends State<_CheckboxExample> {
         MenuGroup(
           autofocus: false,
           children: <Widget>[
-            const MenuLabel(child: Text('Options')),
+            MenuLabel(child: Text('Options')),
             MenuCheckboxItem(
               value: _toolbar,
               onChanged: (BuildContext _, bool value) =>
                   setState(() => _toolbar = value),
-              trailing: const MenuShortcut(shortcut: '⌘T'),
-              child: const Text('Toolbar'),
+              trailing: MenuShortcut(shortcut: '⌘T'),
+              child: Text('Toolbar'),
             ),
           ],
         ),
@@ -21282,11 +21869,17 @@ class _RadioExampleState extends State<_RadioExample> {
               value: _side,
               onChanged: (BuildContext _, String value) =>
                   setState(() => _side = value),
-              child: const Column(
+              child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: <Widget>[
-                  MenuRadioItem<String>(value: 'left', child: Text('Left')),
-                  MenuRadioItem<String>(value: 'right', child: Text('Right')),
+                  MenuRadioItem<String>(
+                    value: 'left',
+                    child: Text('Left'),
+                  ),
+                  MenuRadioItem<String>(
+                    value: 'right',
+                    child: Text('Right'),
+                  ),
                 ],
               ),
             ),
@@ -21334,38 +21927,42 @@ class _MenubarDefaultState extends State<_MenubarDefault> {
             MenuButton(
               subMenu: <Widget>[
                 MenuButton(
-                  child: const Text('New'),
+                  child: Text('New'),
                   onPressed: (_) => _run('New document'),
                 ),
                 MenuButton(
-                  child: const Text('Open'),
-                  onPressed: (_) => _run('Opened a document'),
+                  child: Text('Open'),
+                  onPressed: (_) =>
+                      _run('Opened a document'),
                 ),
                 const MenuSeparator(),
                 MenuButton(
-                  trailing: const MenuShortcut(shortcut: '⌘S'),
-                  child: const Text('Save'),
-                  onPressed: (_) => _run('Saved the document'),
+                  trailing: MenuShortcut(shortcut: '⌘S'),
+                  child: Text('Save'),
+                  onPressed: (_) =>
+                      _run('Saved the document'),
                 ),
               ],
-              child: const Text('File'),
+              child: Text('File'),
             ),
             MenuButton(
               subMenu: <Widget>[
                 MenuButton(
-                  child: const Text('Cut'),
-                  onPressed: (_) => _run('Cut the selection'),
+                  child: Text('Cut'),
+                  onPressed: (_) =>
+                      _run('Cut the selection'),
                 ),
                 MenuButton(
-                  child: const Text('Copy'),
-                  onPressed: (_) => _run('Copied to the clipboard'),
+                  child: Text('Copy'),
+                  onPressed: (_) =>
+                      _run('Copied to the clipboard'),
                 ),
               ],
-              child: const Text('Edit'),
+              child: Text('Edit'),
             ),
             MenuButton(
               subMenu: <Widget>[
-                const MenuLabel(child: Text('Zoom')),
+                MenuLabel(child: Text('Zoom')),
                 MenuButton(
                   child: const Text('100%'),
                   onPressed: (_) => _run('Zoom 100%'),
@@ -21375,7 +21972,7 @@ class _MenubarDefaultState extends State<_MenubarDefault> {
                   onPressed: (_) => _run('Zoom 150%'),
                 ),
               ],
-              child: const Text('View'),
+              child: Text('View'),
             ),
           ],
         ),
@@ -21414,16 +22011,16 @@ class _WithSubmenu extends StatelessWidget {
       children: <Widget>[
         MenuButton(
           subMenu: <Widget>[
-            const MenuLabel(child: Text('Zoom')),
+            MenuLabel(child: Text('Zoom')),
             MenuSub(
-              trigger: const Text('Zoom level'),
+              trigger: Text('Zoom level'),
               children: <Widget>[
                 MenuButton(child: const Text('100%'), onPressed: (_) {}),
                 MenuButton(child: const Text('150%'), onPressed: (_) {}),
               ],
             ),
           ],
-          child: const Text('View'),
+          child: Text('View'),
         ),
       ],
     );
@@ -21452,21 +22049,27 @@ import 'package:<your_app>/ui/dashcn/components/breadcrumb/breadcrumb.dart';
 Widget _currentLine(BuildContext context, String page) {
   final theme = Theme.of(context);
   return Text(
-    'Current page: $page',
+    '${'Current page: '}${page}',
     style: TextStyle(color: theme.colors.mutedForeground, fontSize: 12),
   );
 }
 
 /// Clickable crumbs for [path] except the last one, which is the current
 /// (non-link) page.
-List<Widget> _crumbs(List<String> path, void Function(int index) onTap) =>
-    <Widget>[
-      for (int i = 0; i < path.length; i++)
-        if (i == path.length - 1)
-          Text(path[i])
-        else
-          BreadcrumbLink(onPressed: () => onTap(i), child: Text(path[i])),
-    ];
+List<Widget> _crumbs(
+  BuildContext context,
+  List<String> path,
+  void Function(int index) onTap,
+) => <Widget>[
+  for (int i = 0; i < path.length; i++)
+    if (i == path.length - 1)
+      Text(path[i])
+    else
+      BreadcrumbLink(
+        onPressed: () => onTap(i),
+        child: Text(path[i]),
+      ),
+];
 
 /// Default chevron trail, centred.
 class _DefaultTrail extends StatefulWidget {
@@ -21477,7 +22080,11 @@ class _DefaultTrail extends StatefulWidget {
 }
 
 class _DefaultTrailState extends State<_DefaultTrail> {
-  List<String> _path = const <String>['Home', 'Components', 'Breadcrumb'];
+  List<String> _path = <String>[
+    'Home',
+    'Components',
+    'Breadcrumb',
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -21489,6 +22096,7 @@ class _DefaultTrailState extends State<_DefaultTrail> {
           alignment: Alignment.center,
           child: Breadcrumb(
             children: _crumbs(
+              context,
               _path,
               (int i) => setState(() {
                 _path = _path.sublist(0, i + 1);
@@ -21522,21 +22130,27 @@ import 'package:<your_app>/ui/dashcn/components/breadcrumb/breadcrumb.dart';
 Widget _currentLine(BuildContext context, String page) {
   final theme = Theme.of(context);
   return Text(
-    'Current page: $page',
+    '${'Current page: '}${page}',
     style: TextStyle(color: theme.colors.mutedForeground, fontSize: 12),
   );
 }
 
 /// Clickable crumbs for [path] except the last one, which is the current
 /// (non-link) page.
-List<Widget> _crumbs(List<String> path, void Function(int index) onTap) =>
-    <Widget>[
-      for (int i = 0; i < path.length; i++)
-        if (i == path.length - 1)
-          Text(path[i])
-        else
-          BreadcrumbLink(onPressed: () => onTap(i), child: Text(path[i])),
-    ];
+List<Widget> _crumbs(
+  BuildContext context,
+  List<String> path,
+  void Function(int index) onTap,
+) => <Widget>[
+  for (int i = 0; i < path.length; i++)
+    if (i == path.length - 1)
+      Text(path[i])
+    else
+      BreadcrumbLink(
+        onPressed: () => onTap(i),
+        child: Text(path[i]),
+      ),
+];
 
 /// Slash-separated file path, centred.
 class _SlashTrail extends StatefulWidget {
@@ -21560,6 +22174,7 @@ class _SlashTrailState extends State<_SlashTrail> {
           child: Breadcrumb(
             separator: Breadcrumb.slashSeparator,
             children: _crumbs(
+              context,
               _path,
               (int i) => setState(() {
                 _path = _path.sublist(0, i + 1);
@@ -21593,7 +22208,7 @@ import 'package:<your_app>/ui/dashcn/components/breadcrumb/breadcrumb.dart';
 Widget _currentLine(BuildContext context, String page) {
   final theme = Theme.of(context);
   return Text(
-    'Current page: $page',
+    '${'Current page: '}${page}',
     style: TextStyle(color: theme.colors.mutedForeground, fontSize: 12),
   );
 }
@@ -21608,21 +22223,30 @@ Future<void> _openHidden(
     context: context,
     children: <Widget>[
       for (final crumb in hidden)
-        MenuButton(child: Text(crumb), onPressed: (_) => onSelect(crumb)),
+        MenuButton(
+          child: Text(crumb),
+          onPressed: (_) => onSelect(crumb),
+        ),
     ],
   );
 }
 
 /// Clickable crumbs for [path] except the last one, which is the current
 /// (non-link) page.
-List<Widget> _crumbs(List<String> path, void Function(int index) onTap) =>
-    <Widget>[
-      for (int i = 0; i < path.length; i++)
-        if (i == path.length - 1)
-          Text(path[i])
-        else
-          BreadcrumbLink(onPressed: () => onTap(i), child: Text(path[i])),
-    ];
+List<Widget> _crumbs(
+  BuildContext context,
+  List<String> path,
+  void Function(int index) onTap,
+) => <Widget>[
+  for (int i = 0; i < path.length; i++)
+    if (i == path.length - 1)
+      Text(path[i])
+    else
+      BreadcrumbLink(
+        onPressed: () => onTap(i),
+        child: Text(path[i]),
+      ),
+];
 
 /// Long trail with an ellipsis dropdown for the collapsed middle.
 class _EllipsisTrail extends StatefulWidget {
@@ -21633,7 +22257,7 @@ class _EllipsisTrail extends StatefulWidget {
 }
 
 class _EllipsisTrailState extends State<_EllipsisTrail> {
-  List<String> _path = const <String>[
+  List<String> _path = <String>[
     'Home',
     'Docs',
     'Guides',
@@ -21651,7 +22275,9 @@ class _EllipsisTrailState extends State<_EllipsisTrail> {
     final spacing = Theme.of(context).spacing;
     // A short trail needs no ellipsis.
     final Widget trail = _path.length <= 3
-        ? Breadcrumb(children: _crumbs(_path, (int i) => _goTo(_path[i])))
+        ? Breadcrumb(
+            children: _crumbs(context, _path, (int i) => _goTo(_path[i])),
+          )
         : Builder(
             builder: (BuildContext context) {
               final List<String> hidden = _path.sublist(1, _path.length - 2);
@@ -21667,7 +22293,7 @@ class _EllipsisTrailState extends State<_EllipsisTrail> {
                     onPressed: () => _openHidden(context, hidden, _goTo),
                     child: const Icon(LucideIcons.ellipsis, size: 16),
                   ),
-                  ..._crumbs(_path.sublist(_path.length - 2), (int i) {
+                  ..._crumbs(context, _path.sublist(_path.length - 2), (int i) {
                     _goTo(_path[_path.length - 2 + i]);
                   }),
                 ],
@@ -21704,7 +22330,7 @@ import 'package:<your_app>/ui/dashcn/components/breadcrumb/breadcrumb.dart';
 Widget _currentLine(BuildContext context, String page) {
   final theme = Theme.of(context);
   return Text(
-    'Current page: $page',
+    '${'Current page: '}${page}',
     style: TextStyle(color: theme.colors.mutedForeground, fontSize: 12),
   );
 }
@@ -21719,21 +22345,30 @@ Future<void> _openHidden(
     context: context,
     children: <Widget>[
       for (final crumb in hidden)
-        MenuButton(child: Text(crumb), onPressed: (_) => onSelect(crumb)),
+        MenuButton(
+          child: Text(crumb),
+          onPressed: (_) => onSelect(crumb),
+        ),
     ],
   );
 }
 
 /// Clickable crumbs for [path] except the last one, which is the current
 /// (non-link) page.
-List<Widget> _crumbs(List<String> path, void Function(int index) onTap) =>
-    <Widget>[
-      for (int i = 0; i < path.length; i++)
-        if (i == path.length - 1)
-          Text(path[i])
-        else
-          BreadcrumbLink(onPressed: () => onTap(i), child: Text(path[i])),
-    ];
+List<Widget> _crumbs(
+  BuildContext context,
+  List<String> path,
+  void Function(int index) onTap,
+) => <Widget>[
+  for (int i = 0; i < path.length; i++)
+    if (i == path.length - 1)
+      Text(path[i])
+    else
+      BreadcrumbLink(
+        onPressed: () => onTap(i),
+        child: Text(path[i]),
+      ),
+];
 
 /// Responsive trail: full above 420px, first + ellipsis + last below.
 class _ResponsiveTrail extends StatefulWidget {
@@ -21744,7 +22379,7 @@ class _ResponsiveTrail extends StatefulWidget {
 }
 
 class _ResponsiveTrailState extends State<_ResponsiveTrail> {
-  List<String> _path = const <String>[
+  List<String> _path = <String>[
     'Home',
     'Library',
     'Components',
@@ -21770,7 +22405,7 @@ class _ResponsiveTrailState extends State<_ResponsiveTrail> {
                   constraints.maxWidth < 420 && _path.length > 3;
               final List<Widget> children;
               if (!collapsed) {
-                children = _crumbs(_path, (int i) => _goTo(_path[i]));
+                children = _crumbs(context, _path, (int i) => _goTo(_path[i]));
               } else {
                 children = <Widget>[
                   BreadcrumbLink(
@@ -21814,19 +22449,26 @@ import 'package:<your_app>/ui/dashcn/foundation/icons/radix_icons.dart';
 import 'package:<your_app>/ui/dashcn/components/navigation_bar/navigation_bar.dart';
 
 /// Shared bar items for the horizontal examples.
-List<NavigationBarItem> _barItems() => <NavigationBarItem>[
-  const NavigationItem(label: Text('Home'), child: Icon(RadixIcons.home)),
-  const NavigationItem(
-    label: Text('Search'),
-    child: Icon(RadixIcons.magnifyingGlass),
-  ),
-  const NavigationItem(label: Text('Settings'), child: Icon(RadixIcons.gear)),
-  const NavigationItem(
-    label: Text('Disabled'),
-    enabled: false,
-    child: Icon(RadixIcons.person),
-  ),
-];
+List<NavigationBarItem> _barItems([BuildContext? context]) =>
+    <NavigationBarItem>[
+      NavigationItem(
+        label: Text('Home'),
+        child: const Icon(RadixIcons.home),
+      ),
+      NavigationItem(
+        label: Text('Search'),
+        child: const Icon(RadixIcons.magnifyingGlass),
+      ),
+      NavigationItem(
+        label: Text('Settings'),
+        child: const Icon(RadixIcons.gear),
+      ),
+      NavigationItem(
+        label: Text('Disabled'),
+        enabled: false,
+        child: const Icon(RadixIcons.person),
+      ),
+    ];
 
 /// An interactive horizontal bar; selection lives in this example's state.
 class _InteractiveBar extends StatefulWidget {
@@ -21847,7 +22489,7 @@ class _InteractiveBarState extends State<_InteractiveBar> {
       index: _index,
       onSelected: (int value) => setState(() => _index = value),
       labelType: widget.labelType,
-      children: _barItems(),
+      children: _barItems(context),
     );
   }
 }
@@ -21865,19 +22507,26 @@ import 'package:<your_app>/ui/dashcn/foundation/icons/radix_icons.dart';
 import 'package:<your_app>/ui/dashcn/components/navigation_bar/navigation_bar.dart';
 
 /// Shared bar items for the horizontal examples.
-List<NavigationBarItem> _barItems() => <NavigationBarItem>[
-  const NavigationItem(label: Text('Home'), child: Icon(RadixIcons.home)),
-  const NavigationItem(
-    label: Text('Search'),
-    child: Icon(RadixIcons.magnifyingGlass),
-  ),
-  const NavigationItem(label: Text('Settings'), child: Icon(RadixIcons.gear)),
-  const NavigationItem(
-    label: Text('Disabled'),
-    enabled: false,
-    child: Icon(RadixIcons.person),
-  ),
-];
+List<NavigationBarItem> _barItems([BuildContext? context]) =>
+    <NavigationBarItem>[
+      NavigationItem(
+        label: Text('Home'),
+        child: const Icon(RadixIcons.home),
+      ),
+      NavigationItem(
+        label: Text('Search'),
+        child: const Icon(RadixIcons.magnifyingGlass),
+      ),
+      NavigationItem(
+        label: Text('Settings'),
+        child: const Icon(RadixIcons.gear),
+      ),
+      NavigationItem(
+        label: Text('Disabled'),
+        enabled: false,
+        child: const Icon(RadixIcons.person),
+      ),
+    ];
 
 /// An interactive horizontal bar; selection lives in this example's state.
 class _InteractiveBar extends StatefulWidget {
@@ -21898,7 +22547,7 @@ class _InteractiveBarState extends State<_InteractiveBar> {
       index: _index,
       onSelected: (int value) => setState(() => _index = value),
       labelType: widget.labelType,
-      children: _barItems(),
+      children: _barItems(context),
     );
   }
 }
@@ -21916,19 +22565,26 @@ import 'package:<your_app>/ui/dashcn/foundation/icons/radix_icons.dart';
 import 'package:<your_app>/ui/dashcn/components/navigation_bar/navigation_bar.dart';
 
 /// Shared bar items for the horizontal examples.
-List<NavigationBarItem> _barItems() => <NavigationBarItem>[
-  const NavigationItem(label: Text('Home'), child: Icon(RadixIcons.home)),
-  const NavigationItem(
-    label: Text('Search'),
-    child: Icon(RadixIcons.magnifyingGlass),
-  ),
-  const NavigationItem(label: Text('Settings'), child: Icon(RadixIcons.gear)),
-  const NavigationItem(
-    label: Text('Disabled'),
-    enabled: false,
-    child: Icon(RadixIcons.person),
-  ),
-];
+List<NavigationBarItem> _barItems([BuildContext? context]) =>
+    <NavigationBarItem>[
+      NavigationItem(
+        label: Text('Home'),
+        child: const Icon(RadixIcons.home),
+      ),
+      NavigationItem(
+        label: Text('Search'),
+        child: const Icon(RadixIcons.magnifyingGlass),
+      ),
+      NavigationItem(
+        label: Text('Settings'),
+        child: const Icon(RadixIcons.gear),
+      ),
+      NavigationItem(
+        label: Text('Disabled'),
+        enabled: false,
+        child: const Icon(RadixIcons.person),
+      ),
+    ];
 
 /// A bounded sidebar with a label, a divider and a grouped collapsible.
 class _SidebarDemo extends StatefulWidget {
@@ -21951,20 +22607,20 @@ class _SidebarDemoState extends State<_SidebarDemo> {
         index: _index,
         onSelected: (int value) => setState(() => _index = value),
         children: <NavigationBarItem>[
-          const NavigationLabel(child: Text('Main')),
-          ..._barItems(),
+          NavigationLabel(child: Text('Main')),
+          ..._barItems(context),
           const NavigationDivider(),
           NavigationGroup(
-            label: const Text('Account'),
+            label: Text('Account'),
             children: <Widget>[
               NavigationCollapsible(
-                label: const Text('Profile'),
+                label: Text('Profile'),
                 leading: const Icon(RadixIcons.person),
                 initialExpanded: true,
                 children: <Widget>[
                   NavigationItem(
                     index: 4,
-                    label: const Text('Details'),
+                    label: Text('Details'),
                     child: const Icon(RadixIcons.idCard),
                   ),
                   NavigationItem(
@@ -21999,7 +22655,7 @@ import 'package:<your_app>/ui/dashcn/components/button/button.dart';
 import 'package:<your_app>/ui/dashcn/components/navigation_menu/navigation_menu.dart';
 
 /// Featured tile for the Getting-started panel (upstream's gradient card).
-Widget _featuredTile(ThemeData theme) {
+Widget _featuredTile(ThemeData theme, [BuildContext? context]) {
   return Button(
     variant: ButtonVariant.ghost,
     onPressed: () {},
@@ -22018,7 +22674,9 @@ Widget _featuredTile(ThemeData theme) {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           const Text('dashcn').small().medium(),
-          const Text('Beautifully designed components').muted().small(),
+          Text(
+            'Beautifully designed components',
+          ).muted().small(),
         ],
       ),
     ),
@@ -22026,29 +22684,35 @@ Widget _featuredTile(ThemeData theme) {
 }
 
 /// Getting-started panel: featured tile plus three links.
-Widget _gettingStarted(ThemeData theme) {
+Widget _gettingStarted(ThemeData theme, [BuildContext? context]) {
   return Row(
     crossAxisAlignment: CrossAxisAlignment.start,
     children: <Widget>[
-      SizedBox(width: 200, child: _featuredTile(theme)),
+      SizedBox(width: 200, child: _featuredTile(theme, context)),
       const SizedBox(width: 12),
-      const Expanded(
+      Expanded(
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
             NavigationMenuContent(
               title: Text('Introduction'),
-              content: Text('Re-usable components for your apps'),
+              content: Text(
+                'Re-usable components for your apps',
+              ),
               onPressed: _noop,
             ),
             NavigationMenuContent(
               title: Text('Installation'),
-              content: Text('How to install dependencies and code'),
+              content: Text(
+                'How to install dependencies and code',
+              ),
               onPressed: _noop,
             ),
             NavigationMenuContent(
               title: Text('Typography'),
-              content: Text('Styles for headings and paragraphs'),
+              content: Text(
+                'Styles for headings and paragraphs',
+              ),
               onPressed: _noop,
             ),
           ],
@@ -22061,33 +22725,43 @@ Widget _gettingStarted(ThemeData theme) {
 void _noop() {}
 
 /// Components panel: two-column grid of six links.
-Widget _componentsGrid() {
-  return const NavigationMenuContentList(
+Widget _componentsGrid([BuildContext? context]) {
+  return NavigationMenuContentList(
     crossAxisCount: 2,
     children: <Widget>[
       NavigationMenuContent(
         title: Text('Alert Dialog'),
-        content: Text('A modal dialog that interrupts the user'),
+        content: Text(
+          'A modal dialog that interrupts the user',
+        ),
         onPressed: _noop,
       ),
       NavigationMenuContent(
         title: Text('Hover Card'),
-        content: Text('For sighted users to preview content'),
+        content: Text(
+          'For sighted users to preview content',
+        ),
         onPressed: _noop,
       ),
       NavigationMenuContent(
         title: Text('Progress'),
-        content: Text('Displays an indicator showing progress'),
+        content: Text(
+          'Displays an indicator showing progress',
+        ),
         onPressed: _noop,
       ),
       NavigationMenuContent(
         title: Text('Scroll Area'),
-        content: Text('Visually separates content into sections'),
+        content: Text(
+          'Visually separates content into sections',
+        ),
         onPressed: _noop,
       ),
       NavigationMenuContent(
         title: Text('Tabs'),
-        content: Text('A set of layered sections of content'),
+        content: Text(
+          'A set of layered sections of content',
+        ),
         onPressed: _noop,
       ),
       NavigationMenuContent(
@@ -22124,23 +22798,25 @@ class _DefaultBarState extends State<_DefaultBar> {
           child: NavigationMenu(
             children: <Widget>[
               NavigationMenuItem(
-                content: _gettingStarted(theme),
-                child: const Text('Getting started'),
+                content: _gettingStarted(theme, context),
+                child: Text('Getting started'),
               ),
               NavigationMenuItem(
-                content: _componentsGrid(),
-                child: const Text('Components'),
+                content: _componentsGrid(context),
+                child: Text('Components'),
               ),
               NavigationMenuItem(
-                onPressed: () => setState(() => _page = 'Documentation'),
-                child: const Text('Docs'),
+                onPressed: () => setState(
+                  () => _page = 'Documentation',
+                ),
+                child: Text('Docs'),
               ),
             ],
           ),
         ),
         Gap(theme.spacing.md),
         Text(
-          'Viewing $_page',
+          '${'Viewing '}${_page}',
           style: TextStyle(fontSize: 12, color: theme.colors.mutedForeground),
         ),
       ],
@@ -22166,7 +22842,7 @@ void _noop() {}
 
 /// A standalone two-column content list.
 Widget _contentList(BuildContext context) {
-  return const SizedBox(
+  return SizedBox(
     width: 360,
     child: NavigationMenuContentList(
       crossAxisCount: 2,
@@ -22212,7 +22888,7 @@ void _noop() {}
 
 /// A standalone list with leading icons.
 Widget _withIcons(BuildContext context) {
-  return const SizedBox(
+  return SizedBox(
     width: 300,
     child: NavigationMenuContentList(
       crossAxisCount: 1,
@@ -22335,33 +23011,53 @@ const double kSidebarPhoneWidth = kPhoneWidthBreakpoint;
 const double kSidebarFallbackHeight = 360.0;
 
 /// Sample navigation shared by the examples.
-List<SidebarSection> _sampleSections() => const <SidebarSection>[
-  SidebarSection(
-    label: 'Main',
-    items: <SidebarItem>[
-      SidebarItem(label: 'Dashboard', icon: LucideIcons.layoutDashboard),
-      SidebarItem(label: 'Documents', icon: LucideIcons.fileText, badge: '12'),
-      SidebarItem(label: 'Reports', icon: LucideIcons.chartBar),
-    ],
-  ),
-  SidebarSection(
-    label: 'Account',
-    items: <SidebarItem>[
-      SidebarItem(
-        label: 'Settings',
-        icon: LucideIcons.settings,
-        children: <SidebarItem>[
-          SidebarItem(label: 'Profile', icon: LucideIcons.circleUser),
-          SidebarItem(label: 'Billing', icon: LucideIcons.creditCard),
+List<SidebarSection> _sampleSections([BuildContext? context]) =>
+    <SidebarSection>[
+      SidebarSection(
+        label: 'Main',
+        items: <SidebarItem>[
+          SidebarItem(
+            label: 'Dashboard',
+            icon: LucideIcons.layoutDashboard,
+          ),
+          SidebarItem(
+            label: 'Documents',
+            icon: LucideIcons.fileText,
+            badge: '12',
+          ),
+          SidebarItem(
+            label: 'Reports',
+            icon: LucideIcons.chartBar,
+          ),
         ],
       ),
-      SidebarItem(label: 'Help', icon: LucideIcons.circleHelp),
-    ],
-  ),
-];
+      SidebarSection(
+        label: 'Account',
+        items: <SidebarItem>[
+          SidebarItem(
+            label: 'Settings',
+            icon: LucideIcons.settings,
+            children: <SidebarItem>[
+              SidebarItem(
+                label: 'Profile',
+                icon: LucideIcons.circleUser,
+              ),
+              SidebarItem(
+                label: 'Billing',
+                icon: LucideIcons.creditCard,
+              ),
+            ],
+          ),
+          SidebarItem(
+            label: 'Help',
+            icon: LucideIcons.circleHelp,
+          ),
+        ],
+      ),
+    ];
 
 /// The footer account shared by the examples.
-const SidebarUser _sampleUser = SidebarUser(
+SidebarUser _sampleUser = SidebarUser(
   name: 'Ibrar Ahmed',
   email: 'm@example.com',
 );
@@ -22404,7 +23100,7 @@ class _DemoContent extends StatelessWidget {
                 Gap(tokens.gap),
                 Expanded(
                   child: Text(
-                    'Card ${i + 1}',
+                    '${'Card'} ${i + 1}',
                     style: theme.typography.textSmall,
                   ),
                 ),
@@ -22488,7 +23184,7 @@ class _PhoneDemoState extends State<_PhoneDemo> {
       context: context,
       position: OverlayPosition.start,
       builder: (BuildContext drawerContext) => DashboardSidebar(
-        sections: _sampleSections(),
+        sections: _sampleSections(drawerContext),
         selectedId: widget.selected,
         onSelected: (String id) {
           widget.onSelected(id);
@@ -22605,7 +23301,7 @@ class _DashboardDemoState extends State<_DashboardDemo> {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: <Widget>[
               DashboardSidebar(
-                sections: _sampleSections(),
+                sections: _sampleSections(context),
                 selectedId: _selected,
                 onSelected: (String id) => setState(() => _selected = id),
                 collapsed: narrowStage ? true : _collapsed,
@@ -22654,7 +23350,7 @@ class _CollapsedDemoState extends State<_CollapsedDemo> {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: <Widget>[
               DashboardSidebar(
-                sections: _sampleSections(),
+                sections: _sampleSections(context),
                 selectedId: _selected,
                 onSelected: (String id) => setState(() => _selected = id),
                 collapsed: true,
@@ -22688,33 +23384,53 @@ import 'package:<your_app>/ui/dashcn/theme/theme.dart';
 import 'package:<your_app>/ui/dashcn/components/sidebar/sidebar.dart';
 
 /// Sample navigation shared by the examples.
-List<SidebarSection> _sampleSections() => const <SidebarSection>[
-  SidebarSection(
-    label: 'Main',
-    items: <SidebarItem>[
-      SidebarItem(label: 'Dashboard', icon: LucideIcons.layoutDashboard),
-      SidebarItem(label: 'Documents', icon: LucideIcons.fileText, badge: '12'),
-      SidebarItem(label: 'Reports', icon: LucideIcons.chartBar),
-    ],
-  ),
-  SidebarSection(
-    label: 'Account',
-    items: <SidebarItem>[
-      SidebarItem(
-        label: 'Settings',
-        icon: LucideIcons.settings,
-        children: <SidebarItem>[
-          SidebarItem(label: 'Profile', icon: LucideIcons.circleUser),
-          SidebarItem(label: 'Billing', icon: LucideIcons.creditCard),
+List<SidebarSection> _sampleSections([BuildContext? context]) =>
+    <SidebarSection>[
+      SidebarSection(
+        label: 'Main',
+        items: <SidebarItem>[
+          SidebarItem(
+            label: 'Dashboard',
+            icon: LucideIcons.layoutDashboard,
+          ),
+          SidebarItem(
+            label: 'Documents',
+            icon: LucideIcons.fileText,
+            badge: '12',
+          ),
+          SidebarItem(
+            label: 'Reports',
+            icon: LucideIcons.chartBar,
+          ),
         ],
       ),
-      SidebarItem(label: 'Help', icon: LucideIcons.circleHelp),
-    ],
-  ),
-];
+      SidebarSection(
+        label: 'Account',
+        items: <SidebarItem>[
+          SidebarItem(
+            label: 'Settings',
+            icon: LucideIcons.settings,
+            children: <SidebarItem>[
+              SidebarItem(
+                label: 'Profile',
+                icon: LucideIcons.circleUser,
+              ),
+              SidebarItem(
+                label: 'Billing',
+                icon: LucideIcons.creditCard,
+              ),
+            ],
+          ),
+          SidebarItem(
+            label: 'Help',
+            icon: LucideIcons.circleHelp,
+          ),
+        ],
+      ),
+    ];
 
 /// The footer account shared by the examples.
-const SidebarUser _sampleUser = SidebarUser(
+SidebarUser _sampleUser = SidebarUser(
   name: 'Ibrar Ahmed',
   email: 'm@example.com',
 );
@@ -22757,7 +23473,7 @@ class _DemoContent extends StatelessWidget {
                 Gap(tokens.gap),
                 Expanded(
                   child: Text(
-                    'Card ${i + 1}',
+                    '${'Card'} ${i + 1}',
                     style: theme.typography.textSmall,
                   ),
                 ),
@@ -22841,7 +23557,7 @@ class _PhoneDemoState extends State<_PhoneDemo> {
       context: context,
       position: OverlayPosition.start,
       builder: (BuildContext drawerContext) => DashboardSidebar(
-        sections: _sampleSections(),
+        sections: _sampleSections(drawerContext),
         selectedId: widget.selected,
         onSelected: (String id) {
           widget.onSelected(id);
@@ -22982,33 +23698,53 @@ const double kSidebarPhoneWidth = kPhoneWidthBreakpoint;
 const double kSidebarFallbackHeight = 360.0;
 
 /// Sample navigation shared by the examples.
-List<SidebarSection> _sampleSections() => const <SidebarSection>[
-  SidebarSection(
-    label: 'Main',
-    items: <SidebarItem>[
-      SidebarItem(label: 'Dashboard', icon: LucideIcons.layoutDashboard),
-      SidebarItem(label: 'Documents', icon: LucideIcons.fileText, badge: '12'),
-      SidebarItem(label: 'Reports', icon: LucideIcons.chartBar),
-    ],
-  ),
-  SidebarSection(
-    label: 'Account',
-    items: <SidebarItem>[
-      SidebarItem(
-        label: 'Settings',
-        icon: LucideIcons.settings,
-        children: <SidebarItem>[
-          SidebarItem(label: 'Profile', icon: LucideIcons.circleUser),
-          SidebarItem(label: 'Billing', icon: LucideIcons.creditCard),
+List<SidebarSection> _sampleSections([BuildContext? context]) =>
+    <SidebarSection>[
+      SidebarSection(
+        label: 'Main',
+        items: <SidebarItem>[
+          SidebarItem(
+            label: 'Dashboard',
+            icon: LucideIcons.layoutDashboard,
+          ),
+          SidebarItem(
+            label: 'Documents',
+            icon: LucideIcons.fileText,
+            badge: '12',
+          ),
+          SidebarItem(
+            label: 'Reports',
+            icon: LucideIcons.chartBar,
+          ),
         ],
       ),
-      SidebarItem(label: 'Help', icon: LucideIcons.circleHelp),
-    ],
-  ),
-];
+      SidebarSection(
+        label: 'Account',
+        items: <SidebarItem>[
+          SidebarItem(
+            label: 'Settings',
+            icon: LucideIcons.settings,
+            children: <SidebarItem>[
+              SidebarItem(
+                label: 'Profile',
+                icon: LucideIcons.circleUser,
+              ),
+              SidebarItem(
+                label: 'Billing',
+                icon: LucideIcons.creditCard,
+              ),
+            ],
+          ),
+          SidebarItem(
+            label: 'Help',
+            icon: LucideIcons.circleHelp,
+          ),
+        ],
+      ),
+    ];
 
 /// The footer account shared by the examples.
-const SidebarUser _sampleUser = SidebarUser(
+SidebarUser _sampleUser = SidebarUser(
   name: 'Ibrar Ahmed',
   email: 'm@example.com',
 );
@@ -23051,7 +23787,7 @@ class _DemoContent extends StatelessWidget {
                 Gap(tokens.gap),
                 Expanded(
                   child: Text(
-                    'Card ${i + 1}',
+                    '${'Card'} ${i + 1}',
                     style: theme.typography.textSmall,
                   ),
                 ),
@@ -23147,7 +23883,7 @@ class _CollapsedDemoState extends State<_CollapsedDemo> {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: <Widget>[
               DashboardSidebar(
-                sections: _sampleSections(),
+                sections: _sampleSections(context),
                 selectedId: _selected,
                 onSelected: (String id) => setState(() => _selected = id),
                 collapsed: true,
@@ -23176,10 +23912,19 @@ import 'package:<your_app>/ui/dashcn/foundation/gap.dart';
 import 'package:<your_app>/ui/dashcn/theme/theme.dart';
 import 'package:<your_app>/ui/dashcn/components/stepper/stepper.dart';
 
-List<StepperStep> _steps() => const <StepperStep>[
-  StepperStep(title: Text('Account'), content: Text('Email, password')),
-  StepperStep(title: Text('Profile'), content: Text('Name, avatar')),
-  StepperStep(title: Text('Payment'), content: Text('Card, invoice')),
+List<StepperStep> _steps([BuildContext? context]) => <StepperStep>[
+  StepperStep(
+    title: Text('Account'),
+    content: Text('Email, password'),
+  ),
+  StepperStep(
+    title: Text('Profile'),
+    content: Text('Name, avatar'),
+  ),
+  StepperStep(
+    title: Text('Payment'),
+    content: Text('Card, invoice'),
+  ),
 ];
 
 /// A stepper that moves when a step is activated; owns its index.
@@ -23201,7 +23946,7 @@ class _InteractiveStepperState extends State<_InteractiveStepper> {
       currentStep: _current,
       onStepChanged: (int index) => setState(() => _current = index),
       direction: widget.direction,
-      steps: _steps(),
+      steps: _steps(context),
     );
   }
 }
@@ -23218,10 +23963,19 @@ import 'package:<your_app>/ui/dashcn/foundation/gap.dart';
 import 'package:<your_app>/ui/dashcn/theme/theme.dart';
 import 'package:<your_app>/ui/dashcn/components/stepper/stepper.dart';
 
-List<StepperStep> _steps() => const <StepperStep>[
-  StepperStep(title: Text('Account'), content: Text('Email, password')),
-  StepperStep(title: Text('Profile'), content: Text('Name, avatar')),
-  StepperStep(title: Text('Payment'), content: Text('Card, invoice')),
+List<StepperStep> _steps([BuildContext? context]) => <StepperStep>[
+  StepperStep(
+    title: Text('Account'),
+    content: Text('Email, password'),
+  ),
+  StepperStep(
+    title: Text('Profile'),
+    content: Text('Name, avatar'),
+  ),
+  StepperStep(
+    title: Text('Payment'),
+    content: Text('Card, invoice'),
+  ),
 ];
 
 /// A stepper that moves when a step is activated; owns its index.
@@ -23243,7 +23997,7 @@ class _InteractiveStepperState extends State<_InteractiveStepper> {
       currentStep: _current,
       onStepChanged: (int index) => setState(() => _current = index),
       direction: widget.direction,
-      steps: _steps(),
+      steps: _steps(context),
     );
   }
 }
@@ -23262,10 +24016,19 @@ import 'package:<your_app>/ui/dashcn/foundation/gap.dart';
 import 'package:<your_app>/ui/dashcn/theme/theme.dart';
 import 'package:<your_app>/ui/dashcn/components/stepper/stepper.dart';
 
-List<StepperStep> _steps() => const <StepperStep>[
-  StepperStep(title: Text('Account'), content: Text('Email, password')),
-  StepperStep(title: Text('Profile'), content: Text('Name, avatar')),
-  StepperStep(title: Text('Payment'), content: Text('Card, invoice')),
+List<StepperStep> _steps([BuildContext? context]) => <StepperStep>[
+  StepperStep(
+    title: Text('Account'),
+    content: Text('Email, password'),
+  ),
+  StepperStep(
+    title: Text('Profile'),
+    content: Text('Name, avatar'),
+  ),
+  StepperStep(
+    title: Text('Payment'),
+    content: Text('Card, invoice'),
+  ),
 ];
 
 /// The three indicator sizes, each one tappable and reporting its step.
@@ -23294,7 +24057,7 @@ class _SizesStepperState extends State<_SizesStepper> {
           Stepper(
             currentStep: _current,
             size: size,
-            steps: _steps(),
+            steps: _steps(context),
             onStepChanged: (int index) => setState(() {
               _current = index;
               _last = '${size.name} step ${index + 1}';
@@ -23319,10 +24082,19 @@ import 'package:<your_app>/ui/dashcn/foundation/gap.dart';
 import 'package:<your_app>/ui/dashcn/theme/theme.dart';
 import 'package:<your_app>/ui/dashcn/components/stepper/stepper.dart';
 
-List<StepperStep> _steps() => const <StepperStep>[
-  StepperStep(title: Text('Account'), content: Text('Email, password')),
-  StepperStep(title: Text('Profile'), content: Text('Name, avatar')),
-  StepperStep(title: Text('Payment'), content: Text('Card, invoice')),
+List<StepperStep> _steps([BuildContext? context]) => <StepperStep>[
+  StepperStep(
+    title: Text('Account'),
+    content: Text('Email, password'),
+  ),
+  StepperStep(
+    title: Text('Profile'),
+    content: Text('Name, avatar'),
+  ),
+  StepperStep(
+    title: Text('Payment'),
+    content: Text('Card, invoice'),
+  ),
 ];
 
 /// A controller-driven stepper with the first step flagged as failed.
@@ -23350,7 +24122,7 @@ class _FailedStepperState extends State<_FailedStepper> {
 
   @override
   Widget build(BuildContext context) {
-    return Stepper(controller: _controller, steps: _steps());
+    return Stepper(controller: _controller, steps: _steps(context));
   }
 }
 
@@ -23381,7 +24153,7 @@ class _InteractiveTabsState extends State<_InteractiveTabs> {
     return Tabs(
       index: _index,
       onChanged: (int index) => setState(() => _index = index),
-      children: const <TabItem>[
+      children: <TabItem>[
         TabItem(child: Text('Account')),
         TabItem(child: Text('Password')),
         TabItem(child: Text('Settings')),
@@ -23408,7 +24180,7 @@ import 'package:<your_app>/ui/dashcn/components/tabs/tabs.dart';
 
 /// Strip with no callback, so every tab is disabled.
 Widget _disabled(BuildContext context) {
-  return const Tabs(
+  return Tabs(
     index: 0,
     children: <TabItem>[
       TabItem(child: Text('Account')),
@@ -23454,8 +24226,8 @@ class _PaneDemoState extends State<_PaneDemo> {
         itemBuilder:
             (BuildContext context, TabPaneData<String> item, int index) =>
                 Text(item.data, overflow: TextOverflow.ellipsis),
-        child: const Padding(
-          padding: EdgeInsets.all(12),
+        child: Padding(
+          padding: const EdgeInsets.all(12),
           child: Text('Editor content'),
         ),
       ),
@@ -23501,9 +24273,11 @@ Widget _default(BuildContext context) => Center(
           isDestructive: true,
         ),
       ],
-      cancelAction: const ActionSheetAction<void>(label: 'Cancel'),
+      cancelAction: ActionSheetAction<void>(
+        label: 'Cancel',
+      ),
     ),
-    child: const Text('Open action sheet'),
+    child: Text('Open action sheet'),
   ),
 );
 ''',
@@ -23533,9 +24307,11 @@ Widget _destructive(BuildContext context) => Center(
           isDestructive: true,
         ),
       ],
-      cancelAction: const ActionSheetAction<void>(label: 'Cancel'),
+      cancelAction: ActionSheetAction<void>(
+        label: 'Cancel',
+      ),
     ),
-    child: const Text('Delete item'),
+    child: Text('Delete item'),
   ),
 );
 ''',
@@ -23561,9 +24337,11 @@ Widget _long(BuildContext context) => Center(
         12,
         (int i) => ActionSheetAction<void>(label: 'Action ${i + 1}'),
       ),
-      cancelAction: const ActionSheetAction<void>(label: 'Cancel'),
+      cancelAction: ActionSheetAction<void>(
+        label: 'Cancel',
+      ),
     ),
-    child: const Text('Many actions'),
+    child: Text('Many actions'),
   ),
 );
 ''',
@@ -23582,11 +24360,17 @@ Widget _compact(BuildContext context) => ActionSheet<void>(
   densityTokens: DensityTokens.compact,
   title: 'Compact (default)',
   message: 'Row 40, icon 16, padding 12/6',
-  actions: const <ActionSheetAction<void>>[
-    ActionSheetAction<void>(label: 'Edit', icon: Icon(LucideIcons.pencil)),
-    ActionSheetAction<void>(label: 'Share', icon: Icon(LucideIcons.share)),
+  actions: <ActionSheetAction<void>>[
+    ActionSheetAction<void>(
+      label: 'Edit',
+      icon: Icon(LucideIcons.pencil),
+    ),
+    ActionSheetAction<void>(
+      label: 'Share',
+      icon: Icon(LucideIcons.share),
+    ),
   ],
-  cancelAction: const ActionSheetAction<void>(label: 'Cancel'),
+  cancelAction: ActionSheetAction<void>(label: 'Cancel'),
 );
 ''',
     ),
@@ -23604,11 +24388,17 @@ Widget _comfortable(BuildContext context) => ActionSheet<void>(
   densityTokens: DensityTokens.comfortable,
   title: 'Comfortable',
   message: 'Row 40-44, icon 20, padding 14/8',
-  actions: const <ActionSheetAction<void>>[
-    ActionSheetAction<void>(label: 'Edit', icon: Icon(LucideIcons.pencil)),
-    ActionSheetAction<void>(label: 'Share', icon: Icon(LucideIcons.share)),
+  actions: <ActionSheetAction<void>>[
+    ActionSheetAction<void>(
+      label: 'Edit',
+      icon: Icon(LucideIcons.pencil),
+    ),
+    ActionSheetAction<void>(
+      label: 'Share',
+      icon: Icon(LucideIcons.share),
+    ),
   ],
-  cancelAction: const ActionSheetAction<void>(label: 'Cancel'),
+  cancelAction: ActionSheetAction<void>(label: 'Cancel'),
 );
 ''',
     ),
@@ -23629,13 +24419,15 @@ Widget _customized(BuildContext context) => Center(
     onPressed: () => showActionSheet<void>(
       context: context,
       title: 'Customized',
-      actions: const <ActionSheetAction<void>>[
+      actions: <ActionSheetAction<void>>[
         ActionSheetAction<void>(label: 'Do it'),
       ],
       theme: const ActionSheetTheme(),
-      cancelAction: const ActionSheetAction<void>(label: 'Dismiss'),
+      cancelAction: ActionSheetAction<void>(
+        label: 'Dismiss',
+      ),
     ),
-    child: const Text('Customized'),
+    child: Text('Customized'),
   ),
 );
 ''',
@@ -23670,11 +24462,17 @@ Widget _builders(BuildContext context) => ActionSheet<void>(
         ),
         child: row,
       ),
-  actions: const <ActionSheetAction<void>>[
-    ActionSheetAction<void>(label: 'Edit', icon: Icon(LucideIcons.pencil)),
-    ActionSheetAction<void>(label: 'Delete', isDestructive: true),
+  actions: <ActionSheetAction<void>>[
+    ActionSheetAction<void>(
+      label: 'Edit',
+      icon: Icon(LucideIcons.pencil),
+    ),
+    ActionSheetAction<void>(
+      label: 'Delete',
+      isDestructive: true,
+    ),
   ],
-  cancelAction: const ActionSheetAction<void>(label: 'Cancel'),
+  cancelAction: ActionSheetAction<void>(label: 'Cancel'),
 );
 ''',
     ),
@@ -23691,11 +24489,17 @@ import 'package:<your_app>/ui/dashcn/components/action_sheet/action_sheet_show.d
 Widget _inline(BuildContext context) => ActionSheet<void>(
   title: 'Inline sheet',
   message: 'Embedded directly into a layout',
-  actions: const <ActionSheetAction<void>>[
-    ActionSheetAction<void>(label: 'Edit', icon: Icon(LucideIcons.pencil)),
-    ActionSheetAction<void>(label: 'Share', icon: Icon(LucideIcons.share)),
+  actions: <ActionSheetAction<void>>[
+    ActionSheetAction<void>(
+      label: 'Edit',
+      icon: Icon(LucideIcons.pencil),
+    ),
+    ActionSheetAction<void>(
+      label: 'Share',
+      icon: Icon(LucideIcons.share),
+    ),
   ],
-  cancelAction: const ActionSheetAction<void>(label: 'Cancel'),
+  cancelAction: ActionSheetAction<void>(label: 'Cancel'),
 );
 ''',
     ),
@@ -23743,7 +24547,7 @@ List<Widget> _confirmActions(
       size: ButtonSize.sm,
       variant: ButtonVariant.outline,
       onPressed: () => Navigator.of(dialogContext).pop(false),
-      child: const Text('Cancel'),
+      child: Text('Cancel'),
     ),
     Button(
       size: ButtonSize.sm,
@@ -23760,10 +24564,9 @@ Widget _deleteAccount(BuildContext context) => _Trigger(
   onPressed: () => showAlertDialog<bool>(
     context: context,
     icon: const Icon(LucideIcons.circleAlert),
-    title: const Text('Delete your account?'),
-    description: const Text(
-      'This permanently deletes your account and all of its data. '
-      'This action cannot be undone.',
+    title: Text('Delete your account?'),
+    description: Text(
+      'This permanently deletes your account and all of its data. This action cannot be undone.',
     ),
     actionsBuilder: (BuildContext dialogContext) => _confirmActions(
       dialogContext,
@@ -23816,7 +24619,7 @@ List<Widget> _confirmActions(
       size: ButtonSize.sm,
       variant: ButtonVariant.outline,
       onPressed: () => Navigator.of(dialogContext).pop(false),
-      child: const Text('Cancel'),
+      child: Text('Cancel'),
     ),
     Button(
       size: ButtonSize.sm,
@@ -23833,10 +24636,9 @@ Widget _discardChanges(BuildContext context) => _Trigger(
   onPressed: () => showAlertDialog<bool>(
     context: context,
     icon: const Icon(LucideIcons.triangleAlert),
-    title: const Text('Discard unsaved changes?'),
-    description: const Text(
-      'You have unsaved changes to this document. '
-      'Leaving now will lose them.',
+    title: Text('Discard unsaved changes?'),
+    description: Text(
+      'You have unsaved changes to this document. Leaving now will lose them.',
     ),
     actionsBuilder: (BuildContext dialogContext) => _confirmActions(
       dialogContext,
@@ -23922,20 +24724,20 @@ Widget _sessionExpiring(BuildContext context) => _Trigger(
   onPressed: () => showAlertDialog<bool>(
     context: context,
     icon: const Icon(LucideIcons.clock),
-    title: const Text('Session expiring'),
+    title: Text('Session expiring'),
     description: const _SessionCountdown(),
     actionsBuilder: (BuildContext dialogContext) => <Widget>[
       Button(
         size: ButtonSize.sm,
         variant: ButtonVariant.outline,
         onPressed: () => Navigator.of(dialogContext).pop(false),
-        child: const Text('Sign out'),
+        child: Text('Sign out'),
       ),
       Button(
         size: ButtonSize.sm,
         variant: ButtonVariant.primary,
         onPressed: () => Navigator.of(dialogContext).pop(true),
-        child: const Text('Stay signed in'),
+        child: Text('Stay signed in'),
       ),
     ],
   ),
@@ -23977,8 +24779,8 @@ Widget _success(BuildContext context) => _Trigger(
   onPressed: () => showAlertDialog<bool>(
     context: context,
     icon: const Icon(LucideIcons.circleCheck),
-    title: const Text('Payment successful'),
-    description: const Text(
+    title: Text('Payment successful'),
+    description: Text(
       'Your subscription is active. A receipt was sent to your inbox.',
     ),
     actionsBuilder: (BuildContext dialogContext) => <Widget>[
@@ -23986,7 +24788,7 @@ Widget _success(BuildContext context) => _Trigger(
         size: ButtonSize.sm,
         variant: ButtonVariant.primary,
         onPressed: () => Navigator.of(dialogContext).pop(true),
-        child: const Text('Done'),
+        child: Text('Done'),
       ),
     ],
   ),
@@ -24013,25 +24815,24 @@ class _LivePush extends StatelessWidget {
         onPressed: () => showAlertDialog<bool>(
           context: context,
           icon: const Icon(LucideIcons.triangleAlert),
-          title: const Text('Delete this project?'),
-          description: const Text(
-            'This action cannot be undone. The project and its history is '
-            'removed.',
+          title: Text('Delete this project?'),
+          description: Text(
+            'This action cannot be undone. The project and its history is removed.',
           ),
           actionsBuilder: (BuildContext dialogContext) => <Widget>[
             Button(
               variant: ButtonVariant.outline,
               onPressed: () => Navigator.of(dialogContext).pop(false),
-              child: const Text('Cancel'),
+              child: Text('Cancel'),
             ),
             Button(
               variant: ButtonVariant.destructive,
               onPressed: () => Navigator.of(dialogContext).pop(true),
-              child: const Text('Delete'),
+              child: Text('Delete'),
             ),
           ],
         ),
-        child: const Text('Show alert dialog'),
+        child: Text('Show alert dialog'),
       ),
     );
   }
@@ -24124,21 +24925,27 @@ class _EditProfileBodyState extends State<_EditProfileBody> {
       children: <Widget>[
         _title(context, 'Edit profile'),
         Gap(gap),
-        Input(controller: _name, placeholder: const Text('Name')),
+        Input(
+          controller: _name,
+          placeholder: Text('Name'),
+        ),
         Gap(gap),
-        Input(controller: _user, placeholder: const Text('Username')),
+        Input(
+          controller: _user,
+          placeholder: Text('Username'),
+        ),
         Gap(gap * 2),
         _actions(context, <Widget>[
           Button(
             variant: ButtonVariant.outline,
             size: ButtonSize.sm,
             onPressed: () => Navigator.of(context).pop(false),
-            child: const Text('Cancel'),
+            child: Text('Cancel'),
           ),
           Button(
             size: ButtonSize.sm,
             onPressed: () => Navigator.of(context).pop(true),
-            child: const Text('Save'),
+            child: Text('Save'),
           ),
         ]),
       ],
@@ -24257,13 +25064,17 @@ class _ShareBodyState extends State<_ShareBody> {
             padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
             child: Row(
               children: <Widget>[
-                const Flexible(child: Text('example.com/s/abc123')),
+                Flexible(child: Text('example.com/s/abc123')),
                 Gap(gap),
                 Button(
                   variant: ButtonVariant.secondary,
                   size: ButtonSize.sm,
                   onPressed: _copy,
-                  child: Text(_copied ? 'Copied!' : 'Copy'),
+                  child: Text(
+                    _copied
+                        ? 'Copied!'
+                        : 'Copy',
+                  ),
                 ),
               ],
             ),
@@ -24275,7 +25086,7 @@ class _ShareBodyState extends State<_ShareBody> {
             variant: ButtonVariant.outline,
             size: ButtonSize.sm,
             onPressed: () => Navigator.of(context).pop(),
-            child: const Text('Close'),
+            child: Text('Close'),
           ),
         ]),
       ],
@@ -24374,7 +25185,10 @@ class _InviteBodyState extends State<_InviteBody> {
         Row(
           children: <Widget>[
             Flexible(
-              child: Input(controller: _email, hintText: 'Email'),
+              child: Input(
+                controller: _email,
+                hintText: 'Email',
+              ),
             ),
             Gap(gap),
             Button(
@@ -24387,7 +25201,7 @@ class _InviteBodyState extends State<_InviteBody> {
                   _email.clear();
                 });
               },
-              child: const Text('Invite'),
+              child: Text('Invite'),
             ),
           ],
         ),
@@ -24399,7 +25213,7 @@ class _InviteBodyState extends State<_InviteBody> {
             variant: ButtonVariant.outline,
             size: ButtonSize.sm,
             onPressed: () => Navigator.of(context).pop(),
-            child: const Text('Done'),
+            child: Text('Done'),
           ),
         ]),
       ],
@@ -24490,8 +25304,7 @@ Widget _termsBody(BuildContext context) {
         child: SingleChildScrollView(
           child: _body(
             context,
-            '1. Be kind.\n\n2. Ship working software.\n\n'
-            '3. Respect the theme tokens.\n\n4. Prefer composition.\n\n'
+            '1. Be kind.\n\n2. Ship working software.\n\n3. Respect the theme tokens.\n\n4. Prefer composition.\n\n'
             '5. Test what you ship.\n\n6. Document the contract.',
           ),
         ),
@@ -24502,12 +25315,12 @@ Widget _termsBody(BuildContext context) {
           variant: ButtonVariant.outline,
           size: ButtonSize.sm,
           onPressed: () => Navigator.of(context).pop(false),
-          child: const Text('Decline'),
+          child: Text('Decline'),
         ),
         Button(
           size: ButtonSize.sm,
           onPressed: () => Navigator.of(context).pop(true),
-          child: const Text('Accept'),
+          child: Text('Accept'),
         ),
       ]),
     ],
@@ -24587,7 +25400,7 @@ class _PickerBodyState extends State<_PickerBody> {
   final TextEditingController _query = TextEditingController();
   String _filter = '';
 
-  static const List<String> _items = <String>[
+  static final List<String> _items = <String>[
     'Calendar',
     'Search Emoji',
     'Calculator',
@@ -24620,7 +25433,10 @@ class _PickerBodyState extends State<_PickerBody> {
       children: <Widget>[
         _title(context, 'Jump to…'),
         Gap(gap),
-        Input(controller: _query, hintText: 'Type to filter'),
+        Input(
+          controller: _query,
+          hintText: 'Type to filter',
+        ),
         Gap(gap),
         for (final String item in shown)
           Button(
@@ -24718,8 +25534,7 @@ Widget _lockedBody(BuildContext context) {
       Gap(gap),
       _body(
         context,
-        'The barrier is locked: tap outside or press Escape does nothing. '
-        'Use Cancel or Delete to leave.',
+        'The barrier is locked: tap outside or press Escape does nothing. Use Cancel or Delete to leave.',
       ),
       Gap(gap * 2),
       _actions(context, <Widget>[
@@ -24727,13 +25542,13 @@ Widget _lockedBody(BuildContext context) {
           variant: ButtonVariant.outline,
           size: ButtonSize.sm,
           onPressed: () => Navigator.of(context).pop(false),
-          child: const Text('Cancel'),
+          child: Text('Cancel'),
         ),
         Button(
           variant: ButtonVariant.destructive,
           size: ButtonSize.sm,
           onPressed: () => Navigator.of(context).pop(true),
-          child: const Text('Delete'),
+          child: Text('Delete'),
         ),
       ]),
     ],
@@ -24790,7 +25605,7 @@ class _DrawerContent extends StatelessWidget {
         Button(
           size: ButtonSize.sm,
           onPressed: () => closeDrawer(context),
-          child: const Text('Close'),
+          child: Text('Close'),
         ),
       ],
     );
@@ -24827,11 +25642,23 @@ Widget _default(BuildContext context) {
       spacing: spacing.sm,
       runSpacing: spacing.sm,
       alignment: WrapAlignment.center,
-      children: const <Widget>[
-        _DrawerTrigger(position: OverlayPosition.start, label: 'Open left'),
-        _DrawerTrigger(position: OverlayPosition.end, label: 'Open right'),
-        _DrawerTrigger(position: OverlayPosition.top, label: 'Open top'),
-        _DrawerTrigger(position: OverlayPosition.bottom, label: 'Open bottom'),
+      children: <Widget>[
+        _DrawerTrigger(
+          position: OverlayPosition.start,
+          label: 'Open left',
+        ),
+        _DrawerTrigger(
+          position: OverlayPosition.end,
+          label: 'Open right',
+        ),
+        _DrawerTrigger(
+          position: OverlayPosition.top,
+          label: 'Open top',
+        ),
+        _DrawerTrigger(
+          position: OverlayPosition.bottom,
+          label: 'Open bottom',
+        ),
       ],
     ),
   );
@@ -24877,7 +25704,7 @@ class _SheetContent extends StatelessWidget {
           variant: ButtonVariant.outline,
           size: ButtonSize.sm,
           onPressed: () => closeSheet(context),
-          child: const Text('Close'),
+          child: Text('Close'),
         ),
       ],
     );
@@ -24895,7 +25722,7 @@ Widget _sheet(BuildContext context) {
         draggable: true,
         builder: (BuildContext context) => const _SheetContent(),
       ),
-      child: const Text('Open sheet'),
+      child: Text('Open sheet'),
     ),
   );
 }
@@ -24939,7 +25766,7 @@ class _DrawerContent extends StatelessWidget {
         Button(
           size: ButtonSize.sm,
           onPressed: () => closeDrawer(context),
-          child: const Text('Close'),
+          child: Text('Close'),
         ),
       ],
     );
@@ -25002,7 +25829,9 @@ class _ScaleDemoState extends State<_ScaleDemo> {
                                   useRootNavigator: false,
                                   builder: (_) => const _DrawerContent(),
                                 ),
-                                child: const Text('Open scaled drawer'),
+                                child: Text(
+                                  'Open scaled drawer',
+                                ),
                               ),
                             ),
                           ),
@@ -25059,7 +25888,7 @@ class _DrawerContent extends StatelessWidget {
         Button(
           size: ButtonSize.sm,
           onPressed: () => closeDrawer(context),
-          child: const Text('Close'),
+          child: Text('Close'),
         ),
       ],
     );
@@ -25080,7 +25909,7 @@ Widget _themed(BuildContext context) {
         ),
         builder: (BuildContext context) => const _DrawerContent(),
       ),
-      child: const Text('Open themed drawer'),
+      child: Text('Open themed drawer'),
     ),
   );
 }
@@ -25226,7 +26055,10 @@ class _PlaygroundState extends State<_Playground> {
         description: description,
         state: state,
         action: state == GooeyToastState.action
-            ? GooeyToastAction(label: 'Confirm', onPressed: () {})
+            ? GooeyToastAction(
+                label: 'Confirm',
+                onPressed: () {},
+              )
             : null,
       ),
     );
@@ -25350,14 +26182,26 @@ class _PlaygroundState extends State<_Playground> {
 }
 
 (String, String) _copy(GooeyToastState state) => switch (state) {
-  GooeyToastState.success => ('Success', 'Workspace settings were saved.'),
-  GooeyToastState.loading => ('Processing', 'Please wait while we process.'),
-  GooeyToastState.error => ('Error', 'Failed to sync your workspace.'),
+  GooeyToastState.success => (
+    'Success',
+    'Workspace settings were saved.',
+  ),
+  GooeyToastState.loading => (
+    'Processing',
+    'Please wait while we process.',
+  ),
+  GooeyToastState.error => (
+    'Error',
+    'Failed to sync your workspace.',
+  ),
   GooeyToastState.warning => (
     'Storage Warning',
     'You are running out of storage space.',
   ),
-  GooeyToastState.info => ('Heads up', 'A new update is available.'),
+  GooeyToastState.info => (
+    'Heads up',
+    'A new update is available.',
+  ),
   GooeyToastState.action => (
     'Action Required',
     'Review and confirm this request.',
@@ -25526,7 +26370,11 @@ class _PromiseDemoState extends State<_PromiseDemo> {
           variant: ButtonVariant.outline,
           size: ButtonSize.sm,
           onPressed: _running ? null : _run,
-          child: Text(_running ? 'Uploading…' : 'Start upload'),
+          child: Text(
+            _running
+                ? 'Uploading…'
+                : 'Start upload',
+          ),
         ),
       ),
     );
@@ -25687,7 +26535,7 @@ class _ReplyDemoState extends State<_ReplyDemo> {
           variant: ButtonVariant.outline,
           size: ButtonSize.sm,
           onPressed: _show,
-          child: const Text('Interactive Reply Demo'),
+          child: Text('Interactive Reply Demo'),
         ),
       ),
     );
@@ -25728,7 +26576,7 @@ class _ReplyFormState extends State<_ReplyForm> {
       children: <Widget>[
         Input(
           controller: _controller,
-          placeholder: const Text('Type your reply...'),
+          placeholder: Text('Type your reply...'),
           minLines: 2,
           maxLines: 3,
           onSubmitted: (_) => _submit(),
@@ -25738,7 +26586,7 @@ class _ReplyFormState extends State<_ReplyForm> {
           variant: ButtonVariant.primary,
           size: ButtonSize.sm,
           onPressed: _submit,
-          child: const Text('Send Reply'),
+          child: Text('Send Reply'),
         ),
       ],
     );
@@ -25765,7 +26613,7 @@ Widget _card(BuildContext context) {
     mainAxisSize: MainAxisSize.min,
     crossAxisAlignment: CrossAxisAlignment.start,
     children: <Widget>[
-      const Text('@dashcn'),
+      Text('@dashcn'),
       Gap(theme.spacing.xs),
       Text(
         'Beautifully designed components.',
@@ -25777,7 +26625,7 @@ Widget _card(BuildContext context) {
 
 /// The default card after the hover delay.
 Widget _default(BuildContext context) {
-  return HoverCard(hoverBuilder: _card, child: const Text('@dashcn'));
+  return HoverCard(hoverBuilder: _card, child: Text('@dashcn'));
 }
 ''',
     ),
@@ -25797,7 +26645,7 @@ Widget _richContent(BuildContext context) {
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
-        const Text('@dashcn'),
+        Text('@dashcn'),
         Gap(theme.spacing.xs),
         Text(
           'Beautifully designed components that you can copy and paste.',
@@ -25810,7 +26658,7 @@ Widget _richContent(BuildContext context) {
         ),
       ],
     ),
-    child: const Text('@dashcn (rich)'),
+    child: Text('@dashcn (rich)'),
   );
 }
 ''',
@@ -26120,7 +26968,7 @@ class _ProfileCard extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisSize: MainAxisSize.min,
       children: <Widget>[
-        const Padding(
+        Padding(
           padding: EdgeInsets.all(8),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -26177,7 +27025,7 @@ class _ProfileCard extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisSize: MainAxisSize.min,
       children: <Widget>[
-        const Padding(
+        Padding(
           padding: EdgeInsets.all(8),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -26218,7 +27066,7 @@ class _AnchoredDemo extends StatelessWidget {
         context: context,
         builder: (BuildContext context) => const _ProfileCard(),
       ),
-      child: const Text('Show popup'),
+      child: Text('Show popup'),
     );
   }
 }
@@ -26246,7 +27094,7 @@ class _ProfileCard extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisSize: MainAxisSize.min,
       children: <Widget>[
-        const Padding(
+        Padding(
           padding: EdgeInsets.all(8),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -26493,8 +27341,11 @@ Widget _rich(BuildContext context) {
     tooltip: (BuildContext context) => Column(
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.start,
-      children: const <Widget>[
-        Text('Deployment', style: TextStyle(fontWeight: FontWeight.w600)),
+      children: <Widget>[
+        Text(
+          'Deployment',
+          style: const TextStyle(fontWeight: FontWeight.w600),
+        ),
         Text('Ships when the checks pass.'),
       ],
     ),
@@ -26526,7 +27377,7 @@ import 'package:<your_app>/ui/dashcn/components/tooltip/tooltip.dart';
 
 /// The container on its own, without hover behaviour.
 Widget _container(BuildContext context) {
-  return const TooltipContainer(child: Text('Primary surface'));
+  return TooltipContainer(child: Text('Primary surface'));
 }
 ''',
     ),
@@ -27328,7 +28179,7 @@ class _CodeSnippetWithActionsState extends State<_CodeSnippetWithActions> {
                 onPressed: () => setState(() => _status = 'running'),
               ),
             ],
-            code: const Text('flutter run -d chrome'),
+            code: Text('flutter run -d chrome'),
           ),
         ),
         Gap(spacing.sm),
@@ -27399,11 +28250,11 @@ class _CodeSnippetLanguages extends StatefulWidget {
 class _CodeSnippetLanguagesState extends State<_CodeSnippetLanguages> {
   int _selected = 0;
 
-  static const List<({String label, String lang, String code})> _samples = [
+  static final List<({String label, String lang, String code})> _samples = [
     (
       label: 'Dart',
       lang: 'dart',
-      code: 'void main() {\n  runApp(const MyApp());\n}',
+      code: 'void main() {\n  runApp(MyApp());\n}',
     ),
     (
       label: 'JSON',
@@ -27557,7 +28408,9 @@ Widget _codeSnippetCustomized(BuildContext context) {
                 ),
                 Gap(theme.spacing.xs),
                 Text(
-                  copied ? 'Copied!' : 'Copy',
+                  copied
+                      ? 'Copied!'
+                      : 'Copy',
                   style: theme.typography.small.copyWith(
                     fontSize: 12,
                     color: copied
@@ -27593,8 +28446,7 @@ import 'package:<your_app>/ui/dashcn/components/image/image.dart';
 /// A 48x48 PNG decoded from memory: the preview never hits the network, so it
 /// renders identically offline and inside a widget test.
 const String _imagePhotoBase64 =
-    'iVBORw0KGgoAAAANSUhEUgAAADAAAAAwCAIAAADYYG7QAAAAWElEQVR42u3OoRGAMBBFwdPURBHoFIaj'
-    'KTS9hBL+ROTUzjz/ts7xxZ73js1x5eqIFRAQEBAQ0CKoczarYkBAQEBAQKugzhkQEBAQENAWUOMMCAgIC'
+    'iVBORw0KGgoAAAANSUhEUgAAADAAAAAwCAIAAADYYG7QAAAAWElEQVR42u3OoRGAMBBFwdPURBHoFIajKTS9hBL+ROTUzjz/ts7xxZ73js1x5eqIFRAQEBAQ0CKoczarYkBAQEBAQKugzhkQEBAQENAWUOMMCAgIC'
     'AhoQz/vbpR28UARAAAAAABJRU5ErkJggg==';
 
 /// Local photo provider shared by the examples.
@@ -27630,8 +28482,7 @@ import 'package:<your_app>/ui/dashcn/components/image/image.dart';
 /// A 48x48 PNG decoded from memory: the preview never hits the network, so it
 /// renders identically offline and inside a widget test.
 const String _imagePhotoBase64 =
-    'iVBORw0KGgoAAAANSUhEUgAAADAAAAAwCAIAAADYYG7QAAAAWElEQVR42u3OoRGAMBBFwdPURBHoFIaj'
-    'KTS9hBL+ROTUzjz/ts7xxZ73js1x5eqIFRAQEBAQ0CKoczarYkBAQEBAQKugzhkQEBAQENAWUOMMCAgIC'
+    'iVBORw0KGgoAAAANSUhEUgAAADAAAAAwCAIAAADYYG7QAAAAWElEQVR42u3OoRGAMBBFwdPURBHoFIajKTS9hBL+ROTUzjz/ts7xxZ73js1x5eqIFRAQEBAQ0CKoczarYkBAQEBAQKugzhkQEBAQENAWUOMMCAgIC'
     'AhoQz/vbpR28UARAAAAAABJRU5ErkJggg==';
 
 /// Local photo provider shared by the examples.
@@ -27668,8 +28519,7 @@ import 'package:<your_app>/ui/dashcn/components/image/image.dart';
 /// A 48x48 PNG decoded from memory: the preview never hits the network, so it
 /// renders identically offline and inside a widget test.
 const String _imagePhotoBase64 =
-    'iVBORw0KGgoAAAANSUhEUgAAADAAAAAwCAIAAADYYG7QAAAAWElEQVR42u3OoRGAMBBFwdPURBHoFIaj'
-    'KTS9hBL+ROTUzjz/ts7xxZ73js1x5eqIFRAQEBAQ0CKoczarYkBAQEBAQKugzhkQEBAQENAWUOMMCAgIC'
+    'iVBORw0KGgoAAAANSUhEUgAAADAAAAAwCAIAAADYYG7QAAAAWElEQVR42u3OoRGAMBBFwdPURBHoFIajKTS9hBL+ROTUzjz/ts7xxZ73js1x5eqIFRAQEBAQ0CKoczarYkBAQEBAQKugzhkQEBAQENAWUOMMCAgIC'
     'AhoQz/vbpR28UARAAAAAABJRU5ErkJggg==';
 
 /// Local photo provider shared by the examples.
@@ -28111,7 +28961,7 @@ class _CameraVideoState extends State<_CameraVideo> {
           content: Container(
             color: const Color(0xFF18181B),
             alignment: Alignment.center,
-            child: const Column(
+            child: Column(
               mainAxisSize: MainAxisSize.min,
               children: <Widget>[
                 Icon(LucideIcons.cameraOff, size: 32, color: Color(0xFFFFFFFF)),
@@ -28299,7 +29149,7 @@ class _CaptionsVideoState extends State<_CaptionsVideo> {
     _controller = FakeVideoPlaybackController(
       position: const Duration(seconds: 12),
       areCaptionsEnabled: true,
-      cues: const <VideoCaptionCue>[
+      cues: <VideoCaptionCue>[
         VideoCaptionCue(
           start: Duration(seconds: 10),
           end: Duration(seconds: 15),
@@ -28654,7 +29504,7 @@ class _ColorFieldLabel extends StatelessWidget {
 
 /// The HSV saturation/value field.
 Widget _colorFieldDefault(BuildContext context) {
-  return const Column(
+  return Column(
     crossAxisAlignment: CrossAxisAlignment.start,
     mainAxisSize: MainAxisSize.min,
     children: <Widget>[
@@ -28705,7 +29555,7 @@ class _ColorFieldLabel extends StatelessWidget {
 
 /// The hue strip.
 Widget _colorFieldHue(BuildContext context) {
-  return const Column(
+  return Column(
     crossAxisAlignment: CrossAxisAlignment.start,
     mainAxisSize: MainAxisSize.min,
     children: <Widget>[
@@ -28755,7 +29605,7 @@ class _ColorFieldLabel extends StatelessWidget {
 
 /// The HSL lightness field.
 Widget _colorFieldHsl(BuildContext context) {
-  return const Column(
+  return Column(
     crossAxisAlignment: CrossAxisAlignment.start,
     mainAxisSize: MainAxisSize.min,
     children: <Widget>[
@@ -28807,7 +29657,7 @@ class _ColorFieldLabel extends StatelessWidget {
 
 /// The alpha ramp.
 Widget _colorFieldAlpha(BuildContext context) {
-  return const Column(
+  return Column(
     crossAxisAlignment: CrossAxisAlignment.start,
     mainAxisSize: MainAxisSize.min,
     children: <Widget>[
@@ -28955,11 +29805,10 @@ class _ColorInputColorInputExampleState
 }
 
 /// The dialog prompt with a title.
-Widget _colorInputDialog(BuildContext context) =>
-    const _ColorInputColorInputExample(
-      mode: PromptMode.dialog,
-      dialogTitle: Text('Select a colour'),
-    );
+Widget _colorInputDialog(BuildContext context) => _ColorInputColorInputExample(
+  mode: PromptMode.dialog,
+  dialogTitle: Text('Select a colour'),
+);
 ''',
     ),
     DocsExampleSource(
@@ -29192,7 +30041,7 @@ Widget _drawerContainerWithHandle(BuildContext context) {
   return Wrap(
     spacing: Theme.of(context).spacing.md,
     runSpacing: Theme.of(context).spacing.md,
-    children: const <Widget>[
+    children: <Widget>[
       _DrawerContainerFrame(
         width: 220,
         height: 140,
@@ -29275,7 +30124,7 @@ Widget _drawerContainerDataDriven(BuildContext context) {
       ),
       child: DrawerContainer(
         size: FractionAxisSize(0.6),
-        child: const Center(child: Text('Data-driven')),
+        child: Center(child: Text('Data-driven')),
       ),
     ),
   );
@@ -29620,7 +30469,7 @@ import 'package:<your_app>/ui/dashcn/components/outlined_container/outlined_cont
 
 /// A wider radius and denser padding.
 Widget _outlinedContainerRounded(BuildContext context) {
-  return const SizedBox(
+  return SizedBox(
     width: 320,
     child: OutlinedContainer(
       padding: EdgeInsetsDensity.pxAll(20),
@@ -29648,7 +30497,7 @@ Widget _outlinedContainerTranslucent(BuildContext context) {
     crossAxisAlignment: CrossAxisAlignment.start,
     mainAxisSize: MainAxisSize.min,
     children: <Widget>[
-      const SizedBox(
+      SizedBox(
         width: 320,
         child: OutlinedContainer(
           padding: EdgeInsetsDensity.pxAll(16),
@@ -29658,7 +30507,7 @@ Widget _outlinedContainerTranslucent(BuildContext context) {
         ),
       ),
       Gap(spacing.lg),
-      const SizedBox(
+      SizedBox(
         width: 320,
         child: OutlinedContainer(
           padding: EdgeInsetsDensity.pxAll(16),
@@ -29694,7 +30543,7 @@ Widget _outlinedContainerDashed(BuildContext context) {
         DashedContainer(
           child: Padding(
             padding: EdgeInsetsDensity.pxAll(16),
-            child: const Text('Dashed container'),
+            child: Text('Dashed container'),
           ),
         ),
         Gap(spacing.lg),
@@ -29805,7 +30654,7 @@ import 'package:<your_app>/ui/dashcn/components/selectable/selectable.dart';
 
 /// Plain selectable text.
 Widget _default(BuildContext context) {
-  return const SizedBox(
+  return SizedBox(
     width: 320,
     child: SelectableText(
       'Select this text to see the custom selection styling.',
@@ -29825,8 +30674,7 @@ Widget _longText(BuildContext context) {
   return const SizedBox(
     width: 320,
     child: SelectableText(
-      'Flutter widgets are built from smaller pieces until the whole screen '
-      'reads as one surface. Drag across this paragraph to select words, '
+      'Flutter widgets are built from smaller pieces until the whole screen reads as one surface. Drag across this paragraph to select words, '
       'lines, or the entire block with the custom caret and highlight.',
     ),
   );
@@ -29910,8 +30758,7 @@ class _StageContent extends StatelessWidget {
             padding: const EdgeInsets.all(16),
             color: theme.colors.card,
             child: Text(
-              'padding: ${padding.left.toStringAsFixed(0)} / '
-              '${padding.right.toStringAsFixed(0)}',
+              'padding: ${padding.left.toStringAsFixed(0)} / ${padding.right.toStringAsFixed(0)}',
               style: TextStyle(color: theme.colors.mutedForeground),
             ),
           ),
@@ -29954,8 +30801,7 @@ class _StageContent extends StatelessWidget {
             padding: const EdgeInsets.all(16),
             color: theme.colors.card,
             child: Text(
-              'padding: ${padding.left.toStringAsFixed(0)} / '
-              '${padding.right.toStringAsFixed(0)}',
+              'padding: ${padding.left.toStringAsFixed(0)} / ${padding.right.toStringAsFixed(0)}',
               style: TextStyle(color: theme.colors.mutedForeground),
             ),
           ),
@@ -30025,7 +30871,10 @@ class _SwipeActionsDemoState extends State<_SwipeActionsDemo> {
             for (final String row in _rows) ...<Widget>[
               SwipeActions(
                 actions: <SwipeAction>[
-                  SwipeAction(label: 'Archive', onPressed: () => _remove(row)),
+                  SwipeAction(
+                    label: 'Archive',
+                    onPressed: () => _remove(row),
+                  ),
                   SwipeAction(
                     label: 'Delete',
                     destructive: true,
@@ -30100,7 +30949,11 @@ Widget _compact(BuildContext context) {
         densityTokens: DensityTokens.compact,
         actions: <SwipeAction>[
           SwipeAction(label: 'Archive', onPressed: () {}),
-          SwipeAction(label: 'Delete', destructive: true, onPressed: () {}),
+          SwipeAction(
+            label: 'Delete',
+            destructive: true,
+            onPressed: () {},
+          ),
         ],
         onDismissed: () {},
         child: Card(
@@ -30147,7 +31000,11 @@ Widget _comfortable(BuildContext context) {
         densityTokens: DensityTokens.comfortable,
         actions: <SwipeAction>[
           SwipeAction(label: 'Archive', onPressed: () {}),
-          SwipeAction(label: 'Delete', destructive: true, onPressed: () {}),
+          SwipeAction(
+            label: 'Delete',
+            destructive: true,
+            onPressed: () {},
+          ),
         ],
         onDismissed: () {},
         child: Card(
@@ -30221,7 +31078,10 @@ class _SwipeActionsDemoState extends State<_SwipeActionsDemo> {
             for (final String row in _rows) ...<Widget>[
               SwipeActions(
                 actions: <SwipeAction>[
-                  SwipeAction(label: 'Archive', onPressed: () => _remove(row)),
+                  SwipeAction(
+                    label: 'Archive',
+                    onPressed: () => _remove(row),
+                  ),
                   SwipeAction(
                     label: 'Delete',
                     destructive: true,
@@ -30325,7 +31185,11 @@ Widget _customBuilders(BuildContext context) {
             ),
             onPressed: () {},
           ),
-          SwipeAction(label: 'Delete', destructive: true, onPressed: () {}),
+          SwipeAction(
+            label: 'Delete',
+            destructive: true,
+            onPressed: () {},
+          ),
         ],
         onDismissed: () {},
         child: Card(
@@ -30378,7 +31242,11 @@ Widget _motionOverride(BuildContext context) {
         ),
         actions: <SwipeAction>[
           SwipeAction(label: 'Archive', onPressed: () {}),
-          SwipeAction(label: 'Delete', destructive: true, onPressed: () {}),
+          SwipeAction(
+            label: 'Delete',
+            destructive: true,
+            onPressed: () {},
+          ),
         ],
         onDismissed: () {},
         child: Card(
@@ -30423,9 +31291,11 @@ Widget _drawer(BuildContext context) {
     height: 200,
     child: Swiper(
       position: OverlayPosition.left,
-      builder: (BuildContext context) =>
-          const _Panel(title: 'Drawer', hint: 'Swipe it away to dismiss'),
-      child: const _SwipeSurface('Swipe right for a drawer'),
+      builder: (BuildContext context) => _Panel(
+        title: 'Drawer',
+        hint: 'Swipe it away to dismiss',
+      ),
+      child: _SwipeSurface('Swipe right for a drawer'),
     ),
   );
 }
@@ -30497,9 +31367,11 @@ Widget _sheet(BuildContext context) {
     child: Swiper(
       position: OverlayPosition.bottom,
       variant: SwiperVariant.sheet,
-      builder: (BuildContext context) =>
-          const _Panel(title: 'Sheet', hint: 'Drag down to dismiss'),
-      child: const _SwipeSurface('Swipe up for a sheet'),
+      builder: (BuildContext context) => _Panel(
+        title: 'Sheet',
+        hint: 'Drag down to dismiss',
+      ),
+      child: _SwipeSurface('Swipe up for a sheet'),
     ),
   );
 }
@@ -30762,10 +31634,12 @@ class _SingleWindowState extends State<_SingleWindow> {
         initialWindows: <Window>[
           Window(
             controller: _notes,
-            title: const Text('Notes'),
+            title: Text('Notes'),
             content: Padding(
               padding: EdgeInsets.all(Theme.of(context).spacing.md),
-              child: const Text('Drag the title bar; resize from any edge.'),
+              child: Text(
+                'Drag the title bar; resize from any edge.',
+              ),
             ),
           ),
         ],
@@ -30819,18 +31693,20 @@ class _MaximizedWindowState extends State<_MaximizedWindow> {
         initialWindows: <Window>[
           Window(
             controller: _main,
-            title: const Text('Editor'),
+            title: Text('Editor'),
             content: Padding(
               padding: EdgeInsets.all(Theme.of(context).spacing.md),
-              child: const Text('Maximized; restore from the title bar.'),
+              child: Text(
+                'Maximized; restore from the title bar.',
+              ),
             ),
           ),
           Window(
             controller: _inspector,
-            title: const Text('Inspector'),
+            title: Text('Inspector'),
             content: Padding(
               padding: EdgeInsets.all(Theme.of(context).spacing.md),
-              child: const Text('Always on top.'),
+              child: Text('Always on top.'),
             ),
           ),
         ],

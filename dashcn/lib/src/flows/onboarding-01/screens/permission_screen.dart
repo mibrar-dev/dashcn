@@ -9,6 +9,7 @@ import '../../../foundation/gap.dart';
 import '../../../foundation/icons/radix_icons.dart';
 import '../../../theme/theme.dart';
 import '../../../primitives/localizations/localizations.dart';
+import '../../../foundation/component_preview.dart';
 
 /// Permission ask; Allow resolves true, Not now resolves false.
 class Onboarding01PermissionScreen extends StatelessWidget {
@@ -47,7 +48,7 @@ class Onboarding01PermissionScreen extends StatelessWidget {
                         ),
                         Gap(appTheme.spacing.lg),
                         Text(
-                          'Enable notifications?',
+                          docsSample(context, 'Enable notifications?'),
                           style: appTheme.typography.h3,
                           textAlign: TextAlign.center,
                         ),

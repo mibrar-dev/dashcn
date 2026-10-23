@@ -34,7 +34,7 @@ class _DropdownMenuDropdown extends StatefulWidget {
 }
 
 class _DropdownMenuDropdownState extends State<_DropdownMenuDropdown> {
-  String _lastAction = 'Pick a row';
+  String _lastAction = docsSample(null, 'Pick a row');
 
   @override
   Widget build(BuildContext context) {
@@ -53,35 +53,37 @@ class _DropdownMenuDropdownState extends State<_DropdownMenuDropdown> {
             child: DropdownMenu(
               children: <Widget>[
                 MenuButton(
-                  child: const Text('Profile'),
-                  onPressed: (_) => _run('Opened the profile'),
+                  child: Text(docsSample(context, 'Profile')),
+                  onPressed: (_) =>
+                      _run(docsSample(context, 'Opened the profile')),
                 ),
                 MenuButton(
-                  child: const Text('Settings'),
-                  onPressed: (_) => _run('Opened settings'),
+                  child: Text(docsSample(context, 'Settings')),
+                  onPressed: (_) =>
+                      _run(docsSample(context, 'Opened settings')),
                 ),
                 const MenuSeparator(),
                 if (widget.withShortcut)
                   MenuButton(
-                    trailing: const MenuShortcut(shortcut: '⌘Q'),
-                    child: const Text('Sign out'),
-                    onPressed: (_) => _run('Signed out'),
+                    trailing: MenuShortcut(shortcut: '⌘Q'),
+                    child: Text(docsSample(context, 'Sign out')),
+                    onPressed: (_) => _run(docsSample(context, 'Signed out')),
                   )
                 else
                   MenuButton(
-                    child: const Text('Sign out'),
-                    onPressed: (_) => _run('Signed out'),
+                    child: Text(docsSample(context, 'Sign out')),
+                    onPressed: (_) => _run(docsSample(context, 'Signed out')),
                   ),
                 if (widget.withCheckbox) ...<Widget>[
                   const MenuSeparator(),
                   MenuButton(
                     trailing: Text(_statusBar ? 'on' : 'off'),
-                    child: const Text('Show status bar'),
+                    child: Text(docsSample(context, 'Show status bar')),
                     onPressed: (_) => setState(() => _statusBar = !_statusBar),
                   ),
                   MenuButton(
                     trailing: Text(_bookmarks ? 'on' : 'off'),
-                    child: const Text('Show bookmarks bar'),
+                    child: Text(docsSample(context, 'Show bookmarks bar')),
                     onPressed: (_) => setState(() => _bookmarks = !_bookmarks),
                   ),
                 ],
@@ -91,7 +93,7 @@ class _DropdownMenuDropdownState extends State<_DropdownMenuDropdown> {
         ),
         Gap(theme.spacing.md),
         Text(
-          _lastAction,
+          docsSample(context, _lastAction),
           style: TextStyle(fontSize: 12, color: theme.colors.mutedForeground),
         ),
       ],
@@ -117,22 +119,25 @@ class _DropdownMenuTrigger extends StatelessWidget {
         context: context,
         children: <Widget>[
           MenuButton(
-            child: const Text('Profile'),
-            onPressed: (_) => closeOverlay(context, 'Profile'),
+            child: Text(docsSample(context, 'Profile')),
+            onPressed: (_) =>
+                closeOverlay(context, docsSample(context, 'Profile')),
           ),
           MenuButton(
-            child: const Text('Settings'),
-            onPressed: (_) => closeOverlay(context, 'Settings'),
+            child: Text(docsSample(context, 'Settings')),
+            onPressed: (_) =>
+                closeOverlay(context, docsSample(context, 'Settings')),
           ),
           const MenuSeparator(),
           MenuButton(
-            trailing: const MenuShortcut(shortcut: '⌘Q'),
-            child: const Text('Sign out'),
-            onPressed: (_) => closeOverlay(context, 'Sign out'),
+            trailing: MenuShortcut(shortcut: '⌘Q'),
+            child: Text(docsSample(context, 'Sign out')),
+            onPressed: (_) =>
+                closeOverlay(context, docsSample(context, 'Sign out')),
           ),
         ],
       ),
-      child: const Text('Open menu'),
+      child: Text(docsSample(context, 'Open menu')),
     );
   }
 }
@@ -151,13 +156,13 @@ Widget _dropdownMenuWithCheckboxItem(BuildContext context) =>
 
 /// A customized surface: widget-leg theme override (tinted fill).
 Widget _dropdownMenuCustomized(BuildContext context) {
-  return const SizedBox(
+  return SizedBox(
     width: 220,
     child: DropdownMenu(
       theme: MenuPopupTheme(background: ThemedColor.value(Color(0xFFF0FDF4))),
       children: <Widget>[
-        MenuButton(child: Text('Profile')),
-        MenuButton(child: Text('Settings')),
+        MenuButton(child: Text(docsSample(context, 'Profile'))),
+        MenuButton(child: Text(docsSample(context, 'Settings'))),
       ],
     ),
   );
@@ -168,10 +173,16 @@ Widget _dropdownMenuTriggerExample(BuildContext context) =>
     const _DropdownMenuTrigger();
 
 /// Named docs examples for `dropdown_menu`; the first entry is the default.
-const List<ComponentPreview> dropdownMenuPreviews = <ComponentPreview>[
-  ComponentPreview('Default', _dropdownMenuDefault),
-  ComponentPreview('With shortcut', _dropdownMenuWithShortcut),
-  ComponentPreview('With checkbox item', _dropdownMenuWithCheckboxItem),
-  ComponentPreview('Trigger', _dropdownMenuTriggerExample),
-  ComponentPreview('Customized', _dropdownMenuCustomized),
+List<ComponentPreview> get dropdownMenuPreviews => <ComponentPreview>[
+  ComponentPreview(docsSample(null, 'Default'), _dropdownMenuDefault),
+  ComponentPreview(
+    docsSample(null, 'With shortcut'),
+    _dropdownMenuWithShortcut,
+  ),
+  ComponentPreview(
+    docsSample(null, 'With checkbox item'),
+    _dropdownMenuWithCheckboxItem,
+  ),
+  ComponentPreview(docsSample(null, 'Trigger'), _dropdownMenuTriggerExample),
+  ComponentPreview(docsSample(null, 'Customized'), _dropdownMenuCustomized),
 ];

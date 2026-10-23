@@ -18,6 +18,7 @@ import '../../ui/dashcn/components/switch/switch.dart';
 import '../../ui/dashcn/components/tabs/tabs.dart';
 import '../../ui/dashcn/foundation/gap.dart';
 import 'studio_card.dart';
+import '../../ui/dashcn/foundation/component_preview.dart';
 
 /// A three-tab block with a live body, so radius/spacing edits show up in the
 /// tab strip as well as the body.
@@ -30,15 +31,15 @@ class StudioTabsCard extends StatefulWidget {
 }
 
 class _StudioTabsCardState extends State<StudioTabsCard> {
-  static const List<String> labels = <String>[
-    'Overview',
-    'Activity',
-    'Settings',
+  static List<String> labels = <String>[
+    docsSample(null, 'Overview'),
+    docsSample(null, 'Activity'),
+    docsSample(null, 'Settings'),
   ];
-  static const List<String> bodies = <String>[
-    'Net revenue for the selected period, after fees.',
-    'Twelve payouts settled in the last 30 days.',
-    'Where the balance is routed once it clears.',
+  static List<String> bodies = <String>[
+    docsSample(null, 'Net revenue for the selected period, after fees.'),
+    docsSample(null, 'Twelve payouts settled in the last 30 days.'),
+    docsSample(null, 'Where the balance is routed once it clears.'),
   ];
 
   int _index = 0;
@@ -46,7 +47,7 @@ class _StudioTabsCardState extends State<StudioTabsCard> {
   @override
   Widget build(BuildContext context) {
     return StudioCard(
-      title: 'Payouts',
+      title: docsSample(context, 'Payouts'),
       subtitle: bodies[_index],
       child: Tabs(
         index: _index,
@@ -76,7 +77,7 @@ class _StudioCalendarCardState extends State<StudioCalendarCard> {
   @override
   Widget build(BuildContext context) {
     return StudioCard(
-      title: 'Release date',
+      title: docsSample(context, 'Release date'),
       subtitle: _subtitle(_selected),
       child: Calendar(
         view: _view,
@@ -107,7 +108,7 @@ class _StudioDateRangeCardState extends State<StudioDateRangeCard> {
   @override
   Widget build(BuildContext context) {
     return StudioCard(
-      title: 'Reporting Period',
+      title: docsSample(context, 'Reporting Period'),
       subtitle: _periodSubtitle(_range),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -121,9 +122,12 @@ class _StudioDateRangeCardState extends State<StudioDateRangeCard> {
           Button(
             variant: ButtonVariant.primary,
             onPressed: () {},
-            child: const SizedBox(
+            child: SizedBox(
               width: double.infinity,
-              child: Text('Generate Report', textAlign: TextAlign.center),
+              child: Text(
+                docsSample(context, 'Generate Report'),
+                textAlign: TextAlign.center,
+              ),
             ),
           ),
         ],
@@ -142,15 +146,21 @@ class StudioPreferencesCard extends StatefulWidget {
 }
 
 class _StudioPreferencesCardState extends State<StudioPreferencesCard> {
-  static const List<String> currencies = <String>[
+  static List<String> currencies = <String>[
     r'USD — United States Dollar',
-    'EUR — Euro',
-    'GBP — British Pound',
+    docsSample(null, 'EUR — Euro'),
+    docsSample(null, 'GBP — British Pound'),
   ];
 
-  static const List<(String, String)> switches = <(String, String)>[
-    ('Public Statistics', 'Allow others to see your stream count'),
-    ('Email Notifications', 'Monthly royalty and distribution updates'),
+  static List<(String, String)> switches = <(String, String)>[
+    (
+      docsSample(null, 'Public Statistics'),
+      docsSample(null, 'Allow others to see your stream count'),
+    ),
+    (
+      docsSample(null, 'Email Notifications'),
+      docsSample(null, 'Monthly royalty and distribution updates'),
+    ),
   ];
 
   String _currency = currencies.first;
@@ -159,13 +169,16 @@ class _StudioPreferencesCardState extends State<StudioPreferencesCard> {
   @override
   Widget build(BuildContext context) {
     return StudioCard(
-      title: 'Preferences',
-      subtitle: 'Manage your account settings and notifications.',
+      title: docsSample(context, 'Preferences'),
+      subtitle: docsSample(
+        context,
+        'Manage your account settings and notifications.',
+      ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
-          const StudioFieldLabel('Default Currency'),
+          StudioFieldLabel(docsSample(context, 'Default Currency')),
           const Gap(6),
           Select<String>(
             value: _currency,
@@ -212,11 +225,11 @@ class _StudioPreferencesCardState extends State<StudioPreferencesCard> {
           const Gap(16),
           Row(
             children: <Widget>[
-              const Expanded(
+              Expanded(
                 child: Button(
                   variant: ButtonVariant.outline,
                   onPressed: studioNoop,
-                  child: Text('Reset'),
+                  child: Text(docsSample(context, 'Reset')),
                 ),
               ),
               const Gap(12),
@@ -224,7 +237,7 @@ class _StudioPreferencesCardState extends State<StudioPreferencesCard> {
                 child: Button(
                   variant: ButtonVariant.primary,
                   onPressed: () {},
-                  child: const Text('Save Preferences'),
+                  child: Text(docsSample(context, 'Save Preferences')),
                 ),
               ),
             ],
@@ -245,10 +258,22 @@ class StudioCookieCard extends StatefulWidget {
 }
 
 class _StudioCookieCardState extends State<StudioCookieCard> {
-  static const List<(String, String, bool)> rows = <(String, String, bool)>[
-    ('Strictly Necessary', 'Required for the site to work.', true),
-    ('Functional', 'Remembers your preset and mode.', true),
-    ('Analytics', 'Anonymous usage measurements.', false),
+  static List<(String, String, bool)> rows = <(String, String, bool)>[
+    (
+      docsSample(null, 'Strictly Necessary'),
+      docsSample(null, 'Required for the site to work.'),
+      true,
+    ),
+    (
+      docsSample(null, 'Functional'),
+      docsSample(null, 'Remembers your preset and mode.'),
+      true,
+    ),
+    (
+      docsSample(null, 'Analytics'),
+      docsSample(null, 'Anonymous usage measurements.'),
+      false,
+    ),
   ];
 
   final Set<int> _on = <int>{0, 1};
@@ -256,8 +281,8 @@ class _StudioCookieCardState extends State<StudioCookieCard> {
   @override
   Widget build(BuildContext context) {
     return StudioCard(
-      title: 'Cookie Settings',
-      subtitle: 'Choose which cookies we may set.',
+      title: docsSample(context, 'Cookie Settings'),
+      subtitle: docsSample(context, 'Choose which cookies we may set.'),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         mainAxisSize: MainAxisSize.min,
@@ -279,9 +304,9 @@ class _StudioCookieCardState extends State<StudioCookieCard> {
                           children: <Widget>[
                             Text(rows[i].$1),
                             if (rows[i].$3)
-                              const Badge(
+                              Badge(
                                 variant: BadgeVariant.outline,
-                                child: Text('Always on'),
+                                child: Text(docsSample(context, 'Always on')),
                               ),
                           ],
                         ),
@@ -308,9 +333,12 @@ class _StudioCookieCardState extends State<StudioCookieCard> {
           Button(
             variant: ButtonVariant.primary,
             onPressed: () {},
-            child: const SizedBox(
+            child: SizedBox(
               width: double.infinity,
-              child: Text('Save Choices', textAlign: TextAlign.center),
+              child: Text(
+                docsSample(context, 'Save Choices'),
+                textAlign: TextAlign.center,
+              ),
             ),
           ),
         ],
@@ -335,8 +363,8 @@ class _StudioPaymentMethodCardState extends State<StudioPaymentMethodCard> {
   @override
   Widget build(BuildContext context) {
     return StudioCard(
-      title: 'Payment Method',
-      subtitle: 'How royalties are paid out.',
+      title: docsSample(context, 'Payment Method'),
+      subtitle: docsSample(context, 'How royalties are paid out.'),
       child: RadioSet<String>(
         value: _method,
         onChanged: (String next) => setState(() => _method = next),
@@ -346,9 +374,11 @@ class _StudioPaymentMethodCardState extends State<StudioPaymentMethodCard> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisSize: MainAxisSize.min,
-              children: const <Widget>[
-                Text('Bank Transfer'),
-                StudioHelper('SWIFT · IBAN · 3-5 business days'),
+              children: <Widget>[
+                Text(docsSample(context, 'Bank Transfer')),
+                StudioHelper(
+                  docsSample(context, 'SWIFT · IBAN · 3-5 business days'),
+                ),
               ],
             ),
           ),
@@ -357,9 +387,11 @@ class _StudioPaymentMethodCardState extends State<StudioPaymentMethodCard> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisSize: MainAxisSize.min,
-              children: const <Widget>[
+              children: <Widget>[
                 Text('PayPal'),
-                StudioHelper('Instant · 1.5% processing fee'),
+                StudioHelper(
+                  docsSample(context, 'Instant · 1.5% processing fee'),
+                ),
               ],
             ),
           ),

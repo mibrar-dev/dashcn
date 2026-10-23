@@ -104,7 +104,7 @@ Widget _numberTickerFlip(BuildContext context) =>
     const _NumberTickerFlipClock();
 
 /// Named docs examples for `number_ticker`; the first entry is the default.
-const List<ComponentPreview> numberTickerPreviews = <ComponentPreview>[
-  ComponentPreview('Default', _numberTickerDefault),
-  ComponentPreview('Flip clock', _numberTickerFlip),
+List<ComponentPreview> get numberTickerPreviews => <ComponentPreview>[
+  ComponentPreview(docsSample(null, 'Default'), _numberTickerDefault),
+  ComponentPreview(docsSample(null, 'Flip clock'), _numberTickerFlip),
 ];

@@ -9,6 +9,7 @@ import '../../foundation/gap.dart';
 import '../../foundation/icons/lucide_icons.dart';
 import '../../theme/theme.dart';
 import '../../primitives/localizations/localizations.dart';
+import '../../foundation/component_preview.dart';
 
 /// The brand panel: muted fill edge to edge, the product mark top-left, the
 /// trial summary in the middle and a quote anchored at the bottom. No
@@ -53,7 +54,10 @@ class Signup02Aside extends StatelessWidget {
                       ),
                     ),
                     Gap(theme.spacing.sm),
-                    Text('Acme Inc', style: theme.typography.textSmall),
+                    Text(
+                      docsSample(context, 'Acme Inc'),
+                      style: theme.typography.textSmall,
+                    ),
                   ],
                 ),
                 Gap(theme.spacing.xl),
@@ -63,10 +67,16 @@ class Signup02Aside extends StatelessWidget {
                   children: <Widget>[
                     Text(strings.blockWhatYouGet, style: theme.typography.h3),
                     Gap(theme.spacing.lg),
-                    for (final String line in const <String>[
-                      'Unlimited projects during the trial',
-                      'All component categories',
-                      'Priority support',
+                    for (final String line in <String>[
+                      docsSample(
+                        context,
+                        docsSample(
+                          context,
+                          'Unlimited projects during the trial',
+                        ),
+                      ),
+                      docsSample(context, 'All component categories'),
+                      docsSample(context, 'Priority support'),
                     ]) ...<Widget>[
                       _Signup02Bullet(line: line),
                       Gap(theme.spacing.md),
@@ -77,19 +87,25 @@ class Signup02Aside extends StatelessWidget {
                     const Progress(value: 1, height: 8),
                     Gap(theme.spacing.sm),
                     Text(
-                      '14 days left in your trial',
+                      docsSample(context, '14 days left in your trial'),
                       style: theme.typography.textSmall.copyWith(
                         color: theme.colors.mutedForeground,
                       ),
                     ),
                     Gap(theme.spacing.xl),
                     Text(
-                      '"We onboarded the whole team in an afternoon."',
+                      docsSample(
+                        context,
+                        docsSample(
+                          context,
+                          '"We onboarded the whole team in an afternoon."',
+                        ),
+                      ),
                       style: theme.typography.textLarge,
                     ),
                     Gap(theme.spacing.md),
                     Text(
-                      'Ada Lovelace — Engineer, Acme',
+                      docsSample(context, 'Ada Lovelace — Engineer, Acme'),
                       style: theme.typography.textSmall.copyWith(
                         color: theme.colors.mutedForeground,
                       ),

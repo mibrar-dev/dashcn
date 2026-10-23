@@ -1,3 +1,4 @@
+import '../ui/dashcn/foundation/component_preview.dart';
 // Home showcase: data-display cards (P6-H1).
 //
 // Extends the Theme Studio blocks (`studio_blocks/studio_list.dart`,
@@ -22,32 +23,32 @@ class HomeTransactionsCard extends StatelessWidget {
   /// Creates the card.
   const HomeTransactionsCard({super.key});
 
-  static const List<(String, String, IconData, String, bool)> rows =
+  static List<(String, String, IconData, String, bool)> rows =
       <(String, String, IconData, String, bool)>[
         (
-          'Blue Bottle Coffee',
-          'Food & Drink',
+          docsSample(null, 'Blue Bottle Coffee'),
+          docsSample(null, 'Food & Drink'),
           LucideIcons.coffee,
           r'Today, 10:24 AM -$6.50',
           false,
         ),
         (
-          'Whole Foods Market',
-          'Groceries',
+          docsSample(null, 'Whole Foods Market'),
+          docsSample(null, 'Groceries'),
           LucideIcons.shoppingCart,
           r'Yesterday -$142.30',
           false,
         ),
         (
-          'Stripe Payout',
-          'Income',
+          docsSample(null, 'Stripe Payout'),
+          docsSample(null, 'Income'),
           LucideIcons.landmark,
           r'Oct 12 +$4,200.00',
           true,
         ),
         (
-          'Uber Technologies',
-          'Transport',
+          docsSample(null, 'Uber Technologies'),
+          docsSample(null, 'Transport'),
           LucideIcons.car,
           r'Oct 11 -$24.10',
           false,
@@ -57,18 +58,18 @@ class HomeTransactionsCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CollageCard(
-      title: 'Recent Transactions',
-      subtitle: 'Your latest account activity.',
-      trailing: const Button(
+      title: docsSample(context, 'Recent Transactions'),
+      subtitle: docsSample(context, 'Your latest account activity.'),
+      trailing: Button(
         variant: ButtonVariant.ghost,
         size: ButtonSize.sm,
         onPressed: collageNoop,
-        child: Text('View All'),
+        child: Text(docsSample(context, 'View All')),
       ),
       children: <Widget>[
         for (int i = 0; i < rows.length; i++) ...<Widget>[
           if (i > 0)
-            const Padding(
+            Padding(
               padding: EdgeInsets.symmetric(vertical: 2),
               child: _HomeRowDivider(),
             ),
@@ -153,16 +154,19 @@ class HomeTeamCard extends StatelessWidget {
   /// Creates the card.
   const HomeTeamCard({super.key});
 
-  static const List<(String, String)> members = <(String, String)>[
-    ('Maya Okafor', 'Admin'),
-    ('Leo Marchetti', 'Editor'),
+  static List<(String, String)> members = <(String, String)>[
+    (docsSample(null, 'Maya Okafor'), docsSample(null, 'Admin')),
+    (docsSample(null, 'Leo Marchetti'), docsSample(null, 'Editor')),
   ];
 
   @override
   Widget build(BuildContext context) {
     return CollageCard(
-      title: 'Team Members',
-      subtitle: 'Four people have access to this workspace.',
+      title: docsSample(context, 'Team Members'),
+      subtitle: docsSample(
+        context,
+        'Four people have access to this workspace.',
+      ),
       children: <Widget>[
         for (final (String name, String role) in members)
           Padding(
@@ -184,11 +188,11 @@ class HomeTeamCard extends StatelessWidget {
             ),
           ),
         const Gap(8),
-        const Button(
+        Button(
           variant: ButtonVariant.outline,
           size: ButtonSize.sm,
           onPressed: collageNoop,
-          child: Text('Invite teammate'),
+          child: Text(docsSample(context, 'Invite teammate')),
         ),
       ],
     );
@@ -205,11 +209,11 @@ class _HomeRoleSelect extends StatefulWidget {
 }
 
 class _HomeRoleSelectState extends State<_HomeRoleSelect> {
-  static const List<String> roles = <String>[
-    'Admin',
-    'Editor',
-    'Analyst',
-    'Viewer',
+  static List<String> roles = <String>[
+    docsSample(null, 'Admin'),
+    docsSample(null, 'Editor'),
+    docsSample(null, 'Analyst'),
+    docsSample(null, 'Viewer'),
   ];
 
   late String _role = widget.role;
@@ -235,31 +239,46 @@ class HomeFaqCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const CollageCard(
-      title: 'Frequently asked questions',
-      subtitle: 'General, Billing and Goals',
+    return CollageCard(
+      title: docsSample(context, 'Frequently asked questions'),
+      subtitle: docsSample(context, 'General, Billing and Goals'),
       children: <Widget>[
         Accordion(
           items: <AccordionItem>[
             AccordionItem(
               expanded: true,
-              trigger: Text('How secure is my financial data?'),
+              trigger: Text(
+                docsSample(context, 'How secure is my financial data?'),
+              ),
               content: Text(
                 'Bank-level AES-256 encryption, SOC 2 Type II certified '
                 'infrastructure, and read-only access tokens.',
               ),
             ),
             AccordionItem(
-              trigger: Text('How do I connect my bank or investment accounts?'),
+              trigger: Text(
+                docsSample(
+                  context,
+                  docsSample(
+                    context,
+                    'How do I connect my bank or investment accounts?',
+                  ),
+                ),
+              ),
               content: Text(
                 'Open Preferences, pick a receiving method and follow the '
                 'bank-level OAuth flow.',
               ),
             ),
             AccordionItem(
-              trigger: Text('Can I export my data for tax purposes?'),
+              trigger: Text(
+                docsSample(context, 'Can I export my data for tax purposes?'),
+              ),
               content: Text(
-                'Every report exports as CSV, including the royalty ledger.',
+                docsSample(
+                  context,
+                  'Every report exports as CSV, including the royalty ledger.',
+                ),
               ),
             ),
           ],
@@ -276,21 +295,23 @@ class HomeEmptyCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const CollageCard(
-      title: 'New Release',
-      subtitle: 'Nothing here yet.',
+    return CollageCard(
+      title: docsSample(context, 'New Release'),
+      subtitle: docsSample(context, 'Nothing here yet.'),
       children: <Widget>[
         EmptyState(
           variant: EmptyStateVariant.empty,
           size: EmptyStateSize.compact,
           icon: Icon(LucideIcons.plus, size: 18),
-          title: Text('Distribute Track'),
+          title: Text(docsSample(context, 'Distribute Track')),
           description: Text(
             'Upload your first master to start reaching listeners on Spotify, '
             'Apple Music, and more.',
             textAlign: TextAlign.center,
           ),
-          primaryAction: EmptyStateAction(label: 'Create Release'),
+          primaryAction: EmptyStateAction(
+            label: docsSample(context, 'Create Release'),
+          ),
         ),
       ],
     );

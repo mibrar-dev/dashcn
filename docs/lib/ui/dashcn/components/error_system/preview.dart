@@ -7,6 +7,7 @@ import 'package:flutter/widgets.dart';
 import '../../foundation/gap.dart';
 import '../../theme/theme.dart';
 import 'error_system.dart';
+import '../../foundation/component_preview.dart';
 
 /// Renders the error system gallery.
 class ErrorSystemPreview extends StatefulWidget {
@@ -21,8 +22,14 @@ class _ErrorSystemPreviewState extends State<ErrorSystemPreview> {
   late final HubAppScope _scope = HubAppScope('preview.banner');
   late final AppError _error = AppError(
     code: AppErrorCode.server,
-    title: 'Server error',
-    message: 'The request could not be completed. Please try again.',
+    title: docsSample(context, 'Server error'),
+    message: docsSample(
+      context,
+      docsSample(
+        context,
+        'The request could not be completed. Please try again.',
+      ),
+    ),
     actions: <ErrorAction>[ErrorAction.retry(() {}), ErrorAction.report(() {})],
   );
 
@@ -42,7 +49,7 @@ class _ErrorSystemPreviewState extends State<ErrorSystemPreview> {
   Widget build(BuildContext context) {
     final ThemeData theme = Theme.of(context);
     return Directionality(
-      textDirection: TextDirection.ltr,
+      textDirection: Directionality.maybeOf(context) ?? TextDirection.ltr,
       child: DefaultTextStyle(
         style: TextStyle(color: theme.colors.foreground, fontSize: 13),
         child: ColoredBox(
@@ -52,15 +59,25 @@ class _ErrorSystemPreviewState extends State<ErrorSystemPreview> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-                _section(context, 'Full page', ErrorState(error: _error)),
+                _section(
+                  context,
+                  docsSample(context, 'Full page'),
+                  ErrorState(error: _error),
+                ),
                 Gap(theme.spacing.xl),
                 _section(
                   context,
-                  'Inline',
-                  const InlineError(message: 'This field is required.'),
+                  docsSample(context, 'Inline'),
+                  InlineError(
+                    message: docsSample(context, 'This field is required.'),
+                  ),
                 ),
                 Gap(theme.spacing.xl),
-                _section(context, 'Banner', AppErrorBanner(scope: _scope)),
+                _section(
+                  context,
+                  docsSample(context, 'Banner'),
+                  AppErrorBanner(scope: _scope),
+                ),
               ],
             ),
           ),

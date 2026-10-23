@@ -80,8 +80,7 @@ class _Checkout01PaymentScreenState extends State<Checkout01PaymentScreen> {
                   Text(strings.blockPayment, style: appTheme.typography.h3),
                   Gap(appTheme.spacing.xs),
                   Text(
-                    'Deliver to ${widget.order.address.street}, '
-                    '${widget.order.address.city}',
+                    'Deliver to ${widget.order.address.street}, ${widget.order.address.city}',
                     style: appTheme.typography.textMuted.copyWith(
                       color: appTheme.colors.mutedForeground,
                     ),

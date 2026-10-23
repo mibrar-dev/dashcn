@@ -17,6 +17,7 @@ import '../../ui/dashcn/foundation/icons/lucide_icons.dart';
 import '../../ui/dashcn/theme/theme.dart';
 import 'studio_card.dart';
 import 'studio_paint.dart';
+import '../../ui/dashcn/foundation/component_preview.dart';
 
 /// `Contribution History`: the reference's bar chart plus a payout row.
 class StudioContributionCard extends StatelessWidget {
@@ -35,8 +36,8 @@ class StudioContributionCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return StudioCard(
-      title: 'Contribution History',
-      subtitle: 'Last 6 months of activity',
+      title: docsSample(context, 'Contribution History'),
+      subtitle: docsSample(context, 'Last 6 months of activity'),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         mainAxisSize: MainAxisSize.min,
@@ -71,9 +72,9 @@ class _StudioUpcomingRow extends StatelessWidget {
                 ),
               ),
             ),
-            const Badge(
+            Badge(
               variant: BadgeVariant.secondary,
-              child: Text('May 25, 2026'),
+              child: Text(docsSample(context, 'May 25, 2026')),
             ),
           ],
         ),
@@ -135,18 +136,29 @@ class StudioAveragesCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const StudioCard(
-      title: 'Projected Finish',
-      subtitle: 'October 2026',
+    return StudioCard(
+      title: docsSample(context, 'Projected Finish'),
+      subtitle: docsSample(context, 'October 2026'),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
-          StudioRow(label: 'Monthly Average', value: r'$1,250'),
-          StudioRow(label: 'Top Contributor', value: 'Auto-Transfer'),
-          StudioRow(label: 'Top market', value: r'US$ 24,000 / 80%'),
+          StudioRow(
+            label: docsSample(context, 'Monthly Average'),
+            value: r'$1,250',
+          ),
+          StudioRow(
+            label: docsSample(context, 'Top Contributor'),
+            value: docsSample(context, 'Auto-Transfer'),
+          ),
+          StudioRow(
+            label: docsSample(context, 'Top market'),
+            value: r'US$ 24,000 / 80%',
+          ),
           Gap(8),
-          StudioHelper('Based on the last six months of payouts.'),
+          StudioHelper(
+            docsSample(context, 'Based on the last six months of payouts.'),
+          ),
         ],
       ),
     );
@@ -160,18 +172,21 @@ class StudioGoalCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const StudioCard(
-      title: 'Set a new milestone',
-      subtitle: 'Define your financial target and we will help pace it.',
+    return StudioCard(
+      title: docsSample(context, 'Set a new milestone'),
+      subtitle: docsSample(
+        context,
+        'Define your financial target and we will help pace it.',
+      ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
-          StudioFieldLabel('Goal Name'),
+          StudioFieldLabel(docsSample(context, 'Goal Name')),
           Gap(6),
-          Input(hintText: 'House deposit'),
+          Input(hintText: docsSample(context, 'House deposit')),
           Gap(16),
-          StudioFieldLabel('Target Amount'),
+          StudioFieldLabel(docsSample(context, 'Target Amount')),
           Gap(6),
           Input(hintText: r'$50,000'),
           Gap(16),
@@ -181,7 +196,7 @@ class StudioGoalCard extends StatelessWidget {
                 child: Button(
                   variant: ButtonVariant.outline,
                   onPressed: studioNoop,
-                  child: Text('Cancel'),
+                  child: Text(docsSample(context, 'Cancel')),
                 ),
               ),
               Gap(12),
@@ -189,7 +204,7 @@ class StudioGoalCard extends StatelessWidget {
                 child: Button(
                   variant: ButtonVariant.primary,
                   onPressed: studioNoop,
-                  child: Text('Create Goal'),
+                  child: Text(docsSample(context, 'Create Goal')),
                 ),
               ),
             ],
@@ -237,8 +252,8 @@ class _StudioUsageCardState extends State<StudioUsageCard> {
   Widget build(BuildContext context) {
     final ThemeData theme = Theme.of(context);
     return StudioCard(
-      title: 'Power Usage',
-      subtitle: 'Whole home',
+      title: docsSample(context, 'Power Usage'),
+      subtitle: docsSample(context, 'Whole home'),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         mainAxisSize: MainAxisSize.min,
@@ -263,9 +278,9 @@ class _StudioUsageCardState extends State<StudioUsageCard> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisSize: MainAxisSize.min,
                   children: <Widget>[
-                    StudioCaption('Currently Using'),
+                    StudioCaption(docsSample(context, 'Currently Using')),
                     const Gap(4),
-                    const StudioValue('3.4 kW', size: 20),
+                    StudioValue(docsSample(context, '3.4 kW'), size: 20),
                   ],
                 ),
               ),
@@ -274,9 +289,9 @@ class _StudioUsageCardState extends State<StudioUsageCard> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisSize: MainAxisSize.min,
                   children: <Widget>[
-                    StudioCaption('Solar Gen'),
+                    StudioCaption(docsSample(context, 'Solar Gen')),
                     const Gap(4),
-                    const StudioValue('+1.2 kW', size: 20),
+                    StudioValue(docsSample(context, '+1.2 kW'), size: 20),
                   ],
                 ),
               ),
@@ -286,12 +301,14 @@ class _StudioUsageCardState extends State<StudioUsageCard> {
           Progress(
             value: 0.85,
             height: 4,
-            semanticsLabel: 'Battery level 85 percent',
+            semanticsLabel: docsSample(context, 'Battery level 85 percent'),
           ),
           const Gap(8),
           Row(
             children: <Widget>[
-              const Expanded(child: StudioHelper('Battery Level')),
+              Expanded(
+                child: StudioHelper(docsSample(context, 'Battery Level')),
+              ),
               Icon(
                 LucideIcons.batteryCharging,
                 size: 14,
@@ -312,17 +329,32 @@ class StudioUpcomingPaymentsCard extends StatelessWidget {
   /// Creates the card.
   const StudioUpcomingPaymentsCard({super.key});
 
-  static const List<(String, String, String)> rows = <(String, String, String)>[
-    ('Netflix Subscription', 'Apr 15, 2026', r'$19.99'),
-    ('Rent Payment', 'Apr 1, 2026', r'$2,400.00'),
-    ('Auto Insurance', 'Apr 22, 2026', r'$186.00'),
+  static List<(String, String, String)> rows = <(String, String, String)>[
+    (
+      docsSample(null, 'Netflix Subscription'),
+      docsSample(null, 'Apr 15, 2026'),
+      r'$19.99',
+    ),
+    (
+      docsSample(null, 'Rent Payment'),
+      docsSample(null, 'Apr 1, 2026'),
+      r'$2,400.00',
+    ),
+    (
+      docsSample(null, 'Auto Insurance'),
+      docsSample(null, 'Apr 22, 2026'),
+      r'$186.00',
+    ),
   ];
 
   @override
   Widget build(BuildContext context) {
     return StudioCard(
-      title: 'Upcoming Payments',
-      subtitle: 'Select a date to view scheduled payments.',
+      title: docsSample(context, 'Upcoming Payments'),
+      subtitle: docsSample(
+        context,
+        'Select a date to view scheduled payments.',
+      ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         mainAxisSize: MainAxisSize.min,
@@ -344,9 +376,9 @@ class StudioUpcomingPaymentsCard extends StatelessWidget {
                     ),
                   ),
                   const Gap(8),
-                  const Badge(
+                  Badge(
                     variant: BadgeVariant.secondary,
-                    child: Text('Scheduled'),
+                    child: Text(docsSample(context, 'Scheduled')),
                   ),
                   const Gap(8),
                   Expanded(

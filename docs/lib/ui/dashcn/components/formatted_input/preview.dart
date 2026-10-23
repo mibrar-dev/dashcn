@@ -143,8 +143,8 @@ Widget _card(BuildContext context) {
 }
 
 /// Named docs examples for `formatted_input`; the first entry is the default.
-const List<ComponentPreview> formattedInputPreviews = <ComponentPreview>[
-  ComponentPreview('Phone', _phone),
-  ComponentPreview('Date', _date),
+List<ComponentPreview> get formattedInputPreviews => <ComponentPreview>[
+  ComponentPreview(docsSample(null, 'Phone'), _phone),
+  ComponentPreview(docsSample(null, 'Date'), _date),
   ComponentPreview('Card', _card),
 ];

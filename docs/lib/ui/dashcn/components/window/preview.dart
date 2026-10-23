@@ -39,10 +39,18 @@ class _SingleWindowState extends State<_SingleWindow> {
         initialWindows: <Window>[
           Window(
             controller: _notes,
-            title: const Text('Notes'),
+            title: Text(docsSample(context, 'Notes')),
             content: Padding(
               padding: EdgeInsets.all(Theme.of(context).spacing.md),
-              child: const Text('Drag the title bar; resize from any edge.'),
+              child: Text(
+                docsSample(
+                  context,
+                  docsSample(
+                    context,
+                    'Drag the title bar; resize from any edge.',
+                  ),
+                ),
+              ),
             ),
           ),
         ],
@@ -88,18 +96,20 @@ class _MaximizedWindowState extends State<_MaximizedWindow> {
         initialWindows: <Window>[
           Window(
             controller: _main,
-            title: const Text('Editor'),
+            title: Text(docsSample(context, 'Editor')),
             content: Padding(
               padding: EdgeInsets.all(Theme.of(context).spacing.md),
-              child: const Text('Maximized; restore from the title bar.'),
+              child: Text(
+                docsSample(context, 'Maximized; restore from the title bar.'),
+              ),
             ),
           ),
           Window(
             controller: _inspector,
-            title: const Text('Inspector'),
+            title: Text(docsSample(context, 'Inspector')),
             content: Padding(
               padding: EdgeInsets.all(Theme.of(context).spacing.md),
-              child: const Text('Always on top.'),
+              child: Text(docsSample(context, 'Always on top.')),
             ),
           ),
         ],
@@ -112,7 +122,7 @@ class _MaximizedWindowState extends State<_MaximizedWindow> {
 Widget _maximized(BuildContext context) => const _MaximizedWindow();
 
 /// Named docs examples for `window`; the first entry is the default.
-const List<ComponentPreview> windowPreviews = <ComponentPreview>[
-  ComponentPreview('Default', _default),
-  ComponentPreview('Maximized', _maximized),
+List<ComponentPreview> get windowPreviews => <ComponentPreview>[
+  ComponentPreview(docsSample(null, 'Default'), _default),
+  ComponentPreview(docsSample(null, 'Maximized'), _maximized),
 ];

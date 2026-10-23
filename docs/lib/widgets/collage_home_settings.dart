@@ -1,3 +1,4 @@
+import '../ui/dashcn/foundation/component_preview.dart';
 // Home showcase: settings cards (P6-H1).
 //
 // Extends the Theme Studio settings blocks
@@ -25,11 +26,23 @@ class HomeNotificationsCard extends StatefulWidget {
 }
 
 class _HomeNotificationsCardState extends State<HomeNotificationsCard> {
-  static const List<(String, String)> rows = <(String, String)>[
-    ('Transaction alerts', 'Deposits, withdrawals, and transfers.'),
-    ('Security alerts', 'Login attempts and account changes.'),
-    ('Goal milestones', 'Updates at 25%, 50%, 75%, and 100%.'),
-    ('Market updates', 'Daily portfolio summary and price alerts.'),
+  static List<(String, String)> rows = <(String, String)>[
+    (
+      docsSample(null, 'Transaction alerts'),
+      docsSample(null, 'Deposits, withdrawals, and transfers.'),
+    ),
+    (
+      docsSample(null, 'Security alerts'),
+      docsSample(null, 'Login attempts and account changes.'),
+    ),
+    (
+      docsSample(null, 'Goal milestones'),
+      docsSample(null, 'Updates at 25%, 50%, 75%, and 100%.'),
+    ),
+    (
+      docsSample(null, 'Market updates'),
+      docsSample(null, 'Daily portfolio summary and price alerts.'),
+    ),
   ];
 
   final Set<int> _on = <int>{0, 1, 2};
@@ -37,8 +50,11 @@ class _HomeNotificationsCardState extends State<HomeNotificationsCard> {
   @override
   Widget build(BuildContext context) {
     return CollageCard(
-      title: 'Notifications',
-      subtitle: 'Choose what you want to be notified about.',
+      title: docsSample(context, 'Notifications'),
+      subtitle: docsSample(
+        context,
+        'Choose what you want to be notified about.',
+      ),
       trailing: Badge(
         variant: BadgeVariant.outline,
         child: Text('${_on.length} of ${rows.length}'),
@@ -78,9 +94,12 @@ class _HomeNotificationsCardState extends State<HomeNotificationsCard> {
         Button(
           variant: ButtonVariant.primary,
           onPressed: () {},
-          child: const SizedBox(
+          child: SizedBox(
             width: double.infinity,
-            child: Text('Save Preferences', textAlign: TextAlign.center),
+            child: Text(
+              docsSample(context, 'Save Preferences'),
+              textAlign: TextAlign.center,
+            ),
           ),
         ),
       ],
@@ -98,15 +117,21 @@ class HomePreferencesCard extends StatefulWidget {
 }
 
 class _HomePreferencesCardState extends State<HomePreferencesCard> {
-  static const List<String> currencies = <String>[
+  static List<String> currencies = <String>[
     r'USD — United States Dollar',
-    'EUR — Euro',
-    'GBP — British Pound',
+    docsSample(null, 'EUR — Euro'),
+    docsSample(null, 'GBP — British Pound'),
   ];
 
-  static const List<(String, String)> switches = <(String, String)>[
-    ('Public Statistics', 'Allow others to see your stream count'),
-    ('Email Notifications', 'Monthly royalty and distribution updates'),
+  static List<(String, String)> switches = <(String, String)>[
+    (
+      docsSample(null, 'Public Statistics'),
+      docsSample(null, 'Allow others to see your stream count'),
+    ),
+    (
+      docsSample(null, 'Email Notifications'),
+      docsSample(null, 'Monthly royalty and distribution updates'),
+    ),
   ];
 
   String _currency = currencies.first;
@@ -115,10 +140,13 @@ class _HomePreferencesCardState extends State<HomePreferencesCard> {
   @override
   Widget build(BuildContext context) {
     return CollageCard(
-      title: 'Preferences',
-      subtitle: 'Manage your account settings and notifications.',
+      title: docsSample(context, 'Preferences'),
+      subtitle: docsSample(
+        context,
+        'Manage your account settings and notifications.',
+      ),
       children: <Widget>[
-        const StudioFieldLabel('Default Currency'),
+        StudioFieldLabel(docsSample(context, 'Default Currency')),
         const Gap(6),
         Select<String>(
           value: _currency,
@@ -165,11 +193,11 @@ class _HomePreferencesCardState extends State<HomePreferencesCard> {
         const Gap(16),
         Row(
           children: <Widget>[
-            const Expanded(
+            Expanded(
               child: Button(
                 variant: ButtonVariant.outline,
                 onPressed: collageNoop,
-                child: Text('Reset'),
+                child: Text(docsSample(context, 'Reset')),
               ),
             ),
             const Gap(12),
@@ -177,7 +205,7 @@ class _HomePreferencesCardState extends State<HomePreferencesCard> {
               child: Button(
                 variant: ButtonVariant.primary,
                 onPressed: () {},
-                child: const Text('Save Preferences'),
+                child: Text(docsSample(context, 'Save Preferences')),
               ),
             ),
           ],
@@ -197,10 +225,22 @@ class HomeCookieCard extends StatefulWidget {
 }
 
 class _HomeCookieCardState extends State<HomeCookieCard> {
-  static const List<(String, String, bool)> rows = <(String, String, bool)>[
-    ('Strictly Necessary', 'Required for the site to work.', true),
-    ('Functional', 'Remembers your preset and mode.', true),
-    ('Analytics', 'Anonymous usage measurements.', false),
+  static List<(String, String, bool)> rows = <(String, String, bool)>[
+    (
+      docsSample(null, 'Strictly Necessary'),
+      docsSample(null, 'Required for the site to work.'),
+      true,
+    ),
+    (
+      docsSample(null, 'Functional'),
+      docsSample(null, 'Remembers your preset and mode.'),
+      true,
+    ),
+    (
+      docsSample(null, 'Analytics'),
+      docsSample(null, 'Anonymous usage measurements.'),
+      false,
+    ),
   ];
 
   final Set<int> _on = <int>{0, 1};
@@ -208,8 +248,8 @@ class _HomeCookieCardState extends State<HomeCookieCard> {
   @override
   Widget build(BuildContext context) {
     return CollageCard(
-      title: 'Cookie Settings',
-      subtitle: 'Choose which cookies we may set.',
+      title: docsSample(context, 'Cookie Settings'),
+      subtitle: docsSample(context, 'Choose which cookies we may set.'),
       children: <Widget>[
         for (int i = 0; i < rows.length; i++)
           Padding(
@@ -228,9 +268,9 @@ class _HomeCookieCardState extends State<HomeCookieCard> {
                         children: <Widget>[
                           Text(rows[i].$1),
                           if (rows[i].$3)
-                            const Badge(
+                            Badge(
                               variant: BadgeVariant.outline,
-                              child: Text('Always on'),
+                              child: Text(docsSample(context, 'Always on')),
                             ),
                         ],
                       ),
@@ -257,9 +297,12 @@ class _HomeCookieCardState extends State<HomeCookieCard> {
         Button(
           variant: ButtonVariant.primary,
           onPressed: () {},
-          child: const SizedBox(
+          child: SizedBox(
             width: double.infinity,
-            child: Text('Save Choices', textAlign: TextAlign.center),
+            child: Text(
+              docsSample(context, 'Save Choices'),
+              textAlign: TextAlign.center,
+            ),
           ),
         ),
       ],

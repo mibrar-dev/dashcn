@@ -13,6 +13,7 @@ import '../../components/input_otp/input_otp.dart';
 import '../../foundation/gap.dart';
 import '../../theme/theme.dart';
 import '../../primitives/localizations/localizations.dart';
+import '../../foundation/component_preview.dart';
 
 /// Values submitted by the [Pricing01PromoForm] promo-code form.
 class Pricing01PromoData {
@@ -90,7 +91,7 @@ class _Pricing01PromoFormState extends State<Pricing01PromoForm> {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
             Text(
-              'Have a code? Enter it below.',
+              docsSample(context, 'Have a code? Enter it below.'),
               textAlign: TextAlign.center,
               style: theme.typography.textSmall.copyWith(
                 color: theme.colors.mutedForeground,
@@ -125,7 +126,13 @@ class _Pricing01PromoFormState extends State<Pricing01PromoForm> {
               Gap(theme.spacing.lg),
               Alert(
                 content: Text(
-                  'Code applied — your discount shows at checkout.',
+                  docsSample(
+                    context,
+                    docsSample(
+                      context,
+                      'Code applied — your discount shows at checkout.',
+                    ),
+                  ),
                   style: theme.typography.textSmall,
                 ),
               ),

@@ -24,6 +24,7 @@ import '../../foundation/icons/lucide_icons.dart';
 import '../../theme/theme.dart';
 import 'pricing_01_promo.dart';
 import '../../primitives/localizations/localizations.dart';
+import '../../foundation/component_preview.dart';
 
 /// A pricing section: three plans, the middle one highlighted.
 class Pricing01 extends StatelessWidget {
@@ -97,7 +98,7 @@ class _Pricing01Heading extends StatelessWidget {
         ),
         Gap(theme.spacing.lg),
         Text(
-          'Plans that scale with you',
+          docsSample(context, 'Plans that scale with you'),
           style: theme.typography.h2,
           textAlign: TextAlign.center,
         ),
@@ -125,42 +126,42 @@ class _Pricing01Plans extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final double spacing = Theme.of(context).spacing.lg;
-    const List<_Pricing01Plan> plans = <_Pricing01Plan>[
+    List<_Pricing01Plan> plans = <_Pricing01Plan>[
       _Pricing01Plan(
-        name: 'Starter',
+        name: docsSample(context, 'Starter'),
         price: '\$0',
-        cadence: 'per user / month',
+        cadence: docsSample(context, 'per user / month'),
         features: <String>[
-          'Up to 3 projects',
-          'Community support',
-          '1 theme preset',
+          docsSample(context, 'Up to 3 projects'),
+          docsSample(context, 'Community support'),
+          docsSample(context, '1 theme preset'),
         ],
-        cta: 'Get started',
+        cta: docsSample(context, 'Get started'),
         highlighted: false,
       ),
       _Pricing01Plan(
         name: 'Pro',
         price: '\$20',
-        cadence: 'per user / month',
+        cadence: docsSample(context, 'per user / month'),
         features: <String>[
-          'Unlimited projects',
-          'All 42 theme presets',
-          'Blocks and charts',
-          'Priority support',
+          docsSample(context, 'Unlimited projects'),
+          docsSample(context, 'All 42 theme presets'),
+          docsSample(context, 'Blocks and charts'),
+          docsSample(context, 'Priority support'),
         ],
-        cta: 'Subscribe',
+        cta: docsSample(context, 'Subscribe'),
         highlighted: true,
       ),
       _Pricing01Plan(
-        name: 'Enterprise',
-        price: 'Custom',
-        cadence: 'annual billing',
+        name: docsSample(context, 'Enterprise'),
+        price: docsSample(context, 'Custom'),
+        cadence: docsSample(context, 'annual billing'),
         features: <String>[
-          'SSO and audit log',
-          'Dedicated support',
-          'Custom themes',
+          docsSample(context, 'SSO and audit log'),
+          docsSample(context, 'Dedicated support'),
+          docsSample(context, 'Custom themes'),
         ],
-        cta: 'Contact sales',
+        cta: docsSample(context, 'Contact sales'),
         highlighted: false,
       ),
     ];
@@ -336,14 +337,26 @@ class _Pricing01Faq extends StatelessWidget {
           spacing: theme.spacing.xl,
           runSpacing: theme.spacing.lg,
           alignment: WrapAlignment.center,
-          children: const <Widget>[
+          children: <Widget>[
             _Pricing01FaqItem(
-              question: 'Can I change plans later?',
-              answer: 'Yes. Upgrades apply immediately, downgrades next cycle.',
+              question: docsSample(context, 'Can I change plans later?'),
+              answer: docsSample(
+                context,
+                docsSample(
+                  context,
+                  'Yes. Upgrades apply immediately, downgrades next cycle.',
+                ),
+              ),
             ),
             _Pricing01FaqItem(
-              question: 'Is there a free trial?',
-              answer: 'Every plan starts with 14 days, no card required.',
+              question: docsSample(context, 'Is there a free trial?'),
+              answer: docsSample(
+                context,
+                docsSample(
+                  context,
+                  'Every plan starts with 14 days, no card required.',
+                ),
+              ),
             ),
           ],
         ),

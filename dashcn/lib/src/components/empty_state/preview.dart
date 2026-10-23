@@ -27,7 +27,7 @@ class _StatusLine extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Text(
-      status,
+      docsSample(context, status),
       textAlign: TextAlign.center,
       style: TextStyle(
         fontSize: 12,
@@ -46,7 +46,7 @@ class _EmptyStateEmpty extends StatefulWidget {
 }
 
 class _EmptyStateEmptyState extends State<_EmptyStateEmpty> {
-  String _status = 'Nothing here yet.';
+  String _status = docsSample(null, 'Nothing here yet.');
 
   @override
   Widget build(BuildContext context) {
@@ -57,13 +57,17 @@ class _EmptyStateEmptyState extends State<_EmptyStateEmpty> {
         EmptyState(
           variant: EmptyStateVariant.empty,
           primaryAction: EmptyStateAction(
-            label: 'Create project',
-            onPressed: () => setState(() => _status = 'Created a project.'),
+            label: docsSample(context, 'Create project'),
+            onPressed: () => setState(
+              () => _status = docsSample(context, 'Created a project.'),
+            ),
           ),
           secondaryAction: EmptyStateAction(
-            label: 'Import',
+            label: docsSample(context, 'Import'),
             variant: ButtonVariant.outline,
-            onPressed: () => setState(() => _status = 'Importing a project.'),
+            onPressed: () => setState(
+              () => _status = docsSample(context, 'Importing a project.'),
+            ),
           ),
         ),
         Gap(Theme.of(context).spacing.md),
@@ -82,7 +86,7 @@ class _EmptyStateNoResults extends StatefulWidget {
 }
 
 class _EmptyStateNoResultsState extends State<_EmptyStateNoResults> {
-  String _status = 'No results for "rocket".';
+  String _status = docsSample(null, 'No results for "rocket".');
 
   @override
   Widget build(BuildContext context) {
@@ -93,8 +97,10 @@ class _EmptyStateNoResultsState extends State<_EmptyStateNoResults> {
         EmptyState(
           variant: EmptyStateVariant.noResults,
           primaryAction: EmptyStateAction(
-            label: 'Clear filters',
-            onPressed: () => setState(() => _status = 'Filters cleared.'),
+            label: docsSample(context, 'Clear filters'),
+            onPressed: () => setState(
+              () => _status = docsSample(context, 'Filters cleared.'),
+            ),
           ),
         ),
         Gap(Theme.of(context).spacing.md),
@@ -113,7 +119,7 @@ class _EmptyStateError extends StatefulWidget {
 }
 
 class _EmptyStateErrorState extends State<_EmptyStateError> {
-  String _status = 'Something went wrong.';
+  String _status = docsSample(null, 'Something went wrong.');
 
   @override
   Widget build(BuildContext context) {
@@ -124,13 +130,15 @@ class _EmptyStateErrorState extends State<_EmptyStateError> {
         EmptyState(
           variant: EmptyStateVariant.errorFallback,
           primaryAction: EmptyStateAction(
-            label: 'Try again',
-            onPressed: () => setState(() => _status = 'Retrying...'),
+            label: docsSample(context, 'Try again'),
+            onPressed: () =>
+                setState(() => _status = docsSample(context, 'Retrying...')),
           ),
           footerAction: EmptyStateAction(
-            label: 'Report this',
+            label: docsSample(context, 'Report this'),
             variant: ButtonVariant.link,
-            onPressed: () => setState(() => _status = 'Report sent.'),
+            onPressed: () =>
+                setState(() => _status = docsSample(context, 'Report sent.')),
           ),
         ),
         Gap(Theme.of(context).spacing.md),
@@ -147,19 +155,19 @@ Widget _emptyStateCompact(BuildContext context) {
     crossAxisAlignment: CrossAxisAlignment.start,
     mainAxisSize: MainAxisSize.min,
     children: <Widget>[
-      const EmptyState(
+      EmptyState(
         size: EmptyStateSize.compact,
         variant: EmptyStateVariant.empty,
-        title: Text('Nothing here yet'),
-        primaryAction: EmptyStateAction(label: 'Create'),
+        title: Text(docsSample(context, 'Nothing here yet')),
+        primaryAction: EmptyStateAction(label: docsSample(context, 'Create')),
       ),
       Gap(spacing.xl),
-      const EmptyState(
+      EmptyState(
         size: EmptyStateSize.compact,
         variant: EmptyStateVariant.noResults,
         showIconContainer: false,
-        title: Text('No matches'),
-        description: Text('Try a different term.'),
+        title: Text(docsSample(context, 'No matches')),
+        description: Text(docsSample(context, 'Try a different term.')),
       ),
     ],
   );
@@ -173,9 +181,9 @@ Widget _emptyStateEmpty(BuildContext context) => const _EmptyStateEmpty();
 Widget _emptyStateError(BuildContext context) => const _EmptyStateError();
 
 /// Named docs examples for `empty_state`; the first entry is the default.
-const List<ComponentPreview> emptyStatePreviews = <ComponentPreview>[
-  ComponentPreview('No results', _emptyStateNoResults),
-  ComponentPreview('Empty', _emptyStateEmpty),
-  ComponentPreview('Error fallback', _emptyStateError),
-  ComponentPreview('Compact', _emptyStateCompact),
+List<ComponentPreview> get emptyStatePreviews => <ComponentPreview>[
+  ComponentPreview(docsSample(null, 'No results'), _emptyStateNoResults),
+  ComponentPreview(docsSample(null, 'Empty'), _emptyStateEmpty),
+  ComponentPreview(docsSample(null, 'Error fallback'), _emptyStateError),
+  ComponentPreview(docsSample(null, 'Compact'), _emptyStateCompact),
 ];

@@ -26,9 +26,9 @@ class _SwipeActionsDemo extends StatefulWidget {
 
 class _SwipeActionsDemoState extends State<_SwipeActionsDemo> {
   final List<String> _rows = <String>[
-    'Design review at 10',
-    'Your invoice is ready',
-    'Weekend trip photos',
+    docsSample(null, 'Design review at 10'),
+    docsSample(null, 'Your invoice is ready'),
+    docsSample(null, 'Weekend trip photos'),
   ];
 
   void _remove(String row) {
@@ -52,9 +52,12 @@ class _SwipeActionsDemoState extends State<_SwipeActionsDemo> {
             for (final String row in _rows) ...<Widget>[
               SwipeActions(
                 actions: <SwipeAction>[
-                  SwipeAction(label: 'Archive', onPressed: () => _remove(row)),
                   SwipeAction(
-                    label: 'Delete',
+                    label: docsSample(context, 'Archive'),
+                    onPressed: () => _remove(row),
+                  ),
+                  SwipeAction(
+                    label: docsSample(context, 'Delete'),
                     destructive: true,
                     onPressed: () => _remove(row),
                   ),
@@ -114,8 +117,12 @@ Widget _compact(BuildContext context) {
       child: SwipeActions(
         densityTokens: DensityTokens.compact,
         actions: <SwipeAction>[
-          SwipeAction(label: 'Archive', onPressed: () {}),
-          SwipeAction(label: 'Delete', destructive: true, onPressed: () {}),
+          SwipeAction(label: docsSample(context, 'Archive'), onPressed: () {}),
+          SwipeAction(
+            label: docsSample(context, 'Delete'),
+            destructive: true,
+            onPressed: () {},
+          ),
         ],
         onDismissed: () {},
         child: Card(
@@ -126,7 +133,7 @@ Widget _compact(BuildContext context) {
               child: Align(
                 alignment: Alignment.centerLeft,
                 child: Text(
-                  'Compact row 36, tile 56',
+                  docsSample(context, 'Compact row 36, tile 56'),
                   style: appTheme.typography.textSmall.copyWith(
                     color: appTheme.colors.foreground,
                   ),
@@ -149,8 +156,12 @@ Widget _comfortable(BuildContext context) {
       child: SwipeActions(
         densityTokens: DensityTokens.comfortable,
         actions: <SwipeAction>[
-          SwipeAction(label: 'Archive', onPressed: () {}),
-          SwipeAction(label: 'Delete', destructive: true, onPressed: () {}),
+          SwipeAction(label: docsSample(context, 'Archive'), onPressed: () {}),
+          SwipeAction(
+            label: docsSample(context, 'Delete'),
+            destructive: true,
+            onPressed: () {},
+          ),
         ],
         onDismissed: () {},
         child: Card(
@@ -161,7 +172,7 @@ Widget _comfortable(BuildContext context) {
               child: Align(
                 alignment: Alignment.centerLeft,
                 child: Text(
-                  'Comfortable row 44, tile 64',
+                  docsSample(context, 'Comfortable row 44, tile 64'),
                   style: appTheme.typography.textSmall.copyWith(
                     color: appTheme.colors.foreground,
                   ),
@@ -216,7 +227,11 @@ Widget _customBuilders(BuildContext context) {
             ),
             onPressed: () {},
           ),
-          SwipeAction(label: 'Delete', destructive: true, onPressed: () {}),
+          SwipeAction(
+            label: docsSample(context, 'Delete'),
+            destructive: true,
+            onPressed: () {},
+          ),
         ],
         onDismissed: () {},
         child: Card(
@@ -228,7 +243,7 @@ Widget _customBuilders(BuildContext context) {
               child: Align(
                 alignment: Alignment.centerLeft,
                 child: Text(
-                  'Custom builders',
+                  docsSample(context, 'Custom builders'),
                   style: appTheme.typography.textSmall.copyWith(
                     color: appTheme.colors.foreground,
                   ),
@@ -256,8 +271,12 @@ Widget _motionOverride(BuildContext context) {
           exitDuration: Duration(milliseconds: 450),
         ),
         actions: <SwipeAction>[
-          SwipeAction(label: 'Archive', onPressed: () {}),
-          SwipeAction(label: 'Delete', destructive: true, onPressed: () {}),
+          SwipeAction(label: docsSample(context, 'Archive'), onPressed: () {}),
+          SwipeAction(
+            label: docsSample(context, 'Delete'),
+            destructive: true,
+            onPressed: () {},
+          ),
         ],
         onDismissed: () {},
         child: Card(
@@ -269,7 +288,7 @@ Widget _motionOverride(BuildContext context) {
               child: Align(
                 alignment: Alignment.centerLeft,
                 child: Text(
-                  'Slow motion',
+                  docsSample(context, 'Slow motion'),
                   style: appTheme.typography.textSmall.copyWith(
                     color: appTheme.colors.foreground,
                   ),
@@ -284,11 +303,11 @@ Widget _motionOverride(BuildContext context) {
 }
 
 /// Named docs examples for `swipe_actions`; the first entry is the default.
-const List<ComponentPreview> swipeActionsPreviews = <ComponentPreview>[
-  ComponentPreview('Default', _default),
-  ComponentPreview('Compact', _compact),
-  ComponentPreview('Comfortable', _comfortable),
-  ComponentPreview('Right to left', _rightToLeft),
-  ComponentPreview('Custom builders', _customBuilders),
-  ComponentPreview('Motion override', _motionOverride),
+List<ComponentPreview> get swipeActionsPreviews => <ComponentPreview>[
+  ComponentPreview(docsSample(null, 'Default'), _default),
+  ComponentPreview(docsSample(null, 'Compact'), _compact),
+  ComponentPreview(docsSample(null, 'Comfortable'), _comfortable),
+  ComponentPreview(docsSample(null, 'Right to left'), _rightToLeft),
+  ComponentPreview(docsSample(null, 'Custom builders'), _customBuilders),
+  ComponentPreview(docsSample(null, 'Motion override'), _motionOverride),
 ];

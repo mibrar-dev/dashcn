@@ -24,7 +24,7 @@ Widget _checkboxRow(BuildContext context, Checkbox checkbox, String label) {
     padding: checkbox.padding,
     theme: checkbox.theme,
     focusNode: checkbox.focusNode,
-    label: Text(label),
+    label: Text(docsSample(context, label)),
   );
 }
 
@@ -48,7 +48,7 @@ class _CheckboxDefaultCheckboxState extends State<_CheckboxDefaultCheckbox> {
         value: _value,
         onChanged: (CheckboxValue value) => setState(() => _value = value),
       ),
-      'Accept terms',
+      docsSample(context, 'Accept terms'),
     );
   }
 }
@@ -73,7 +73,7 @@ class _CheckboxCheckedCheckboxState extends State<_CheckboxCheckedCheckbox> {
         value: _value,
         onChanged: (CheckboxValue value) => setState(() => _value = value),
       ),
-      'Notify me',
+      docsSample(context, 'Notify me'),
     );
   }
 }
@@ -115,7 +115,7 @@ Widget _checkboxDisabled(BuildContext context) {
       _checkboxRow(
         context,
         const Checkbox(value: CheckboxValue.checked),
-        'On (disabled)',
+        docsSample(context, 'On (disabled)'),
       ),
       _checkboxRow(
         context,
@@ -136,9 +136,9 @@ Widget _checkboxIndeterminate(BuildContext context) =>
     const _CheckboxTristateCheckbox();
 
 /// Named docs examples for `checkbox`; the first entry is the default.
-const List<ComponentPreview> checkboxPreviews = <ComponentPreview>[
-  ComponentPreview('Default', _checkboxDefault),
-  ComponentPreview('Checked', _checkboxChecked),
-  ComponentPreview('Indeterminate', _checkboxIndeterminate),
-  ComponentPreview('Disabled', _checkboxDisabled),
+List<ComponentPreview> get checkboxPreviews => <ComponentPreview>[
+  ComponentPreview(docsSample(null, 'Default'), _checkboxDefault),
+  ComponentPreview(docsSample(null, 'Checked'), _checkboxChecked),
+  ComponentPreview(docsSample(null, 'Indeterminate'), _checkboxIndeterminate),
+  ComponentPreview(docsSample(null, 'Disabled'), _checkboxDisabled),
 ];

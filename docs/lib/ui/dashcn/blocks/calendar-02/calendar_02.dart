@@ -21,6 +21,7 @@ import '../../foundation/icons/lucide_icons.dart';
 import '../../primitives/date_math.dart';
 import '../../primitives/localizations/localizations.dart';
 import '../../theme/theme.dart';
+import '../../foundation/component_preview.dart';
 
 /// A scheduling panel: a month calendar and the selected day's agenda.
 class Calendar02 extends StatefulWidget {
@@ -89,7 +90,13 @@ class _Calendar02State extends State<Calendar02> {
                 Text(strings.blockBookMeeting, style: theme.typography.h2),
                 Gap(theme.spacing.xs),
                 Text(
-                  'Pick a day, then a time that suits you.',
+                  docsSample(
+                    context,
+                    docsSample(
+                      context,
+                      'Pick a day, then a time that suits you.',
+                    ),
+                  ),
                   style: theme.typography.textMuted.copyWith(
                     color: theme.colors.mutedForeground,
                   ),
@@ -224,7 +231,10 @@ class _Calendar02Agenda extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: <Widget>[
-          Text('Saturday, 10 October', style: theme.typography.h3),
+          Text(
+            docsSample(context, 'Saturday, 10 October'),
+            style: theme.typography.h3,
+          ),
           Gap(theme.spacing.sm),
           Text(
             slot == null
@@ -239,7 +249,10 @@ class _Calendar02Agenda extends StatelessWidget {
           Gap(theme.spacing.lg),
           const Divider(),
           Gap(theme.spacing.lg),
-          Text('Calendar link', style: theme.typography.textSmall),
+          Text(
+            docsSample(context, 'Calendar link'),
+            style: theme.typography.textSmall,
+          ),
           Gap(theme.spacing.sm),
           Text(
             'cal.acme.com/ada-lovelace/30min',

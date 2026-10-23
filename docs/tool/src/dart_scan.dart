@@ -376,6 +376,14 @@ String? findPreviewExampleList({required String source}) {
     throwIfDiagnostics: false,
   );
   for (final Declaration declaration in result.unit.declarations) {
+    if (declaration is FunctionDeclaration && declaration.isGetter) {
+      final String name = declaration.name.lexeme;
+      if (name.endsWith('Previews') &&
+          _previewListOf(declaration as CompilationUnitMember) != null) {
+        return name;
+      }
+      continue;
+    }
     if (declaration is! TopLevelVariableDeclaration) {
       continue;
     }
@@ -404,21 +412,13 @@ List<String> findPreviewExamples({required String source}) {
     throwIfDiagnostics: false,
   );
   for (final Declaration declaration in result.unit.declarations) {
-    if (declaration is! TopLevelVariableDeclaration) {
+    final ({String name, ListLiteral list})? found = _previewListOf(
+      declaration as CompilationUnitMember,
+    );
+    if (found == null) {
       continue;
     }
-    final VariableDeclarationList list = declaration.variables;
-    final String type = list.type?.toSource().replaceAll(' ', '') ?? '';
-    if (type != 'List<ComponentPreview>') {
-      continue;
-    }
-    if (list.variables.length != 1) {
-      continue;
-    }
-    final Expression? initializer = list.variables.first.initializer;
-    if (initializer is! ListLiteral) {
-      continue;
-    }
+    final ListLiteral initializer = found.list;
     final List<String> names = <String>[];
     for (final CollectionElement element in initializer.elements) {
       if (element is! Expression) {
@@ -463,6 +463,17 @@ String? _previewElementName(Expression expression) {
     }
     if (argument is AdjacentStrings) {
       return argument.stringValue;
+    }
+    // `docsSample(context | null, 'English key')`: the English key is the name.
+    if (argument is MethodInvocation &&
+        argument.methodName.name == 'docsSample') {
+      final List<Expression> parts = <Expression>[
+        for (final Argument part in argument.argumentList.arguments)
+          if (part is Expression) part,
+      ];
+      if (parts.length >= 2 && parts[1] is SimpleStringLiteral) {
+        return (parts[1] as SimpleStringLiteral).value;
+      }
     }
     return null;
   }
@@ -560,3 +571,35 @@ bool _hasPublicUnnamedConstructor(ClassDeclaration declaration) {
 /// Whether an unnamed constructor is private (`Foo._()`: its name is `_`).
 bool _isPrivate(ConstructorDeclaration constructor) =>
     constructor.name?.lexeme == '_';
+
+/// The name and list literal of a top-level `List<ComponentPreview>` declared
+/// as a variable (`= <ComponentPreview>[...]`) or as a getter
+/// (`get name => <ComponentPreview>[...]`). Null for any other declaration.
+({String name, ListLiteral list})? _previewListOf(
+  CompilationUnitMember member,
+) {
+  if (member is TopLevelVariableDeclaration) {
+    final String type =
+        member.variables.type?.toSource().replaceAll(' ', '') ?? '';
+    if (type != 'List<ComponentPreview>' ||
+        member.variables.variables.length != 1) {
+      return null;
+    }
+    final VariableDeclaration variable = member.variables.variables.first;
+    final Expression? initializer = variable.initializer;
+    if (initializer is ListLiteral) {
+      return (name: variable.name.lexeme, list: initializer);
+    }
+    return null;
+  }
+  if (member is FunctionDeclaration && member.isGetter) {
+    final String type = member.returnType?.toSource().replaceAll(' ', '') ?? '';
+    final FunctionBody body = member.functionExpression.body;
+    if (type == 'List<ComponentPreview>' &&
+        body is ExpressionFunctionBody &&
+        body.expression is ListLiteral) {
+      return (name: member.name.lexeme, list: body.expression as ListLiteral);
+    }
+  }
+  return null;
+}

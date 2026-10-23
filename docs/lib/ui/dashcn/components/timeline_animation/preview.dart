@@ -84,8 +84,7 @@ class _TimelineAnimationPreviewState extends State<TimelineAnimationPreview>
           ),
           const Gap(24),
           Text(
-            'total ${_sizeTimeline.totalDuration.inMilliseconds}ms · '
-            'segments ${_sizeTimeline.keyframes.length} · '
+            'total ${_sizeTimeline.totalDuration.inMilliseconds}ms · segments ${_sizeTimeline.keyframes.length} · '
             'int lerp → ${TimelineAnimation<int>(keyframes: <Keyframe<int>>[const AbsoluteKeyframe<int>(Duration(milliseconds: 400), 0, 10)]).transform(0.5)}',
             style: const TextStyle(fontSize: 13),
             textAlign: TextAlign.center,

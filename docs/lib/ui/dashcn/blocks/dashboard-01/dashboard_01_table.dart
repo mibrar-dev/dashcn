@@ -12,6 +12,7 @@ import '../../components/table/table.dart';
 import '../../foundation/gap.dart';
 import '../../theme/theme.dart';
 import '../../primitives/localizations/localizations.dart';
+import '../../foundation/component_preview.dart';
 
 class _Dashboard01Order {
   const _Dashboard01Order(this.customer, this.status, this.method, this.amount);
@@ -29,12 +30,37 @@ class _Dashboard01Order {
   };
 }
 
-const List<_Dashboard01Order> _dashboard01Orders = <_Dashboard01Order>[
-  _Dashboard01Order('Olivia Martin', 'Paid', 'Visa', '\$1,999.00'),
-  _Dashboard01Order('Jackson Lee', 'Pending', 'Mastercard', '\$39.00'),
-  _Dashboard01Order('Isabella Nguyen', 'Refunded', 'PayPal', '\$299.00'),
-  _Dashboard01Order('William Kim', 'Paid', 'Visa', '\$99.00'),
-  _Dashboard01Order('Sofia Davis', 'Paid', 'Amex', '\$499.00'),
+List<_Dashboard01Order> _dashboard01Orders = <_Dashboard01Order>[
+  _Dashboard01Order(
+    docsSample(null, 'Olivia Martin'),
+    docsSample(null, 'Paid'),
+    docsSample(null, 'Visa'),
+    '\$1,999.00',
+  ),
+  _Dashboard01Order(
+    docsSample(null, 'Jackson Lee'),
+    docsSample(null, 'Pending'),
+    docsSample(null, 'Mastercard'),
+    '\$39.00',
+  ),
+  _Dashboard01Order(
+    docsSample(null, 'Isabella Nguyen'),
+    docsSample(null, 'Refunded'),
+    'PayPal',
+    '\$299.00',
+  ),
+  _Dashboard01Order(
+    docsSample(null, 'William Kim'),
+    docsSample(null, 'Paid'),
+    docsSample(null, 'Visa'),
+    '\$99.00',
+  ),
+  _Dashboard01Order(
+    docsSample(null, 'Sofia Davis'),
+    docsSample(null, 'Paid'),
+    docsSample(null, 'Amex'),
+    '\$499.00',
+  ),
 ];
 
 /// Recent transactions with a working customer filter.
@@ -89,7 +115,7 @@ class _Dashboard01RecentState extends State<Dashboard01Recent> {
                     children: <Widget>[
                       Expanded(
                         child: Text(
-                          'Transactions',
+                          docsSample(context, 'Transactions'),
                           style: theme.typography.textLarge,
                         ),
                       ),

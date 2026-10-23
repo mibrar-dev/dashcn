@@ -10,6 +10,7 @@ import '../ui/dashcn/components/input/input.dart';
 import '../ui/dashcn/components/radio_group/radio_group.dart';
 import '../ui/dashcn/components/switch/switch.dart';
 import '../ui/dashcn/components/tabs/tabs.dart';
+import '../ui/dashcn/foundation/component_preview.dart';
 import '../ui/dashcn/foundation/gap.dart';
 import '../ui/dashcn/theme/theme.dart';
 import 'collage_cards.dart';
@@ -20,11 +21,11 @@ class CollageInputsCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const CollageCard(
+    return CollageCard(
       children: <Widget>[
-        Input(hintText: 'Name'),
-        Gap(12),
-        Input(hintText: 'Message', maxLines: 3),
+        Input(hintText: docsSample(context, 'Name')),
+        const Gap(12),
+        Input(hintText: docsSample(context, 'Message'), maxLines: 3),
       ],
     );
   }
@@ -35,36 +36,39 @@ class CollageGoalCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const CollageCard(
-      title: 'Set a goal',
-      subtitle: 'Small forms built from the same primitives',
+    return CollageCard(
+      title: docsSample(context, 'Set a goal'),
+      subtitle: docsSample(
+        context,
+        'Small forms built from the same primitives',
+      ),
       children: <Widget>[
-        Input(hintText: 'Goal name'),
-        Gap(8),
+        Input(hintText: docsSample(context, 'Goal name')),
+        const Gap(8),
         Row(
           children: <Widget>[
-            Expanded(child: Input(hintText: 'Target')),
-            Gap(8),
-            Expanded(child: Input(hintText: 'Date')),
+            Expanded(child: Input(hintText: docsSample(context, 'Target'))),
+            const Gap(8),
+            Expanded(child: Input(hintText: docsSample(context, 'Date'))),
           ],
         ),
-        Gap(12),
+        const Gap(12),
         SizedBox(
           width: double.infinity,
           child: Button(
             size: ButtonSize.sm,
             onPressed: collageNoop,
-            child: Text('Create Goal'),
+            child: Text(docsSample(context, 'Create Goal')),
           ),
         ),
-        Gap(8),
+        const Gap(8),
         SizedBox(
           width: double.infinity,
           child: Button(
             variant: ButtonVariant.outline,
             size: ButtonSize.sm,
             onPressed: collageNoop,
-            child: Text('Cancel'),
+            child: Text(docsSample(context, 'Cancel')),
           ),
         ),
       ],
@@ -94,19 +98,19 @@ class CollageTabsCardState extends State<CollageTabsCard> {
           // intrinsic-width tabs overflow by ~9 px; expanded tabs share the
           // width instead (responsive audit finding).
           expand: true,
-          children: const <TabItem>[
-            TabItem(child: Text('Preview')),
-            TabItem(child: Text('Code')),
-            TabItem(child: Text('Usage')),
+          children: <TabItem>[
+            TabItem(child: Text(docsSample(context, 'Preview'))),
+            TabItem(child: Text(docsSample(context, 'Code'))),
+            TabItem(child: Text(docsSample(context, 'Usage'))),
           ],
         ),
         const Gap(12),
         Text(
-          switch (_index) {
-            0 => 'Live component preview.',
-            1 => 'Copy the source you install.',
-            _ => 'Compose it with your own data.',
-          },
+          docsSample(context, switch (_index) {
+            0 => docsSample(context, 'Live component preview.'),
+            1 => docsSample(context, 'Copy the source you install.'),
+            _ => docsSample(context, 'Compose it with your own data.'),
+          }),
           style: docsText(
             context,
             size: 13,
@@ -133,24 +137,24 @@ class CollageSwitchesCardState extends State<CollageSwitchesCard> {
   @override
   Widget build(BuildContext context) {
     return CollageCard(
-      title: 'Switches',
+      title: docsSample(context, 'Switches'),
       children: <Widget>[
         Switch(
           value: _first,
           onChanged: (bool value) => setState(() => _first = value),
-          label: const Text('Notifications'),
+          label: Text(docsSample(context, 'Notifications')),
         ),
         const Gap(8),
         Switch(
           value: _second,
           onChanged: (bool value) => setState(() => _second = value),
-          label: const Text('Weekly digest'),
+          label: Text(docsSample(context, 'Weekly digest')),
         ),
         const Gap(8),
         Switch(
           value: _third,
           onChanged: (bool value) => setState(() => _third = value),
-          label: const Text('Beta features'),
+          label: Text(docsSample(context, 'Beta features')),
         ),
       ],
     );
@@ -170,15 +174,24 @@ class CollageRadioCardState extends State<CollageRadioCard> {
   @override
   Widget build(BuildContext context) {
     return CollageCard(
-      title: 'Choose a plan',
+      title: docsSample(context, 'Choose a plan'),
       children: <Widget>[
         RadioSet<String>(
           value: _value,
           onChanged: (String value) => setState(() => _value = value),
-          items: const <Widget>[
-            RadioItem<String>(value: 'free', label: Text('Free')),
-            RadioItem<String>(value: 'pro', label: Text('Pro')),
-            RadioItem<String>(value: 'team', label: Text('Team')),
+          items: <Widget>[
+            RadioItem<String>(
+              value: 'free',
+              label: Text(docsSample(context, 'Free')),
+            ),
+            RadioItem<String>(
+              value: 'pro',
+              label: Text(docsSample(context, 'Pro')),
+            ),
+            RadioItem<String>(
+              value: 'team',
+              label: Text(docsSample(context, 'Team')),
+            ),
           ],
         ),
       ],

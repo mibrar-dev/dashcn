@@ -29,7 +29,7 @@ class _CardDefault extends StatefulWidget {
 }
 
 class _CardDefaultState extends State<_CardDefault> {
-  String _status = 'Ready to deploy';
+  String _status = docsSample(null, 'Ready to deploy');
 
   @override
   Widget build(BuildContext context) {
@@ -44,22 +44,44 @@ class _CardDefaultState extends State<_CardDefault> {
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisSize: MainAxisSize.min,
               children: <Widget>[
-                const CardHeader(
+                CardHeader(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisSize: MainAxisSize.min,
                     children: <Widget>[
-                      CardTitle(child: Text('Deployments')),
+                      CardTitle(
+                        child: Text(docsSample(context, 'Deployments')),
+                      ),
                       CardDescription(
-                        child: Text('Ship a new build to production.'),
+                        child: Text(
+                          docsSample(
+                            context,
+                            docsSample(
+                              context,
+                              docsSample(
+                                context,
+                                'Ship a new build to production.',
+                              ),
+                            ),
+                          ),
+                        ),
                       ),
                     ],
                   ),
                 ),
                 Gap(spacing.lg),
-                const CardContent(
+                CardContent(
                   child: Text(
-                    'Every deploy is immutable; roll back from the history tab.',
+                    docsSample(
+                      context,
+                      docsSample(
+                        context,
+                        docsSample(
+                          context,
+                          'Every deploy is immutable; roll back from the history tab.',
+                        ),
+                      ),
+                    ),
                   ),
                 ),
                 Gap(spacing.lg),
@@ -73,15 +95,21 @@ class _CardDefaultState extends State<_CardDefault> {
                         Button(
                           size: ButtonSize.sm,
                           variant: ButtonVariant.ghost,
-                          onPressed: () =>
-                              setState(() => _status = 'Deploy cancelled'),
-                          child: const Text('Cancel'),
+                          onPressed: () => setState(
+                            () => _status = docsSample(
+                              context,
+                              docsSample(context, 'Deploy cancelled'),
+                            ),
+                          ),
+                          child: Text(docsSample(context, 'Cancel')),
                         ),
                         Button(
                           size: ButtonSize.sm,
-                          onPressed: () =>
-                              setState(() => _status = 'Deploy queued'),
-                          child: const Text('Deploy'),
+                          onPressed: () => setState(
+                            () =>
+                                _status = docsSample(context, 'Deploy queued'),
+                          ),
+                          child: Text(docsSample(context, 'Deploy')),
                         ),
                       ];
                       if (!stack) {
@@ -112,7 +140,7 @@ class _CardDefaultState extends State<_CardDefault> {
         ),
         Gap(spacing.md),
         Text(
-          _status,
+          docsSample(context, _status),
           style: TextStyle(
             fontSize: 12,
             color: Theme.of(context).colors.mutedForeground,
@@ -147,14 +175,16 @@ Widget _cardWithMedia(BuildContext context) {
               ),
             ),
           ),
-          const CardHeader(
+          CardHeader(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisSize: MainAxisSize.min,
               children: <Widget>[
-                CardTitle(child: Text('Cover art')),
+                CardTitle(child: Text(docsSample(context, 'Cover art'))),
                 CardDescription(
-                  child: Text('Generated from the preset palette.'),
+                  child: Text(
+                    docsSample(context, 'Generated from the preset palette.'),
+                  ),
                 ),
               ],
             ),
@@ -174,7 +204,7 @@ class _CardWithFooter extends StatefulWidget {
 }
 
 class _CardWithFooterState extends State<_CardWithFooter> {
-  String _status = 'Plan unchanged';
+  String _status = docsSample(null, 'Plan unchanged');
 
   @override
   Widget build(BuildContext context) {
@@ -189,10 +219,10 @@ class _CardWithFooterState extends State<_CardWithFooter> {
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisSize: MainAxisSize.min,
               children: <Widget>[
-                const CardTitle(child: Text('Billing')),
+                CardTitle(child: Text(docsSample(context, 'Billing'))),
                 Gap(theme.spacing.xs),
                 Text(
-                  'Bare card, default padding',
+                  docsSample(context, 'Bare card, default padding'),
                   style: TextStyle(color: theme.colors.mutedForeground),
                 ),
                 Gap(theme.spacing.lg),
@@ -201,9 +231,10 @@ class _CardWithFooterState extends State<_CardWithFooter> {
                   child: Button(
                     size: ButtonSize.sm,
                     variant: ButtonVariant.outline,
-                    onPressed: () =>
-                        setState(() => _status = 'Opened the plan'),
-                    child: const Text('Manage plan'),
+                    onPressed: () => setState(
+                      () => _status = docsSample(context, 'Opened the plan'),
+                    ),
+                    child: Text(docsSample(context, 'Manage plan')),
                   ),
                 ),
               ],
@@ -212,7 +243,7 @@ class _CardWithFooterState extends State<_CardWithFooter> {
         ),
         Gap(theme.spacing.md),
         Text(
-          _status,
+          docsSample(context, _status),
           style: TextStyle(fontSize: 12, color: theme.colors.mutedForeground),
         ),
       ],
@@ -225,8 +256,8 @@ Widget _cardDefault(BuildContext context) => const _CardDefault();
 Widget _cardWithFooter(BuildContext context) => const _CardWithFooter();
 
 /// Named docs examples for `card`; the first entry is the default.
-const List<ComponentPreview> cardPreviews = <ComponentPreview>[
-  ComponentPreview('Default', _cardDefault),
-  ComponentPreview('With media', _cardWithMedia),
-  ComponentPreview('With footer', _cardWithFooter),
+List<ComponentPreview> get cardPreviews => <ComponentPreview>[
+  ComponentPreview(docsSample(null, 'Default'), _cardDefault),
+  ComponentPreview(docsSample(null, 'With media'), _cardWithMedia),
+  ComponentPreview(docsSample(null, 'With footer'), _cardWithFooter),
 ];

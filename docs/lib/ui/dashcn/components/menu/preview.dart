@@ -23,7 +23,7 @@ class _MenuDefault extends StatefulWidget {
 }
 
 class _MenuDefaultState extends State<_MenuDefault> {
-  String _lastAction = 'Pick a command';
+  String _lastAction = docsSample(null, 'Pick a command');
 
   @override
   Widget build(BuildContext context) {
@@ -39,36 +39,42 @@ class _MenuDefaultState extends State<_MenuDefault> {
               autofocus: false,
               children: <Widget>[
                 MenuButton(
-                  child: const Text('Cut'),
-                  onPressed: (_) => _run('Cut the selection'),
+                  child: Text('Cut'),
+                  onPressed: (_) =>
+                      _run(docsSample(context, 'Cut the selection')),
                 ),
                 MenuButton(
-                  child: const Text('Copy'),
-                  onPressed: (_) => _run('Copied to the clipboard'),
+                  child: Text(docsSample(context, 'Copy')),
+                  onPressed: (_) =>
+                      _run(docsSample(context, 'Copied to the clipboard')),
                 ),
                 MenuButton(
-                  child: const Text('Paste'),
-                  onPressed: (_) => _run('Pasted from the clipboard'),
+                  child: Text(docsSample(context, 'Paste')),
+                  onPressed: (_) =>
+                      _run(docsSample(context, 'Pasted from the clipboard')),
                 ),
                 const MenuSeparator(),
                 MenuButton(
                   subMenu: <Widget>[
                     MenuButton(
-                      child: const Text('Email'),
-                      onPressed: (_) => _run('Shared by email'),
+                      child: Text(docsSample(context, 'Email')),
+                      onPressed: (_) =>
+                          _run(docsSample(context, 'Shared by email')),
                     ),
                     MenuButton(
-                      child: const Text('Link'),
-                      onPressed: (_) => _run('Copied a share link'),
+                      child: Text(docsSample(context, 'Link')),
+                      onPressed: (_) =>
+                          _run(docsSample(context, 'Copied a share link')),
                     ),
                   ],
                   onPressed: (_) {},
-                  child: const Text('Share'),
+                  child: Text(docsSample(context, 'Share')),
                 ),
                 MenuButton(
                   destructive: true,
-                  onPressed: (_) => _run('Deleted the selection'),
-                  child: const Text('Delete'),
+                  onPressed: (_) =>
+                      _run(docsSample(context, 'Deleted the selection')),
+                  child: Text(docsSample(context, 'Delete')),
                 ),
               ],
             ),
@@ -76,7 +82,7 @@ class _MenuDefaultState extends State<_MenuDefault> {
         ),
         Gap(theme.spacing.md),
         Text(
-          _lastAction,
+          docsSample(context, _lastAction),
           style: TextStyle(fontSize: 12, color: theme.colors.mutedForeground),
         ),
       ],
@@ -105,13 +111,13 @@ class _CheckboxExampleState extends State<_CheckboxExample> {
         MenuGroup(
           autofocus: false,
           children: <Widget>[
-            const MenuLabel(child: Text('Options')),
+            MenuLabel(child: Text(docsSample(context, 'Options'))),
             MenuCheckboxItem(
               value: _toolbar,
               onChanged: (BuildContext _, bool value) =>
                   setState(() => _toolbar = value),
-              trailing: const MenuShortcut(shortcut: '⌘T'),
-              child: const Text('Toolbar'),
+              trailing: MenuShortcut(shortcut: '⌘T'),
+              child: Text('Toolbar'),
             ),
           ],
         ),
@@ -145,11 +151,17 @@ class _RadioExampleState extends State<_RadioExample> {
               value: _side,
               onChanged: (BuildContext _, String value) =>
                   setState(() => _side = value),
-              child: const Column(
+              child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: <Widget>[
-                  MenuRadioItem<String>(value: 'left', child: Text('Left')),
-                  MenuRadioItem<String>(value: 'right', child: Text('Right')),
+                  MenuRadioItem<String>(
+                    value: 'left',
+                    child: Text(docsSample(context, 'Left')),
+                  ),
+                  MenuRadioItem<String>(
+                    value: 'right',
+                    child: Text(docsSample(context, 'Right')),
+                  ),
                 ],
               ),
             ),
@@ -166,8 +178,8 @@ Widget _withRadioGroup(BuildContext context) => const _RadioExample();
 Widget _default(BuildContext context) => const _MenuDefault();
 
 /// Named docs examples for `menu`; the first entry is the default.
-const List<ComponentPreview> menuPreviews = <ComponentPreview>[
-  ComponentPreview('Default', _default),
-  ComponentPreview('With checkbox item', _withCheckboxItem),
-  ComponentPreview('With radio group', _withRadioGroup),
+List<ComponentPreview> get menuPreviews => <ComponentPreview>[
+  ComponentPreview(docsSample(null, 'Default'), _default),
+  ComponentPreview(docsSample(null, 'With checkbox item'), _withCheckboxItem),
+  ComponentPreview(docsSample(null, 'With radio group'), _withRadioGroup),
 ];

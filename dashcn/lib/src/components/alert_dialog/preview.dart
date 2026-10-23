@@ -34,7 +34,7 @@ class _Trigger extends StatelessWidget {
         variant: ButtonVariant.outline,
         size: ButtonSize.sm,
         onPressed: onPressed,
-        child: Text(label),
+        child: Text(docsSample(context, label)),
       ),
     );
   }
@@ -53,31 +53,36 @@ List<Widget> _confirmActions(
       size: ButtonSize.sm,
       variant: ButtonVariant.outline,
       onPressed: () => Navigator.of(dialogContext).pop(false),
-      child: const Text('Cancel'),
+      child: Text(docsSample(dialogContext, 'Cancel')),
     ),
     Button(
       size: ButtonSize.sm,
       variant: confirmVariant,
       onPressed: () => Navigator.of(dialogContext).pop(true),
-      child: Text(confirmLabel),
+      child: Text(docsSample(dialogContext, confirmLabel)),
     ),
   ];
 }
 
 /// Destructive delete-account confirmation.
 Widget _deleteAccount(BuildContext context) => _Trigger(
-  label: 'Delete account',
+  label: docsSample(context, 'Delete account'),
   onPressed: () => showAlertDialog<bool>(
     context: context,
     icon: const Icon(LucideIcons.circleAlert),
-    title: const Text('Delete your account?'),
-    description: const Text(
-      'This permanently deletes your account and all of its data. '
-      'This action cannot be undone.',
+    title: Text(docsSample(context, 'Delete your account?')),
+    description: Text(
+      docsSample(
+        context,
+        docsSample(
+          context,
+          'This permanently deletes your account and all of its data. This action cannot be undone.',
+        ),
+      ),
     ),
     actionsBuilder: (BuildContext dialogContext) => _confirmActions(
       dialogContext,
-      confirmLabel: 'Delete account',
+      confirmLabel: docsSample(context, 'Delete account'),
       confirmVariant: ButtonVariant.destructive,
     ),
   ),
@@ -85,18 +90,23 @@ Widget _deleteAccount(BuildContext context) => _Trigger(
 
 /// Discard-changes confirmation.
 Widget _discardChanges(BuildContext context) => _Trigger(
-  label: 'Discard changes',
+  label: docsSample(context, 'Discard changes'),
   onPressed: () => showAlertDialog<bool>(
     context: context,
     icon: const Icon(LucideIcons.triangleAlert),
-    title: const Text('Discard unsaved changes?'),
-    description: const Text(
-      'You have unsaved changes to this document. '
-      'Leaving now will lose them.',
+    title: Text(docsSample(context, 'Discard unsaved changes?')),
+    description: Text(
+      docsSample(
+        context,
+        docsSample(
+          context,
+          'You have unsaved changes to this document. Leaving now will lose them.',
+        ),
+      ),
     ),
     actionsBuilder: (BuildContext dialogContext) => _confirmActions(
       dialogContext,
-      confirmLabel: 'Discard',
+      confirmLabel: docsSample(context, 'Discard'),
       confirmVariant: ButtonVariant.destructive,
     ),
   ),
@@ -144,24 +154,24 @@ class _SessionCountdownState extends State<_SessionCountdown> {
 
 /// Session-expiring countdown with an explicit way out.
 Widget _sessionExpiring(BuildContext context) => _Trigger(
-  label: 'Session expiring',
+  label: docsSample(context, 'Session expiring'),
   onPressed: () => showAlertDialog<bool>(
     context: context,
     icon: const Icon(LucideIcons.clock),
-    title: const Text('Session expiring'),
+    title: Text(docsSample(context, 'Session expiring')),
     description: const _SessionCountdown(),
     actionsBuilder: (BuildContext dialogContext) => <Widget>[
       Button(
         size: ButtonSize.sm,
         variant: ButtonVariant.outline,
         onPressed: () => Navigator.of(dialogContext).pop(false),
-        child: const Text('Sign out'),
+        child: Text(docsSample(context, 'Sign out')),
       ),
       Button(
         size: ButtonSize.sm,
         variant: ButtonVariant.primary,
         onPressed: () => Navigator.of(dialogContext).pop(true),
-        child: const Text('Stay signed in'),
+        child: Text(docsSample(context, 'Stay signed in')),
       ),
     ],
   ),
@@ -169,20 +179,26 @@ Widget _sessionExpiring(BuildContext context) => _Trigger(
 
 /// Success confirmation.
 Widget _success(BuildContext context) => _Trigger(
-  label: 'Show success',
+  label: docsSample(context, 'Show success'),
   onPressed: () => showAlertDialog<bool>(
     context: context,
     icon: const Icon(LucideIcons.circleCheck),
-    title: const Text('Payment successful'),
-    description: const Text(
-      'Your subscription is active. A receipt was sent to your inbox.',
+    title: Text(docsSample(context, 'Payment successful')),
+    description: Text(
+      docsSample(
+        context,
+        docsSample(
+          context,
+          'Your subscription is active. A receipt was sent to your inbox.',
+        ),
+      ),
     ),
     actionsBuilder: (BuildContext dialogContext) => <Widget>[
       Button(
         size: ButtonSize.sm,
         variant: ButtonVariant.primary,
         onPressed: () => Navigator.of(dialogContext).pop(true),
-        child: const Text('Done'),
+        child: Text(docsSample(context, 'Done')),
       ),
     ],
   ),
@@ -199,25 +215,27 @@ class _LivePush extends StatelessWidget {
         onPressed: () => showAlertDialog<bool>(
           context: context,
           icon: const Icon(LucideIcons.triangleAlert),
-          title: const Text('Delete this project?'),
-          description: const Text(
-            'This action cannot be undone. The project and its history is '
-            'removed.',
+          title: Text(docsSample(context, 'Delete this project?')),
+          description: Text(
+            docsSample(
+              context,
+              'This action cannot be undone. The project and its history is removed.',
+            ),
           ),
           actionsBuilder: (BuildContext dialogContext) => <Widget>[
             Button(
               variant: ButtonVariant.outline,
               onPressed: () => Navigator.of(dialogContext).pop(false),
-              child: const Text('Cancel'),
+              child: Text(docsSample(context, 'Cancel')),
             ),
             Button(
               variant: ButtonVariant.destructive,
               onPressed: () => Navigator.of(dialogContext).pop(true),
-              child: const Text('Delete'),
+              child: Text(docsSample(context, 'Delete')),
             ),
           ],
         ),
-        child: const Text('Show alert dialog'),
+        child: Text(docsSample(context, 'Show alert dialog')),
       ),
     );
   }
@@ -226,10 +244,10 @@ class _LivePush extends StatelessWidget {
 Widget _livePush(BuildContext context) => const _LivePush();
 
 /// Named docs examples for `alert_dialog`; the first entry is the default.
-const List<ComponentPreview> alertDialogPreviews = <ComponentPreview>[
-  ComponentPreview('Delete account', _deleteAccount),
-  ComponentPreview('Discard changes', _discardChanges),
-  ComponentPreview('Session expiring', _sessionExpiring),
-  ComponentPreview('Success', _success),
-  ComponentPreview('Live push', _livePush),
+List<ComponentPreview> get alertDialogPreviews => <ComponentPreview>[
+  ComponentPreview(docsSample(null, 'Delete account'), _deleteAccount),
+  ComponentPreview(docsSample(null, 'Discard changes'), _discardChanges),
+  ComponentPreview(docsSample(null, 'Session expiring'), _sessionExpiring),
+  ComponentPreview(docsSample(null, 'Success'), _success),
+  ComponentPreview(docsSample(null, 'Live push'), _livePush),
 ];

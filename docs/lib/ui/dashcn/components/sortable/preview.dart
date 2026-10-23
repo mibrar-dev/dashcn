@@ -73,7 +73,12 @@ class _ListDemo extends StatefulWidget {
 }
 
 class _ListDemoState extends State<_ListDemo> {
-  final List<String> _items = <String>['Alpha', 'Beta', 'Gamma', 'Delta'];
+  final List<String> _items = <String>[
+    'Alpha',
+    docsSample(null, 'Beta'),
+    docsSample(null, 'Gamma'),
+    docsSample(null, 'Delta'),
+  ];
 
   void _move(String dragged, String target, bool above) {
     setState(() {
@@ -167,11 +172,11 @@ class _GridDemo extends StatefulWidget {
 class _GridDemoState extends State<_GridDemo> {
   final List<String> _items = <String>[
     'Alpha',
-    'Beta',
-    'Gamma',
-    'Delta',
-    'Epsilon',
-    'Zeta',
+    docsSample(null, 'Beta'),
+    docsSample(null, 'Gamma'),
+    docsSample(null, 'Delta'),
+    docsSample(null, 'Epsilon'),
+    docsSample(null, 'Zeta'),
   ];
 
   void _move(String dragged, String target, bool above) {
@@ -226,7 +231,7 @@ Widget _default(BuildContext context) => const _ListDemo();
 Widget _grid(BuildContext context) => const _GridDemo();
 
 /// Named docs examples for `sortable`; the first entry is the default.
-const List<ComponentPreview> sortablePreviews = <ComponentPreview>[
-  ComponentPreview('Default', _default),
-  ComponentPreview('Grid', _grid),
+List<ComponentPreview> get sortablePreviews => <ComponentPreview>[
+  ComponentPreview(docsSample(null, 'Default'), _default),
+  ComponentPreview(docsSample(null, 'Grid'), _grid),
 ];

@@ -164,11 +164,11 @@ Widget _calendarReadOnly(BuildContext context) {
 /// RTL, frames) without penalising the dense 32 px day cells against the
 /// 44/48 px mobile tap-target guidelines. Interactive selection stays fully
 /// covered by the Single/Range/Multi examples and the dedicated tap tests.
-const List<ComponentPreview> calendarPreviews = <ComponentPreview>[
-  ComponentPreview('Read-only', _calendarReadOnly),
-  ComponentPreview('Single', _calendarSingle),
-  ComponentPreview('Range', _calendarRange),
-  ComponentPreview('Multi', _calendarMulti),
-  ComponentPreview('Month grid', _calendarMonthGrid),
-  ComponentPreview('Year grid', _calendarYearGrid),
+List<ComponentPreview> get calendarPreviews => <ComponentPreview>[
+  ComponentPreview(docsSample(null, 'Read-only'), _calendarReadOnly),
+  ComponentPreview(docsSample(null, 'Single'), _calendarSingle),
+  ComponentPreview(docsSample(null, 'Range'), _calendarRange),
+  ComponentPreview(docsSample(null, 'Multi'), _calendarMulti),
+  ComponentPreview(docsSample(null, 'Month grid'), _calendarMonthGrid),
+  ComponentPreview(docsSample(null, 'Year grid'), _calendarYearGrid),
 ];

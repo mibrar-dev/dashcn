@@ -8,6 +8,7 @@ import '../../foundation/gap.dart';
 import '../../primitives/localizations/localizations.dart';
 import '../../theme/theme.dart';
 import 'app.dart';
+import '../../foundation/component_preview.dart';
 
 /// Renders the app-shell preview.
 class AppPreview extends StatelessWidget {
@@ -47,7 +48,13 @@ class AppPreview extends StatelessWidget {
                       mainAxisSize: MainAxisSize.min,
                       children: <Widget>[
                         Text(
-                          'DashcnApp is wired and running.',
+                          docsSample(
+                            context,
+                            docsSample(
+                              context,
+                              'DashcnApp is wired and running.',
+                            ),
+                          ),
                           style: theme.typography.large.copyWith(
                             color: theme.colors.cardForeground,
                           ),

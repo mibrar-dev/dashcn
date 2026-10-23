@@ -7,6 +7,7 @@ import 'package:flutter/widgets.dart';
 import '../../foundation/gap.dart';
 import '../../theme/theme.dart';
 import 'formatter.dart';
+import '../../foundation/component_preview.dart';
 
 /// Renders the formatter gallery.
 class FormatterPreview extends StatelessWidget {
@@ -17,7 +18,7 @@ class FormatterPreview extends StatelessWidget {
   Widget build(BuildContext context) {
     final ThemeData theme = Theme.of(context);
     return Directionality(
-      textDirection: TextDirection.ltr,
+      textDirection: Directionality.maybeOf(context) ?? TextDirection.ltr,
       child: DefaultTextStyle(
         style: TextStyle(color: theme.colors.foreground, fontSize: 13),
         child: ColoredBox(
@@ -36,7 +37,7 @@ class FormatterPreview extends StatelessWidget {
                   ],
                 ),
                 Gap(theme.spacing.md),
-                const Text('hex (# prefixed)'),
+                Text(docsSample(context, 'hex (# prefixed)')),
                 Gap(theme.spacing.xs),
                 _Line(
                   formatters: <TextInputFormatter>[
@@ -44,7 +45,7 @@ class FormatterPreview extends StatelessWidget {
                   ],
                 ),
                 Gap(theme.spacing.md),
-                const Text('time (length 2)'),
+                Text(docsSample(context, 'time (length 2)')),
                 Gap(theme.spacing.xs),
                 _Line(
                   formatters: <TextInputFormatter>[

@@ -86,7 +86,7 @@ Widget _streamingTail(BuildContext context) {
 }
 
 /// Named docs examples for `markdown`; the first entry is the default.
-const List<ComponentPreview> markdownPreviews = <ComponentPreview>[
-  ComponentPreview('Default', _default),
-  ComponentPreview('Streaming tail', _streamingTail),
+List<ComponentPreview> get markdownPreviews => <ComponentPreview>[
+  ComponentPreview(docsSample(null, 'Default'), _default),
+  ComponentPreview(docsSample(null, 'Streaming tail'), _streamingTail),
 ];

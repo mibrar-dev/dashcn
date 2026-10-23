@@ -1,3 +1,4 @@
+import '../ui/dashcn/foundation/component_preview.dart';
 // Home showcase: people and plan cards (P6-H1).
 //
 // Two home-only compositions: the contributor wall (`AvatarGroup` with a
@@ -22,8 +23,8 @@ class HomeContributorsCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final ThemeData theme = Theme.of(context);
     return CollageCard(
-      title: 'Contributors',
-      subtitle: 'Seven people shipped this release.',
+      title: docsSample(context, 'Contributors'),
+      subtitle: docsSample(context, 'Seven people shipped this release.'),
       children: <Widget>[
         const AvatarGroup(
           children: <Widget>[
@@ -39,18 +40,20 @@ class HomeContributorsCard extends StatelessWidget {
           spacing: 4,
           children: <Widget>[
             Text(
-              'Curated by',
+              docsSample(context, 'Curated by'),
               style: theme.typography.small.copyWith(
                 color: theme.colors.mutedForeground,
               ),
             ),
             HoverCard(
-              hoverBuilder: (BuildContext context) => const Column(
+              hoverBuilder: (BuildContext context) => Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisSize: MainAxisSize.min,
                 children: <Widget>[
                   Text('@ledger'),
-                  StudioHelper('Beautifully designed components.'),
+                  StudioHelper(
+                    docsSample(context, 'Beautifully designed components.'),
+                  ),
                 ],
               ),
               child: Text(
@@ -74,26 +77,32 @@ class HomeTimelineCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const CollageCard(
-      title: 'Release timeline',
-      subtitle: 'Midnight Drive — 2026.',
+    return CollageCard(
+      title: docsSample(context, 'Release timeline'),
+      subtitle: docsSample(context, 'Midnight Drive — 2026.'),
       children: <Widget>[
         Timeline(
           data: <TimelineData>[
             TimelineData(
               time: Text('09:00'),
-              title: Text('Master delivered'),
-              content: Text('Final WAV approved by the label.'),
+              title: Text(docsSample(context, 'Master delivered')),
+              content: Text(
+                docsSample(context, 'Final WAV approved by the label.'),
+              ),
             ),
             TimelineData(
               time: Text('11:30'),
-              title: Text('Artwork signed off'),
-              content: Text('Cover passed the store checks.'),
+              title: Text(docsSample(context, 'Artwork signed off')),
+              content: Text(
+                docsSample(context, 'Cover passed the store checks.'),
+              ),
             ),
             TimelineData(
               time: Text('14:00'),
-              title: Text('Distributed'),
-              content: Text('Live on 40+ stores worldwide.'),
+              title: Text(docsSample(context, 'Distributed')),
+              content: Text(
+                docsSample(context, 'Live on 40+ stores worldwide.'),
+              ),
             ),
           ],
         ),

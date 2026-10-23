@@ -10,6 +10,7 @@ import '../../components/divider/divider.dart';
 import '../../foundation/gap.dart';
 import '../../theme/theme.dart';
 import '../../primitives/localizations/localizations.dart';
+import '../../foundation/component_preview.dart';
 
 /// The sample screen inside the shell: stats, projects and activity.
 class Sidebar03Content extends StatelessWidget {
@@ -29,7 +30,7 @@ class Sidebar03Content extends StatelessWidget {
         Text(_sidebar03Title(selected), style: theme.typography.h2),
         Gap(theme.spacing.xs),
         Text(
-          'Four shared workspaces, updated today.',
+          docsSample(context, 'Four shared workspaces, updated today.'),
           style: theme.typography.textMuted.copyWith(
             color: theme.colors.mutedForeground,
           ),
@@ -40,10 +41,19 @@ class Sidebar03Content extends StatelessWidget {
         Wrap(
           spacing: theme.spacing.lg,
           runSpacing: theme.spacing.lg,
-          children: const <Widget>[
-            SizedBox(width: 280, child: Sidebar03ProjectCard('Atlas')),
-            SizedBox(width: 280, child: Sidebar03ProjectCard('Beacon')),
-            SizedBox(width: 280, child: Sidebar03ProjectCard('Cobalt')),
+          children: <Widget>[
+            SizedBox(
+              width: 280,
+              child: Sidebar03ProjectCard(docsSample(context, 'Atlas')),
+            ),
+            SizedBox(
+              width: 280,
+              child: Sidebar03ProjectCard(docsSample(context, 'Beacon')),
+            ),
+            SizedBox(
+              width: 280,
+              child: Sidebar03ProjectCard(docsSample(context, 'Cobalt')),
+            ),
           ],
         ),
         Gap(theme.spacing.lg),
@@ -54,10 +64,10 @@ class Sidebar03Content extends StatelessWidget {
 }
 
 String _sidebar03Title(int selected) => switch (selected) {
-  1 => 'Documents',
-  2 => 'Reports',
-  3 => 'Settings',
-  _ => 'Recent projects',
+  1 => docsSample(null, 'Documents'),
+  2 => docsSample(null, 'Reports'),
+  3 => docsSample(null, 'Settings'),
+  _ => docsSample(null, 'Recent projects'),
 };
 
 class _Sidebar03Stats extends StatelessWidget {
@@ -72,11 +82,11 @@ class _Sidebar03Stats extends StatelessWidget {
         final double gap = theme.spacing.lg;
         final double cardWidth =
             (constraints.maxWidth - gap * (columns - 1)) / columns;
-        const List<(String, String)> stats = <(String, String)>[
-          ('Workspaces', '4'),
-          ('Shared with you', '11'),
-          ('Storage used', '12.4 GB'),
-          ('Members', '8'),
+        List<(String, String)> stats = <(String, String)>[
+          (docsSample(context, 'Workspaces'), '4'),
+          (docsSample(context, 'Shared with you'), '11'),
+          (docsSample(context, 'Storage used'), docsSample(context, '12.4 GB')),
+          (docsSample(context, 'Members'), '8'),
         ];
         return Wrap(
           spacing: gap,
@@ -137,7 +147,7 @@ class Sidebar03ProjectCard extends StatelessWidget {
           ),
           Gap(theme.spacing.sm),
           Text(
-            'Shared with 4 people · edited 3 minutes ago',
+            docsSample(context, 'Shared with 4 people · edited 3 minutes ago'),
             style: theme.typography.textSmall.copyWith(
               color: theme.colors.mutedForeground,
             ),
@@ -161,11 +171,23 @@ class _Sidebar03Activity extends StatelessWidget {
   Widget build(BuildContext context) {
     final strings = ComponentLocalizations.of(context);
     final ThemeData theme = Theme.of(context);
-    const List<(String, String)> events = <(String, String)>[
-      ('Ada pushed 3 commits to Atlas', '3m ago'),
-      ('Bjarne commented on Beacon specs', '26m ago'),
-      ('Sofia published Cobalt v2.1', '2h ago'),
-      ('Nightly backup completed', '6h ago'),
+    List<(String, String)> events = <(String, String)>[
+      (
+        docsSample(context, 'Ada pushed 3 commits to Atlas'),
+        docsSample(context, '3m ago'),
+      ),
+      (
+        docsSample(context, 'Bjarne commented on Beacon specs'),
+        docsSample(context, '26m ago'),
+      ),
+      (
+        docsSample(context, 'Sofia published Cobalt v2.1'),
+        docsSample(context, '2h ago'),
+      ),
+      (
+        docsSample(context, 'Nightly backup completed'),
+        docsSample(context, '6h ago'),
+      ),
     ];
     return Card(
       padding: EdgeInsets.zero,

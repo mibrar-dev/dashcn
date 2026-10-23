@@ -6,6 +6,7 @@ import 'package:flutter/widgets.dart';
 import '../../foundation/gap.dart';
 import '../../theme/theme.dart';
 import 'hsl.dart';
+import '../../foundation/component_preview.dart';
 
 /// Renders the HSL slider gallery.
 class HSLPreview extends StatefulWidget {
@@ -25,7 +26,7 @@ class _HSLPreviewState extends State<HSLPreview> {
   Widget build(BuildContext context) {
     final ThemeData theme = Theme.of(context);
     return Directionality(
-      textDirection: TextDirection.ltr,
+      textDirection: Directionality.maybeOf(context) ?? TextDirection.ltr,
       child: DefaultTextStyle(
         style: TextStyle(color: theme.colors.foreground, fontSize: 13),
         child: ColoredBox(
@@ -47,7 +48,7 @@ class _HSLPreviewState extends State<HSLPreview> {
                   ),
                 ),
                 Gap(theme.spacing.lg),
-                const Text('Hue × Saturation'),
+                Text(docsSample(context, 'Hue × Saturation')),
                 Gap(theme.spacing.sm),
                 SizedBox(
                   width: 160,
@@ -71,7 +72,7 @@ class _HSLPreviewState extends State<HSLPreview> {
                   ),
                 ),
                 Gap(theme.spacing.lg),
-                const Text('Disabled hue (vertical bar)'),
+                Text(docsSample(context, 'Disabled hue (vertical bar)')),
                 Gap(theme.spacing.sm),
                 SizedBox(
                   width: 240,
@@ -84,7 +85,7 @@ class _HSLPreviewState extends State<HSLPreview> {
                   ),
                 ),
                 Gap(theme.spacing.lg),
-                const Text('Reversed, with radius'),
+                Text(docsSample(context, 'Reversed, with radius')),
                 Gap(theme.spacing.sm),
                 SizedBox(
                   width: 160,

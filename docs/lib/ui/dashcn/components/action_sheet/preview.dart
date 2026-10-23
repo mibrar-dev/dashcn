@@ -13,26 +13,28 @@ Widget _default(BuildContext context) => Center(
     size: ButtonSize.sm,
     onPressed: () => showActionSheet<void>(
       context: context,
-      title: 'Actions',
-      message: 'Choose an action',
+      title: docsSample(context, 'Actions'),
+      message: docsSample(context, 'Choose an action'),
       actions: <ActionSheetAction<void>>[
         ActionSheetAction<void>(
-          label: 'Edit',
+          label: docsSample(context, 'Edit'),
           icon: const Icon(LucideIcons.pencil),
         ),
         ActionSheetAction<void>(
-          label: 'Share',
+          label: docsSample(context, 'Share'),
           icon: const Icon(LucideIcons.share),
         ),
         ActionSheetAction<void>(
-          label: 'Delete',
+          label: docsSample(context, 'Delete'),
           icon: const Icon(LucideIcons.trash),
           isDestructive: true,
         ),
       ],
-      cancelAction: const ActionSheetAction<void>(label: 'Cancel'),
+      cancelAction: ActionSheetAction<void>(
+        label: docsSample(context, 'Cancel'),
+      ),
     ),
-    child: const Text('Open action sheet'),
+    child: Text(docsSample(context, 'Open action sheet')),
   ),
 );
 
@@ -42,18 +44,20 @@ Widget _destructive(BuildContext context) => Center(
     size: ButtonSize.sm,
     onPressed: () => showActionSheet<void>(
       context: context,
-      title: 'Delete item?',
-      message: 'This cannot be undone.',
+      title: docsSample(context, 'Delete item?'),
+      message: docsSample(context, 'This cannot be undone.'),
       actions: <ActionSheetAction<void>>[
         ActionSheetAction<void>(
-          label: 'Delete',
+          label: docsSample(context, 'Delete'),
           icon: const Icon(LucideIcons.trash),
           isDestructive: true,
         ),
       ],
-      cancelAction: const ActionSheetAction<void>(label: 'Cancel'),
+      cancelAction: ActionSheetAction<void>(
+        label: docsSample(context, 'Cancel'),
+      ),
     ),
-    child: const Text('Delete item'),
+    child: Text(docsSample(context, 'Delete item')),
   ),
 );
 
@@ -63,37 +67,51 @@ Widget _long(BuildContext context) => Center(
     size: ButtonSize.sm,
     onPressed: () => showActionSheet<void>(
       context: context,
-      title: 'Many actions',
+      title: docsSample(context, 'Many actions'),
       actions: List<ActionSheetAction<void>>.generate(
         12,
         (int i) => ActionSheetAction<void>(label: 'Action ${i + 1}'),
       ),
-      cancelAction: const ActionSheetAction<void>(label: 'Cancel'),
+      cancelAction: ActionSheetAction<void>(
+        label: docsSample(context, 'Cancel'),
+      ),
     ),
-    child: const Text('Many actions'),
+    child: Text(docsSample(context, 'Many actions')),
   ),
 );
 
 Widget _compact(BuildContext context) => ActionSheet<void>(
   densityTokens: DensityTokens.compact,
-  title: 'Compact (default)',
-  message: 'Row 40, icon 16, padding 12/6',
-  actions: const <ActionSheetAction<void>>[
-    ActionSheetAction<void>(label: 'Edit', icon: Icon(LucideIcons.pencil)),
-    ActionSheetAction<void>(label: 'Share', icon: Icon(LucideIcons.share)),
+  title: docsSample(context, 'Compact (default)'),
+  message: docsSample(context, 'Row 40, icon 16, padding 12/6'),
+  actions: <ActionSheetAction<void>>[
+    ActionSheetAction<void>(
+      label: docsSample(context, 'Edit'),
+      icon: Icon(LucideIcons.pencil),
+    ),
+    ActionSheetAction<void>(
+      label: docsSample(context, 'Share'),
+      icon: Icon(LucideIcons.share),
+    ),
   ],
-  cancelAction: const ActionSheetAction<void>(label: 'Cancel'),
+  cancelAction: ActionSheetAction<void>(label: docsSample(context, 'Cancel')),
 );
 
 Widget _comfortable(BuildContext context) => ActionSheet<void>(
   densityTokens: DensityTokens.comfortable,
-  title: 'Comfortable',
-  message: 'Row 40-44, icon 20, padding 14/8',
-  actions: const <ActionSheetAction<void>>[
-    ActionSheetAction<void>(label: 'Edit', icon: Icon(LucideIcons.pencil)),
-    ActionSheetAction<void>(label: 'Share', icon: Icon(LucideIcons.share)),
+  title: docsSample(context, 'Comfortable'),
+  message: docsSample(context, 'Row 40-44, icon 20, padding 14/8'),
+  actions: <ActionSheetAction<void>>[
+    ActionSheetAction<void>(
+      label: docsSample(context, 'Edit'),
+      icon: Icon(LucideIcons.pencil),
+    ),
+    ActionSheetAction<void>(
+      label: docsSample(context, 'Share'),
+      icon: Icon(LucideIcons.share),
+    ),
   ],
-  cancelAction: const ActionSheetAction<void>(label: 'Cancel'),
+  cancelAction: ActionSheetAction<void>(label: docsSample(context, 'Cancel')),
 );
 
 Widget _customized(BuildContext context) => Center(
@@ -102,20 +120,22 @@ Widget _customized(BuildContext context) => Center(
     size: ButtonSize.sm,
     onPressed: () => showActionSheet<void>(
       context: context,
-      title: 'Customized',
-      actions: const <ActionSheetAction<void>>[
-        ActionSheetAction<void>(label: 'Do it'),
+      title: docsSample(context, 'Customized'),
+      actions: <ActionSheetAction<void>>[
+        ActionSheetAction<void>(label: docsSample(context, 'Do it')),
       ],
       theme: const ActionSheetTheme(),
-      cancelAction: const ActionSheetAction<void>(label: 'Dismiss'),
+      cancelAction: ActionSheetAction<void>(
+        label: docsSample(context, 'Dismiss'),
+      ),
     ),
-    child: const Text('Customized'),
+    child: Text(docsSample(context, 'Customized')),
   ),
 );
 
 Widget _builders(BuildContext context) => ActionSheet<void>(
-  title: 'Builders',
-  message: 'Custom title and row',
+  title: docsSample(context, 'Builders'),
+  message: docsSample(context, 'Custom title and row'),
   titleBuilder: (BuildContext context, String title, TextStyle style) => Text(
     title.toUpperCase(),
     style: style.copyWith(fontWeight: FontWeight.w800),
@@ -133,30 +153,42 @@ Widget _builders(BuildContext context) => ActionSheet<void>(
         ),
         child: row,
       ),
-  actions: const <ActionSheetAction<void>>[
-    ActionSheetAction<void>(label: 'Edit', icon: Icon(LucideIcons.pencil)),
-    ActionSheetAction<void>(label: 'Delete', isDestructive: true),
+  actions: <ActionSheetAction<void>>[
+    ActionSheetAction<void>(
+      label: docsSample(context, 'Edit'),
+      icon: Icon(LucideIcons.pencil),
+    ),
+    ActionSheetAction<void>(
+      label: docsSample(context, 'Delete'),
+      isDestructive: true,
+    ),
   ],
-  cancelAction: const ActionSheetAction<void>(label: 'Cancel'),
+  cancelAction: ActionSheetAction<void>(label: docsSample(context, 'Cancel')),
 );
 
 Widget _inline(BuildContext context) => ActionSheet<void>(
-  title: 'Inline sheet',
-  message: 'Embedded directly into a layout',
-  actions: const <ActionSheetAction<void>>[
-    ActionSheetAction<void>(label: 'Edit', icon: Icon(LucideIcons.pencil)),
-    ActionSheetAction<void>(label: 'Share', icon: Icon(LucideIcons.share)),
+  title: docsSample(context, 'Inline sheet'),
+  message: docsSample(context, 'Embedded directly into a layout'),
+  actions: <ActionSheetAction<void>>[
+    ActionSheetAction<void>(
+      label: docsSample(context, 'Edit'),
+      icon: Icon(LucideIcons.pencil),
+    ),
+    ActionSheetAction<void>(
+      label: docsSample(context, 'Share'),
+      icon: Icon(LucideIcons.share),
+    ),
   ],
-  cancelAction: const ActionSheetAction<void>(label: 'Cancel'),
+  cancelAction: ActionSheetAction<void>(label: docsSample(context, 'Cancel')),
 );
 
-const List<ComponentPreview> actionSheetPreviews = <ComponentPreview>[
-  ComponentPreview('Trigger', _default),
-  ComponentPreview('Destructive', _destructive),
-  ComponentPreview('Long', _long),
-  ComponentPreview('Compact', _compact),
-  ComponentPreview('Comfortable', _comfortable),
-  ComponentPreview('Customized', _customized),
-  ComponentPreview('Builders', _builders),
-  ComponentPreview('Inline', _inline),
+List<ComponentPreview> get actionSheetPreviews => <ComponentPreview>[
+  ComponentPreview(docsSample(null, 'Trigger'), _default),
+  ComponentPreview(docsSample(null, 'Destructive'), _destructive),
+  ComponentPreview(docsSample(null, 'Long'), _long),
+  ComponentPreview(docsSample(null, 'Compact'), _compact),
+  ComponentPreview(docsSample(null, 'Comfortable'), _comfortable),
+  ComponentPreview(docsSample(null, 'Customized'), _customized),
+  ComponentPreview(docsSample(null, 'Builders'), _builders),
+  ComponentPreview(docsSample(null, 'Inline'), _inline),
 ];

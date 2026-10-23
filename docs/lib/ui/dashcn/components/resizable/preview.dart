@@ -39,14 +39,17 @@ Widget _absolute(BuildContext context) {
   // P7-TH1: the box hugs the declared sizes (120 + 1px handle + 200) so the
   // demo centres exactly; a wider box would strand transparent leftover on
   // the right because absolute panels pack from the start.
-  return const SizedBox(
+  return SizedBox(
     width: 321,
     height: 140,
     child: ResizablePanelGroup(
       children: <Widget>[
         ResizablePanel(defaultSize: 120, child: _Pane('Sidebar')),
         ResizableHandle(withHandle: true),
-        ResizablePanel(defaultSize: 200, child: _Pane('Main')),
+        ResizablePanel(
+          defaultSize: 200,
+          child: _Pane(docsSample(context, 'Main')),
+        ),
       ],
     ),
   );
@@ -54,21 +57,21 @@ Widget _absolute(BuildContext context) {
 
 /// Panes sharing space by flex.
 Widget _flexible(BuildContext context) {
-  return const SizedBox(
+  return SizedBox(
     width: 360,
     height: 140,
     child: ResizablePanelGroup(
       children: <Widget>[
-        ResizablePanel(flex: 2, child: _Pane('Main')),
+        ResizablePanel(flex: 2, child: _Pane(docsSample(context, 'Main'))),
         ResizableHandle(withHandle: true),
-        ResizablePanel(flex: 1, child: _Pane('Inspector')),
+        ResizablePanel(flex: 1, child: _Pane(docsSample(context, 'Inspector'))),
       ],
     ),
   );
 }
 
 /// Named docs examples for `resizable`; the first entry is the default.
-const List<ComponentPreview> resizablePreviews = <ComponentPreview>[
-  ComponentPreview('Absolute', _absolute),
-  ComponentPreview('Flexible', _flexible),
+List<ComponentPreview> get resizablePreviews => <ComponentPreview>[
+  ComponentPreview(docsSample(null, 'Absolute'), _absolute),
+  ComponentPreview(docsSample(null, 'Flexible'), _flexible),
 ];

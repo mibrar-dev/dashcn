@@ -29,3 +29,14 @@ class ComponentPreview {
   /// Optional one-line explanation rendered under the example `Select`.
   final String? description;
 }
+
+/// Signature for resolving localized sample text in component previews.
+typedef DocsSampleResolver = String Function(BuildContext? context, String key);
+
+/// The ambient resolver function. Defaults to returning [key] unchanged.
+DocsSampleResolver docsSampleResolver = (BuildContext? context, String key) =>
+    key;
+
+/// Returns localized sample text for [key] using [docsSampleResolver].
+String docsSample(BuildContext? context, String key) =>
+    docsSampleResolver(context, key);

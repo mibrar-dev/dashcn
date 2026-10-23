@@ -11,6 +11,7 @@ import '../ui/dashcn/components/badge/badge.dart';
 import '../ui/dashcn/components/button/button.dart';
 import '../ui/dashcn/components/table/table.dart';
 import '../ui/dashcn/components/tooltip/tooltip.dart';
+import '../ui/dashcn/foundation/component_preview.dart';
 import '../ui/dashcn/foundation/gap.dart';
 import '../ui/dashcn/foundation/icons/lucide_icons.dart';
 import '../ui/dashcn/theme/theme.dart';
@@ -24,7 +25,7 @@ class CollageButtonsCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CollageCard(
-      title: 'Buttons',
+      title: docsSample(context, 'Buttons'),
       children: <Widget>[
         Wrap(
           spacing: 8,
@@ -34,19 +35,19 @@ class CollageButtonsCard extends StatelessWidget {
               size: ButtonSize.sm,
               trailing: const Icon(LucideIcons.arrowRight, size: 14),
               onPressed: () {},
-              child: const Text('Button'),
+              child: Text('Button'),
             ),
             Button(
               variant: ButtonVariant.secondary,
               size: ButtonSize.sm,
               onPressed: () {},
-              child: const Text('Secondary'),
+              child: Text(docsSample(context, 'Secondary')),
             ),
             Button(
               variant: ButtonVariant.outline,
               size: ButtonSize.sm,
               onPressed: () {},
-              child: const Text('Outline'),
+              child: Text(docsSample(context, 'Outline')),
             ),
           ],
         ),
@@ -59,13 +60,13 @@ class CollageButtonsCard extends StatelessWidget {
               variant: ButtonVariant.outline,
               size: ButtonSize.sm,
               onPressed: () {},
-              child: const Text('Alert Dialog'),
+              child: Text('Alert Dialog'),
             ),
             Button(
               variant: ButtonVariant.ghost,
               size: ButtonSize.sm,
               onPressed: () {},
-              child: const Text('Button Group'),
+              child: Text('Button Group'),
             ),
           ],
         ),
@@ -74,11 +75,17 @@ class CollageButtonsCard extends StatelessWidget {
           spacing: 8,
           runSpacing: 8,
           crossAxisAlignment: WrapCrossAlignment.center,
-          children: const <Widget>[
+          children: <Widget>[
             Badge(variant: BadgeVariant.primary, child: Text('Badge')),
-            Badge(variant: BadgeVariant.secondary, child: Text('Secondary')),
-            Badge(variant: BadgeVariant.outline, child: Text('Outline')),
             Badge(
+              variant: BadgeVariant.secondary,
+              child: Text(docsSample(context, 'Secondary')),
+            ),
+            Badge(
+              variant: BadgeVariant.outline,
+              child: Text(docsSample(context, 'Outline')),
+            ),
+            const Badge(
               variant: BadgeVariant.primary,
               showAsDot: true,
               child: SizedBox.shrink(),
@@ -100,8 +107,8 @@ class CollageInstallCard extends StatelessWidget {
         .firstWhere((DocsComponent component) => component.id == 'button')
         .install;
     return CollageCard(
-      title: 'Install',
-      subtitle: 'One command copies the source in',
+      title: docsSample(context, 'Install'),
+      subtitle: docsSample(context, 'One command copies the source in'),
       children: <Widget>[
         DecoratedBox(
           decoration: BoxDecoration(
@@ -140,20 +147,21 @@ class CollageTooltipCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final ThemeData theme = Theme.of(context);
     return CollageCard(
-      title: 'Tooltips',
+      title: docsSample(context, 'Tooltips'),
       children: <Widget>[
         Tooltip(
-          tooltip: (BuildContext context) => const Text('Adds the component'),
+          tooltip: (BuildContext context) =>
+              Text(docsSample(context, 'Adds the component')),
           child: Button(
             variant: ButtonVariant.outline,
             size: ButtonSize.sm,
             onPressed: collageNoop,
-            child: const Text('Hover me'),
+            child: Text(docsSample(context, 'Hover me')),
           ),
         ),
         const Gap(12),
         Text(
-          'Accessible by default.',
+          docsSample(context, 'Accessible by default.'),
           style: docsText(
             context,
             size: 12.5,
@@ -180,7 +188,7 @@ class CollagePagesCard extends StatelessWidget {
     final ThemeData theme = Theme.of(context);
     final List<DocsNavLink> links = kDocsSections.take(4).toList();
     return CollageCard(
-      title: 'Pages',
+      title: docsSample(context, 'Pages'),
       children: <Widget>[
         for (int i = 0; i < links.length; i++)
           Padding(
@@ -191,7 +199,7 @@ class CollagePagesCard extends StatelessWidget {
                 const Gap(8),
                 Expanded(
                   child: Text(
-                    links[i].label,
+                    docsSample(context, links[i].label),
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                     style: docsText(
@@ -217,32 +225,32 @@ class CollageTableCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const CollageCard(
+    return CollageCard(
       title: 'Table',
-      subtitle: 'Rows, columns and widths from one widget',
+      subtitle: docsSample(context, 'Rows, columns and widths from one widget'),
       children: <Widget>[
         TableView(
           defaultColumnWidth: FlexTableSize(),
           rows: <TableViewRow>[
             TableViewHeader(
               cells: <TableViewCell>[
-                TableViewCell(child: Text('Name')),
-                TableViewCell(child: Text('Role')),
-                TableViewCell(child: Text('Status')),
+                TableViewCell(child: Text(docsSample(context, 'Name'))),
+                TableViewCell(child: Text(docsSample(context, 'Role'))),
+                TableViewCell(child: Text(docsSample(context, 'Status'))),
               ],
             ),
             TableViewRow(
               cells: <TableViewCell>[
-                TableViewCell(child: Text('Maya')),
-                TableViewCell(child: Text('Admin')),
-                TableViewCell(child: Text('Active')),
+                TableViewCell(child: Text(docsSample(context, 'Maya'))),
+                TableViewCell(child: Text(docsSample(context, 'Admin'))),
+                TableViewCell(child: Text(docsSample(context, 'Active'))),
               ],
             ),
             TableViewRow(
               cells: <TableViewCell>[
-                TableViewCell(child: Text('Leo')),
-                TableViewCell(child: Text('Editor')),
-                TableViewCell(child: Text('Invited')),
+                const TableViewCell(child: Text('Leo')),
+                TableViewCell(child: Text(docsSample(context, 'Editor'))),
+                TableViewCell(child: Text(docsSample(context, 'Invited'))),
               ],
             ),
           ],

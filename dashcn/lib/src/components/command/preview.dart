@@ -17,13 +17,13 @@ import '../button/button.dart';
 import 'command.dart';
 
 /// Commands the palette offers.
-const List<String> _commandValues = <String>[
+List<String> _commandValues = <String>[
   'Calendar',
-  'Search Emoji',
-  'Launch',
-  'Profile',
-  'Mail',
-  'Settings',
+  docsSample(null, 'Search Emoji'),
+  docsSample(null, 'Launch'),
+  docsSample(null, 'Profile'),
+  docsSample(null, 'Mail'),
+  docsSample(null, 'Settings'),
 ];
 
 /// The palette itself, sized to the stage.
@@ -68,15 +68,15 @@ class _CommandPaletteState extends State<_CommandPalette> {
                         SubFocusListItem(
                           // 48px rows meet the touch minimum.
                           minHeight: 48,
-                          title: Text(value),
+                          title: Text(docsSample(context, value)),
                           onTap: () => setState(() => _lastCommand = value),
                         ),
                       );
                     }
                   } else {
-                    for (final String group in const <String>[
-                      'Suggestions',
-                      'Settings',
+                    for (final String group in <String>[
+                      docsSample(context, 'Suggestions'),
+                      docsSample(context, 'Settings'),
                     ]) {
                       items.add(
                         // upstream group heading: `px-2 py-1.5 text-xs font-medium`
@@ -87,7 +87,7 @@ class _CommandPaletteState extends State<_CommandPalette> {
                             vertical: 6,
                           ),
                           child: Text(
-                            group,
+                            docsSample(context, group),
                             style: TextStyle(
                               fontSize: 12,
                               fontWeight: FontWeight.w500,
@@ -101,7 +101,7 @@ class _CommandPaletteState extends State<_CommandPalette> {
                           SubFocusListItem(
                             // 48px rows meet the touch minimum.
                             minHeight: 48,
-                            title: Text(value),
+                            title: Text(docsSample(context, value)),
                             onTap: () => setState(() => _lastCommand = value),
                           ),
                         );
@@ -116,8 +116,8 @@ class _CommandPaletteState extends State<_CommandPalette> {
             SizedBox(height: spacing.sm),
             Text(
               _lastCommand == null
-                  ? 'Run a command to see it here'
-                  : 'Ran $_lastCommand',
+                  ? docsSample(context, 'Run a command to see it here')
+                  : '${'Ran'} ${docsSample(context, _lastCommand!)}',
               style: TextStyle(
                 fontSize: 12,
                 color: Theme.of(context).colors.mutedForeground,
@@ -145,7 +145,10 @@ class _CommandDialogTrigger extends StatelessWidget {
     final List<String> ranked = rankCommandLabels(_commandValues, query);
     yield <Widget>[
       for (final String value in ranked)
-        SubFocusListItem(minHeight: 48, title: Text(value)),
+        SubFocusListItem(
+          minHeight: 48,
+          title: Text(docsSample(context, value)),
+        ),
     ];
   }
 
@@ -156,7 +159,7 @@ class _CommandDialogTrigger extends StatelessWidget {
       size: ButtonSize.sm,
       onPressed: () =>
           showCommandDialog<void>(context: context, builder: _results),
-      child: const Text('Open command palette'),
+      child: Text(docsSample(context, 'Open command palette')),
     );
   }
 }
@@ -192,9 +195,9 @@ Widget _commandCustomized(BuildContext context) {
 }
 
 /// Named docs examples for `command`; the first entry is the default.
-const List<ComponentPreview> commandPreviews = <ComponentPreview>[
-  ComponentPreview('Default', _commandDefault),
-  ComponentPreview('With groups', _commandWithGroups),
+List<ComponentPreview> get commandPreviews => <ComponentPreview>[
+  ComponentPreview(docsSample(null, 'Default'), _commandDefault),
+  ComponentPreview(docsSample(null, 'With groups'), _commandWithGroups),
   ComponentPreview('Dialog', _commandDialog),
-  ComponentPreview('Customized', _commandCustomized),
+  ComponentPreview(docsSample(null, 'Customized'), _commandCustomized),
 ];

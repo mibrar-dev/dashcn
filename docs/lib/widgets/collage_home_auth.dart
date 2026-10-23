@@ -1,3 +1,4 @@
+import '../ui/dashcn/foundation/component_preview.dart';
 // Home showcase: auth cards (P6-H1).
 //
 // `Create Account` and `Verify your phone` extend the Theme Studio blocks
@@ -28,40 +29,43 @@ class HomeCreateAccountCard extends StatefulWidget {
 
 class _HomeCreateAccountCardState extends State<HomeCreateAccountCard> {
   bool _sameAddress = true;
-  String _payout = 'Bank Transfer';
+  String _payout = docsSample(null, 'Bank Transfer');
 
   @override
   Widget build(BuildContext context) {
     return CollageCard(
-      title: 'Create Account',
-      subtitle: 'Start distributing your music in minutes.',
+      title: docsSample(context, 'Create Account'),
+      subtitle: docsSample(
+        context,
+        'Start distributing your music in minutes.',
+      ),
       children: <Widget>[
-        const StudioFieldLabel('Email'),
+        StudioFieldLabel(docsSample(context, 'Email')),
         const Gap(6),
-        const Input(
+        Input(
           initialValue: '',
           hintText: 'm@example.com',
           keyboardType: TextInputType.emailAddress,
         ),
         const Gap(16),
-        const StudioFieldLabel('Password'),
+        StudioFieldLabel(docsSample(context, 'Password')),
         const Gap(6),
-        const Input(
+        Input(
           initialValue: '',
           obscureText: true,
-          hintText: 'At least 8 characters',
+          hintText: docsSample(context, 'At least 8 characters'),
         ),
         const Gap(16),
-        const StudioFieldLabel('Payout Method'),
+        StudioFieldLabel(docsSample(context, 'Payout Method')),
         const Gap(6),
         Select<String>(
           value: _payout,
           onChanged: (String? next) =>
               setState(() => _payout = next ?? _payout),
-          items: const <Widget>[
+          items: <Widget>[
             SelectItem<String>(
-              value: 'Bank Transfer',
-              child: Text('Bank Transfer'),
+              value: docsSample(context, 'Bank Transfer'),
+              child: Text(docsSample(context, 'Bank Transfer')),
             ),
             SelectItem<String>(value: 'PayPal', child: Text('PayPal')),
           ],
@@ -70,7 +74,9 @@ class _HomeCreateAccountCardState extends State<HomeCreateAccountCard> {
         const Gap(16),
         Row(
           children: <Widget>[
-            const Expanded(child: Text('Billing same as payout')),
+            Expanded(
+              child: Text(docsSample(context, 'Billing same as payout')),
+            ),
             Switch(
               value: _sameAddress,
               onChanged: (bool value) => setState(() => _sameAddress = value),
@@ -81,9 +87,12 @@ class _HomeCreateAccountCardState extends State<HomeCreateAccountCard> {
         Button(
           variant: ButtonVariant.primary,
           onPressed: () {},
-          child: const SizedBox(
+          child: SizedBox(
             width: double.infinity,
-            child: Text('Create Account', textAlign: TextAlign.center),
+            child: Text(
+              docsSample(context, 'Create Account'),
+              textAlign: TextAlign.center,
+            ),
           ),
         ),
       ],
@@ -98,11 +107,11 @@ class HomeLoginCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const CollageCard(
-      title: 'Welcome back',
-      subtitle: 'Sign in to your workspace.',
+    return CollageCard(
+      title: docsSample(context, 'Welcome back'),
+      subtitle: docsSample(context, 'Sign in to your workspace.'),
       children: <Widget>[
-        StudioFieldLabel('Email Address'),
+        StudioFieldLabel(docsSample(context, 'Email Address')),
         Gap(6),
         Input(
           initialValue: '',
@@ -110,7 +119,7 @@ class HomeLoginCard extends StatelessWidget {
           keyboardType: TextInputType.emailAddress,
         ),
         Gap(16),
-        StudioFieldLabel('Password'),
+        StudioFieldLabel(docsSample(context, 'Password')),
         Gap(6),
         Input(initialValue: '', obscureText: true, hintText: '••••••••'),
         Gap(16),
@@ -119,7 +128,10 @@ class HomeLoginCard extends StatelessWidget {
           onPressed: collageNoop,
           child: SizedBox(
             width: double.infinity,
-            child: Text('Sign In', textAlign: TextAlign.center),
+            child: Text(
+              docsSample(context, 'Sign In'),
+              textAlign: TextAlign.center,
+            ),
           ),
         ),
         Gap(12),
@@ -130,11 +142,16 @@ class HomeLoginCard extends StatelessWidget {
           onPressed: collageNoop,
           child: SizedBox(
             width: double.infinity,
-            child: Text('Continue with SSO', textAlign: TextAlign.center),
+            child: Text(
+              docsSample(context, 'Continue with SSO'),
+              textAlign: TextAlign.center,
+            ),
           ),
         ),
         Gap(8),
-        StudioHelper('Forgot your password? Reset it by email.'),
+        StudioHelper(
+          docsSample(context, 'Forgot your password? Reset it by email.'),
+        ),
       ],
     );
   }
@@ -147,9 +164,12 @@ class HomeOtpCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const CollageCard(
-      title: 'Verify your phone',
-      subtitle: 'Enter the 6-digit code we texted to ···· 1192.',
+    return CollageCard(
+      title: docsSample(context, 'Verify your phone'),
+      subtitle: docsSample(
+        context,
+        'Enter the 6-digit code we texted to ···· 1192.',
+      ),
       children: <Widget>[
         InputOtp(length: 6),
         Gap(16),
@@ -159,7 +179,7 @@ class HomeOtpCard extends StatelessWidget {
               child: Button(
                 variant: ButtonVariant.outline,
                 onPressed: collageNoop,
-                child: Text('Resend'),
+                child: Text(docsSample(context, 'Resend')),
               ),
             ),
             Gap(12),
@@ -167,7 +187,7 @@ class HomeOtpCard extends StatelessWidget {
               child: Button(
                 variant: ButtonVariant.primary,
                 onPressed: collageNoop,
-                child: Text('Verify'),
+                child: Text(docsSample(context, 'Verify')),
               ),
             ),
           ],

@@ -20,9 +20,11 @@ Widget _drawer(BuildContext context) {
     height: 200,
     child: Swiper(
       position: OverlayPosition.left,
-      builder: (BuildContext context) =>
-          const _Panel(title: 'Drawer', hint: 'Swipe it away to dismiss'),
-      child: const _SwipeSurface('Swipe right for a drawer'),
+      builder: (BuildContext context) => _Panel(
+        title: 'Drawer',
+        hint: docsSample(context, 'Swipe it away to dismiss'),
+      ),
+      child: _SwipeSurface(docsSample(context, 'Swipe right for a drawer')),
     ),
   );
 }
@@ -35,9 +37,11 @@ Widget _sheet(BuildContext context) {
     child: Swiper(
       position: OverlayPosition.bottom,
       variant: SwiperVariant.sheet,
-      builder: (BuildContext context) =>
-          const _Panel(title: 'Sheet', hint: 'Drag down to dismiss'),
-      child: const _SwipeSurface('Swipe up for a sheet'),
+      builder: (BuildContext context) => _Panel(
+        title: 'Sheet',
+        hint: docsSample(context, 'Drag down to dismiss'),
+      ),
+      child: _SwipeSurface(docsSample(context, 'Swipe up for a sheet')),
     ),
   );
 }
@@ -92,7 +96,7 @@ class _Panel extends StatelessWidget {
 }
 
 /// Named docs examples for `swiper`; the first entry is the default.
-const List<ComponentPreview> swiperPreviews = <ComponentPreview>[
-  ComponentPreview('Default', _drawer),
+List<ComponentPreview> get swiperPreviews => <ComponentPreview>[
+  ComponentPreview(docsSample(null, 'Default'), _drawer),
   ComponentPreview('Sheet', _sheet),
 ];

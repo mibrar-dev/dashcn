@@ -19,12 +19,12 @@ import 'fab.dart';
 ///
 /// md standard: 56 px box, 20 px icon, shadowLg from the theme tokens.
 Widget _fabDefault(BuildContext context) {
-  return const Center(
+  return Center(
     child: Fab(
       icon: Icon(LucideIcons.plus),
       onPressed: _noop,
-      semanticLabel: 'Add item',
-      tooltip: 'Add item',
+      semanticLabel: docsSample(context, 'Add item'),
+      tooltip: docsSample(context, 'Add item'),
     ),
   );
 }
@@ -39,25 +39,25 @@ Widget _fabSizes(BuildContext context) {
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.center,
       children: <Widget>[
-        const Fab(
+        Fab(
           icon: Icon(LucideIcons.plus),
           size: FabSize.sm,
           onPressed: _noop,
-          semanticLabel: 'Add item (small)',
+          semanticLabel: docsSample(context, 'Add item (small)'),
         ),
         Gap(spacing),
-        const Fab(
+        Fab(
           icon: Icon(LucideIcons.plus),
           size: FabSize.md,
           onPressed: _noop,
-          semanticLabel: 'Add item (regular)',
+          semanticLabel: docsSample(context, 'Add item (regular)'),
         ),
         Gap(spacing),
-        const Fab(
+        Fab(
           icon: Icon(LucideIcons.plus),
           size: FabSize.lg,
           onPressed: _noop,
-          semanticLabel: 'Add item (large)',
+          semanticLabel: docsSample(context, 'Add item (large)'),
         ),
       ],
     ),
@@ -69,12 +69,12 @@ Widget _fabSizes(BuildContext context) {
 /// Label: 14 px semibold from the tokens; icon-label gap 8 px from the
 /// tokens; pill radius follows the box.
 Widget _fabExtended(BuildContext context) {
-  return const Center(
+  return Center(
     child: Fab(
       icon: Icon(LucideIcons.pencil),
-      label: Text('Compose'),
+      label: Text(docsSample(context, 'Compose')),
       onPressed: _noop,
-      semanticLabel: 'Compose',
+      semanticLabel: docsSample(context, 'Compose'),
     ),
   );
 }
@@ -88,28 +88,28 @@ Widget _fabMiniSizes(BuildContext context) {
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.center,
       children: <Widget>[
-        const Fab(
+        Fab(
           icon: Icon(LucideIcons.plus),
           shape: FabShape.mini,
           size: FabSize.sm,
           onPressed: _noop,
-          semanticLabel: 'Mini (32)',
+          semanticLabel: docsSample(context, 'Mini (32)'),
         ),
         Gap(spacing),
-        const Fab(
+        Fab(
           icon: Icon(LucideIcons.plus),
           shape: FabShape.mini,
           size: FabSize.md,
           onPressed: _noop,
-          semanticLabel: 'Mini (40)',
+          semanticLabel: docsSample(context, 'Mini (40)'),
         ),
         Gap(spacing),
-        const Fab(
+        Fab(
           icon: Icon(LucideIcons.plus),
           shape: FabShape.mini,
           size: FabSize.lg,
           onPressed: _noop,
-          semanticLabel: 'Mini (48)',
+          semanticLabel: docsSample(context, 'Mini (48)'),
         ),
       ],
     ),
@@ -134,26 +134,26 @@ class _FabSpeedDialExampleState extends State<_FabSpeedDialExample> {
         icon: const Icon(LucideIcons.plus),
         expanded: _expanded,
         onExpandedChanged: (bool value) => setState(() => _expanded = value),
-        semanticLabel: 'Create',
-        tooltip: 'Create',
+        semanticLabel: docsSample(context, 'Create'),
+        tooltip: docsSample(context, 'Create'),
         actions: <FabSpeedDialAction>[
           FabSpeedDialAction(
             icon: const Icon(LucideIcons.fileText),
             onPressed: _noop,
-            tooltip: 'New document',
-            semanticLabel: 'New document',
+            tooltip: docsSample(context, 'New document'),
+            semanticLabel: docsSample(context, 'New document'),
           ),
           FabSpeedDialAction(
             icon: const Icon(LucideIcons.image),
             onPressed: _noop,
-            tooltip: 'New image',
-            semanticLabel: 'New image',
+            tooltip: docsSample(context, 'New image'),
+            semanticLabel: docsSample(context, 'New image'),
           ),
           FabSpeedDialAction(
             icon: const Icon(LucideIcons.camera),
             onPressed: _noop,
-            tooltip: 'Take a photo',
-            semanticLabel: 'Take a photo',
+            tooltip: docsSample(context, 'Take a photo'),
+            semanticLabel: docsSample(context, 'Take a photo'),
           ),
         ],
       ),
@@ -175,7 +175,7 @@ Widget _fabPositions(BuildContext context) {
           color: theme.colors.muted.withValues(alpha: 0.4),
           borderRadius: theme.borderRadiusLg,
         ),
-        child: const Stack(
+        child: Stack(
           children: <Widget>[
             FabPositioner(
               position: FabPosition.topStart,
@@ -183,7 +183,7 @@ Widget _fabPositions(BuildContext context) {
                 icon: Icon(LucideIcons.heart),
                 size: FabSize.sm,
                 onPressed: _noop,
-                semanticLabel: 'Favourite',
+                semanticLabel: docsSample(context, 'Favourite'),
               ),
             ),
             FabPositioner(
@@ -192,7 +192,7 @@ Widget _fabPositions(BuildContext context) {
                 icon: Icon(LucideIcons.share),
                 size: FabSize.sm,
                 onPressed: _noop,
-                semanticLabel: 'Share',
+                semanticLabel: docsSample(context, 'Share'),
               ),
             ),
             FabPositioner(
@@ -201,7 +201,7 @@ Widget _fabPositions(BuildContext context) {
                 icon: Icon(LucideIcons.trash),
                 size: FabSize.sm,
                 onPressed: _noop,
-                semanticLabel: 'Delete',
+                semanticLabel: docsSample(context, 'Delete'),
               ),
             ),
             FabPositioner(
@@ -210,7 +210,7 @@ Widget _fabPositions(BuildContext context) {
                 icon: Icon(LucideIcons.settings),
                 size: FabSize.sm,
                 onPressed: _noop,
-                semanticLabel: 'Settings',
+                semanticLabel: docsSample(context, 'Settings'),
               ),
             ),
           ],
@@ -263,11 +263,11 @@ class _FabHideOnScrollExampleState extends State<_FabHideOnScrollExample> {
               bottom: theme.spacing.md,
               child: FabHideOnScroll(
                 controller: _controller,
-                child: const Fab(
+                child: Fab(
                   icon: Icon(LucideIcons.plus),
                   size: FabSize.sm,
                   onPressed: _noop,
-                  semanticLabel: 'Add item',
+                  semanticLabel: docsSample(context, 'Add item'),
                 ),
               ),
             ),
@@ -283,12 +283,12 @@ Widget _fabHideOnScroll(BuildContext context) =>
 
 /// A customised button: secondary fill, custom radius and no elevation.
 Widget _fabCustomized(BuildContext context) {
-  return const Center(
+  return Center(
     child: Fab(
       icon: Icon(LucideIcons.zap),
-      label: Text('Launch'),
+      label: Text(docsSample(context, 'Launch')),
       onPressed: _noop,
-      semanticLabel: 'Launch',
+      semanticLabel: docsSample(context, 'Launch'),
       style: FabStyle(
         background: StateValue(rest: ThemedColor.ref(ColorRef.secondary)),
         foreground: StateValue(
@@ -303,13 +303,13 @@ Widget _fabCustomized(BuildContext context) {
 }
 
 /// Named docs examples for `fab`; the first entry is the default.
-const List<ComponentPreview> fabPreviews = <ComponentPreview>[
-  ComponentPreview('Default', _fabDefault),
-  ComponentPreview('Sizes', _fabSizes),
-  ComponentPreview('Extended', _fabExtended),
-  ComponentPreview('Mini sizes', _fabMiniSizes),
-  ComponentPreview('Speed dial', _fabSpeedDial),
-  ComponentPreview('Positions', _fabPositions),
-  ComponentPreview('Hide on scroll', _fabHideOnScroll),
-  ComponentPreview('Customized', _fabCustomized),
+List<ComponentPreview> get fabPreviews => <ComponentPreview>[
+  ComponentPreview(docsSample(null, 'Default'), _fabDefault),
+  ComponentPreview(docsSample(null, 'Sizes'), _fabSizes),
+  ComponentPreview(docsSample(null, 'Extended'), _fabExtended),
+  ComponentPreview(docsSample(null, 'Mini sizes'), _fabMiniSizes),
+  ComponentPreview(docsSample(null, 'Speed dial'), _fabSpeedDial),
+  ComponentPreview(docsSample(null, 'Positions'), _fabPositions),
+  ComponentPreview(docsSample(null, 'Hide on scroll'), _fabHideOnScroll),
+  ComponentPreview(docsSample(null, 'Customized'), _fabCustomized),
 ];

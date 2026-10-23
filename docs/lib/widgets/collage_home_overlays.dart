@@ -1,3 +1,4 @@
+import '../ui/dashcn/foundation/component_preview.dart';
 // Home showcase: overlay cards, part 1 — dialog, alert, drawer (P6-H1).
 //
 // Every card opens its real registry overlay (`showDialog`,
@@ -27,8 +28,8 @@ class HomeDialogCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final ThemeData theme = Theme.of(context);
     return CollageCard(
-      title: 'Share document',
-      subtitle: 'Invite people to this workspace.',
+      title: docsSample(context, 'Share document'),
+      subtitle: docsSample(context, 'Invite people to this workspace.'),
       children: <Widget>[
         Row(
           children: <Widget>[
@@ -48,7 +49,7 @@ class HomeDialogCard extends StatelessWidget {
                     ),
                   ),
                   Text(
-                    'Only you have access',
+                    docsSample(context, 'Only you have access'),
                     style: theme.typography.small.copyWith(
                       color: theme.colors.mutedForeground,
                     ),
@@ -66,7 +67,7 @@ class HomeDialogCard extends StatelessWidget {
           onPressed: () => showDialog<void>(
             context: context,
             builder: (BuildContext dialogContext) => AlertDialog(
-              title: const Text('Share this document'),
+              title: Text(docsSample(context, 'Share this document')),
               description: const Text(
                 'Anyone with the link can view the Q2 royalty report. '
                 'Access expires in 7 days.',
@@ -75,16 +76,16 @@ class HomeDialogCard extends StatelessWidget {
                 Button(
                   variant: ButtonVariant.outline,
                   onPressed: () => Navigator.pop(dialogContext),
-                  child: const Text('Cancel'),
+                  child: Text(docsSample(context, 'Cancel')),
                 ),
                 Button(
                   onPressed: () => Navigator.pop(dialogContext),
-                  child: const Text('Copy link'),
+                  child: Text(docsSample(context, 'Copy link')),
                 ),
               ],
             ),
           ),
-          child: const Text('Open dialog'),
+          child: Text(docsSample(context, 'Open dialog')),
         ),
       ],
     );
@@ -100,8 +101,8 @@ class HomeAlertConfirmCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final ThemeData theme = Theme.of(context);
     return CollageCard(
-      title: 'Danger zone',
-      subtitle: 'Deleting a project cannot be undone.',
+      title: docsSample(context, 'Danger zone'),
+      subtitle: docsSample(context, 'Deleting a project cannot be undone.'),
       children: <Widget>[
         Row(
           children: <Widget>[
@@ -111,7 +112,9 @@ class HomeAlertConfirmCard extends StatelessWidget {
               color: theme.colors.destructive,
             ),
             const Gap(12),
-            const Expanded(child: StudioHelper('Midnight Drive — 2026')),
+            Expanded(
+              child: StudioHelper(docsSample(context, 'Midnight Drive — 2026')),
+            ),
           ],
         ),
         const Gap(12),
@@ -122,7 +125,7 @@ class HomeAlertConfirmCard extends StatelessWidget {
           onPressed: () => showAlertDialog<bool>(
             context: context,
             icon: const Icon(LucideIcons.trash2, size: 20),
-            title: const Text('Delete this project?'),
+            title: Text(docsSample(context, 'Delete this project?')),
             description: const Text(
               'The release, its royalties and every report will be removed '
               'permanently.',
@@ -131,16 +134,16 @@ class HomeAlertConfirmCard extends StatelessWidget {
               Button(
                 variant: ButtonVariant.outline,
                 onPressed: () => Navigator.pop(dialogContext, false),
-                child: const Text('Cancel'),
+                child: Text(docsSample(context, 'Cancel')),
               ),
               Button(
                 variant: ButtonVariant.destructive,
                 onPressed: () => Navigator.pop(dialogContext, true),
-                child: const Text('Delete'),
+                child: Text(docsSample(context, 'Delete')),
               ),
             ],
           ),
-          child: const Text('Delete project'),
+          child: Text(docsSample(context, 'Delete project')),
         ),
       ],
     );
@@ -155,8 +158,8 @@ class HomeDrawerCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CollageCard(
-      title: 'Account panel',
-      subtitle: 'The same content as a drawer or a sheet.',
+      title: docsSample(context, 'Account panel'),
+      subtitle: docsSample(context, 'The same content as a drawer or a sheet.'),
       children: <Widget>[
         Row(
           children: <Widget>[
@@ -170,7 +173,7 @@ class HomeDrawerCard extends StatelessWidget {
                     onClose: () => Navigator.pop(drawerContext),
                   ),
                 ),
-                child: const Text('Open drawer'),
+                child: Text(docsSample(context, 'Open drawer')),
               ),
             ),
             const Gap(12),
@@ -184,7 +187,7 @@ class HomeDrawerCard extends StatelessWidget {
                     onClose: () => Navigator.pop(sheetContext),
                   ),
                 ),
-                child: const Text('Open sheet'),
+                child: Text(docsSample(context, 'Open sheet')),
               ),
             ),
           ],
@@ -212,20 +215,25 @@ class _HomePanelSheet extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
           Text(
-            'Account',
+            docsSample(context, 'Account'),
             style: theme.typography.h4.copyWith(fontWeight: FontWeight.w600),
           ),
           const Gap(4),
-          const StudioHelper('Profile, billing and notifications.'),
+          StudioHelper(
+            docsSample(context, 'Profile, billing and notifications.'),
+          ),
           const Gap(16),
-          const StudioRow(label: 'Plan', value: r'Pro · $29/mo'),
-          const StudioRow(label: 'Renewal', value: '1 Jun 2026'),
+          StudioRow(label: docsSample(context, 'Plan'), value: r'Pro · $29/mo'),
+          StudioRow(
+            label: docsSample(context, 'Renewal'),
+            value: docsSample(context, '1 Jun 2026'),
+          ),
           const Gap(16),
           Button(
             variant: ButtonVariant.outline,
             size: ButtonSize.sm,
             onPressed: onClose,
-            child: const Text('Close panel'),
+            child: Text(docsSample(context, 'Close panel')),
           ),
         ],
       ),

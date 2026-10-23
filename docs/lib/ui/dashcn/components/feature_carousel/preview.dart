@@ -30,7 +30,6 @@ class _FeatureCarouselDefaultFeatureCarouselState
     extends State<_FeatureCarouselDefaultFeatureCarousel> {
   late final FeatureCarouselController _controller = FeatureCarouselController(
     autoPlay: false,
-    primaryActionLabel: 'Get started',
   );
 
   @override
@@ -46,20 +45,20 @@ class _FeatureCarouselDefaultFeatureCarouselState
         width: 420,
         child: FeatureCarousel(
           controller: _controller,
-          items: const <FeatureCarouselItem>[
+          items: <FeatureCarouselItem>[
             FeatureCarouselItem(
-              title: 'Fast',
-              description: 'Ship a build in seconds.',
+              title: docsSample(context, 'Fast'),
+              description: docsSample(context, 'Ship a build in seconds.'),
               icon: LucideIcons.zap,
             ),
             FeatureCarouselItem(
-              title: 'Safe',
-              description: 'Every deploy is immutable.',
+              title: docsSample(context, 'Safe'),
+              description: docsSample(context, 'Every deploy is immutable.'),
               icon: LucideIcons.shield,
             ),
             FeatureCarouselItem(
-              title: 'Insightful',
-              description: 'Metrics for every release.',
+              title: docsSample(context, 'Insightful'),
+              description: docsSample(context, 'Metrics for every release.'),
               icon: LucideIcons.chartLine,
             ),
           ],
@@ -80,10 +79,16 @@ Widget _featureCarouselThemed(BuildContext context) {
           cardFill: ThemedColor.ref(ColorRef.popover),
           radius: 20,
         ),
-        child: const FeatureCarousel(
+        child: FeatureCarousel(
           items: <FeatureCarouselItem>[
-            FeatureCarouselItem(title: 'Themed', icon: LucideIcons.sparkles),
-            FeatureCarouselItem(title: 'Accent', icon: LucideIcons.star),
+            FeatureCarouselItem(
+              title: docsSample(context, 'Themed'),
+              icon: LucideIcons.sparkles,
+            ),
+            FeatureCarouselItem(
+              title: docsSample(context, 'Accent'),
+              icon: LucideIcons.star,
+            ),
           ],
         ),
       ),
@@ -124,9 +129,15 @@ class _FeatureCarouselCardsOnlyCarouselState
   Widget build(BuildContext context) {
     return FeatureCarousel(
       controller: _controller,
-      items: const <FeatureCarouselItem>[
-        FeatureCarouselItem(title: 'Cards only', icon: LucideIcons.image),
-        FeatureCarouselItem(title: 'No chrome', icon: LucideIcons.circle),
+      items: <FeatureCarouselItem>[
+        FeatureCarouselItem(
+          title: docsSample(context, 'Cards only'),
+          icon: LucideIcons.image,
+        ),
+        FeatureCarouselItem(
+          title: docsSample(context, 'No chrome'),
+          icon: LucideIcons.circle,
+        ),
       ],
     );
   }
@@ -140,13 +151,13 @@ Widget _featureCarouselLabelled(BuildContext context) {
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisSize: MainAxisSize.min,
       children: <Widget>[
-        const SizedBox(
+        SizedBox(
           width: 420,
           child: FeatureCarousel(
             items: <FeatureCarouselItem>[
               FeatureCarouselItem(
-                title: 'Analytics',
-                description: 'Every release measured.',
+                title: docsSample(context, 'Analytics'),
+                description: docsSample(context, 'Every release measured.'),
                 icon: LucideIcons.chartLine,
               ),
             ],
@@ -154,7 +165,13 @@ Widget _featureCarouselLabelled(BuildContext context) {
         ),
         Gap(spacing.md),
         Text(
-          'A single slide, so the CTA sits under one card.',
+          docsSample(
+            context,
+            docsSample(
+              context,
+              'A single slide, so the CTA sits under one card.',
+            ),
+          ),
           style: TextStyle(
             fontSize: 12,
             color: Theme.of(context).colors.mutedForeground,
@@ -169,9 +186,9 @@ Widget _featureCarouselDefault(BuildContext context) =>
     const _FeatureCarouselDefaultFeatureCarousel();
 
 /// Named docs examples for `feature_carousel`; the first entry is the default.
-const List<ComponentPreview> featureCarouselPreviews = <ComponentPreview>[
-  ComponentPreview('Default', _featureCarouselDefault),
-  ComponentPreview('Themed', _featureCarouselThemed),
-  ComponentPreview('Cards only', _featureCarouselCardsOnly),
-  ComponentPreview('Labelled', _featureCarouselLabelled),
+List<ComponentPreview> get featureCarouselPreviews => <ComponentPreview>[
+  ComponentPreview(docsSample(null, 'Default'), _featureCarouselDefault),
+  ComponentPreview(docsSample(null, 'Themed'), _featureCarouselThemed),
+  ComponentPreview(docsSample(null, 'Cards only'), _featureCarouselCardsOnly),
+  ComponentPreview(docsSample(null, 'Labelled'), _featureCarouselLabelled),
 ];

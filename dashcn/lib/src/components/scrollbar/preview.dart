@@ -74,8 +74,8 @@ Widget _themed(BuildContext context) {
 }
 
 /// Named docs examples for `scrollbar`; the first entry is the default.
-const List<ComponentPreview> scrollbarPreviews = <ComponentPreview>[
-  ComponentPreview('Default', _default),
-  ComponentPreview('Always visible', _alwaysVisible),
-  ComponentPreview('Themed', _themed),
+List<ComponentPreview> get scrollbarPreviews => <ComponentPreview>[
+  ComponentPreview(docsSample(null, 'Default'), _default),
+  ComponentPreview(docsSample(null, 'Always visible'), _alwaysVisible),
+  ComponentPreview(docsSample(null, 'Themed'), _themed),
 ];

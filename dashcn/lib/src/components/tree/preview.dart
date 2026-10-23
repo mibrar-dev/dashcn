@@ -50,9 +50,9 @@ List<TreeNode<_FileEntry>> _toNodes(
     ),
 ];
 
-List<_FileEntry> _files() => const <_FileEntry>[
+List<_FileEntry> _files() => <_FileEntry>[
   _FileEntry(
-    'Documents',
+    docsSample(null, 'Documents'),
     folder: true,
     children: <_FileEntry>[
       _FileEntry('report.pdf'),
@@ -64,8 +64,8 @@ List<_FileEntry> _files() => const <_FileEntry>[
       ),
     ],
   ),
-  _FileEntry('Pictures', folder: true),
-  _FileEntry('Downloads', folder: true),
+  _FileEntry(docsSample(null, 'Pictures'), folder: true),
+  _FileEntry(docsSample(null, 'Downloads'), folder: true),
 ];
 
 /// Leading icon: open/closed folder for folders, file for files.
@@ -109,7 +109,9 @@ String _selectedLabel(List<TreeNode<_FileEntry>> nodes) {
   }
 
   visit(nodes);
-  return names.isEmpty ? 'Nothing selected' : 'Selected: ${names.join(', ')}';
+  return names.isEmpty
+      ? docsSample(null, 'Nothing selected')
+      : 'Selected: ${names.join(', ')}';
 }
 
 /// Shared file-tree shell: expand/collapse, selection and a status line.
@@ -335,7 +337,7 @@ class _LargeTreeState extends State<_LargeTree> {
         for (int i = 1; i <= 20; i++) _FileEntry('icon_$i.svg'),
       ],
     ),
-    const _FileEntry('Shared', folder: true, lazy: true),
+    _FileEntry(docsSample(null, 'Shared'), folder: true, lazy: true),
     for (int i = 1; i <= 40; i++) _FileEntry('note_$i.md'),
   ];
 
@@ -387,9 +389,9 @@ class _LargeTreeState extends State<_LargeTree> {
 Widget _treeLarge(BuildContext context) => const _LargeTree();
 
 /// Named docs examples for `tree`; the first entry is the default.
-const List<ComponentPreview> treePreviews = <ComponentPreview>[
-  ComponentPreview('Default', _treeDefault),
-  ComponentPreview('With selection', _treeSelection),
-  ComponentPreview('Multi-select', _treeMulti),
-  ComponentPreview('Large', _treeLarge),
+List<ComponentPreview> get treePreviews => <ComponentPreview>[
+  ComponentPreview(docsSample(null, 'Default'), _treeDefault),
+  ComponentPreview(docsSample(null, 'With selection'), _treeSelection),
+  ComponentPreview(docsSample(null, 'Multi-select'), _treeMulti),
+  ComponentPreview(docsSample(null, 'Large'), _treeLarge),
 ];

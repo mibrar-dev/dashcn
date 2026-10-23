@@ -38,7 +38,7 @@ class _SheetBody extends StatelessWidget {
           ),
           Gap(theme.spacing.sm),
           Text(
-            'Drag the handle to move between snap stages.',
+            docsSample(context, 'Drag the handle to move between snap stages.'),
             style: TextStyle(color: theme.colors.mutedForeground),
           ),
           Gap(theme.spacing.md),
@@ -46,7 +46,7 @@ class _SheetBody extends StatelessWidget {
             size: ButtonSize.sm,
             variant: ButtonVariant.outline,
             onPressed: controller.close,
-            child: const Text('Done'),
+            child: Text(docsSample(context, 'Done')),
           ),
         ],
       ),
@@ -104,21 +104,21 @@ class _SheetDemoState extends State<_SheetDemo> {
             Button(
               size: ButtonSize.sm,
               onPressed: _controller.open,
-              child: const Text('Open sheet'),
+              child: Text(docsSample(context, 'Open sheet')),
             ),
             if (widget.stages.length > 2) ...<Widget>[
               Button(
                 size: ButtonSize.sm,
                 variant: ButtonVariant.secondary,
                 onPressed: () => _controller.animateTo(widget.stages[1]),
-                child: const Text('Half'),
+                child: Text(docsSample(context, 'Half')),
               ),
             ],
             Button(
               size: ButtonSize.sm,
               variant: ButtonVariant.outline,
               onPressed: _controller.close,
-              child: const Text('Close'),
+              child: Text(docsSample(context, 'Close')),
             ),
             if (widget.showFraction)
               ListenableBuilder(
@@ -162,28 +162,34 @@ class _SheetDemoState extends State<_SheetDemo> {
 }
 
 /// Bottom sheet, starting open so the chrome is visible.
-Widget _sheetBottom(BuildContext context) => const _SheetDemo(
+Widget _sheetBottom(BuildContext context) => _SheetDemo(
   position: OverlayPosition.bottom,
-  title: 'Bottom sheet',
+  title: docsSample(context, 'Bottom sheet'),
   initialStage: SheetStage.expanded(),
 );
 
 /// Right-side sheet.
-Widget _sheetRight(BuildContext context) =>
-    const _SheetDemo(position: OverlayPosition.right, title: 'Right sheet');
+Widget _sheetRight(BuildContext context) => _SheetDemo(
+  position: OverlayPosition.right,
+  title: docsSample(context, 'Right sheet'),
+);
 
 /// Left-side sheet.
-Widget _sheetLeft(BuildContext context) =>
-    const _SheetDemo(position: OverlayPosition.left, title: 'Left sheet');
+Widget _sheetLeft(BuildContext context) => _SheetDemo(
+  position: OverlayPosition.left,
+  title: docsSample(context, 'Left sheet'),
+);
 
 /// Top sheet.
-Widget _sheetTop(BuildContext context) =>
-    const _SheetDemo(position: OverlayPosition.top, title: 'Top sheet');
+Widget _sheetTop(BuildContext context) => _SheetDemo(
+  position: OverlayPosition.top,
+  title: docsSample(context, 'Top sheet'),
+);
 
 /// Snap points: closed, half and expanded with a live fraction readout.
-Widget _sheetSnapping(BuildContext context) => const _SheetDemo(
+Widget _sheetSnapping(BuildContext context) => _SheetDemo(
   position: OverlayPosition.bottom,
-  title: 'Snap points',
+  title: docsSample(context, 'Snap points'),
   stages: <SheetStage>[
     SheetStage.closed(),
     SheetStage.fraction(0.4),
@@ -194,10 +200,10 @@ Widget _sheetSnapping(BuildContext context) => const _SheetDemo(
 );
 
 /// Named docs examples for `pinned_sheet`; the first entry is the default.
-const List<ComponentPreview> pinnedSheetPreviews = <ComponentPreview>[
-  ComponentPreview('Bottom sheet', _sheetBottom),
-  ComponentPreview('Right side', _sheetRight),
-  ComponentPreview('Left side', _sheetLeft),
-  ComponentPreview('Top sheet', _sheetTop),
-  ComponentPreview('Snap points', _sheetSnapping),
+List<ComponentPreview> get pinnedSheetPreviews => <ComponentPreview>[
+  ComponentPreview(docsSample(null, 'Bottom sheet'), _sheetBottom),
+  ComponentPreview(docsSample(null, 'Right side'), _sheetRight),
+  ComponentPreview(docsSample(null, 'Left side'), _sheetLeft),
+  ComponentPreview(docsSample(null, 'Top sheet'), _sheetTop),
+  ComponentPreview(docsSample(null, 'Snap points'), _sheetSnapping),
 ];

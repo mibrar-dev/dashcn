@@ -1,3 +1,4 @@
+import '../ui/dashcn/foundation/component_preview.dart';
 // Home showcase: feedback cards (P6-H1).
 //
 // `Status` extends the Theme Studio block (`studio_blocks/studio_form.dart`);
@@ -26,17 +27,29 @@ class HomeStatusCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const CollageCard(
-      title: 'Status',
+    return CollageCard(
+      title: docsSample(context, 'Status'),
       children: <Widget>[
         Wrap(
           spacing: 8,
           runSpacing: 8,
           children: <Widget>[
-            Badge(variant: BadgeVariant.primary, child: Text('Live')),
-            Badge(variant: BadgeVariant.secondary, child: Text('Draft')),
-            Badge(variant: BadgeVariant.outline, child: Text('Review')),
-            Badge(variant: BadgeVariant.destructive, child: Text('Overdue')),
+            Badge(
+              variant: BadgeVariant.primary,
+              child: Text(docsSample(context, 'Live')),
+            ),
+            Badge(
+              variant: BadgeVariant.secondary,
+              child: Text(docsSample(context, 'Draft')),
+            ),
+            Badge(
+              variant: BadgeVariant.outline,
+              child: Text(docsSample(context, 'Review')),
+            ),
+            Badge(
+              variant: BadgeVariant.destructive,
+              child: Text(docsSample(context, 'Overdue')),
+            ),
           ],
         ),
       ],
@@ -51,21 +64,31 @@ class HomeAlertsCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const CollageCard(
-      title: 'Notices',
-      subtitle: 'Callouts for status and warnings.',
+    return CollageCard(
+      title: docsSample(context, 'Notices'),
+      subtitle: docsSample(context, 'Callouts for status and warnings.'),
       children: <Widget>[
         Alert(
           leading: Icon(LucideIcons.info, size: 16),
-          title: Text('Heads up'),
-          content: Text('Royalties settle on the 15th of every month.'),
+          title: Text(docsSample(context, 'Heads up')),
+          content: Text(
+            docsSample(context, 'Royalties settle on the 15th of every month.'),
+          ),
         ),
         Gap(12),
         Alert(
           variant: AlertVariant.destructive,
           leading: Icon(LucideIcons.triangleAlert, size: 16),
-          title: Text('Payout failed'),
-          content: Text('The bank rejected the transfer. Update the IBAN.'),
+          title: Text(docsSample(context, 'Payout failed')),
+          content: Text(
+            docsSample(
+              context,
+              docsSample(
+                context,
+                'The bank rejected the transfer. Update the IBAN.',
+              ),
+            ),
+          ),
         ),
       ],
     );
@@ -83,18 +106,18 @@ class HomeLoadingCard extends StatelessWidget {
   /// Creates the card.
   const HomeLoadingCard({super.key});
 
-  static const List<(String, String, double)> bars = <(String, String, double)>[
-    ('Documents', '7.2 of 10 GB', 0.72),
-    ('Media', '16.0 of 40 GB', 0.4),
-    ('Backups', '4.5 of 5 GB', 0.9),
+  static List<(String, String, double)> bars = <(String, String, double)>[
+    (docsSample(null, 'Documents'), docsSample(null, '7.2 of 10 GB'), 0.72),
+    (docsSample(null, 'Media'), docsSample(null, '16.0 of 40 GB'), 0.4),
+    (docsSample(null, 'Backups'), docsSample(null, '4.5 of 5 GB'), 0.9),
   ];
 
   @override
   Widget build(BuildContext context) {
     final ThemeData theme = Theme.of(context);
     return CollageCard(
-      title: 'Storage',
-      subtitle: 'Synced 4 minutes ago.',
+      title: docsSample(context, 'Storage'),
+      subtitle: docsSample(context, 'Synced 4 minutes ago.'),
       children: <Widget>[
         for (final (String label, String detail, double value) in bars)
           Padding(
@@ -119,11 +142,11 @@ class HomeLoadingCard extends StatelessWidget {
               ],
             ),
           ),
-        const Button(
+        Button(
           variant: ButtonVariant.outline,
           size: ButtonSize.sm,
           onPressed: collageNoop,
-          child: Text('Manage storage'),
+          child: Text(docsSample(context, 'Manage storage')),
         ),
       ],
     );
@@ -145,28 +168,28 @@ class _HomeRatingCardState extends State<HomeRatingCard> {
   @override
   Widget build(BuildContext context) {
     return CollageCard(
-      title: 'Rate this release',
-      subtitle: 'How did Midnight Drive land?',
+      title: docsSample(context, 'Rate this release'),
+      subtitle: docsSample(context, 'How did Midnight Drive land?'),
       children: <Widget>[
         StarRating(
           value: _rating,
           onChanged: (double value) => setState(() => _rating = value),
         ),
         const Gap(12),
-        const Wrap(
+        Wrap(
           spacing: 8,
           runSpacing: 8,
           children: <Widget>[
-            Chip(child: Text('Mix')),
-            Chip(child: Text('Master')),
-            Chip(child: Text('Artwork')),
+            Chip(child: Text(docsSample(context, 'Mix'))),
+            Chip(child: Text(docsSample(context, 'Master'))),
+            Chip(child: Text(docsSample(context, 'Artwork'))),
           ],
         ),
         const Gap(12),
         StudioHelper(
           _rating >= 4
               ? 'Loved it — thanks for the high score.'
-              : 'Tap a star to leave your score.',
+              : docsSample(context, 'Tap a star to leave your score.'),
         ),
       ],
     );

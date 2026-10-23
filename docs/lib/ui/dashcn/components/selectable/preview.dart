@@ -12,10 +12,16 @@ import 'selectable.dart';
 
 /// Plain selectable text.
 Widget _default(BuildContext context) {
-  return const SizedBox(
+  return SizedBox(
     width: 320,
     child: SelectableText(
-      'Select this text to see the custom selection styling.',
+      docsSample(
+        context,
+        docsSample(
+          context,
+          'Select this text to see the custom selection styling.',
+        ),
+      ),
     ),
   );
 }
@@ -25,15 +31,14 @@ Widget _longText(BuildContext context) {
   return const SizedBox(
     width: 320,
     child: SelectableText(
-      'Flutter widgets are built from smaller pieces until the whole screen '
-      'reads as one surface. Drag across this paragraph to select words, '
+      'Flutter widgets are built from smaller pieces until the whole screen reads as one surface. Drag across this paragraph to select words, '
       'lines, or the entire block with the custom caret and highlight.',
     ),
   );
 }
 
 /// Named docs examples for `selectable`; the first entry is the default.
-const List<ComponentPreview> selectablePreviews = <ComponentPreview>[
-  ComponentPreview('Default', _default),
-  ComponentPreview('Long text', _longText),
+List<ComponentPreview> get selectablePreviews => <ComponentPreview>[
+  ComponentPreview(docsSample(null, 'Default'), _default),
+  ComponentPreview(docsSample(null, 'Long text'), _longText),
 ];

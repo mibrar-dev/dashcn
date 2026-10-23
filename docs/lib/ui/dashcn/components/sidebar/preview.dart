@@ -35,34 +35,54 @@ const double kSidebarPhoneWidth = kPhoneWidthBreakpoint;
 const double kSidebarFallbackHeight = 360.0;
 
 /// Sample navigation shared by the examples.
-List<SidebarSection> _sampleSections() => const <SidebarSection>[
-  SidebarSection(
-    label: 'Main',
-    items: <SidebarItem>[
-      SidebarItem(label: 'Dashboard', icon: LucideIcons.layoutDashboard),
-      SidebarItem(label: 'Documents', icon: LucideIcons.fileText, badge: '12'),
-      SidebarItem(label: 'Reports', icon: LucideIcons.chartBar),
-    ],
-  ),
-  SidebarSection(
-    label: 'Account',
-    items: <SidebarItem>[
-      SidebarItem(
-        label: 'Settings',
-        icon: LucideIcons.settings,
-        children: <SidebarItem>[
-          SidebarItem(label: 'Profile', icon: LucideIcons.circleUser),
-          SidebarItem(label: 'Billing', icon: LucideIcons.creditCard),
+List<SidebarSection> _sampleSections([BuildContext? context]) =>
+    <SidebarSection>[
+      SidebarSection(
+        label: docsSample(context, 'Main'),
+        items: <SidebarItem>[
+          SidebarItem(
+            label: docsSample(context, 'Dashboard'),
+            icon: LucideIcons.layoutDashboard,
+          ),
+          SidebarItem(
+            label: docsSample(context, 'Documents'),
+            icon: LucideIcons.fileText,
+            badge: '12',
+          ),
+          SidebarItem(
+            label: docsSample(context, 'Reports'),
+            icon: LucideIcons.chartBar,
+          ),
         ],
       ),
-      SidebarItem(label: 'Help', icon: LucideIcons.circleHelp),
-    ],
-  ),
-];
+      SidebarSection(
+        label: docsSample(context, 'Account'),
+        items: <SidebarItem>[
+          SidebarItem(
+            label: docsSample(context, 'Settings'),
+            icon: LucideIcons.settings,
+            children: <SidebarItem>[
+              SidebarItem(
+                label: docsSample(context, 'Profile'),
+                icon: LucideIcons.circleUser,
+              ),
+              SidebarItem(
+                label: docsSample(context, 'Billing'),
+                icon: LucideIcons.creditCard,
+              ),
+            ],
+          ),
+          SidebarItem(
+            label: docsSample(context, 'Help'),
+            icon: LucideIcons.circleHelp,
+          ),
+        ],
+      ),
+    ];
 
 /// The footer account shared by the examples.
-const SidebarUser _sampleUser = SidebarUser(
-  name: 'Ibrar Ahmed',
+SidebarUser _sampleUser = SidebarUser(
+  name: docsSample(null, 'Ibrar Ahmed'),
   email: 'm@example.com',
 );
 
@@ -104,7 +124,7 @@ class _DemoContent extends StatelessWidget {
                 Gap(tokens.gap),
                 Expanded(
                   child: Text(
-                    'Card ${i + 1}',
+                    '${'Card'} ${i + 1}',
                     style: theme.typography.textSmall,
                   ),
                 ),
@@ -131,7 +151,13 @@ class _DemoContent extends StatelessWidget {
                 ),
                 Gap(theme.spacing.sm),
                 Text(
-                  'Pick a row in the sidebar to switch sections.',
+                  docsSample(
+                    context,
+                    docsSample(
+                      context,
+                      'Pick a row in the sidebar to switch sections.',
+                    ),
+                  ),
                   style: theme.typography.textSmall.copyWith(
                     color: theme.colors.mutedForeground,
                   ),
@@ -154,7 +180,13 @@ class _DemoContent extends StatelessWidget {
                 ),
                 Gap(theme.spacing.sm),
                 Text(
-                  'Pick a row in the sidebar to switch sections.',
+                  docsSample(
+                    context,
+                    docsSample(
+                      context,
+                      'Pick a row in the sidebar to switch sections.',
+                    ),
+                  ),
                   style: theme.typography.textSmall.copyWith(
                     color: theme.colors.mutedForeground,
                   ),
@@ -188,7 +220,7 @@ class _PhoneDemoState extends State<_PhoneDemo> {
       context: context,
       position: OverlayPosition.start,
       builder: (BuildContext drawerContext) => DashboardSidebar(
-        sections: _sampleSections(),
+        sections: _sampleSections(drawerContext),
         selectedId: widget.selected,
         onSelected: (String id) {
           widget.onSelected(id);
@@ -276,7 +308,7 @@ class _DashboardDemo extends StatefulWidget {
 }
 
 class _DashboardDemoState extends State<_DashboardDemo> {
-  String _selected = 'Dashboard';
+  String _selected = docsSample(null, 'Dashboard');
   bool _collapsed = false;
 
   @override
@@ -305,7 +337,7 @@ class _DashboardDemoState extends State<_DashboardDemo> {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: <Widget>[
               DashboardSidebar(
-                sections: _sampleSections(),
+                sections: _sampleSections(context),
                 selectedId: _selected,
                 onSelected: (String id) => setState(() => _selected = id),
                 collapsed: narrowStage ? true : _collapsed,
@@ -335,7 +367,7 @@ class _DrawerDemo extends StatefulWidget {
 }
 
 class _DrawerDemoState extends State<_DrawerDemo> {
-  String _selected = 'Dashboard';
+  String _selected = docsSample(null, 'Dashboard');
 
   @override
   Widget build(BuildContext context) {
@@ -376,7 +408,7 @@ class _CollapsedDemo extends StatefulWidget {
 }
 
 class _CollapsedDemoState extends State<_CollapsedDemo> {
-  String _selected = 'Dashboard';
+  String _selected = docsSample(null, 'Dashboard');
 
   @override
   Widget build(BuildContext context) {
@@ -395,7 +427,7 @@ class _CollapsedDemoState extends State<_CollapsedDemo> {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: <Widget>[
               DashboardSidebar(
-                sections: _sampleSections(),
+                sections: _sampleSections(context),
                 selectedId: _selected,
                 onSelected: (String id) => setState(() => _selected = id),
                 collapsed: true,
@@ -412,10 +444,10 @@ class _CollapsedDemoState extends State<_CollapsedDemo> {
 }
 
 /// Named docs examples for `sidebar`; the first entry is the default.
-const List<ComponentPreview> sidebarPreviews = <ComponentPreview>[
-  ComponentPreview('Dashboard', _dashboard),
+List<ComponentPreview> get sidebarPreviews => <ComponentPreview>[
+  ComponentPreview(docsSample(null, 'Dashboard'), _dashboard),
   ComponentPreview('Drawer', _drawer),
-  ComponentPreview('Collapsed', _collapsed),
+  ComponentPreview(docsSample(null, 'Collapsed'), _collapsed),
 ];
 
 Widget _dashboard(BuildContext context) => const _DashboardDemo();

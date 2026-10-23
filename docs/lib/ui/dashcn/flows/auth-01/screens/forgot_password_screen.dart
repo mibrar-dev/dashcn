@@ -10,6 +10,7 @@ import '../../../foundation/gap.dart';
 import '../../../theme/theme.dart';
 import 'scaffold.dart';
 import '../../../primitives/localizations/localizations.dart';
+import '../../../foundation/component_preview.dart';
 
 /// Forgot-password form with a sent-state.
 class Auth01ForgotPasswordScreen extends StatefulWidget {
@@ -67,7 +68,13 @@ class _Auth01ForgotPasswordScreenState
       children: <Widget>[
         if (_sent)
           Text(
-            'Reset link sent. Check your inbox to continue.',
+            docsSample(
+              context,
+              docsSample(
+                context,
+                'Reset link sent. Check your inbox to continue.',
+              ),
+            ),
             style: appTheme.typography.textSmall.copyWith(
               color: appTheme.colors.primary,
             ),
@@ -95,7 +102,11 @@ class _Auth01ForgotPasswordScreenState
         if (!_sent)
           Button(
             onPressed: _busy ? null : _submit,
-            child: Text(_busy ? 'Sending…' : 'Send reset link'),
+            child: Text(
+              _busy
+                  ? docsSample(context, 'Sending…')
+                  : docsSample(context, 'Send reset link'),
+            ),
           ),
         Gap(appTheme.spacing.sm),
         Button(

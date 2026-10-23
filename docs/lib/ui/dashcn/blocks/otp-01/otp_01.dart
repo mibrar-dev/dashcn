@@ -24,6 +24,7 @@ import '../../primitives/localizations/localizations.dart';
 import '../../components/input_otp/input_otp.dart';
 import '../../foundation/gap.dart';
 import '../../theme/theme.dart';
+import '../../foundation/component_preview.dart';
 
 /// Values submitted by [Otp01].
 class Otp01Data {
@@ -193,7 +194,7 @@ class _Otp01State extends State<Otp01> {
                 Gap(theme.spacing.lg),
                 Alert(
                   content: Text(
-                    'Email verified — you are all set.',
+                    docsSample(context, 'Email verified — you are all set.'),
                     style: theme.typography.textSmall,
                   ),
                 ),

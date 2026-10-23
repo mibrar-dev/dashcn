@@ -13,6 +13,7 @@ import '../../../foundation/gap.dart';
 import '../../../theme/theme.dart';
 import '../flow.dart';
 import '../../../primitives/localizations/localizations.dart';
+import '../../../foundation/component_preview.dart';
 
 /// Thread list with refresh + swipe actions.
 class Chat01ThreadListScreen extends StatefulWidget {
@@ -81,7 +82,13 @@ class _Chat01ThreadListScreenState extends State<Chat01ThreadListScreen> {
                               child: EmptyState(
                                 title: Text(strings.blockNoConversations),
                                 description: Text(
-                                  'Pull to refresh or start a new chat.',
+                                  docsSample(
+                                    context,
+                                    docsSample(
+                                      context,
+                                      'Pull to refresh or start a new chat.',
+                                    ),
+                                  ),
                                 ),
                               ),
                             )
@@ -98,7 +105,9 @@ class _Chat01ThreadListScreenState extends State<Chat01ThreadListScreen> {
                                   ),
                                   actions: <SwipeAction>[
                                     SwipeAction(
-                                      label: muted ? 'Muted' : 'Mute',
+                                      label: muted
+                                          ? docsSample(context, 'Muted')
+                                          : docsSample(context, 'Mute'),
                                       onPressed: () => _mute(thread),
                                     ),
                                     SwipeAction(
