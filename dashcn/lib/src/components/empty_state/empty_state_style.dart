@@ -293,7 +293,6 @@ const EmptyStateMetrics _compactMetrics = EmptyStateMetrics(
   descriptionMaxWidth: 420,
   // upstream `p-2.5`, density-scaled.
   iconContainerPadding: EdgeInsetsDensity.pxAll(10),
-  iconContainerBorderRadius: BorderRadius.all(Radius.circular(14)),
 );
 
 /// Metrics of the route-level `fullPage` size.
@@ -311,7 +310,6 @@ const EmptyStateMetrics _fullPageMetrics = EmptyStateMetrics(
   descriptionMaxWidth: 520,
   // upstream `p-3`, density-scaled.
   iconContainerPadding: EdgeInsetsDensity.pxAll(12),
-  iconContainerBorderRadius: BorderRadius.all(Radius.circular(14)),
 );
 
 /// The uniform radius of [radius]; the size table only uses `all`, so this is
@@ -350,7 +348,12 @@ EmptyStateMetrics emptyStateMetrics(EmptyStateSize size, ThemeData theme) {
       theme.density.baseContentPadding * theme.scaling,
     ),
     iconContainerBorderRadius: BorderRadius.circular(
-      _radius(base.iconContainerBorderRadius!) * theme.scaling,
+      // 14 px at the default theme: the icon well keeps 2 px above radiusXl.
+      _radius(
+            base.iconContainerBorderRadius ??
+                BorderRadius.circular(theme.radiusXl + 2),
+          ) *
+          theme.scaling,
     ),
   );
 }

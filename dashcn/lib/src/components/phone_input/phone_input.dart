@@ -320,7 +320,7 @@ class _PhoneInputState extends State<PhoneInput>
         );
     final double flagWidth = (style.flagWidth ?? 24) * ambient.scaling;
     final double flagHeight = (style.flagHeight ?? 18) * ambient.scaling;
-    final double flagGap = style.flagGap ?? 8;
+    final double flagGap = style.flagGap ?? ambient.spacing.sm;
     final List<CountryInfo> source = widget.countries ?? countryTable;
     // One joined input group: the container owns the single shared border
     // (fill + border resolve per brightness, hover included) while the
@@ -332,7 +332,7 @@ class _PhoneInputState extends State<PhoneInput>
           ? const <WidgetState>{WidgetState.hovered}
           : const <WidgetState>{},
     ).decoration;
-    final double dividerMargin = (style.fieldGap ?? 8) / 2;
+    final double dividerMargin = (style.fieldGap ?? ambient.spacing.sm) / 2;
     return MouseRegion(
       onEnter: (_) => setState(() => _hovered = true),
       onExit: (_) => setState(() => _hovered = false),
@@ -366,7 +366,7 @@ class _PhoneInputState extends State<PhoneInput>
                       flagWidth: flagWidth,
                       flagHeight: flagHeight,
                       flagGap: flagGap,
-                      countryGap: style.countryGap ?? 16,
+                      countryGap: style.countryGap ?? ambient.spacing.lg,
                     ),
                     itemBuilder: (context, country) => Row(
                       mainAxisSize: MainAxisSize.min,

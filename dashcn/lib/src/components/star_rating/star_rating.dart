@@ -218,7 +218,7 @@ class _StarRatingState extends State<StarRating>
           select: (t) => t.style,
           defaults: starRatingDefaults.style!,
         );
-    final double starSize = style.size ?? 24;
+    final double starSize = style.size ?? theme.iconTheme.large.size ?? 24;
     final double spacing = style.spacing ?? 5;
     _resolvedStarSize = starSize;
     _resolvedSpacing = spacing;
@@ -353,7 +353,8 @@ class _StarRow extends StatelessWidget {
     final AlignmentGeometry begin = rtl
         ? Alignment.centerRight
         : Alignment.centerLeft;
-    final double size = style.size ?? 24;
+    final double size =
+        style.size ?? Theme.of(context).iconTheme.large.size ?? 24;
 
     Widget star(int index) {
       final double fill = (value - index).clamp(0.0, 1.0);

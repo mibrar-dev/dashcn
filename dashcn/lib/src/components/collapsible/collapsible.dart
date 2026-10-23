@@ -146,7 +146,8 @@ class CollapsibleTrigger extends StatelessWidget {
         resolved.padding ??
         (resolved.themeDensity ?? ambient.density).baseContentPadding *
             ambient.scaling;
-    final double iconGap = resolved.iconGap ?? 16 * ambient.scaling;
+    final double iconGap =
+        (resolved.iconGap ?? ambient.spacing.lg) * ambient.scaling;
     // The trigger icon swaps and rotates 180 degrees on expand, so the
     // trigger matches the accordion motion. The end states are unchanged.
     final IconData icon = data.isExpanded

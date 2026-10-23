@@ -145,6 +145,8 @@ class FeatureCarouselTheme extends ComponentThemeData
 
   final ThemedColor? accentColor;
 
+  /// Card corner radius in logical pixels; null resolves the theme `radiusXl`
+  /// step (12 at the default theme).
   final double? radius;
 
   final Duration? transitionDuration;
@@ -237,7 +239,6 @@ const FeatureCarouselTheme featureCarouselDefaults = FeatureCarouselTheme(
   controlBackground: ThemedColor.ref(ColorRef.muted, alpha: 0.35),
   controlForeground: ThemedColor.ref(ColorRef.mutedForeground),
   accentColor: ThemedColor.ref(ColorRef.primary),
-  radius: 12,
   transitionDuration: Duration(milliseconds: 260),
 );
 

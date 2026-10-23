@@ -156,7 +156,10 @@ class FileUploadRow extends StatelessWidget {
     return Container(
       decoration: BoxDecoration(
         color: style.background?.resolve(ambient.colors),
-        borderRadius: style.borderRadius ?? fileUploadRowDefaults.borderRadius,
+        borderRadius:
+            style.borderRadius ??
+            fileUploadRowDefaults.borderRadius ??
+            BorderRadius.circular(ambient.radiusLg * scaling),
         border: border == null ? null : Border.all(color: border, width: 1),
       ),
       padding: EdgeInsets.all((style.padding ?? 12) * scaling),
@@ -238,7 +241,7 @@ class FileUploadRow extends StatelessWidget {
     final bytes = item.file.bytes;
     if (bytes != null && item.file.isImage) {
       return ClipRRect(
-        borderRadius: BorderRadius.circular(6 * scaling),
+        borderRadius: BorderRadius.circular(ambient.radiusMd * scaling),
         child: Image.memory(
           bytes,
           width: size,
@@ -255,7 +258,7 @@ class FileUploadRow extends StatelessWidget {
             (style.thumbnailBackground ??
                     fileUploadRowDefaults.thumbnailBackground!)
                 .resolve(ambient.colors),
-        borderRadius: BorderRadius.circular(6 * scaling),
+        borderRadius: BorderRadius.circular(ambient.radiusMd * scaling),
       ),
       alignment: Alignment.center,
       child: IconTheme(

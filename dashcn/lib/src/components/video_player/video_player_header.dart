@@ -5,6 +5,7 @@
 import 'package:flutter/widgets.dart';
 
 import '../../primitives/localizations/localizations.dart';
+import '../../theme/theme.dart';
 import 'video_player_buttons.dart';
 import 'video_player_controller.dart';
 import 'video_player_style.dart';
@@ -41,7 +42,7 @@ Widget videoBarHeader({
           padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
           decoration: BoxDecoration(
             color: const Color(0xFFDC2626),
-            borderRadius: BorderRadius.circular(4),
+            borderRadius: BorderRadius.circular(Theme.of(context).radiusSm),
           ),
           child: ExcludeSemantics(
             child: Text(
