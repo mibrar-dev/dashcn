@@ -15,6 +15,7 @@ import '../../primitives/toast_queue/toast_entry.dart';
 import '../../primitives/toast_queue/toast_exit.dart';
 import '../../primitives/toast_queue/toast_placement.dart';
 import '../../theme/density.dart';
+import '../../theme/motion.dart';
 import '../../theme/theme.dart';
 import 'toast_style.dart';
 
@@ -253,7 +254,7 @@ class _ToastCardState extends State<_ToastCard>
     _animation = AnimationController(
       vsync: this,
       duration:
-          widget.theme.animationDuration ?? const Duration(milliseconds: 250),
+          widget.theme.animationDuration ?? const Duration(milliseconds: 200),
     )..forward();
   }
 
@@ -263,7 +264,7 @@ class _ToastCardState extends State<_ToastCard>
     // Under reduced motion the toast appears in its final state.
     final Duration target = resolveMotionDuration(
       context,
-      widget.theme.animationDuration ?? const Duration(milliseconds: 250),
+      widget.theme.animationDuration ?? const Duration(milliseconds: 200),
     );
     if (_animation.duration != target) {
       _animation.duration = target;
@@ -426,13 +427,16 @@ class _ToastCardState extends State<_ToastCard>
     final Offset enterBegin = exit == ToastSwipeDirection.up
         ? const Offset(0, -0.3)
         : const Offset(0, 0.3);
+    final MotionTokens motion = Theme.of(context).motion;
     return FadeTransition(
-      opacity: CurvedAnimation(parent: _animation, curve: Curves.easeOut),
+      opacity: CurvedAnimation(
+        parent: _animation,
+        curve: motion.curves.emphasizedOut,
+      ),
       child: SlideTransition(
-        position: Tween<Offset>(
-          begin: enterBegin,
-          end: Offset.zero,
-        ).animate(CurvedAnimation(parent: _animation, curve: Curves.easeOut)),
+        position: Tween<Offset>(begin: enterBegin, end: Offset.zero).animate(
+          CurvedAnimation(parent: _animation, curve: motion.curves.spring),
+        ),
         child: card,
       ),
     );
