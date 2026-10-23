@@ -7,6 +7,8 @@ import 'package:flutter/widgets.dart';
 
 import '../routing/docs_nav.dart';
 import '../routing/docs_router.dart';
+import '../state/docs_content_pages.dart';
+import '../state/docs_content_prose2.dart';
 import '../widgets/code_figure.dart';
 import '../widgets/docs_article.dart';
 import '../widgets/docs_samples.dart';
@@ -23,86 +25,66 @@ class DarkModePage extends StatelessWidget {
   Widget build(BuildContext context) {
     final ({DocsNavLink? previous, DocsNavLink? next}) neighbors =
         docsPageNeighbors('/docs/dark-mode');
+    final Locale locale =
+        DocsRouterScope.maybeOf(context)?.state.locale ?? const Locale('en');
     return DocsLayout(
       child: DocsArticle(
-        title: 'Dark Mode',
-        description: 'Adding dark mode to your app.',
+        title: docsContentPage(locale, 'pageDarkModeTitle'),
+        description: docsContentPage(locale, 'pageDarkModeDesc'),
         previous: neighbors.previous,
         next: neighbors.next,
         children: <Widget>[
-          const TypesetParagraph(
-            'Every preset defines a light and a dark token set. Dark mode is '
-            'not a filter over the light theme: it is a second set of the '
-            'same tokens, so components read one code path in both modes.',
+          TypesetParagraph(docsProse2(locale, 'proseDarkP1')),
+          HeadingAnchor(
+            id: 'how-it-works',
+            title: docsProse2(locale, 'proseDarkH1'),
           ),
-          const HeadingAnchor(id: 'how-it-works', title: 'How It Works'),
           TypesetParagraph.rich(<InlineSpan>[
-            const TextSpan(
-              text:
-                  'ThemeColors carries the resolved brightness, so any '
-                  'widget below the app shell can read the mode with ',
-            ),
+            TextSpan(text: docsProse2(locale, 'proseDarkP2a')),
             typesetInlineCodeSpan('Theme.of(context).brightness'),
-            const TextSpan(
-              text:
-                  '. Components use that value only for behaviour, never to '
-                  'pick colours: the colours already match the mode.',
-            ),
+            TextSpan(text: docsProse2(locale, 'proseDarkP2b')),
           ]),
           DocsCodeFigure(
             code: kDarkModeSamples['read-brightness']!.code,
             language: 'dart',
           ),
-          const HeadingAnchor(
+          HeadingAnchor(
             id: 'setting-the-mode',
-            title: 'Setting the Mode',
+            title: docsProse2(locale, 'proseDarkH2'),
           ),
           TypesetParagraph.rich(<InlineSpan>[
-            const TextSpan(text: 'Pass a theme per brightness and a '),
+            TextSpan(text: docsProse2(locale, 'proseDarkP3a')),
             typesetInlineCodeSpan('ThemeMode'),
-            const TextSpan(
-              text: ' to DashcnApp. The mode is system, light or dark; with ',
-            ),
+            TextSpan(text: docsProse2(locale, 'proseDarkP3b')),
             typesetInlineCodeSpan('ThemeMode.system'),
-            const TextSpan(
-              text:
-                  ' the shell resolves the platform brightness for you '
-                  '(the old Material wrapper resolved it too early).',
-            ),
+            const TextSpan(text: ' '),
           ]),
           DocsCodeFigure(
             code: kDarkModeSamples['app-themes']!.code,
             language: 'dart',
           ),
-          const HeadingAnchor(id: 'toggling', title: 'Toggling the Mode'),
-          const TypesetParagraph(
-            'A toggle stores an explicit mode. Once the user chooses, stop '
-            'following the platform and persist the choice so the next visit '
-            'opens in the same mode.',
+          HeadingAnchor(
+            id: 'toggling',
+            title: docsProse2(locale, 'proseDarkH3'),
           ),
+          TypesetParagraph(docsProse2(locale, 'proseDarkP4')),
           DocsCodeFigure(
             code: kDarkModeSamples['toggle']!.code,
             language: 'dart',
           ),
-          const HeadingAnchor(
+          HeadingAnchor(
             id: 'following-the-system',
-            title: 'Following the System',
+            title: docsProse2(locale, 'proseDarkH4'),
           ),
           TypesetParagraph.rich(<InlineSpan>[
-            const TextSpan(
-              text:
-                  'This site itself defaults to the system brightness and '
-                  'persists an explicit choice once you use the ',
-            ),
+            TextSpan(text: docsProse2(locale, 'proseDarkP5a')),
             typesetLinkSpan(
-              'theme toggle',
+              docsProse2(locale, 'proseDarkP5a').contains('theme')
+                  ? 'theme toggle'
+                  : 'theme toggle',
               () => DocsRouterScope.of(context).go(context, '/docs/theming'),
             ),
-            const TextSpan(
-              text:
-                  ' in the header. Use the same pattern: system by default, '
-                  'an explicit mode after the first toggle.',
-            ),
+            TextSpan(text: docsProse2(locale, 'proseDarkP5b')),
           ]),
         ],
       ),

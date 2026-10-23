@@ -12,6 +12,9 @@ import 'package:flutter/widgets.dart';
 import '../generated/docs_starters.dart';
 import '../routing/docs_nav.dart';
 import '../routing/docs_router.dart';
+import '../state/docs_content_pages.dart';
+import '../state/docs_content_registry.dart';
+import '../state/docs_strings.dart';
 import '../ui/dashcn/components/badge/badge.dart';
 import '../ui/dashcn/foundation/gap.dart';
 import '../ui/dashcn/theme/theme.dart';
@@ -107,6 +110,8 @@ class _StartersHero extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final ThemeData theme = Theme.of(context);
+    final Locale locale =
+        DocsRouterScope.maybeOf(context)?.state.locale ?? const Locale('en');
     final double width = MediaQuery.sizeOf(context).width;
     final bool wide = width >= 1024;
     return Padding(
@@ -114,7 +119,10 @@ class _StartersHero extends StatelessWidget {
       child: Column(
         children: <Widget>[
           Announcement(
-            label: '${kStarters.length} starters ready to create',
+            label: docsFill(
+              docsContentPage(locale, 'pageStartersBadge'),
+              count: kStarters.length,
+            ),
             onPressed: () =>
                 DocsRouterScope.of(context).go(context, '/docs/components'),
           ),
@@ -122,7 +130,7 @@ class _StartersHero extends StatelessWidget {
           ConstrainedBox(
             constraints: const BoxConstraints(maxWidth: 896),
             child: Text(
-              'Start from a template',
+              docsContentPage(locale, 'pageStartersTitle'),
               textAlign: TextAlign.center,
               style: docsText(
                 context,
@@ -138,8 +146,7 @@ class _StartersHero extends StatelessWidget {
           ConstrainedBox(
             constraints: const BoxConstraints(maxWidth: 720),
             child: Text(
-              'One command scaffolds a runnable app from flows, blocks and '
-              'a theme. Pick a starter below, then own every line.',
+              docsContentPage(locale, 'pageStartersSub'),
               textAlign: TextAlign.center,
               style: docsText(
                 context,
@@ -190,17 +197,38 @@ class StarterPage extends StatelessWidget {
               children: <Widget>[
                 _StarterPageHeader(starter: starter),
                 const Gap(24),
-                const HeadingAnchor(id: 'routes', title: 'What you get'),
+                HeadingAnchor(
+                  id: 'routes',
+                  title: docsContentPage(
+                    DocsRouterScope.maybeOf(context)?.state.locale ??
+                        const Locale('en'),
+                    'pageStartersWhatYouGet',
+                  ),
+                ),
                 const Gap(12),
                 StarterRoutesTable(starter: starter),
                 const Gap(32),
                 StarterInstallBlock(starter: starter),
                 const Gap(32),
-                const HeadingAnchor(id: 'files', title: 'Generated files'),
+                HeadingAnchor(
+                  id: 'files',
+                  title: docsContentPage(
+                    DocsRouterScope.maybeOf(context)?.state.locale ??
+                        const Locale('en'),
+                    'pageStartersFiles',
+                  ),
+                ),
                 const Gap(12),
                 StarterFileTree(starter: starter),
                 const Gap(32),
-                const HeadingAnchor(id: 'next', title: 'Next steps'),
+                HeadingAnchor(
+                  id: 'next',
+                  title: docsContentPage(
+                    DocsRouterScope.maybeOf(context)?.state.locale ??
+                        const Locale('en'),
+                    'pageStartersNext',
+                  ),
+                ),
                 const Gap(12),
                 const StarterNextSteps(),
                 const Gap(32),
@@ -259,7 +287,11 @@ class _StarterPageHeader extends StatelessWidget {
         ConstrainedBox(
           constraints: const BoxConstraints(maxWidth: 720),
           child: Text(
-            starter.description,
+            docsStarterDesc(
+              starter.id,
+              DocsRouterScope.maybeOf(context)?.state.locale ??
+                  const Locale('en'),
+            ),
             style: docsText(
               context,
               size: 16,

@@ -139,8 +139,11 @@ class NavigationMenuTheme extends ComponentThemeData
 }
 
 /// Built-in navigation menu defaults.
+///
+/// The open panel carries 16 px content padding (SIZING.md floating surfaces
+/// with free content) and anchors 4 px under its trigger.
 const NavigationMenuTheme navigationMenuDefaults = NavigationMenuTheme(
   offset: Offset(0, 4),
-  padding: EdgeInsetsDensity.all(0.75),
+  padding: EdgeInsetsDensity.pxAll(16),
   maxWidth: 480,
 );

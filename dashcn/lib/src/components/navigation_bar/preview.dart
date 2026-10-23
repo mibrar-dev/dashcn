@@ -9,6 +9,7 @@ import 'package:flutter/widgets.dart';
 
 import '../../foundation/component_preview.dart';
 import '../../foundation/icons/radix_icons.dart';
+import '../../theme/theme.dart';
 import 'navigation_bar.dart';
 
 /// Shared bar items for the horizontal examples.
@@ -71,13 +72,38 @@ class _SidebarDemoState extends State<_SidebarDemo> {
 
   @override
   Widget build(BuildContext context) {
+    final ThemeData theme = Theme.of(context);
+    // Tall enough for the header, both groups, the expanded collapsible
+    // children and the footer with no scrolling.
     return SizedBox(
-      width: 260,
-      height: 320,
+      width: 256,
+      height: 420,
       child: NavigationBar(
         container: NavigationContainerType.sidebar,
         index: _index,
         onSelected: (int value) => setState(() => _index = value),
+        header: <Widget>[
+          Padding(
+            padding: const EdgeInsets.fromLTRB(8, 8, 8, 4),
+            child: Text(
+              'Acme Inc',
+              style: theme.typography.small.copyWith(
+                fontWeight: FontWeight.w600,
+              ),
+            ),
+          ),
+        ],
+        footer: <Widget>[
+          Padding(
+            padding: const EdgeInsets.fromLTRB(8, 4, 8, 8),
+            child: Text(
+              'v1.0.0',
+              style: theme.typography.xSmall.copyWith(
+                color: theme.colors.mutedForeground,
+              ),
+            ),
+          ),
+        ],
         children: <NavigationBarItem>[
           const NavigationLabel(child: Text('Main')),
           ..._barItems(),

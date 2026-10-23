@@ -5,6 +5,8 @@
 // from the same registry components for the home wall.
 
 import 'package:flutter/widgets.dart';
+import '../routing/docs_router.dart';
+import '../state/docs_content_home.dart';
 
 import '../ui/dashcn/components/alert/alert.dart';
 import '../ui/dashcn/components/badge/badge.dart';
@@ -26,8 +28,10 @@ class HomeStatusCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const CollageCard(
-      title: 'Status',
+    final Locale locale =
+        DocsRouterScope.maybeOf(context)?.state.locale ?? const Locale('en');
+    return CollageCard(
+      title: docsHome(locale, 'homeStatusTitle'),
       children: <Widget>[
         Wrap(
           spacing: 8,
@@ -51,9 +55,11 @@ class HomeAlertsCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const CollageCard(
-      title: 'Notices',
-      subtitle: 'Callouts for status and warnings.',
+    final Locale locale =
+        DocsRouterScope.maybeOf(context)?.state.locale ?? const Locale('en');
+    return CollageCard(
+      title: docsHome(locale, 'homeNoticesTitle'),
+      subtitle: docsHome(locale, 'homeNoticesSub'),
       children: <Widget>[
         Alert(
           leading: Icon(LucideIcons.info, size: 16),
@@ -91,10 +97,12 @@ class HomeLoadingCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final Locale locale =
+        DocsRouterScope.maybeOf(context)?.state.locale ?? const Locale('en');
     final ThemeData theme = Theme.of(context);
     return CollageCard(
-      title: 'Storage',
-      subtitle: 'Synced 4 minutes ago.',
+      title: docsHome(locale, 'homeStorageTitle'),
+      subtitle: docsHome(locale, 'homeStorageSub'),
       children: <Widget>[
         for (final (String label, String detail, double value) in bars)
           Padding(
@@ -144,9 +152,11 @@ class _HomeRatingCardState extends State<HomeRatingCard> {
 
   @override
   Widget build(BuildContext context) {
+    final Locale locale =
+        DocsRouterScope.maybeOf(context)?.state.locale ?? const Locale('en');
     return CollageCard(
-      title: 'Rate this release',
-      subtitle: 'How did Midnight Drive land?',
+      title: docsHome(locale, 'homeRateTitle'),
+      subtitle: docsHome(locale, 'homeRateSub'),
       children: <Widget>[
         StarRating(
           value: _rating,
