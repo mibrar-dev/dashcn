@@ -116,6 +116,7 @@ class SlidingIndicatorState extends State<SlidingIndicator> {
           );
     if (widget.underline) {
       return Stack(
+        fit: StackFit.passthrough,
         children: <Widget>[
           widget.child,
           Positioned.fill(
@@ -124,6 +125,9 @@ class SlidingIndicatorState extends State<SlidingIndicator> {
         ],
       );
     }
-    return Stack(children: <Widget>[pill, widget.child]);
+    return Stack(
+      fit: StackFit.passthrough,
+      children: <Widget>[pill, widget.child],
+    );
   }
 }
