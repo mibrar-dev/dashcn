@@ -4,6 +4,8 @@
 // `HoverCard` handle) and the release timeline (`Timeline`).
 
 import 'package:flutter/widgets.dart';
+import '../routing/docs_router.dart';
+import '../state/docs_content_home.dart';
 
 import '../ui/dashcn/components/avatar/avatar.dart';
 import '../ui/dashcn/components/hover_card/hover_card.dart';
@@ -20,10 +22,12 @@ class HomeContributorsCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final Locale locale =
+        DocsRouterScope.maybeOf(context)?.state.locale ?? const Locale('en');
     final ThemeData theme = Theme.of(context);
     return CollageCard(
-      title: 'Contributors',
-      subtitle: 'Seven people shipped this release.',
+      title: docsHome(locale, 'homeContribTitle'),
+      subtitle: docsHome(locale, 'homeContribSub'),
       children: <Widget>[
         const AvatarGroup(
           children: <Widget>[
@@ -74,9 +78,11 @@ class HomeTimelineCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const CollageCard(
-      title: 'Release timeline',
-      subtitle: 'Midnight Drive — 2026.',
+    final Locale locale =
+        DocsRouterScope.maybeOf(context)?.state.locale ?? const Locale('en');
+    return CollageCard(
+      title: docsHome(locale, 'homeTimelineTitle'),
+      subtitle: docsHome(locale, 'homeTimelineSub'),
       children: <Widget>[
         Timeline(
           data: <TimelineData>[

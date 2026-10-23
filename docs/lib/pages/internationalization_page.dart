@@ -4,6 +4,9 @@
 import 'package:flutter/widgets.dart';
 
 import '../routing/docs_nav.dart';
+import '../routing/docs_router.dart';
+import '../state/docs_content_pages.dart';
+import '../state/docs_content_prose2.dart';
 import '../ui/dashcn/components/button/button.dart';
 import '../ui/dashcn/components/empty_state/empty_state.dart';
 import '../ui/dashcn/components/pagination/pagination.dart';
@@ -25,79 +28,43 @@ class InternationalizationPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final ({DocsNavLink? previous, DocsNavLink? next}) neighbors =
         docsPageNeighbors('/docs/internationalization');
+    final Locale locale =
+        DocsRouterScope.maybeOf(context)?.state.locale ?? const Locale('en');
     return DocsLayout(
       child: DocsArticle(
-        title: 'Internationalization',
-        description:
-            'Every user-facing string reads a locale table, with RTL '
-            'mirroring and an offline locale installer.',
+        title: docsContentPage(locale, 'pageI18nTitle'),
+        description: docsContentPage(locale, 'pageI18nDesc'),
         previous: neighbors.previous,
         next: neighbors.next,
         children: <Widget>[
-          const TypesetParagraph(
-            'Every user-facing string in the kit — buttons, placeholders, '
-            'aria and semantics labels, pagination, calendar, dialogs, '
-            'toasts, empty states, error messages, filter bar, command and '
-            'the date and time pickers — comes from a locale table. '
-            'DashcnLocalizations.of(context) reads the ambient locale and '
-            'falls back to English when no delegate was installed, so '
-            'untranslated screens keep working.',
+          TypesetParagraph(docsProse2(locale, 'proseI18nP1')),
+          TypesetParagraph(docsProse2(locale, 'proseI18nP2')),
+          HeadingAnchor(
+            id: 'switcher',
+            title: docsProse2(locale, 'proseI18nH1'),
           ),
-          const TypesetParagraph(
-            'Sixteen locales are complete for every key: ar, he, fa and ur '
-            '(right-to-left) plus de, fr, es, it, pt-BR, nl, ru, tr, ja, ko, '
-            'zh-Hans and hi. Each translation file is separate and small; '
-            'pt-BR subclasses the pt table and zh-Hans pins the Hans script '
-            'subtag, so regional variants resolve without duplicating '
-            'strings. No new third-party packages were added: the kit stays '
-            'widgets-only on top of Flutter’s flutter_localizations and '
-            'intl hooks.',
-          ),
-          const HeadingAnchor(id: 'switcher', title: 'Language Switcher'),
-          const TypesetParagraph(
-            'Flip between English, Arabic and German. The pagination labels, '
-            'the empty-state copy and the chevrons re-string in place; '
-            'Arabic also flips the reading direction.',
-          ),
+          TypesetParagraph(docsProse2(locale, 'proseI18nP3')),
           const _LanguageSwitcherDemo(),
-          const HeadingAnchor(id: 'rtl', title: 'RTL Example'),
-          const TypesetParagraph(
-            'A locale implies its text direction: the kit reads Directionality '
-            'from the locale, mirrors chevrons, back arrows and next/previous '
-            'controls, and keeps numbers and code left-to-right inside '
-            'DashcnLtr. The card below is forced Arabic:',
-          ),
+          HeadingAnchor(id: 'rtl', title: docsProse2(locale, 'proseI18nH2')),
+          TypesetParagraph(docsProse2(locale, 'proseI18nP4')),
           const _RtlExampleCard(),
           DocsCodeFigure(
             code: kI18nSamples['rtl-override']!.code,
             language: 'dart',
           ),
-          const HeadingAnchor(
+          HeadingAnchor(
             id: 'per-instance',
-            title: 'Per-Instance Override',
+            title: docsProse2(locale, 'proseI18nH3'),
           ),
-          const TypesetParagraph(
-            'Wrap one subtree to preview or ship a single translated surface '
-            'without changing the app locale. Missing tables fall back to '
-            'English, exactly like the ambient lookup.',
-          ),
+          TypesetParagraph(docsProse2(locale, 'proseI18nP5')),
           DocsCodeFigure(
             code: kI18nSamples['per-instance']!.code,
             language: 'dart',
           ),
-          const HeadingAnchor(id: 'cli', title: 'Installing a Locale'),
-          const TypesetParagraph(
-            'The offline installer writes the locale wiring into your '
-            'project — no pasting, no network. Translations ship inside the '
-            'kit package, so add only records the choice:',
-          ),
+          HeadingAnchor(id: 'cli', title: docsProse2(locale, 'proseI18nH4')),
+          TypesetParagraph(docsProse2(locale, 'proseI18nP6')),
           DocsCodeFigure(code: kI18nSamples['cli-add']!.code, language: 'sh'),
-          const TypesetParagraph(
-            'Wire the generated file into DashcnApp once; every component '
-            'below it re-strings. The public API is backward compatible: '
-            'ComponentLocalizations is still the lookup, DashcnLocalizations '
-            'is its alias.',
-          ),
+          TypesetParagraph(docsProse2(locale, 'proseI18nP7')),
           DocsCodeFigure(code: kI18nSamples['wiring']!.code, language: 'dart'),
         ],
       ),

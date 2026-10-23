@@ -15,6 +15,7 @@ import '../generated/docs_data.dart';
 import '../generated/docs_flows.dart';
 import '../generated/docs_starters.dart';
 import '../routing/docs_nav.dart';
+import '../state/docs_content_categories.dart';
 import '../state/docs_strings.dart';
 import 'docs_header.dart' show docsSectionLabel;
 
@@ -68,9 +69,10 @@ List<SidebarRow> buildSidebarRows(String activeLocation) {
 
 /// Builds the sidebar rows for [activeLocation] in [locale].
 ///
-/// Group labels, docs-section links, Theme Studio and the import item are
-/// translated; component/block/flow/starter names and category ids stay
-/// English (registry proper nouns).
+/// Group labels, docs-section links, Theme Studio, the import item,
+/// component categories and block families are translated; component/
+/// block/flow/starter names stay English (registry proper nouns, only
+/// descriptions are translated).
 List<SidebarRow> buildSidebarRowsLocalized(
   String activeLocation,
   Locale locale,
@@ -84,7 +86,7 @@ List<SidebarRow> buildSidebarRowsLocalized(
     SidebarRow.label(docsChrome(locale, 'navComponents')),
     for (final DocsComponentCategory category
         in kComponentCategoryGroups) ...<SidebarRow>[
-      SidebarRow.subLabel(category.id),
+      SidebarRow.subLabel(docsCategoryName(category.id, locale)),
       for (final DocsComponentLink component in category.components)
         SidebarRow.link(
           text: component.name,
@@ -93,7 +95,7 @@ List<SidebarRow> buildSidebarRowsLocalized(
     ],
     SidebarRow.label(docsChrome(locale, 'navBlocks')),
     for (final DocsBlockCategory category in kBlockCategories) ...<SidebarRow>[
-      SidebarRow.subLabel(category.id),
+      SidebarRow.subLabel(docsBlockFamilyName(category.id, locale)),
       for (final DocsBlock block in category.blocks)
         SidebarRow.link(text: block.name, location: '/blocks/${block.id}'),
     ],

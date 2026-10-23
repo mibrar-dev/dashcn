@@ -8,6 +8,9 @@ import 'package:flutter/widgets.dart';
 
 import '../routing/docs_nav.dart';
 import '../routing/docs_router.dart';
+import '../state/docs_content_pages.dart';
+import '../state/docs_content_prose1.dart';
+import '../state/docs_strings.dart';
 import '../ui/dashcn/foundation/gap.dart';
 import '../ui/dashcn/foundation/icons/lucide_icons.dart';
 import '../ui/dashcn/primitives/clickable.dart';
@@ -29,83 +32,65 @@ class GettingStartedPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final ({DocsNavLink? previous, DocsNavLink? next}) neighbors =
         docsPageNeighbors('/docs/installation');
+    final Locale locale =
+        DocsRouterScope.maybeOf(context)?.state.locale ?? const Locale('en');
     return DocsLayout(
       child: DocsArticle(
-        title: 'Getting started',
-        description:
-            'Install the dashcn registry into your Flutter project '
-            'and start building with widgets-only components.',
+        title: docsContentPage(locale, 'pageInstallTitle'),
+        description: docsContentPage(locale, 'pageInstallDesc'),
         previous: neighbors.previous,
         next: neighbors.next,
         children: <Widget>[
-          const TypesetParagraph(
-            'Use the components two ways, from the same source: depend on '
-            'the published package and update via semver, or copy the '
-            'sources into your project and own them. Pick a tab — the '
-            'steps below walk the own-the-code flow.',
-          ),
+          TypesetParagraph(docsProse1(locale, 'proseInstallP1')),
           const _InstallModeTabs(),
           _TemplateParagraph(),
-          const _StepCounter(
+          _StepCounter(
             number: 1,
-            title: 'Create a Flutter project',
+            title: docsProse1(locale, 'proseInstallS1'),
             code: 'flutter create my_app',
           ),
-          const _StepCounter(
+          _StepCounter(
             number: 2,
-            title: 'Install the layer core',
+            title: docsProse1(locale, 'proseInstallS2'),
             code: 'dashcn init',
           ),
-          const _StepCounter(
+          _StepCounter(
             number: 3,
-            title: 'Add components',
+            title: docsProse1(locale, 'proseInstallS3'),
             code: 'dashcn add button',
           ),
-          const _StepCounter(
+          _StepCounter(
             number: 4,
-            title: 'Choose a preset',
+            title: docsProse1(locale, 'proseInstallS4'),
             code: 'dashcn theme apply modern-minimal',
           ),
-          const HeadingAnchor(id: 'verify', title: 'Verify'),
-          const TypesetParagraph(
-            'After installation, your project has the registry layer core '
-            '(foundation + theme) and the components you added. Run the app '
-            'to see the components in action.',
+          HeadingAnchor(
+            id: 'verify',
+            title: docsProse1(locale, 'proseInstallVerify'),
           ),
-          const TypesetBullets(
+          TypesetParagraph(docsProse1(locale, 'proseInstallP2')),
+          TypesetBullets(
             items: <List<InlineSpan>>[
               <InlineSpan>[
                 TextSpan(
-                  text: 'Layer core: ',
-                  style: TextStyle(fontWeight: FontWeight.w600),
+                  text: docsProse1(locale, 'proseInstallB1t'),
+                  style: const TextStyle(fontWeight: FontWeight.w600),
                 ),
-                TextSpan(
-                  text:
-                      'foundation, theme and primitives install first; '
-                      'components depend on them.',
-                ),
+                TextSpan(text: docsProse1(locale, 'proseInstallB1b')),
               ],
               <InlineSpan>[
                 TextSpan(
-                  text: 'Lock file: ',
-                  style: TextStyle(fontWeight: FontWeight.w600),
+                  text: docsProse1(locale, 'proseInstallB2t'),
+                  style: const TextStyle(fontWeight: FontWeight.w600),
                 ),
-                TextSpan(
-                  text:
-                      'dashcn.lock v2 records the exact hashes so updates '
-                      'stay reviewable.',
-                ),
+                TextSpan(text: docsProse1(locale, 'proseInstallB2b')),
               ],
               <InlineSpan>[
                 TextSpan(
-                  text: 'User-owned themes: ',
-                  style: TextStyle(fontWeight: FontWeight.w600),
+                  text: docsProse1(locale, 'proseInstallB3t'),
+                  style: const TextStyle(fontWeight: FontWeight.w600),
                 ),
-                TextSpan(
-                  text:
-                      '*_theme.dart files are never overwritten by CLI '
-                      'updates.',
-                ),
+                TextSpan(text: docsProse1(locale, 'proseInstallB3b')),
               ],
             ],
           ),
@@ -121,14 +106,19 @@ class _TemplateParagraph extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final Locale locale =
+        DocsRouterScope.maybeOf(context)?.state.locale ?? const Locale('en');
     return TypesetParagraph.rich(<InlineSpan>[
-      const TextSpan(text: 'Start from a template: '),
-      typesetLinkSpan('browse the starters', () {
-        DocsRouterScope.of(context).go(context, '/docs/starters');
-      }),
-      const TextSpan(
-        text: ' — one command scaffolds a runnable app from flows and blocks.',
+      TextSpan(text: docsProse1(locale, 'proseInstallTplA')),
+      typesetLinkSpan(
+        docsProse1(locale, 'proseInstallTplA').contains('template')
+            ? 'browse the starters'
+            : 'browse the starters',
+        () {
+          DocsRouterScope.of(context).go(context, '/docs/starters');
+        },
       ),
+      TextSpan(text: docsProse1(locale, 'proseInstallTplB')),
     ]);
   }
 }
@@ -147,6 +137,8 @@ class _InstallModeTabsState extends State<_InstallModeTabs> {
 
   @override
   Widget build(BuildContext context) {
+    final Locale locale =
+        DocsRouterScope.maybeOf(context)?.state.locale ?? const Locale('en');
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
@@ -158,12 +150,12 @@ class _InstallModeTabsState extends State<_InstallModeTabs> {
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
               _ModeTab(
-                label: 'Package',
+                label: docsChrome(locale, 'cmpPackage'),
                 selected: _tab == 0,
                 onTap: () => setState(() => _tab = 0),
               ),
               _ModeTab(
-                label: 'Own the code',
+                label: docsChrome(locale, 'cmpOwnCode'),
                 selected: _tab == 1,
                 onTap: () => setState(() => _tab = 1),
               ),
@@ -174,12 +166,10 @@ class _InstallModeTabsState extends State<_InstallModeTabs> {
           const DocsCodeFigure(code: kPackageGettingStarted, language: 'bash')
         else
           const DocsCodeFigure(code: kOwnCodeGettingStarted, language: 'bash'),
-        const TypesetParagraph.rich(<InlineSpan>[
-          TextSpan(
-            text: 'Own-the-code apps stay on the package path too: run ',
-          ),
-          WidgetSpan(child: TypesetInlineCode('dashcn eject button')),
-          TextSpan(text: ' later to turn a package import into owned sources.'),
+        TypesetParagraph.rich(<InlineSpan>[
+          TextSpan(text: docsProse1(locale, 'proseInstallEjectA')),
+          const WidgetSpan(child: TypesetInlineCode('dashcn eject button')),
+          TextSpan(text: docsProse1(locale, 'proseInstallEjectB')),
         ]),
       ],
     );

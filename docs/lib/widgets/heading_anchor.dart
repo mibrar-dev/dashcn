@@ -40,22 +40,57 @@ class _HeadingAnchorState extends State<HeadingAnchor> {
   final GlobalKey _key = GlobalKey();
   bool _hovered = false;
 
+  /// The article controller, captured once so locale updates never look up
+  /// an inactive context in a post-frame callback.
+  DocsArticleController? _controller;
+
+  void _register() {
+    final DocsArticleController? controller = _controller ??=
+        DocsArticleScope.maybeOf(context);
+    controller?.register(
+      DocsHeadingEntry(
+        id: widget.id,
+        title: widget.title,
+        level: widget.level,
+        key: _key,
+      ),
+    );
+  }
+
   @override
   void initState() {
     super.initState();
     // No dependency: read the controller once and register after build.
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (mounted) {
-        DocsArticleScope.maybeOf(context)?.register(
-          DocsHeadingEntry(
-            id: widget.id,
-            title: widget.title,
-            level: widget.level,
-            key: _key,
-          ),
-        );
+        _register();
       }
     });
+  }
+
+  @override
+  void didUpdateWidget(HeadingAnchor oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    // Same page, new locale: the parent rebuilds with translated titles while
+    // the state (and the article controller) is preserved. Upsert after the
+    // frame so the TOC drops the stale English entry.
+    if (oldWidget.id != widget.id ||
+        oldWidget.title != widget.title ||
+        oldWidget.level != widget.level) {
+      final String removedId = oldWidget.id;
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (!mounted) {
+          return;
+        }
+        // Ids are stable across locale switches; if one ever changes,
+        // drop the stale entry via the captured controller (no context
+        // lookup on a possibly inactive element).
+        if (removedId != widget.id) {
+          _controller?.unregister(removedId);
+        }
+        _register();
+      });
+    }
   }
 
   @override
