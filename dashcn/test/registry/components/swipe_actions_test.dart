@@ -6,7 +6,9 @@
 // closed).
 
 import 'package:flutter/widgets.dart';
+import 'package:dashcn/src/components/swipe_actions/preview.dart';
 import 'package:dashcn/src/components/swipe_actions/swipe_actions.dart';
+import 'package:dashcn/src/primitives/clickable.dart';
 import 'package:dashcn/src/theme/density_tokens.dart';
 import 'package:dashcn/src/theme/theme.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -209,10 +211,10 @@ void main() {
         ),
       );
       await tester.pump();
-      // Sized to settle open, clear of the dismiss line (compact tile ~56).
+      // Sized to settle open, clear of the dismiss line (readable tile 64).
       await tester.drag(
         find.byKey(const ValueKey<String>('row1')),
-        const Offset(-50, 0),
+        const Offset(-70, 0),
       );
       await _pumpSettle(tester);
       await tester.tap(find.text('Delete 1'));
@@ -223,10 +225,11 @@ void main() {
     },
   );
 
-  testWidgets('density tokens drive tile width (56 compact, 64 comfortable)', (
+  testWidgets('density tokens drive tile width (64 compact, 64 comfortable)', (
     tester,
   ) async {
-    expect(swipeActionWidthForTokens(DensityTokens.compact), 56);
+    // At least 64 px wide so labels stay readable (compact 56 bumped to 64).
+    expect(swipeActionWidthForTokens(DensityTokens.compact), 64);
     expect(swipeActionWidthForTokens(DensityTokens.comfortable), 64);
     expect(swipeActionWidthForTokens(DensityTokens.touch), 72);
   });
@@ -262,7 +265,7 @@ void main() {
     expect(find.text('Del'), findsOneWidget);
   });
 
-  testWidgets('explicit actionExtent honors the 48 px touch floor', (
+  testWidgets('explicit actionExtent honors the 64 px readable floor', (
     tester,
   ) async {
     await _pump(
@@ -273,8 +276,8 @@ void main() {
         child: const Text('row'),
       ),
     );
-    // A -48 drag reveals the full clamped 48 px tile, not 20 px.
-    await tester.drag(find.text('row'), const Offset(-48, 0));
+    // A -64 drag reveals the full clamped 64 px tile, not 20 px.
+    await tester.drag(find.text('row'), const Offset(-64, 0));
     await _pumpSettle(tester);
     expect(find.text('Del'), findsOneWidget);
   });
@@ -362,4 +365,104 @@ void main() {
     await tester.pump();
     expect(tester.takeException(), isNull);
   });
+
+  group(
+    'preview list-tile sizing (SIZING.md rows: 32 single, 48 two-line)',
+    () {
+      Future<void> pumpPreview(WidgetTester tester, int index) async {
+        final preview = swipeActionsPreviews[index];
+        await tester.pumpWidget(
+          Theme(
+            data: const ThemeData(),
+            child: Directionality(
+              textDirection: TextDirection.ltr,
+              child: Center(
+                child: SizedBox(
+                  width: 400,
+                  child: Builder(
+                    builder: (BuildContext context) => preview.builder(context),
+                  ),
+                ),
+              ),
+            ),
+          ),
+        );
+        await tester.pump();
+        expect(tester.takeException(), isNull, reason: preview.name);
+      }
+
+      Size tileSize(WidgetTester tester, String label) {
+        final Finder text = find.text(label, skipOffstage: false);
+        expect(text, findsWidgets, reason: label);
+        final Finder tile = find.ancestor(
+          of: text.first,
+          matching: find.byType(Clickable),
+        );
+        expect(tile, findsWidgets, reason: label);
+        return tester.getSize(tile.first);
+      }
+
+      testWidgets('default rows are 32 px and stay 32 px swiped open', (
+        tester,
+      ) async {
+        await pumpPreview(tester, 0);
+        final rows = find.byType(SwipeActions);
+        expect(rows, findsNWidgets(3));
+        for (int i = 0; i < 3; i++) {
+          expect(tester.getSize(rows.at(i)).height, 32.0, reason: 'row $i');
+        }
+        // Sized to settle open, clear of the full-swipe dismiss line
+        // (2 actions x 64 px = 128 px total; -70 reveals 0.55).
+        await tester.drag(rows.first, const Offset(-70, 0));
+        await _pumpSettle(tester);
+        expect(tester.getSize(rows.first).height, 32.0, reason: 'open row');
+        // Revealed tiles fill the full row height at 64 px wide each.
+        expect(tileSize(tester, 'Archive'), const Size(64.0, 32.0));
+        expect(tileSize(tester, 'Delete'), const Size(64.0, 32.0));
+        // The inbox caption sits 8 px below the last row.
+        final Offset captionTop = tester.getTopLeft(
+          find.textContaining('Inbox:'),
+        );
+        final Rect lastRow = tester.getRect(rows.last);
+        expect(captionTop.dy - lastRow.bottom, 8.0);
+      });
+
+      testWidgets(
+        'compact rows are 32 px, comfortable two-line rows are 48 px',
+        (tester) async {
+          await pumpPreview(tester, 1);
+          final compact = find.byType(SwipeActions);
+          expect(compact, findsNWidgets(3));
+          for (int i = 0; i < 3; i++) {
+            expect(
+              tester.getSize(compact.at(i)).height,
+              32.0,
+              reason: 'compact $i',
+            );
+          }
+          expect(tileSize(tester, 'Archive'), const Size(64.0, 32.0));
+
+          await pumpPreview(tester, 2);
+          final comfortable = find.byType(SwipeActions);
+          expect(comfortable, findsNWidgets(2));
+          for (int i = 0; i < 2; i++) {
+            expect(
+              tester.getSize(comfortable.at(i)).height,
+              48.0,
+              reason: 'comfortable $i',
+            );
+          }
+          await tester.drag(comfortable.first, const Offset(-70, 0));
+          await _pumpSettle(tester);
+          expect(
+            tester.getSize(comfortable.first).height,
+            48.0,
+            reason: 'open row',
+          );
+          expect(tileSize(tester, 'Archive'), const Size(64.0, 48.0));
+          expect(tileSize(tester, 'Delete'), const Size(64.0, 48.0));
+        },
+      );
+    },
+  );
 }

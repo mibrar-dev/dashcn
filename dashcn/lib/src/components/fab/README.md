@@ -96,9 +96,9 @@ Pass `semanticLabel` or `tooltip`: an icon alone carries no accessible name.
 | `md` | 56 x 56 | 24 px |
 | `lg` | 64 x 64 | 28 px |
 
-On touch platforms the hit box grows to the platform minimum (48 px on
-Android, 44 px on iOS) with transparent padding; the painted circle never
-changes.
+On touch platforms the hit-test region and semantics tap target expand to
+the platform minimum (48 px on Android, 44 px on iOS) with no layout or
+paint change; the painted circle never changes.
 
 ## `FabSpeedDial`
 

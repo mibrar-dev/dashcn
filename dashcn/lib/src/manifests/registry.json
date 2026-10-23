@@ -682,6 +682,7 @@
       "import": "import 'package:<your_app>/ui/dashcn/components/accordion/accordion.dart';",
       "install": "dashcn add accordion",
       "listed": true,
+      "localizationKeys": [],
       "name": "Accordion",
       "preview": {
         "placement": "center"
@@ -763,6 +764,9 @@
       "import": "import 'package:<your_app>/ui/dashcn/components/action_sheet/action_sheet.dart';",
       "install": "dashcn add action_sheet",
       "listed": true,
+      "localizationKeys": [
+        "dialogDismiss"
+      ],
       "name": "ActionSheet",
       "preview": {
         "placement": "center"
@@ -840,6 +844,7 @@
       "import": "import 'package:<your_app>/ui/dashcn/components/alert/alert.dart';",
       "install": "dashcn add alert",
       "listed": true,
+      "localizationKeys": [],
       "name": "Alert",
       "preview": {
         "placement": "top"
@@ -915,6 +920,9 @@
       "import": "import 'package:<your_app>/ui/dashcn/components/alert_dialog/alert_dialog.dart';",
       "install": "dashcn add alert_dialog",
       "listed": true,
+      "localizationKeys": [
+        "dialogDismiss"
+      ],
       "name": "AlertDialog",
       "preview": {
         "placement": "center"
@@ -968,6 +976,7 @@
       "import": "import 'package:<your_app>/ui/dashcn/components/alpha/alpha.dart';",
       "install": "dashcn add alpha",
       "listed": false,
+      "localizationKeys": [],
       "name": "Alpha",
       "preview": {
         "placement": "center"
@@ -1013,6 +1022,7 @@
       "import": "import 'package:<your_app>/ui/dashcn/components/anchor/anchor.dart';",
       "install": "dashcn add anchor",
       "listed": false,
+      "localizationKeys": [],
       "name": "Anchor",
       "preview": {
         "placement": "center"
@@ -1061,6 +1071,11 @@
       "import": "import 'package:<your_app>/ui/dashcn/components/app/app.dart';",
       "install": "dashcn add app",
       "listed": false,
+      "localizationKeys": [
+        "announcementFailure",
+        "announcementLoading",
+        "announcementSuccess"
+      ],
       "name": "App",
       "packages": [
         {
@@ -1103,6 +1118,7 @@
       "import": "import 'package:<your_app>/ui/dashcn/components/async/async.dart';",
       "install": "dashcn add async",
       "listed": false,
+      "localizationKeys": [],
       "name": "FutureOrBuilder",
       "preview": {
         "placement": "center"
@@ -1199,6 +1215,32 @@
       "import": "import 'package:<your_app>/ui/dashcn/components/audio_player/audio_player.dart';",
       "install": "dashcn add audio_player",
       "listed": true,
+      "localizationKeys": [
+        "dialogDismiss",
+        "mediaAudioPlayer",
+        "mediaDownload",
+        "mediaHours",
+        "mediaMinutes",
+        "mediaMute",
+        "mediaNextTrack",
+        "mediaPause",
+        "mediaPlay",
+        "mediaPlaybackSpeed",
+        "mediaPositionOf",
+        "mediaPreviousTrack",
+        "mediaRepeatDisable",
+        "mediaRepeatEnable",
+        "mediaSeconds",
+        "mediaSeek",
+        "mediaShuffleDisable",
+        "mediaShuffleEnable",
+        "mediaSkipBack",
+        "mediaSkipForward",
+        "mediaSpeed",
+        "mediaUnmute",
+        "mediaUntitled",
+        "mediaVolume"
+      ],
       "name": "Audio Player",
       "preview": {
         "placement": "center"
@@ -1302,6 +1344,32 @@
       "import": "import 'package:<your_app>/ui/dashcn/components/autocomplete/autocomplete.dart';",
       "install": "dashcn add autocomplete",
       "listed": true,
+      "localizationKeys": [
+        "buttonCancel",
+        "buttonSave",
+        "dialogDismiss",
+        "formBetweenExclusively",
+        "formBetweenInclusively",
+        "formEqualTo",
+        "formGreaterThan",
+        "formGreaterThanOrEqualTo",
+        "formLengthGreaterThan",
+        "formLengthLessThan",
+        "formLessThan",
+        "formLessThanOrEqualTo",
+        "formNotEmpty",
+        "formPasswordDigits",
+        "formPasswordLowercase",
+        "formPasswordSpecial",
+        "formPasswordUppercase",
+        "invalidEmail",
+        "invalidURL",
+        "invalidValue",
+        "menuCopy",
+        "menuCut",
+        "menuPaste",
+        "menuSelectAll"
+      ],
       "name": "AutoComplete",
       "preview": {
         "placement": "center"
@@ -1385,6 +1453,7 @@
       "import": "import 'package:<your_app>/ui/dashcn/components/avatar/avatar.dart';",
       "install": "dashcn add avatar",
       "listed": true,
+      "localizationKeys": [],
       "name": "Avatar",
       "preview": {
         "placement": "center"
@@ -1446,6 +1515,7 @@
       "import": "import 'package:<your_app>/ui/dashcn/components/backdrop_transform/backdrop_transform.dart';",
       "install": "dashcn add backdrop_transform",
       "listed": false,
+      "localizationKeys": [],
       "name": "BackdropTransform",
       "preview": {
         "placement": "center"
@@ -1479,12 +1549,15 @@
       },
       "category": "Data Display",
       "deps": {
-        "components": [],
+        "components": [
+          "number_ticker"
+        ],
         "foundation": [
           "gap"
         ],
         "primitives": [
-          "clickable"
+          "clickable",
+          "motion"
         ],
         "theme": [
           "color_tokens",
@@ -1501,6 +1574,7 @@
       "import": "import 'package:<your_app>/ui/dashcn/components/badge/badge.dart';",
       "install": "dashcn add badge",
       "listed": true,
+      "localizationKeys": [],
       "name": "Badge",
       "preview": {
         "placement": "center"
@@ -1574,6 +1648,7 @@
       "import": "import 'package:<your_app>/ui/dashcn/components/border_loading/border_loading.dart';",
       "install": "dashcn add border_loading",
       "listed": true,
+      "localizationKeys": [],
       "name": "Border Loading",
       "preview": {
         "placement": "center"
@@ -1642,6 +1717,7 @@
       "import": "import 'package:<your_app>/ui/dashcn/components/breadcrumb/breadcrumb.dart';",
       "install": "dashcn add breadcrumb",
       "listed": true,
+      "localizationKeys": [],
       "name": "Breadcrumb",
       "preview": {
         "placement": "top"
@@ -1748,6 +1824,11 @@
       "import": "import 'package:<your_app>/ui/dashcn/components/button/button.dart';",
       "install": "dashcn add button",
       "listed": true,
+      "localizationKeys": [
+        "announcementFailure",
+        "announcementLoading",
+        "announcementSuccess"
+      ],
       "name": "Button",
       "preview": {
         "placement": "center"
@@ -1848,6 +1929,7 @@
       "import": "import 'package:<your_app>/ui/dashcn/components/calendar/calendar.dart';",
       "install": "dashcn add calendar",
       "listed": true,
+      "localizationKeys": [],
       "name": "Calendar",
       "preview": {
         "placement": "center"
@@ -1926,6 +2008,7 @@
       "import": "import 'package:<your_app>/ui/dashcn/components/card/card.dart';",
       "install": "dashcn add card",
       "listed": true,
+      "localizationKeys": [],
       "name": "Card",
       "preview": {
         "placement": "center"
@@ -1996,6 +2079,11 @@
       "import": "import 'package:<your_app>/ui/dashcn/components/card_image/card_image.dart';",
       "install": "dashcn add card_image",
       "listed": true,
+      "localizationKeys": [
+        "announcementFailure",
+        "announcementLoading",
+        "announcementSuccess"
+      ],
       "name": "Card Image",
       "preview": {
         "placement": "center"
@@ -2082,6 +2170,9 @@
       "import": "import 'package:<your_app>/ui/dashcn/components/carousel/carousel.dart';",
       "install": "dashcn add carousel",
       "listed": true,
+      "localizationKeys": [
+        "carouselPageOf"
+      ],
       "name": "Carousel",
       "preview": {
         "placement": "fill"
@@ -2203,6 +2294,24 @@
       "import": "import 'package:<your_app>/ui/dashcn/components/chart/chart.dart';",
       "install": "dashcn add chart",
       "listed": false,
+      "localizationKeys": [
+        "chartCategoryDefault",
+        "chartKindArea",
+        "chartKindBar",
+        "chartKindDonut",
+        "chartKindLine",
+        "chartKindPie",
+        "chartKindRadar",
+        "chartKindRadial",
+        "chartKindScatter",
+        "chartKindSparkline",
+        "chartSeriesDefault",
+        "chartSliceDefault",
+        "chartSummary",
+        "chartSummaryEmpty",
+        "chartTotalLabel",
+        "chartValueDefault"
+      ],
       "name": "Chart",
       "preview": {
         "placement": "center"
@@ -2300,6 +2409,7 @@
       "import": "import 'package:<your_app>/ui/dashcn/components/chat/chat.dart';",
       "install": "dashcn add chat",
       "listed": true,
+      "localizationKeys": [],
       "name": "Chat",
       "preview": {
         "placement": "fill"
@@ -2381,11 +2491,34 @@
       "entry": "components/checkbox/checkbox.dart",
       "files": [
         "components/checkbox/checkbox.dart",
+        "components/checkbox/checkbox_mark.dart",
         "components/checkbox/checkbox_style.dart"
       ],
       "import": "import 'package:<your_app>/ui/dashcn/components/checkbox/checkbox.dart';",
       "install": "dashcn add checkbox",
       "listed": true,
+      "localizationKeys": [
+        "buttonCancel",
+        "buttonSave",
+        "dialogDismiss",
+        "formBetweenExclusively",
+        "formBetweenInclusively",
+        "formEqualTo",
+        "formGreaterThan",
+        "formGreaterThanOrEqualTo",
+        "formLengthGreaterThan",
+        "formLengthLessThan",
+        "formLessThan",
+        "formLessThanOrEqualTo",
+        "formNotEmpty",
+        "formPasswordDigits",
+        "formPasswordLowercase",
+        "formPasswordSpecial",
+        "formPasswordUppercase",
+        "invalidEmail",
+        "invalidURL",
+        "invalidValue"
+      ],
       "name": "Checkbox",
       "preview": {
         "placement": "center"
@@ -2465,6 +2598,11 @@
       "import": "import 'package:<your_app>/ui/dashcn/components/chip/chip.dart';",
       "install": "dashcn add chip",
       "listed": true,
+      "localizationKeys": [
+        "announcementFailure",
+        "announcementLoading",
+        "announcementSuccess"
+      ],
       "name": "Chip",
       "preview": {
         "placement": "center"
@@ -2555,6 +2693,36 @@
       "import": "import 'package:<your_app>/ui/dashcn/components/chip_input/chip_input.dart';",
       "install": "dashcn add chip_input",
       "listed": true,
+      "localizationKeys": [
+        "announcementFailure",
+        "announcementLoading",
+        "announcementSuccess",
+        "buttonCancel",
+        "buttonSave",
+        "chipInputRemoveChip",
+        "dialogDismiss",
+        "formBetweenExclusively",
+        "formBetweenInclusively",
+        "formEqualTo",
+        "formGreaterThan",
+        "formGreaterThanOrEqualTo",
+        "formLengthGreaterThan",
+        "formLengthLessThan",
+        "formLessThan",
+        "formLessThanOrEqualTo",
+        "formNotEmpty",
+        "formPasswordDigits",
+        "formPasswordLowercase",
+        "formPasswordSpecial",
+        "formPasswordUppercase",
+        "invalidEmail",
+        "invalidURL",
+        "invalidValue",
+        "menuCopy",
+        "menuCut",
+        "menuPaste",
+        "menuSelectAll"
+      ],
       "name": "ChipInput",
       "preview": {
         "placement": "center"
@@ -2627,6 +2795,32 @@
       "import": "import 'package:<your_app>/ui/dashcn/components/code_snippet/code_snippet.dart';",
       "install": "dashcn add code_snippet",
       "listed": true,
+      "localizationKeys": [
+        "buttonCancel",
+        "buttonSave",
+        "dialogDismiss",
+        "formBetweenExclusively",
+        "formBetweenInclusively",
+        "formEqualTo",
+        "formGreaterThan",
+        "formGreaterThanOrEqualTo",
+        "formLengthGreaterThan",
+        "formLengthLessThan",
+        "formLessThan",
+        "formLessThanOrEqualTo",
+        "formNotEmpty",
+        "formPasswordDigits",
+        "formPasswordLowercase",
+        "formPasswordSpecial",
+        "formPasswordUppercase",
+        "invalidEmail",
+        "invalidURL",
+        "invalidValue",
+        "menuCopy",
+        "menuCut",
+        "menuPaste",
+        "menuSelectAll"
+      ],
       "name": "CodeSnippet",
       "preview": {
         "placement": "center"
@@ -2649,7 +2843,7 @@
           "borderWidth": "double? - scaled border width, 1",
           "copiedIcon": "IconData? - feedback icon, Lucide check",
           "copiedIconColor": "ThemedColor? - copied icon color, primary",
-          "copyFeedbackDuration": "Duration? - duration to show copied feedback, 2000ms",
+          "copyFeedbackDuration": "Duration? - duration to show copied feedback, 1500ms",
           "copyIcon": "IconData? - idle copy icon, Lucide copy",
           "copyIconColor": "ThemedColor? - idle copy icon color, mutedForeground",
           "padding": "EdgeInsetsGeometry? - density padding, wider on the end",
@@ -2706,6 +2900,11 @@
       "import": "import 'package:<your_app>/ui/dashcn/components/collapsible/collapsible.dart';",
       "install": "dashcn add collapsible",
       "listed": true,
+      "localizationKeys": [
+        "announcementFailure",
+        "announcementLoading",
+        "announcementSuccess"
+      ],
       "name": "Collapsible",
       "preview": {
         "placement": "center"
@@ -2782,6 +2981,7 @@
       "import": "import 'package:<your_app>/ui/dashcn/components/color/color.dart';",
       "install": "dashcn add color",
       "listed": false,
+      "localizationKeys": [],
       "name": "Color",
       "preview": {
         "placement": "center"
@@ -2838,6 +3038,10 @@
       "import": "import 'package:<your_app>/ui/dashcn/components/color_field/color_field.dart';",
       "install": "dashcn add color_field",
       "listed": false,
+      "localizationKeys": [
+        "colorFieldHsl",
+        "colorFieldHsv"
+      ],
       "name": "Color Field",
       "preview": {
         "placement": "center"
@@ -2914,6 +3118,48 @@
       "import": "import 'package:<your_app>/ui/dashcn/components/color_input/color_input.dart';",
       "install": "dashcn add color_input",
       "listed": false,
+      "localizationKeys": [
+        "announcementFailure",
+        "announcementLoading",
+        "announcementSuccess",
+        "buttonCancel",
+        "buttonSave",
+        "colorAlpha",
+        "colorBlue",
+        "colorGreen",
+        "colorHue",
+        "colorLightness",
+        "colorPickerTabHEX",
+        "colorPickerTabHSL",
+        "colorPickerTabHSV",
+        "colorPickerTabRGB",
+        "colorRed",
+        "colorSaturation",
+        "colorValue",
+        "dialogDismiss",
+        "formBetweenExclusively",
+        "formBetweenInclusively",
+        "formEqualTo",
+        "formGreaterThan",
+        "formGreaterThanOrEqualTo",
+        "formLengthGreaterThan",
+        "formLengthLessThan",
+        "formLessThan",
+        "formLessThanOrEqualTo",
+        "formNotEmpty",
+        "formPasswordDigits",
+        "formPasswordLowercase",
+        "formPasswordSpecial",
+        "formPasswordUppercase",
+        "invalidEmail",
+        "invalidURL",
+        "invalidValue",
+        "menuCopy",
+        "menuCut",
+        "menuPaste",
+        "menuSelectAll",
+        "placeholderColorPicker"
+      ],
       "name": "ColorInput",
       "preview": {
         "placement": "center"
@@ -3006,6 +3252,47 @@
       "import": "import 'package:<your_app>/ui/dashcn/components/color_picker/color_picker.dart';",
       "install": "dashcn add color_picker",
       "listed": true,
+      "localizationKeys": [
+        "announcementFailure",
+        "announcementLoading",
+        "announcementSuccess",
+        "buttonCancel",
+        "buttonSave",
+        "colorAlpha",
+        "colorBlue",
+        "colorGreen",
+        "colorHue",
+        "colorLightness",
+        "colorPickerTabHEX",
+        "colorPickerTabHSL",
+        "colorPickerTabHSV",
+        "colorPickerTabRGB",
+        "colorRed",
+        "colorSaturation",
+        "colorValue",
+        "dialogDismiss",
+        "formBetweenExclusively",
+        "formBetweenInclusively",
+        "formEqualTo",
+        "formGreaterThan",
+        "formGreaterThanOrEqualTo",
+        "formLengthGreaterThan",
+        "formLengthLessThan",
+        "formLessThan",
+        "formLessThanOrEqualTo",
+        "formNotEmpty",
+        "formPasswordDigits",
+        "formPasswordLowercase",
+        "formPasswordSpecial",
+        "formPasswordUppercase",
+        "invalidEmail",
+        "invalidURL",
+        "invalidValue",
+        "menuCopy",
+        "menuCut",
+        "menuPaste",
+        "menuSelectAll"
+      ],
       "name": "ColorPicker",
       "preview": {
         "placement": "center"
@@ -3089,6 +3376,37 @@
       "import": "import 'package:<your_app>/ui/dashcn/components/command/command.dart';",
       "install": "dashcn add command",
       "listed": true,
+      "localizationKeys": [
+        "announcementFailure",
+        "announcementLoading",
+        "announcementSuccess",
+        "buttonCancel",
+        "buttonSave",
+        "commandEmpty",
+        "commandSearch",
+        "dialogDismiss",
+        "formBetweenExclusively",
+        "formBetweenInclusively",
+        "formEqualTo",
+        "formGreaterThan",
+        "formGreaterThanOrEqualTo",
+        "formLengthGreaterThan",
+        "formLengthLessThan",
+        "formLessThan",
+        "formLessThanOrEqualTo",
+        "formNotEmpty",
+        "formPasswordDigits",
+        "formPasswordLowercase",
+        "formPasswordSpecial",
+        "formPasswordUppercase",
+        "invalidEmail",
+        "invalidURL",
+        "invalidValue",
+        "menuCopy",
+        "menuCut",
+        "menuPaste",
+        "menuSelectAll"
+      ],
       "name": "Command",
       "preview": {
         "placement": "center"
@@ -3161,6 +3479,7 @@
       "import": "import 'package:<your_app>/ui/dashcn/components/context_menu/context_menu.dart';",
       "install": "dashcn add context_menu",
       "listed": true,
+      "localizationKeys": [],
       "name": "ContextMenu",
       "preview": {
         "placement": "center"
@@ -3218,6 +3537,7 @@
       "import": "import 'package:<your_app>/ui/dashcn/components/country_flag/country_flag.dart';",
       "install": "dashcn add country_flag",
       "listed": true,
+      "localizationKeys": [],
       "name": "CountryFlag",
       "preview": {
         "placement": "center"
@@ -3287,6 +3607,30 @@
       "import": "import 'package:<your_app>/ui/dashcn/components/date_picker/date_picker.dart';",
       "install": "dashcn add date_picker",
       "listed": true,
+      "localizationKeys": [
+        "buttonCancel",
+        "buttonSave",
+        "datePickerSelectYear",
+        "dialogDismiss",
+        "formBetweenExclusively",
+        "formBetweenInclusively",
+        "formEqualTo",
+        "formGreaterThan",
+        "formGreaterThanOrEqualTo",
+        "formLengthGreaterThan",
+        "formLengthLessThan",
+        "formLessThan",
+        "formLessThanOrEqualTo",
+        "formNotEmpty",
+        "formPasswordDigits",
+        "formPasswordLowercase",
+        "formPasswordSpecial",
+        "formPasswordUppercase",
+        "invalidEmail",
+        "invalidURL",
+        "invalidValue",
+        "placeholderDatePicker"
+      ],
       "name": "DatePicker",
       "preview": {
         "placement": "center"
@@ -3359,6 +3703,9 @@
       "import": "import 'package:<your_app>/ui/dashcn/components/dialog/dialog.dart';",
       "install": "dashcn add dialog",
       "listed": true,
+      "localizationKeys": [
+        "dialogDismiss"
+      ],
       "name": "Dialog",
       "preview": {
         "placement": "center"
@@ -3428,6 +3775,7 @@
       "import": "import 'package:<your_app>/ui/dashcn/components/divider/divider.dart';",
       "install": "dashcn add divider",
       "listed": true,
+      "localizationKeys": [],
       "name": "Divider",
       "preview": {
         "placement": "center"
@@ -3503,6 +3851,9 @@
       "import": "import 'package:<your_app>/ui/dashcn/components/dot_indicator/dot_indicator.dart';",
       "install": "dashcn add dot_indicator",
       "listed": true,
+      "localizationKeys": [
+        "carouselPageOf"
+      ],
       "name": "DotIndicator",
       "preview": {
         "placement": "center"
@@ -3589,6 +3940,9 @@
       "import": "import 'package:<your_app>/ui/dashcn/components/drawer/drawer.dart';",
       "install": "dashcn add drawer",
       "listed": true,
+      "localizationKeys": [
+        "dialogDismiss"
+      ],
       "name": "Drawer",
       "preview": {
         "placement": "center"
@@ -3667,6 +4021,9 @@
       "import": "import 'package:<your_app>/ui/dashcn/components/drawer_container/drawer_container.dart';",
       "install": "dashcn add drawer_container",
       "listed": false,
+      "localizationKeys": [
+        "dialogDismiss"
+      ],
       "name": "Drawer Container",
       "preview": {
         "placement": "center"
@@ -3713,6 +4070,7 @@
       "import": "import 'package:<your_app>/ui/dashcn/components/dropdown_menu/dropdown_menu.dart';",
       "install": "dashcn add dropdown_menu",
       "listed": true,
+      "localizationKeys": [],
       "name": "DropdownMenu",
       "preview": {
         "placement": "center"
@@ -3791,6 +4149,18 @@
       "import": "import 'package:<your_app>/ui/dashcn/components/dropzone/dropzone.dart';",
       "install": "dashcn add dropzone",
       "listed": true,
+      "localizationKeys": [
+        "announcementFailure",
+        "announcementLoading",
+        "announcementSuccess",
+        "dropzoneBrowse",
+        "dropzoneDisabled",
+        "dropzoneDragging",
+        "dropzoneError",
+        "dropzoneIdle",
+        "dropzoneSuccess",
+        "dropzoneUploading"
+      ],
       "name": "Dropzone",
       "preview": {
         "placement": "center"
@@ -3885,6 +4255,17 @@
       "import": "import 'package:<your_app>/ui/dashcn/components/empty_state/empty_state.dart';",
       "install": "dashcn add empty_state",
       "listed": true,
+      "localizationKeys": [
+        "announcementFailure",
+        "announcementLoading",
+        "announcementSuccess",
+        "emptyStateEmptyDescription",
+        "emptyStateEmptyTitle",
+        "emptyStateErrorDescription",
+        "emptyStateErrorTitle",
+        "emptyStateNoResultsDescription",
+        "emptyStateNoResultsTitle"
+      ],
       "name": "EmptyState",
       "preview": {
         "placement": "center"
@@ -4008,6 +4389,47 @@
       "import": "import 'package:<your_app>/ui/dashcn/components/error_system/error_system.dart';",
       "install": "dashcn add error_system",
       "listed": false,
+      "localizationKeys": [
+        "announcementFailure",
+        "announcementLoading",
+        "announcementSuccess",
+        "dialogDismiss",
+        "errorAccessDenied",
+        "errorAccessDeniedMessage",
+        "errorActionBack",
+        "errorActionContactSupport",
+        "errorActionLogin",
+        "errorActionReport",
+        "errorActionRetry",
+        "errorActionSettings",
+        "errorAuthenticationRequired",
+        "errorBadRequest",
+        "errorBadRequestMessage",
+        "errorConflict",
+        "errorConflictMessage",
+        "errorConnectionFailed",
+        "errorConnectionFailedMessage",
+        "errorDeviceErrorMessage",
+        "errorInvalidData",
+        "errorInvalidDataMessage",
+        "errorInvalidInput",
+        "errorLoginRequiredMessage",
+        "errorNotFound",
+        "errorNotFoundMessage",
+        "errorPlatformError",
+        "errorRequestTimedOut",
+        "errorRequestTimedOutMessage",
+        "errorReviewFieldsMessage",
+        "errorSecureConnectionFailed",
+        "errorSecureConnectionMessage",
+        "errorServerError",
+        "errorServerErrorMessage",
+        "errorSomethingWentWrong",
+        "errorTooManyRequests",
+        "errorTooManyRequestsMessage",
+        "errorUnauthorized",
+        "errorUnexpectedMessage"
+      ],
       "name": "Error System",
       "preview": {
         "placement": "fill"
@@ -4085,6 +4507,11 @@
       "import": "import 'package:<your_app>/ui/dashcn/components/eye_dropper/eye_dropper.dart';",
       "install": "dashcn add eye_dropper",
       "listed": false,
+      "localizationKeys": [
+        "announcementFailure",
+        "announcementLoading",
+        "announcementSuccess"
+      ],
       "name": "Eye Dropper",
       "preview": {
         "placement": "center"
@@ -4185,6 +4612,7 @@
       "import": "import 'package:<your_app>/ui/dashcn/components/fab/fab.dart';",
       "install": "dashcn add fab",
       "listed": true,
+      "localizationKeys": [],
       "name": "Floating Action Button",
       "preview": {
         "placement": "center"
@@ -4286,6 +4714,13 @@
       "import": "import 'package:<your_app>/ui/dashcn/components/feature_carousel/feature_carousel.dart';",
       "install": "dashcn add feature_carousel",
       "listed": true,
+      "localizationKeys": [
+        "buttonNext",
+        "buttonPrevious",
+        "carouselItemPreview",
+        "carouselLabel",
+        "carouselPrimaryAction"
+      ],
       "name": "Feature Carousel",
       "preview": {
         "placement": "fill"
@@ -4363,6 +4798,35 @@
       "import": "import 'package:<your_app>/ui/dashcn/components/file_diff_viewer/file_diff_viewer.dart';",
       "install": "dashcn add file_diff_viewer",
       "listed": true,
+      "localizationKeys": [
+        "announcementFailure",
+        "announcementLoading",
+        "announcementSuccess",
+        "buttonCancel",
+        "buttonSave",
+        "dialogDismiss",
+        "formBetweenExclusively",
+        "formBetweenInclusively",
+        "formEqualTo",
+        "formGreaterThan",
+        "formGreaterThanOrEqualTo",
+        "formLengthGreaterThan",
+        "formLengthLessThan",
+        "formLessThan",
+        "formLessThanOrEqualTo",
+        "formNotEmpty",
+        "formPasswordDigits",
+        "formPasswordLowercase",
+        "formPasswordSpecial",
+        "formPasswordUppercase",
+        "invalidEmail",
+        "invalidURL",
+        "invalidValue",
+        "menuCopy",
+        "menuCut",
+        "menuPaste",
+        "menuSelectAll"
+      ],
       "name": "File Diff Viewer",
       "preview": {
         "placement": "fill"
@@ -4465,6 +4929,35 @@
       "import": "import 'package:<your_app>/ui/dashcn/components/file_picker/file_picker.dart';",
       "install": "dashcn add file_picker",
       "listed": true,
+      "localizationKeys": [
+        "announcementFailure",
+        "announcementLoading",
+        "announcementSuccess",
+        "dropzoneBrowse",
+        "dropzoneDisabled",
+        "dropzoneDragging",
+        "dropzoneError",
+        "dropzoneIdle",
+        "dropzoneSuccess",
+        "dropzoneUploading",
+        "fileUploadChoose",
+        "fileUploadDownload",
+        "fileUploadInvalidType",
+        "fileUploadNoFile",
+        "fileUploadPickFailed",
+        "fileUploadPreview",
+        "fileUploadRemove",
+        "fileUploadRetry",
+        "fileUploadStatusCompleted",
+        "fileUploadStatusFailed",
+        "fileUploadStatusQueued",
+        "fileUploadStatusUploading",
+        "fileUploadTooLarge",
+        "fileUploadTooMany",
+        "fileUploadUnknownType",
+        "fileUploadUploadFailed",
+        "fileUploadUploadFailedFor"
+      ],
       "name": "File Picker",
       "preview": {
         "placement": "center"
@@ -4592,6 +5085,45 @@
       "import": "import 'package:<your_app>/ui/dashcn/components/filter_bar/filter_bar.dart';",
       "install": "dashcn add filter_bar",
       "listed": true,
+      "localizationKeys": [
+        "announcementFailure",
+        "announcementLoading",
+        "announcementSuccess",
+        "buttonCancel",
+        "buttonSave",
+        "chipInputRemoveChip",
+        "datePickerSelectYear",
+        "dialogDismiss",
+        "filterActiveCount",
+        "filterClearAll",
+        "filterDateRange",
+        "filterFilters",
+        "filterResultsCount",
+        "filterSearch",
+        "filterSort",
+        "formBetweenExclusively",
+        "formBetweenInclusively",
+        "formEqualTo",
+        "formGreaterThan",
+        "formGreaterThanOrEqualTo",
+        "formLengthGreaterThan",
+        "formLengthLessThan",
+        "formLessThan",
+        "formLessThanOrEqualTo",
+        "formNotEmpty",
+        "formPasswordDigits",
+        "formPasswordLowercase",
+        "formPasswordSpecial",
+        "formPasswordUppercase",
+        "invalidEmail",
+        "invalidURL",
+        "invalidValue",
+        "menuCopy",
+        "menuCut",
+        "menuPaste",
+        "menuSelectAll",
+        "placeholderDatePicker"
+      ],
       "name": "FilterBar",
       "preview": {
         "placement": "top"
@@ -4680,6 +5212,28 @@
       "import": "import 'package:<your_app>/ui/dashcn/components/form/form.dart';",
       "install": "dashcn add form",
       "listed": true,
+      "localizationKeys": [
+        "buttonCancel",
+        "buttonSave",
+        "dialogDismiss",
+        "formBetweenExclusively",
+        "formBetweenInclusively",
+        "formEqualTo",
+        "formGreaterThan",
+        "formGreaterThanOrEqualTo",
+        "formLengthGreaterThan",
+        "formLengthLessThan",
+        "formLessThan",
+        "formLessThanOrEqualTo",
+        "formNotEmpty",
+        "formPasswordDigits",
+        "formPasswordLowercase",
+        "formPasswordSpecial",
+        "formPasswordUppercase",
+        "invalidEmail",
+        "invalidURL",
+        "invalidValue"
+      ],
       "name": "FormScope",
       "preview": {
         "placement": "center"
@@ -4765,6 +5319,32 @@
       "import": "import 'package:<your_app>/ui/dashcn/components/formatted_input/formatted_input.dart';",
       "install": "dashcn add formatted_input",
       "listed": true,
+      "localizationKeys": [
+        "buttonCancel",
+        "buttonSave",
+        "dialogDismiss",
+        "formBetweenExclusively",
+        "formBetweenInclusively",
+        "formEqualTo",
+        "formGreaterThan",
+        "formGreaterThanOrEqualTo",
+        "formLengthGreaterThan",
+        "formLengthLessThan",
+        "formLessThan",
+        "formLessThanOrEqualTo",
+        "formNotEmpty",
+        "formPasswordDigits",
+        "formPasswordLowercase",
+        "formPasswordSpecial",
+        "formPasswordUppercase",
+        "invalidEmail",
+        "invalidURL",
+        "invalidValue",
+        "menuCopy",
+        "menuCut",
+        "menuPaste",
+        "menuSelectAll"
+      ],
       "name": "FormattedInput",
       "preview": {
         "placement": "center"
@@ -4843,6 +5423,7 @@
       "import": "import 'package:<your_app>/ui/dashcn/components/formatter/formatter.dart';",
       "install": "dashcn add formatter",
       "listed": false,
+      "localizationKeys": [],
       "name": "Formatter",
       "packages": [
         {
@@ -4937,6 +5518,35 @@
       "import": "import 'package:<your_app>/ui/dashcn/components/gooey_toast/gooey_toast.dart';",
       "install": "dashcn add gooey_toast",
       "listed": true,
+      "localizationKeys": [
+        "announcementFailure",
+        "announcementLoading",
+        "announcementSuccess",
+        "buttonCancel",
+        "buttonSave",
+        "dialogDismiss",
+        "formBetweenExclusively",
+        "formBetweenInclusively",
+        "formEqualTo",
+        "formGreaterThan",
+        "formGreaterThanOrEqualTo",
+        "formLengthGreaterThan",
+        "formLengthLessThan",
+        "formLessThan",
+        "formLessThanOrEqualTo",
+        "formNotEmpty",
+        "formPasswordDigits",
+        "formPasswordLowercase",
+        "formPasswordSpecial",
+        "formPasswordUppercase",
+        "invalidEmail",
+        "invalidURL",
+        "invalidValue",
+        "menuCopy",
+        "menuCut",
+        "menuPaste",
+        "menuSelectAll"
+      ],
       "name": "Gooey Toast",
       "preview": {
         "placement": "center"
@@ -5003,6 +5613,7 @@
       "import": "import 'package:<your_app>/ui/dashcn/components/group/group.dart';",
       "install": "dashcn add group",
       "listed": false,
+      "localizationKeys": [],
       "name": "Group",
       "preview": {
         "placement": "center"
@@ -5054,6 +5665,11 @@
       "import": "import 'package:<your_app>/ui/dashcn/components/history/history.dart';",
       "install": "dashcn add history",
       "listed": false,
+      "localizationKeys": [
+        "announcementFailure",
+        "announcementLoading",
+        "announcementSuccess"
+      ],
       "name": "Color History",
       "preview": {
         "placement": "center"
@@ -5114,6 +5730,7 @@
       "import": "import 'package:<your_app>/ui/dashcn/components/hover_card/hover_card.dart';",
       "install": "dashcn add hover_card",
       "listed": true,
+      "localizationKeys": [],
       "name": "HoverCard",
       "preview": {
         "placement": "center"
@@ -5182,6 +5799,28 @@
       "import": "import 'package:<your_app>/ui/dashcn/components/hsl/hsl.dart';",
       "install": "dashcn add hsl",
       "listed": false,
+      "localizationKeys": [
+        "buttonCancel",
+        "buttonSave",
+        "dialogDismiss",
+        "formBetweenExclusively",
+        "formBetweenInclusively",
+        "formEqualTo",
+        "formGreaterThan",
+        "formGreaterThanOrEqualTo",
+        "formLengthGreaterThan",
+        "formLengthLessThan",
+        "formLessThan",
+        "formLessThanOrEqualTo",
+        "formNotEmpty",
+        "formPasswordDigits",
+        "formPasswordLowercase",
+        "formPasswordSpecial",
+        "formPasswordUppercase",
+        "invalidEmail",
+        "invalidURL",
+        "invalidValue"
+      ],
       "name": "HSL Color Slider",
       "preview": {
         "placement": "center"
@@ -5247,6 +5886,28 @@
       "import": "import 'package:<your_app>/ui/dashcn/components/hsv/hsv.dart';",
       "install": "dashcn add hsv",
       "listed": false,
+      "localizationKeys": [
+        "buttonCancel",
+        "buttonSave",
+        "dialogDismiss",
+        "formBetweenExclusively",
+        "formBetweenInclusively",
+        "formEqualTo",
+        "formGreaterThan",
+        "formGreaterThanOrEqualTo",
+        "formLengthGreaterThan",
+        "formLengthLessThan",
+        "formLessThan",
+        "formLessThanOrEqualTo",
+        "formNotEmpty",
+        "formPasswordDigits",
+        "formPasswordLowercase",
+        "formPasswordSpecial",
+        "formPasswordUppercase",
+        "invalidEmail",
+        "invalidURL",
+        "invalidValue"
+      ],
       "name": "HSV Color Slider",
       "preview": {
         "placement": "center"
@@ -5308,6 +5969,7 @@
       "import": "import 'package:<your_app>/ui/dashcn/components/icon/icon.dart';",
       "install": "dashcn add icon",
       "listed": false,
+      "localizationKeys": [],
       "name": "Icon",
       "preview": {
         "placement": "center"
@@ -5368,6 +6030,7 @@
       "import": "import 'package:<your_app>/ui/dashcn/components/image/image.dart';",
       "install": "dashcn add image",
       "listed": true,
+      "localizationKeys": [],
       "name": "Picture",
       "preview": {
         "placement": "center"
@@ -5446,6 +6109,9 @@
       "import": "import 'package:<your_app>/ui/dashcn/components/image_lightbox/image_lightbox.dart';",
       "install": "dashcn add image_lightbox",
       "listed": true,
+      "localizationKeys": [
+        "actionClose"
+      ],
       "name": "ImageLightbox",
       "preview": {
         "placement": "center"
@@ -5570,6 +6236,32 @@
       "import": "import 'package:<your_app>/ui/dashcn/components/input/input.dart';",
       "install": "dashcn add input",
       "listed": true,
+      "localizationKeys": [
+        "buttonCancel",
+        "buttonSave",
+        "dialogDismiss",
+        "formBetweenExclusively",
+        "formBetweenInclusively",
+        "formEqualTo",
+        "formGreaterThan",
+        "formGreaterThanOrEqualTo",
+        "formLengthGreaterThan",
+        "formLengthLessThan",
+        "formLessThan",
+        "formLessThanOrEqualTo",
+        "formNotEmpty",
+        "formPasswordDigits",
+        "formPasswordLowercase",
+        "formPasswordSpecial",
+        "formPasswordUppercase",
+        "invalidEmail",
+        "invalidURL",
+        "invalidValue",
+        "menuCopy",
+        "menuCut",
+        "menuPaste",
+        "menuSelectAll"
+      ],
       "name": "Input",
       "preview": {
         "placement": "center"
@@ -5638,6 +6330,32 @@
       "import": "import 'package:<your_app>/ui/dashcn/components/input_otp/input_otp.dart';",
       "install": "dashcn add input_otp",
       "listed": true,
+      "localizationKeys": [
+        "buttonCancel",
+        "buttonSave",
+        "dialogDismiss",
+        "formBetweenExclusively",
+        "formBetweenInclusively",
+        "formEqualTo",
+        "formGreaterThan",
+        "formGreaterThanOrEqualTo",
+        "formLengthGreaterThan",
+        "formLengthLessThan",
+        "formLessThan",
+        "formLessThanOrEqualTo",
+        "formNotEmpty",
+        "formPasswordDigits",
+        "formPasswordLowercase",
+        "formPasswordSpecial",
+        "formPasswordUppercase",
+        "invalidEmail",
+        "invalidURL",
+        "invalidValue",
+        "menuCopy",
+        "menuCut",
+        "menuPaste",
+        "menuSelectAll"
+      ],
       "name": "InputOtp",
       "preview": {
         "placement": "center"
@@ -5729,6 +6447,31 @@
       "import": "import 'package:<your_app>/ui/dashcn/components/item_picker/item_picker.dart';",
       "install": "dashcn add item_picker",
       "listed": true,
+      "localizationKeys": [
+        "announcementFailure",
+        "announcementLoading",
+        "announcementSuccess",
+        "buttonCancel",
+        "buttonSave",
+        "dialogDismiss",
+        "formBetweenExclusively",
+        "formBetweenInclusively",
+        "formEqualTo",
+        "formGreaterThan",
+        "formGreaterThanOrEqualTo",
+        "formLengthGreaterThan",
+        "formLengthLessThan",
+        "formLessThan",
+        "formLessThanOrEqualTo",
+        "formNotEmpty",
+        "formPasswordDigits",
+        "formPasswordLowercase",
+        "formPasswordSpecial",
+        "formPasswordUppercase",
+        "invalidEmail",
+        "invalidURL",
+        "invalidValue"
+      ],
       "name": "ItemPicker",
       "preview": {
         "placement": "center"
@@ -5812,6 +6555,7 @@
       "import": "import 'package:<your_app>/ui/dashcn/components/keyboard_shortcut/keyboard_shortcut.dart';",
       "install": "dashcn add keyboard_shortcut",
       "listed": true,
+      "localizationKeys": [],
       "name": "KeyboardShortcut",
       "preview": {
         "placement": "center"
@@ -5883,6 +6627,7 @@
       "import": "import 'package:<your_app>/ui/dashcn/components/list_tile/list_tile.dart';",
       "install": "dashcn add list_tile",
       "listed": true,
+      "localizationKeys": [],
       "name": "ListTile",
       "preview": {
         "placement": "center"
@@ -5941,6 +6686,7 @@
       "import": "import 'package:<your_app>/ui/dashcn/components/locale_utils/locale_utils.dart';",
       "install": "dashcn add locale_utils",
       "listed": false,
+      "localizationKeys": [],
       "name": "Locale Utils",
       "preview": {
         "placement": "center"
@@ -6000,6 +6746,36 @@
       "import": "import 'package:<your_app>/ui/dashcn/components/markdown/markdown.dart';",
       "install": "dashcn add markdown",
       "listed": true,
+      "localizationKeys": [
+        "announcementFailure",
+        "announcementLoading",
+        "announcementSuccess",
+        "buttonCancel",
+        "buttonSave",
+        "dialogDismiss",
+        "formBetweenExclusively",
+        "formBetweenInclusively",
+        "formEqualTo",
+        "formGreaterThan",
+        "formGreaterThanOrEqualTo",
+        "formLengthGreaterThan",
+        "formLengthLessThan",
+        "formLessThan",
+        "formLessThanOrEqualTo",
+        "formNotEmpty",
+        "formPasswordDigits",
+        "formPasswordLowercase",
+        "formPasswordSpecial",
+        "formPasswordUppercase",
+        "invalidEmail",
+        "invalidURL",
+        "invalidValue",
+        "markdownDetails",
+        "menuCopy",
+        "menuCut",
+        "menuPaste",
+        "menuSelectAll"
+      ],
       "name": "Markdown",
       "preview": {
         "placement": "center"
@@ -6068,6 +6844,7 @@
       "import": "import 'package:<your_app>/ui/dashcn/components/media_query/media_query.dart';",
       "install": "dashcn add media_query",
       "listed": false,
+      "localizationKeys": [],
       "name": "MediaQueryVisibility",
       "preview": {
         "placement": "center"
@@ -6172,6 +6949,7 @@
       "import": "import 'package:<your_app>/ui/dashcn/components/menu/menu.dart';",
       "install": "dashcn add menu",
       "listed": true,
+      "localizationKeys": [],
       "name": "Menu",
       "preview": {
         "placement": "center"
@@ -6263,6 +7041,7 @@
       "import": "import 'package:<your_app>/ui/dashcn/components/menubar/menubar.dart';",
       "install": "dashcn add menubar",
       "listed": true,
+      "localizationKeys": [],
       "name": "Menubar",
       "preview": {
         "placement": "top"
@@ -6331,6 +7110,36 @@
       "import": "import 'package:<your_app>/ui/dashcn/components/multi_select/multi_select.dart';",
       "install": "dashcn add multi_select",
       "listed": true,
+      "localizationKeys": [
+        "announcementFailure",
+        "announcementLoading",
+        "announcementSuccess",
+        "buttonCancel",
+        "buttonSave",
+        "chipInputRemoveChip",
+        "dialogDismiss",
+        "formBetweenExclusively",
+        "formBetweenInclusively",
+        "formEqualTo",
+        "formGreaterThan",
+        "formGreaterThanOrEqualTo",
+        "formLengthGreaterThan",
+        "formLengthLessThan",
+        "formLessThan",
+        "formLessThanOrEqualTo",
+        "formNotEmpty",
+        "formPasswordDigits",
+        "formPasswordLowercase",
+        "formPasswordSpecial",
+        "formPasswordUppercase",
+        "invalidEmail",
+        "invalidURL",
+        "invalidValue",
+        "menuCopy",
+        "menuCut",
+        "menuPaste",
+        "menuSelectAll"
+      ],
       "name": "MultiSelect",
       "preview": {
         "placement": "center"
@@ -6392,6 +7201,28 @@
       "import": "import 'package:<your_app>/ui/dashcn/components/multiple_choice/multiple_choice.dart';",
       "install": "dashcn add multiple_choice",
       "listed": false,
+      "localizationKeys": [
+        "buttonCancel",
+        "buttonSave",
+        "dialogDismiss",
+        "formBetweenExclusively",
+        "formBetweenInclusively",
+        "formEqualTo",
+        "formGreaterThan",
+        "formGreaterThanOrEqualTo",
+        "formLengthGreaterThan",
+        "formLengthLessThan",
+        "formLessThan",
+        "formLessThanOrEqualTo",
+        "formNotEmpty",
+        "formPasswordDigits",
+        "formPasswordLowercase",
+        "formPasswordSpecial",
+        "formPasswordUppercase",
+        "invalidEmail",
+        "invalidURL",
+        "invalidValue"
+      ],
       "name": "Multiple Choice",
       "preview": {
         "placement": "center"
@@ -6460,6 +7291,7 @@
           "gap"
         ],
         "primitives": [
+          "motion",
           "navigation",
           "roving_group",
           "surface"
@@ -6479,6 +7311,9 @@
       "import": "import 'package:<your_app>/ui/dashcn/components/navigation_bar/navigation_bar.dart';",
       "install": "dashcn add navigation_bar",
       "listed": true,
+      "localizationKeys": [
+        "marqueeContent"
+      ],
       "name": "Navigation Bar",
       "preview": {
         "placement": "bottom"
@@ -6560,6 +7395,11 @@
       "import": "import 'package:<your_app>/ui/dashcn/components/navigation_menu/navigation_menu.dart';",
       "install": "dashcn add navigation_menu",
       "listed": true,
+      "localizationKeys": [
+        "announcementFailure",
+        "announcementLoading",
+        "announcementSuccess"
+      ],
       "name": "NavigationMenu",
       "preview": {
         "placement": "top"
@@ -6628,6 +7468,7 @@
       "import": "import 'package:<your_app>/ui/dashcn/components/number_ticker/number_ticker.dart';",
       "install": "dashcn add number_ticker",
       "listed": true,
+      "localizationKeys": [],
       "name": "NumberTicker",
       "preview": {
         "placement": "center"
@@ -6694,6 +7535,34 @@
       "import": "import 'package:<your_app>/ui/dashcn/components/object_input/object_input.dart';",
       "install": "dashcn add object_input",
       "listed": true,
+      "localizationKeys": [
+        "buttonCancel",
+        "buttonSave",
+        "datePickerSelectYear",
+        "dialogDismiss",
+        "formBetweenExclusively",
+        "formBetweenInclusively",
+        "formEqualTo",
+        "formGreaterThan",
+        "formGreaterThanOrEqualTo",
+        "formLengthGreaterThan",
+        "formLengthLessThan",
+        "formLessThan",
+        "formLessThanOrEqualTo",
+        "formNotEmpty",
+        "formPasswordDigits",
+        "formPasswordLowercase",
+        "formPasswordSpecial",
+        "formPasswordUppercase",
+        "invalidEmail",
+        "invalidURL",
+        "invalidValue",
+        "menuCopy",
+        "menuCut",
+        "menuPaste",
+        "menuSelectAll",
+        "placeholderDatePicker"
+      ],
       "name": "Object Input",
       "preview": {
         "placement": "center"
@@ -6743,6 +7612,7 @@
       "import": "import 'package:<your_app>/ui/dashcn/components/outlined_container/outlined_container.dart';",
       "install": "dashcn add outlined_container",
       "listed": false,
+      "localizationKeys": [],
       "name": "Outlined Container",
       "preview": {
         "placement": "center"
@@ -6815,6 +7685,9 @@
       "import": "import 'package:<your_app>/ui/dashcn/components/overflow_marquee/overflow_marquee.dart';",
       "install": "dashcn add overflow_marquee",
       "listed": true,
+      "localizationKeys": [
+        "marqueeContent"
+      ],
       "name": "Overflow Marquee",
       "preview": {
         "placement": "center"
@@ -6890,6 +7763,9 @@
       "import": "import 'package:<your_app>/ui/dashcn/components/overlay_configuration/overlay_configuration.dart';",
       "install": "dashcn add overlay_configuration",
       "listed": false,
+      "localizationKeys": [
+        "dialogDismiss"
+      ],
       "name": "Overlay Configuration",
       "preview": {
         "placement": "center"
@@ -6934,6 +7810,7 @@
       "import": "import 'package:<your_app>/ui/dashcn/components/page_route/page_route.dart';",
       "install": "dashcn add page_route",
       "listed": false,
+      "localizationKeys": [],
       "name": "AppPageRoute",
       "preview": {
         "placement": "center"
@@ -6967,7 +7844,8 @@
           "icons"
         ],
         "primitives": [
-          "localizations"
+          "localizations",
+          "motion"
         ],
         "theme": [
           "color_tokens",
@@ -6983,6 +7861,14 @@
       "import": "import 'package:<your_app>/ui/dashcn/components/pagination/pagination.dart';",
       "install": "dashcn add pagination",
       "listed": true,
+      "localizationKeys": [
+        "announcementFailure",
+        "announcementLoading",
+        "announcementSuccess",
+        "buttonNext",
+        "buttonPrevious",
+        "paginationPage"
+      ],
       "name": "Pagination",
       "preview": {
         "placement": "center"
@@ -7031,6 +7917,7 @@
       "import": "import 'package:<your_app>/ui/dashcn/components/patch/patch.dart';",
       "install": "dashcn add patch",
       "listed": false,
+      "localizationKeys": [],
       "name": "ClickDetector",
       "preview": {
         "placement": "center"
@@ -7088,6 +7975,37 @@
       "import": "import 'package:<your_app>/ui/dashcn/components/phone_input/phone_input.dart';",
       "install": "dashcn add phone_input",
       "listed": true,
+      "localizationKeys": [
+        "announcementFailure",
+        "announcementLoading",
+        "announcementSuccess",
+        "buttonCancel",
+        "buttonSave",
+        "dialogDismiss",
+        "formBetweenExclusively",
+        "formBetweenInclusively",
+        "formEqualTo",
+        "formGreaterThan",
+        "formGreaterThanOrEqualTo",
+        "formLengthGreaterThan",
+        "formLengthLessThan",
+        "formLessThan",
+        "formLessThanOrEqualTo",
+        "formNotEmpty",
+        "formPasswordDigits",
+        "formPasswordLowercase",
+        "formPasswordSpecial",
+        "formPasswordUppercase",
+        "formPhoneNumberEmpty",
+        "formPhoneNumberInvalid",
+        "invalidEmail",
+        "invalidURL",
+        "invalidValue",
+        "menuCopy",
+        "menuCut",
+        "menuPaste",
+        "menuSelectAll"
+      ],
       "name": "PhoneInput",
       "preview": {
         "placement": "center"
@@ -7166,6 +8084,9 @@
       "import": "import 'package:<your_app>/ui/dashcn/components/pinned_sheet/pinned_sheet.dart';",
       "install": "dashcn add pinned_sheet",
       "listed": true,
+      "localizationKeys": [
+        "dialogDismiss"
+      ],
       "name": "Pinned Sheet",
       "preview": {
         "placement": "bottom"
@@ -7204,6 +8125,7 @@
         ],
         "theme": [
           "theme",
+          "density",
           "density_tokens"
         ]
       },
@@ -7215,6 +8137,7 @@
       "import": "import 'package:<your_app>/ui/dashcn/components/popup/popup.dart';",
       "install": "dashcn add popup",
       "listed": true,
+      "localizationKeys": [],
       "name": "Popup",
       "preview": {
         "placement": "center"
@@ -7271,6 +8194,7 @@
       "import": "import 'package:<your_app>/ui/dashcn/components/progress/progress.dart';",
       "install": "dashcn add progress",
       "listed": true,
+      "localizationKeys": [],
       "name": "Progress",
       "preview": {
         "placement": "center"
@@ -7337,6 +8261,9 @@
       "import": "import 'package:<your_app>/ui/dashcn/components/qr_code/qr_code.dart';",
       "install": "dashcn add qr_code",
       "listed": true,
+      "localizationKeys": [
+        "qrCodeLabel"
+      ],
       "name": "QR Code",
       "packages": [
         {
@@ -7441,6 +8368,28 @@
       "import": "import 'package:<your_app>/ui/dashcn/components/radio_group/radio_group.dart';",
       "install": "dashcn add radio_group",
       "listed": true,
+      "localizationKeys": [
+        "buttonCancel",
+        "buttonSave",
+        "dialogDismiss",
+        "formBetweenExclusively",
+        "formBetweenInclusively",
+        "formEqualTo",
+        "formGreaterThan",
+        "formGreaterThanOrEqualTo",
+        "formLengthGreaterThan",
+        "formLengthLessThan",
+        "formLessThan",
+        "formLessThanOrEqualTo",
+        "formNotEmpty",
+        "formPasswordDigits",
+        "formPasswordLowercase",
+        "formPasswordSpecial",
+        "formPasswordUppercase",
+        "invalidEmail",
+        "invalidURL",
+        "invalidValue"
+      ],
       "name": "RadioGroup",
       "preview": {
         "placement": "center"
@@ -7513,6 +8462,12 @@
       "import": "import 'package:<your_app>/ui/dashcn/components/refresh_trigger/refresh_trigger.dart';",
       "install": "dashcn add refresh_trigger",
       "listed": true,
+      "localizationKeys": [
+        "refreshTriggerComplete",
+        "refreshTriggerPull",
+        "refreshTriggerRefreshing",
+        "refreshTriggerRelease"
+      ],
       "name": "RefreshTrigger",
       "preview": {
         "placement": "fill"
@@ -7585,6 +8540,9 @@
       "import": "import 'package:<your_app>/ui/dashcn/components/resizable/resizable.dart';",
       "install": "dashcn add resizable",
       "listed": true,
+      "localizationKeys": [
+        "resizableHandle"
+      ],
       "name": "Resizable",
       "preview": {
         "placement": "fill"
@@ -7656,6 +8614,7 @@
       "import": "import 'package:<your_app>/ui/dashcn/components/scaffold/scaffold.dart';",
       "install": "dashcn add scaffold",
       "listed": true,
+      "localizationKeys": [],
       "name": "Scaffold",
       "preview": {
         "placement": "fill"
@@ -7725,6 +8684,7 @@
       "import": "import 'package:<your_app>/ui/dashcn/components/scrollable/scrollable.dart';",
       "install": "dashcn add scrollable",
       "listed": false,
+      "localizationKeys": [],
       "name": "Scrollable",
       "preview": {
         "placement": "fill"
@@ -7783,6 +8743,7 @@
       "import": "import 'package:<your_app>/ui/dashcn/components/scrollable_client/scrollable_client.dart';",
       "install": "dashcn add scrollable_client",
       "listed": false,
+      "localizationKeys": [],
       "name": "Scrollable Client",
       "preview": {
         "placement": "fill"
@@ -7844,6 +8805,7 @@
       "import": "import 'package:<your_app>/ui/dashcn/components/scrollbar/scrollbar.dart';",
       "install": "dashcn add scrollbar",
       "listed": true,
+      "localizationKeys": [],
       "name": "Scrollbar",
       "preview": {
         "placement": "fill"
@@ -7894,6 +8856,7 @@
       "import": "import 'package:<your_app>/ui/dashcn/components/scrollview/scrollview.dart';",
       "install": "dashcn add scrollview",
       "listed": false,
+      "localizationKeys": [],
       "name": "Scroll View Interceptor",
       "preview": {
         "placement": "fill"
@@ -7961,6 +8924,37 @@
       "import": "import 'package:<your_app>/ui/dashcn/components/search_bar/search_bar.dart';",
       "install": "dashcn add search_bar",
       "listed": true,
+      "localizationKeys": [
+        "announcementFailure",
+        "announcementLoading",
+        "announcementSuccess",
+        "buttonCancel",
+        "buttonSave",
+        "commandEmpty",
+        "dialogDismiss",
+        "filterSearch",
+        "formBetweenExclusively",
+        "formBetweenInclusively",
+        "formEqualTo",
+        "formGreaterThan",
+        "formGreaterThanOrEqualTo",
+        "formLengthGreaterThan",
+        "formLengthLessThan",
+        "formLessThan",
+        "formLessThanOrEqualTo",
+        "formNotEmpty",
+        "formPasswordDigits",
+        "formPasswordLowercase",
+        "formPasswordSpecial",
+        "formPasswordUppercase",
+        "invalidEmail",
+        "invalidURL",
+        "invalidValue",
+        "menuCopy",
+        "menuCut",
+        "menuPaste",
+        "menuSelectAll"
+      ],
       "name": "SearchBar",
       "preview": {
         "placement": "center"
@@ -8082,6 +9076,7 @@
       "import": "import 'package:<your_app>/ui/dashcn/components/segmented_control/segmented_control.dart';",
       "install": "dashcn add segmented_control",
       "listed": true,
+      "localizationKeys": [],
       "name": "Segmented Control",
       "preview": {
         "placement": "center"
@@ -8160,7 +9155,8 @@
           "form_core",
           "overlay",
           "popover_controller",
-          "select_popup"
+          "select_popup",
+          "touch_hit_area"
         ],
         "theme": [
           "color_tokens",
@@ -8177,6 +9173,35 @@
       "import": "import 'package:<your_app>/ui/dashcn/components/select/select.dart';",
       "install": "dashcn add select",
       "listed": true,
+      "localizationKeys": [
+        "announcementFailure",
+        "announcementLoading",
+        "announcementSuccess",
+        "buttonCancel",
+        "buttonSave",
+        "dialogDismiss",
+        "formBetweenExclusively",
+        "formBetweenInclusively",
+        "formEqualTo",
+        "formGreaterThan",
+        "formGreaterThanOrEqualTo",
+        "formLengthGreaterThan",
+        "formLengthLessThan",
+        "formLessThan",
+        "formLessThanOrEqualTo",
+        "formNotEmpty",
+        "formPasswordDigits",
+        "formPasswordLowercase",
+        "formPasswordSpecial",
+        "formPasswordUppercase",
+        "invalidEmail",
+        "invalidURL",
+        "invalidValue",
+        "menuCopy",
+        "menuCut",
+        "menuPaste",
+        "menuSelectAll"
+      ],
       "name": "Select",
       "preview": {
         "placement": "center"
@@ -8241,6 +9266,32 @@
       "import": "import 'package:<your_app>/ui/dashcn/components/selectable/selectable.dart';",
       "install": "dashcn add selectable",
       "listed": false,
+      "localizationKeys": [
+        "buttonCancel",
+        "buttonSave",
+        "dialogDismiss",
+        "formBetweenExclusively",
+        "formBetweenInclusively",
+        "formEqualTo",
+        "formGreaterThan",
+        "formGreaterThanOrEqualTo",
+        "formLengthGreaterThan",
+        "formLengthLessThan",
+        "formLessThan",
+        "formLessThanOrEqualTo",
+        "formNotEmpty",
+        "formPasswordDigits",
+        "formPasswordLowercase",
+        "formPasswordSpecial",
+        "formPasswordUppercase",
+        "invalidEmail",
+        "invalidURL",
+        "invalidValue",
+        "menuCopy",
+        "menuCut",
+        "menuPaste",
+        "menuSelectAll"
+      ],
       "name": "SelectableText",
       "preview": {
         "placement": "center"
@@ -8320,6 +9371,10 @@
       "import": "import 'package:<your_app>/ui/dashcn/components/sidebar/sidebar.dart';",
       "install": "dashcn add sidebar",
       "listed": true,
+      "localizationKeys": [
+        "treeCollapse",
+        "treeExpand"
+      ],
       "name": "Sidebar",
       "preview": {
         "placement": "center"
@@ -8340,8 +9395,8 @@
           "activeForeground": "ThemedColor? - selected row foreground, default sidebarAccentForeground",
           "background": "ThemedColor? - rail fill, default sidebar",
           "borderColor": "ThemedColor? - rail edge border, default sidebarBorder",
-          "collapsedWidth": "double? - collapsed rail width, default 56",
-          "expandedWidth": "double? - expanded rail width, default 240",
+          "collapsedWidth": "double? - collapsed rail width, default 64",
+          "expandedWidth": "double? - expanded rail width, default 256",
           "foreground": "ThemedColor? - rail foreground, default sidebarForeground",
           "groupLabelColor": "ThemedColor? - group label colour, default mutedForeground",
           "iconSize": "double? - navigation and header icon size, default 16",
@@ -8399,6 +9454,9 @@
       "import": "import 'package:<your_app>/ui/dashcn/components/signature_pad/signature_pad.dart';",
       "install": "dashcn add signature_pad",
       "listed": true,
+      "localizationKeys": [
+        "signaturePadLabel"
+      ],
       "name": "Signature Pad",
       "preview": {
         "placement": "center"
@@ -8494,6 +9552,9 @@
       "import": "import 'package:<your_app>/ui/dashcn/components/skeleton/skeleton.dart';",
       "install": "dashcn add skeleton",
       "listed": true,
+      "localizationKeys": [
+        "announcementLoading"
+      ],
       "name": "Skeleton",
       "preview": {
         "placement": "center"
@@ -8570,6 +9631,28 @@
       "import": "import 'package:<your_app>/ui/dashcn/components/slider/slider.dart';",
       "install": "dashcn add slider",
       "listed": true,
+      "localizationKeys": [
+        "buttonCancel",
+        "buttonSave",
+        "dialogDismiss",
+        "formBetweenExclusively",
+        "formBetweenInclusively",
+        "formEqualTo",
+        "formGreaterThan",
+        "formGreaterThanOrEqualTo",
+        "formLengthGreaterThan",
+        "formLengthLessThan",
+        "formLessThan",
+        "formLessThanOrEqualTo",
+        "formNotEmpty",
+        "formPasswordDigits",
+        "formPasswordLowercase",
+        "formPasswordSpecial",
+        "formPasswordUppercase",
+        "invalidEmail",
+        "invalidURL",
+        "invalidValue"
+      ],
       "name": "Slider",
       "preview": {
         "placement": "center"
@@ -8637,6 +9720,7 @@
       "import": "import 'package:<your_app>/ui/dashcn/components/sortable/sortable.dart';",
       "install": "dashcn add sortable",
       "listed": true,
+      "localizationKeys": [],
       "name": "Sortable",
       "preview": {
         "placement": "center"
@@ -8678,6 +9762,9 @@
       "import": "import 'package:<your_app>/ui/dashcn/components/spell_check_suggestions_toolbar/spell_check_suggestions_toolbar.dart';",
       "install": "dashcn add spell_check_suggestions_toolbar",
       "listed": false,
+      "localizationKeys": [
+        "spellCheckNoSuggestions"
+      ],
       "name": "SpellCheckSuggestionsToolbar",
       "preview": {
         "placement": "center"
@@ -8732,6 +9819,9 @@
       "import": "import 'package:<your_app>/ui/dashcn/components/spinner/spinner.dart';",
       "install": "dashcn add spinner",
       "listed": true,
+      "localizationKeys": [
+        "announcementLoading"
+      ],
       "name": "Spinner",
       "preview": {
         "placement": "center"
@@ -8793,6 +9883,7 @@
       "import": "import 'package:<your_app>/ui/dashcn/components/stage_container/stage_container.dart';",
       "install": "dashcn add stage_container",
       "listed": false,
+      "localizationKeys": [],
       "name": "Stage Container",
       "preview": {
         "placement": "fill"
@@ -8836,10 +9927,12 @@
         ],
         "primitives": [
           "clickable",
-          "form_core"
+          "form_core",
+          "motion"
         ],
         "theme": [
           "color_tokens",
+          "motion",
           "theme"
         ]
       },
@@ -8847,11 +9940,34 @@
       "entry": "components/star_rating/star_rating.dart",
       "files": [
         "components/star_rating/star_rating.dart",
+        "components/star_rating/star_rating_pop.dart",
         "components/star_rating/star_rating_style.dart"
       ],
       "import": "import 'package:<your_app>/ui/dashcn/components/star_rating/star_rating.dart';",
       "install": "dashcn add star_rating",
       "listed": true,
+      "localizationKeys": [
+        "buttonCancel",
+        "buttonSave",
+        "dialogDismiss",
+        "formBetweenExclusively",
+        "formBetweenInclusively",
+        "formEqualTo",
+        "formGreaterThan",
+        "formGreaterThanOrEqualTo",
+        "formLengthGreaterThan",
+        "formLengthLessThan",
+        "formLessThan",
+        "formLessThanOrEqualTo",
+        "formNotEmpty",
+        "formPasswordDigits",
+        "formPasswordLowercase",
+        "formPasswordSpecial",
+        "formPasswordUppercase",
+        "invalidEmail",
+        "invalidURL",
+        "invalidValue"
+      ],
       "name": "Star Rating",
       "preview": {
         "placement": "center"
@@ -8934,6 +10050,9 @@
       "import": "import 'package:<your_app>/ui/dashcn/components/stepper/stepper.dart';",
       "install": "dashcn add stepper",
       "listed": true,
+      "localizationKeys": [
+        "stepperStep"
+      ],
       "name": "Stepper",
       "preview": {
         "placement": "top"
@@ -9000,6 +10119,7 @@
       "import": "import 'package:<your_app>/ui/dashcn/components/steps/steps.dart';",
       "install": "dashcn add steps",
       "listed": true,
+      "localizationKeys": [],
       "name": "Steps",
       "preview": {
         "placement": "center"
@@ -9064,6 +10184,7 @@
       "import": "import 'package:<your_app>/ui/dashcn/components/swipe_actions/swipe_actions.dart';",
       "install": "dashcn add swipe_actions",
       "listed": true,
+      "localizationKeys": [],
       "name": "SwipeActions",
       "preview": {
         "placement": "center"
@@ -9133,6 +10254,9 @@
       "import": "import 'package:<your_app>/ui/dashcn/components/swiper/swiper.dart';",
       "install": "dashcn add swiper",
       "listed": false,
+      "localizationKeys": [
+        "dialogDismiss"
+      ],
       "name": "Swiper",
       "preview": {
         "placement": "center"
@@ -9209,6 +10333,28 @@
       "import": "import 'package:<your_app>/ui/dashcn/components/switch/switch.dart';",
       "install": "dashcn add switch",
       "listed": true,
+      "localizationKeys": [
+        "buttonCancel",
+        "buttonSave",
+        "dialogDismiss",
+        "formBetweenExclusively",
+        "formBetweenInclusively",
+        "formEqualTo",
+        "formGreaterThan",
+        "formGreaterThanOrEqualTo",
+        "formLengthGreaterThan",
+        "formLengthLessThan",
+        "formLessThan",
+        "formLessThanOrEqualTo",
+        "formNotEmpty",
+        "formPasswordDigits",
+        "formPasswordLowercase",
+        "formPasswordSpecial",
+        "formPasswordUppercase",
+        "invalidEmail",
+        "invalidURL",
+        "invalidValue"
+      ],
       "name": "Switch",
       "preview": {
         "placement": "center"
@@ -9277,6 +10423,7 @@
       "import": "import 'package:<your_app>/ui/dashcn/components/switcher/switcher.dart';",
       "install": "dashcn add switcher",
       "listed": false,
+      "localizationKeys": [],
       "name": "Switcher",
       "preview": {
         "placement": "center"
@@ -9372,6 +10519,10 @@
       "import": "import 'package:<your_app>/ui/dashcn/components/table/table.dart';",
       "install": "dashcn add table",
       "listed": true,
+      "localizationKeys": [
+        "tableResizeColumn",
+        "tableResizeRow"
+      ],
       "name": "Table",
       "preview": {
         "placement": "fill"
@@ -9468,6 +10619,7 @@
       "import": "import 'package:<your_app>/ui/dashcn/components/tabs/tabs.dart';",
       "install": "dashcn add tabs",
       "listed": true,
+      "localizationKeys": [],
       "name": "Tabs",
       "preview": {
         "placement": "top"
@@ -9558,6 +10710,36 @@
       "import": "import 'package:<your_app>/ui/dashcn/components/text_animate/text_animate.dart';",
       "install": "dashcn add text_animate",
       "listed": true,
+      "localizationKeys": [
+        "announcementFailure",
+        "announcementLoading",
+        "announcementSuccess",
+        "buttonCancel",
+        "buttonSave",
+        "dialogDismiss",
+        "formBetweenExclusively",
+        "formBetweenInclusively",
+        "formEqualTo",
+        "formGreaterThan",
+        "formGreaterThanOrEqualTo",
+        "formLengthGreaterThan",
+        "formLengthLessThan",
+        "formLessThan",
+        "formLessThanOrEqualTo",
+        "formNotEmpty",
+        "formPasswordDigits",
+        "formPasswordLowercase",
+        "formPasswordSpecial",
+        "formPasswordUppercase",
+        "invalidEmail",
+        "invalidURL",
+        "invalidValue",
+        "markdownDetails",
+        "menuCopy",
+        "menuCut",
+        "menuPaste",
+        "menuSelectAll"
+      ],
       "name": "TextAnimate",
       "preview": {
         "placement": "center"
@@ -9621,6 +10803,32 @@
       "import": "import 'package:<your_app>/ui/dashcn/components/text_area/text_area.dart';",
       "install": "dashcn add text_area",
       "listed": true,
+      "localizationKeys": [
+        "buttonCancel",
+        "buttonSave",
+        "dialogDismiss",
+        "formBetweenExclusively",
+        "formBetweenInclusively",
+        "formEqualTo",
+        "formGreaterThan",
+        "formGreaterThanOrEqualTo",
+        "formLengthGreaterThan",
+        "formLengthLessThan",
+        "formLessThan",
+        "formLessThanOrEqualTo",
+        "formNotEmpty",
+        "formPasswordDigits",
+        "formPasswordLowercase",
+        "formPasswordSpecial",
+        "formPasswordUppercase",
+        "invalidEmail",
+        "invalidURL",
+        "invalidValue",
+        "menuCopy",
+        "menuCut",
+        "menuPaste",
+        "menuSelectAll"
+      ],
       "name": "TextArea",
       "preview": {
         "placement": "center"
@@ -9686,6 +10894,46 @@
       "import": "import 'package:<your_app>/ui/dashcn/components/time_picker/time_picker.dart';",
       "install": "dashcn add time_picker",
       "listed": true,
+      "localizationKeys": [
+        "announcementFailure",
+        "announcementLoading",
+        "announcementSuccess",
+        "buttonCancel",
+        "buttonSave",
+        "dialogDismiss",
+        "durationDay",
+        "durationHour",
+        "durationMinute",
+        "durationSecond",
+        "formBetweenExclusively",
+        "formBetweenInclusively",
+        "formEqualTo",
+        "formGreaterThan",
+        "formGreaterThanOrEqualTo",
+        "formLengthGreaterThan",
+        "formLengthLessThan",
+        "formLessThan",
+        "formLessThanOrEqualTo",
+        "formNotEmpty",
+        "formPasswordDigits",
+        "formPasswordLowercase",
+        "formPasswordSpecial",
+        "formPasswordUppercase",
+        "invalidEmail",
+        "invalidURL",
+        "invalidValue",
+        "menuCopy",
+        "menuCut",
+        "menuPaste",
+        "menuSelectAll",
+        "placeholderDurationPicker",
+        "placeholderTimePicker",
+        "timeAM",
+        "timeHour",
+        "timeMinute",
+        "timePM",
+        "timeSecond"
+      ],
       "name": "TimePicker",
       "preview": {
         "placement": "center"
@@ -9752,6 +11000,7 @@
       "import": "import 'package:<your_app>/ui/dashcn/components/timeline/timeline.dart';",
       "install": "dashcn add timeline",
       "listed": true,
+      "localizationKeys": [],
       "name": "Timeline",
       "preview": {
         "placement": "center"
@@ -9808,6 +11057,7 @@
       "import": "import 'package:<your_app>/ui/dashcn/components/timeline_animation/timeline_animation.dart';",
       "install": "dashcn add timeline_animation",
       "listed": false,
+      "localizationKeys": [],
       "name": "Timeline Animation",
       "preview": {
         "placement": "center"
@@ -9859,6 +11109,7 @@
         "theme": [
           "color_tokens",
           "density",
+          "motion",
           "theme"
         ]
       },
@@ -9871,6 +11122,7 @@
       "import": "import 'package:<your_app>/ui/dashcn/components/toast/toast.dart';",
       "install": "dashcn add toast",
       "listed": true,
+      "localizationKeys": [],
       "name": "Toast",
       "preview": {
         "placement": "center"
@@ -9949,6 +11201,28 @@
       "import": "import 'package:<your_app>/ui/dashcn/components/toggle/toggle.dart';",
       "install": "dashcn add toggle",
       "listed": true,
+      "localizationKeys": [
+        "buttonCancel",
+        "buttonSave",
+        "dialogDismiss",
+        "formBetweenExclusively",
+        "formBetweenInclusively",
+        "formEqualTo",
+        "formGreaterThan",
+        "formGreaterThanOrEqualTo",
+        "formLengthGreaterThan",
+        "formLengthLessThan",
+        "formLessThan",
+        "formLessThanOrEqualTo",
+        "formNotEmpty",
+        "formPasswordDigits",
+        "formPasswordLowercase",
+        "formPasswordSpecial",
+        "formPasswordUppercase",
+        "invalidEmail",
+        "invalidURL",
+        "invalidValue"
+      ],
       "name": "Toggle",
       "preview": {
         "placement": "center"
@@ -10061,6 +11335,10 @@
       "import": "import 'package:<your_app>/ui/dashcn/components/toolbar/toolbar.dart';",
       "install": "dashcn add toolbar",
       "listed": true,
+      "localizationKeys": [
+        "toolbarMore",
+        "toolbarMoreActions"
+      ],
       "name": "Toolbar",
       "preview": {
         "placement": "center"
@@ -10147,6 +11425,7 @@
       "import": "import 'package:<your_app>/ui/dashcn/components/tooltip/tooltip.dart';",
       "install": "dashcn add tooltip",
       "listed": true,
+      "localizationKeys": [],
       "name": "Tooltip",
       "preview": {
         "placement": "center"
@@ -10215,6 +11494,7 @@
       "import": "import 'package:<your_app>/ui/dashcn/components/tracker/tracker.dart';",
       "install": "dashcn add tracker",
       "listed": true,
+      "localizationKeys": [],
       "name": "Tracker",
       "preview": {
         "placement": "center"
@@ -10318,6 +11598,10 @@
       "import": "import 'package:<your_app>/ui/dashcn/components/tree/tree.dart';",
       "install": "dashcn add tree",
       "listed": true,
+      "localizationKeys": [
+        "treeCollapse",
+        "treeExpand"
+      ],
       "name": "Tree",
       "preview": {
         "placement": "center"
@@ -10381,6 +11665,7 @@
       "import": "import 'package:<your_app>/ui/dashcn/components/triple_dots/triple_dots.dart';",
       "install": "dashcn add triple_dots",
       "listed": false,
+      "localizationKeys": [],
       "name": "TripleDots",
       "preview": {
         "placement": "center"
@@ -10483,6 +11768,32 @@
       "import": "import 'package:<your_app>/ui/dashcn/components/video_player/video_player.dart';",
       "install": "dashcn add video_player",
       "listed": true,
+      "localizationKeys": [
+        "errorActionRetry",
+        "mediaCaptionsHide",
+        "mediaCaptionsOff",
+        "mediaCaptionsOn",
+        "mediaCaptionsShow",
+        "mediaFullscreen",
+        "mediaHours",
+        "mediaLiveBadge",
+        "mediaMinutes",
+        "mediaMoreOptionsSpeed",
+        "mediaMute",
+        "mediaPause",
+        "mediaPlay",
+        "mediaPlaybackFailed",
+        "mediaPositionOf",
+        "mediaQualityAuto",
+        "mediaSeconds",
+        "mediaSeek",
+        "mediaSkipBack",
+        "mediaSkipForward",
+        "mediaSpeed",
+        "mediaUnmute",
+        "mediaVideoPlayer",
+        "mediaVolume"
+      ],
       "name": "Video Player",
       "preview": {
         "placement": "center"
@@ -10566,6 +11877,7 @@
       "import": "import 'package:<your_app>/ui/dashcn/components/wheel_picker/wheel_picker.dart';",
       "install": "dashcn add wheel_picker",
       "listed": true,
+      "localizationKeys": [],
       "name": "WheelPicker",
       "preview": {
         "placement": "center"
@@ -10676,6 +11988,7 @@
       "import": "import 'package:<your_app>/ui/dashcn/components/window/window.dart';",
       "install": "dashcn add window",
       "listed": false,
+      "localizationKeys": [],
       "name": "Window",
       "preview": {
         "placement": "fill"
@@ -10758,7 +12071,7 @@
     "components/accordion/accordion_style.dart": "bac754cc56509d481260f4999adb3e7ed9c3617a58d769e4348b1ea057de6726",
     "components/accordion/accordion_theme.dart": "375e4ee1d09dc4179fb48a9bd374f882d4a41ca77b68be7a357302767072aab1",
     "components/accordion/preview.dart": "3d725fd596bf24362fae5618a50e19b63390192b6569632378c33652eead48bf",
-    "components/action_sheet/action_sheet.dart": "72f5a4d2471a0c8e63f68bd3a2e7869bbc60807a6b7b287ddfdd57c7cb0a74b2",
+    "components/action_sheet/action_sheet.dart": "743777f895da64c885229e3cacd58a3bc916f6795c155761fb0b0a02988cb3d6",
     "components/action_sheet/action_sheet_action.dart": "28b41cd014006b84542599d6fdf6999b35f7fa19dea33742aedd3eae29373f47",
     "components/action_sheet/action_sheet_row.dart": "6c874ba88b6828d96b3afcf99fe187f180f33b17f38efaddebe1a61f19e77711",
     "components/action_sheet/action_sheet_show.dart": "a93ca4b0a31b5f36f2f89faa35745d5af352068eec9e3ca082707836d5c337e5",
@@ -10806,7 +12119,7 @@
     "components/avatar/preview.dart": "baf2a5933ca473ab90b05d9ab266add68578f9e3b5df41d036f3d8d1b69d517b",
     "components/backdrop_transform/backdrop_transform.dart": "25f2075c2372748abd6999560cfd25764859793ecbee07b1ee1f3122391a48e2",
     "components/backdrop_transform/preview.dart": "892feecdd8d88304e777018d2b2b27ba1fbbfd5a7bd22ac220ae6d66f7dfcaa9",
-    "components/badge/badge.dart": "9c79e95bea9ef8a49fc5a86b3c3b4afd075669e638e508a9f928c9a785df9ff3",
+    "components/badge/badge.dart": "bebf2113c6a14eae5f505a0ae4d4d553f35db5e3222f463a685efa0c04ee4cdc",
     "components/badge/badge_style.dart": "bc06b31d344b7fbe75e1fbee3a50f8ce8a1cfe54c0df63c0c95d00e9627a8d9c",
     "components/badge/badge_theme.dart": "b3c6b6a74ef054e0e97cc6601a496a60d2555486b07e85215e105e345b4bde95",
     "components/badge/preview.dart": "7251461d1140805de657f78f48a3888814eec0249956a7e6d7ec493c65f77091",
@@ -10818,7 +12131,7 @@
     "components/breadcrumb/breadcrumb_style.dart": "2e6efea101aead02fea42ca9abc75992fbc698423909429e18e047171c98d2cc",
     "components/breadcrumb/breadcrumb_theme.dart": "842da6f375e259c45d93d4f0dfbf8d615b957cfa991832d6d1598ad8a528e1cf",
     "components/breadcrumb/preview.dart": "0e1539d90283bbd62c36d0626e1b7a9e92c16c50d3a193d7dc52e676d244d3a7",
-    "components/button/button.dart": "0e4df715f79c462aa2b832ce3525222cdceb954cd14a053e3b3eeb8cc7493c34",
+    "components/button/button.dart": "60b25a678949820d72d4452a028cf78592b99706d932ada93c17844cc7c7cd6c",
     "components/button/button_defaults.dart": "c39887571daea75a7d0cad617af3fecf74131033859e4fc06a68a10688ff337c",
     "components/button/button_group.dart": "9b6f20f7d3fd9fb30b144d7f6f14ee3451ed273ee55853f0e01b7612b7461d40",
     "components/button/button_layout.dart": "55686cad2e52513096ce29113eaf30516acc189e6a0c68940a926c0ec3348518",
@@ -10842,7 +12155,7 @@
     "components/card_image/card_image_style.dart": "da285701b4c21a9ebbb541dbc2d29d0cb0c0f5568172c5e9d21f1cc90b97c029",
     "components/card_image/card_image_theme.dart": "4934ed979dea72bfbc1736686bed9d533e5c30bda465bd8361acebe9176008db",
     "components/card_image/preview.dart": "832a7f020d1ff5d6155db29b7dee8cace888b04f472afe30ccddfbd7ae6c5869",
-    "components/carousel/carousel.dart": "aed3bad6ec6488a57bf5c175a42efd8729c0deb9a8dee3f32bf9ccb87d518636",
+    "components/carousel/carousel.dart": "3fca85b4905657662f4c4162c2cc67f2b388d7923639bddeb3d767526255730d",
     "components/carousel/carousel_style.dart": "845f3618d8e8636c8a66187d1c67b829c3bd7de2cd7455a2446a68441ae06eee",
     "components/carousel/carousel_theme.dart": "7fdaa2baf99659c54e784ff38c9de3b9e191ce45989e5b219925e1e290dd3ba5",
     "components/carousel/preview.dart": "a9f3782ae10e0800f5c76c0992b98019387bc937f9c6bdd4e9e04d10945f21f3",
@@ -10863,7 +12176,8 @@
     "components/chat/chat_style.dart": "cd22e156aeefff4544be5be163863933b604f8550154ff6d2dbedf2222caf040",
     "components/chat/chat_theme.dart": "4ff153f91c624960b3f5343e29f853ec254d42e8a0f652244e7c347d0617987f",
     "components/chat/preview.dart": "89ba01e317c8d6fd29b023fed6c7bedf71ae1b3401d20aa47b6da70c6b03d78e",
-    "components/checkbox/checkbox.dart": "1b604f7ffe4d57b5734ec0fadd4aa3b8f79a84a2e9c131d56d45ae6161f27029",
+    "components/checkbox/checkbox.dart": "b34c7f4be2f5dd349f2c95c1a05962ebf69c7be8870775874fc22cfb2931df02",
+    "components/checkbox/checkbox_mark.dart": "88282335966a977a70f40601735e2ee3b04c8b6fc57329b2a4c9ca9df153dcc5",
     "components/checkbox/checkbox_style.dart": "878bb28dc9c6ca36f741942413effbbb7ba8537da5f99623dcfc6605ebd433fa",
     "components/checkbox/checkbox_theme.dart": "df42943c3de1be7807b4d1f5406183bfd5c063d093e12beb6f48bb792b810381",
     "components/checkbox/preview.dart": "ac41f8f6f562367f91b227e1be5e9eb973ab0795573812685fd6d947232eacb9",
@@ -10875,11 +12189,11 @@
     "components/chip_input/chip_input_style.dart": "15357b593ec6374a96f9176ee8364ab0a061d563ea36b06e4678cebaebbe9a82",
     "components/chip_input/chip_input_theme.dart": "879e69b1c259e2e9f98676530560c6e8b516ffd3b8b68c4813f5988b8c535216",
     "components/chip_input/preview.dart": "3f57d41ed56fc41867803330140a9df7ccec0124443a57f2ab9e4b097036838b",
-    "components/code_snippet/code_snippet.dart": "eb08cdb31c9fa40ea7c886c2ce13c60ef94a6895de786a36106cdc68091aa13e",
-    "components/code_snippet/code_snippet_style.dart": "18afdd6cd5c7113a115f83e2597f4e6ec346d8770817549c231a5b1bea9a470d",
+    "components/code_snippet/code_snippet.dart": "201d48a15a07d094fcefa8f4d483dd1bfacd53b807506e28e5bce43b5f0fe17a",
+    "components/code_snippet/code_snippet_style.dart": "ed4324a563d58143adfa4dbc9ae7f063a83dc15a822100936689dd7476ed52a2",
     "components/code_snippet/code_snippet_theme.dart": "dfd9af928c0f207c3c0504fc6d16b998101614ba5c9203addebe811435fa61ad",
     "components/code_snippet/preview.dart": "94581950f85743730bed8fbfa52e827c21d7c80a2c086d80c34376246aab2687",
-    "components/collapsible/collapsible.dart": "a5e95bbd41677361c0637c58fb7e530fb6e061f28bb102b8e03b16144a57e644",
+    "components/collapsible/collapsible.dart": "08868a1956e76dc119667c17b68714e28aa8db2b4c2192d4a72fc66660f5517e",
     "components/collapsible/collapsible_style.dart": "8e191890455c5413b0e2935bc3c0055719cd55391fb09c47b1b65e83436c441e",
     "components/collapsible/collapsible_theme.dart": "1188197762885e137a5259ed54d27644cf69c00c7b76f4a1fde2abe75bfc49c7",
     "components/collapsible/preview.dart": "c9ac3d19befb3b134382ae29fefcf2655dc4f9e9b624775354d1fd37f6fc9206",
@@ -10897,10 +12211,10 @@
     "components/color_picker/color_picker_style.dart": "7fed5a854fe51f0bbaadfb4c776dbd43397cf654654fd9055cf00d1f2fbeafab",
     "components/color_picker/color_picker_theme.dart": "3a1248351dc0a28e4f60e119a98bde091ab5009426a2345125de303e1de37a22",
     "components/color_picker/preview.dart": "d0cb4a691116a72e3b928e8e7b36c50e8f5a20e92dddefe329187b7a41e64faf",
-    "components/command/command.dart": "245b22c488fcc72c70a09da6899ee117dbb7dc4dc86d465088990c50ed109f75",
+    "components/command/command.dart": "796e5e5f842237e20a04030227f339f28d609d3460db6aa898e0819c8ac8a891",
     "components/command/command_style.dart": "b654d0abd3a57693ed7cce920b5d19fcb0987fc34ee6bb00efb45271946f481c",
     "components/command/command_theme.dart": "4f52d4bc8da3ccdf42c17d971afc1a95715097dce7a1ba0a8885d9e0c3bffe60",
-    "components/command/preview.dart": "6bca11356367b524b2fb8039bc63d005a242220d9b31e682068614e82824d1c3",
+    "components/command/preview.dart": "f73622ae571ddef827814c2466510de84ee99cf97868759b517ed3a923639850",
     "components/context_menu/context_menu.dart": "772a63bfc28cfce1352c21faeaf50bc124ab95f3fdf4892fb72fd1ad6793721e",
     "components/context_menu/preview.dart": "0363b06f0a9647fffa5a83af217a2619a94afc70128d7bb3aab1e4a5d5841935",
     "components/country_flag/country_flag.dart": "622df38c59cf9181a86b8218e136557f2ba662700f084c2415ee4dd5fb9e3e52",
@@ -10911,7 +12225,7 @@
     "components/date_picker/date_picker_style.dart": "faa1af8d92972e140e4d780252d91c18f498a91ac075a55e9fe7c7c391d4070d",
     "components/date_picker/date_picker_theme.dart": "b5f921a9d3a548532622478bf543ee1939daf90d9dfca035093f78b1ec0e9800",
     "components/date_picker/preview.dart": "dd42acecef5213c4cddc3fbba32fd67fc2325a1ee15a6c9546d49e900009fc7a",
-    "components/dialog/dialog.dart": "4949b33304232cf9c871ec5bb0e9c97f1014def50461d1032534e2c1bbc911f2",
+    "components/dialog/dialog.dart": "3d170005310d5ae6c491d86bca93428cb8723dfe367e7495ed923a34e2ab6744",
     "components/dialog/dialog_style.dart": "68452832c1b9fa256d5229a23e2fd32538631caed2da5b9cf016fd56fad8e889",
     "components/dialog/dialog_theme.dart": "347235dc95c013d1d3246efe5c63bd4f8b70dc6f1f27a8c324b0b053c7aec56b",
     "components/dialog/preview.dart": "44e623551cf53148d08563ec9602c3aeb5eac805a7a092ed3f32ef382e193af0",
@@ -10923,7 +12237,7 @@
     "components/dot_indicator/dot_indicator_style.dart": "372a4ce1487b6293b110aea9155ebdb492e06289d5d0d49d3d9af558dd95cb26",
     "components/dot_indicator/dot_indicator_theme.dart": "a8981257210250fbf6ac93226e50e4b2c6a3a25f859b59160c5b7205d0b7ad09",
     "components/dot_indicator/preview.dart": "c4bbc348a2b200a4ab662e930e0ea37469b81088a1e986428329eb5734acf62a",
-    "components/drawer/drawer.dart": "ce43d090567f6ee513e1171b3e642d2b29e86e51a13a4dcddfbdeec9ea70317c",
+    "components/drawer/drawer.dart": "35c54c6b2d257c72ee017a14758e111f7ec51c47f5dd8a384c2f9754fbc08529",
     "components/drawer/drawer_background_scale.dart": "8003852870ab08aa064318627029e4bd711bb46ebfaf830f960d54fa03d14b19",
     "components/drawer/drawer_style.dart": "bdaaabf7740bccb172556cb22df99672762a2bb02f58c9278580b4372ada7111",
     "components/drawer/drawer_theme.dart": "15e9c455b6f0e61ab749756fe70de370a8d51986953894ded476c04608c59e9f",
@@ -10948,16 +12262,16 @@
     "components/eye_dropper/eye_dropper_style.dart": "02c3fc7649214d871e26f7b7df386fe58a2d6f33997491a062f930d43c2701e8",
     "components/eye_dropper/eye_dropper_theme.dart": "c499e35f3dadc757d06df59d4d54162777485d73a556e10a964aafd80c5da6fc",
     "components/eye_dropper/preview.dart": "b54abbd3e7c8e2d88a85ea58a7f396378cc885b6411fcfea164a827509654bec",
-    "components/fab/fab.dart": "cbb2a6e541e3b4f7cfe36518e4e9a59eecc9ce7f71d1a2310843b4bb4f086e63",
+    "components/fab/fab.dart": "5087aff2e63214c31e1cf254f45d87606f2108017c362b7f8cfdb3fd09328bbb",
     "components/fab/fab_content.dart": "7b2ed63bfd9c5ce55887324179f686a58b267c6f8a70150253933ed41b30635d",
     "components/fab/fab_defaults.dart": "eddf8d649ed8033088610e21c2d96beda77e894adf5b3b05d7fd832213fbfc1c",
     "components/fab/fab_hide_on_scroll.dart": "da5d164ab8647240f1261832ad358c615849f0e75bc5ec25b66e3f92ee3d25ce",
     "components/fab/fab_positioner.dart": "cf4bfde4cf6c5cf4a52379fbd62334fb0b099a8ca2262beb8aa7c572d3440619",
     "components/fab/fab_speed_dial.dart": "c4c6f6623d6132846a63a3a98ca02b4e49eaf4a8d75721cab4c9c442f883b950",
     "components/fab/fab_speed_dial_action.dart": "ae86399bb50c7af9487fbc5a7a0366599f903e00743858a12953e72c385524f5",
-    "components/fab/fab_style.dart": "22c40562e87237548561badf5fb7970b12da8bebdffc3e891f68ededce00a9da",
+    "components/fab/fab_style.dart": "bc762b19d04b545928bf393e449035c3455094c1242165813b823f84ae0e0b6e",
     "components/fab/fab_theme.dart": "abc09e1c3734de7af293384e841c0bb782eed78af92beeca50eca2f399b34b7b",
-    "components/fab/preview.dart": "efbd96949acc426aab6b259b836a691a4ca3920ba268bd74a2f876a19842cbd4",
+    "components/fab/preview.dart": "78707a1ba026a4e48ed94cf50b9103e37a9748fa14ef6c94b3f38d1cacff54a4",
     "components/feature_carousel/feature_carousel.dart": "6dbdabd3ea2f795d32b09e090c37e28de8447fe01d68224290dff06bb1cbcff3",
     "components/feature_carousel/feature_carousel_style.dart": "c1f6debc0a72cc09b808362f01268ac0519ccf2432b4b33d0c0df254bc05429f",
     "components/feature_carousel/feature_carousel_theme.dart": "bc401376b9e42c10c783a15c53bcd5e56038815e3c7549db7c3f4bf3aea64e69",
@@ -10970,19 +12284,19 @@
     "components/file_picker/file_picker_style.dart": "ccaea4bb80ebefe7b6117a9bbb6709309a7382a7f8fc41f7635e12abbbe0c7d0",
     "components/file_picker/file_picker_theme.dart": "53f28d6b6f45bf53e1eaa726cbbcc66b7a2a1f85b165402dc3f676fac83c1a39",
     "components/file_picker/preview.dart": "d61c869e75b6bf7ddb19f4f2924f016d380123c0126f8ec4d4e014dfaccea72f",
-    "components/filter_bar/filter_bar.dart": "03111c0ae55ac5dcba136b2a29d2e9ed1445d90c4f07d498f72ad047e85ddb3f",
+    "components/filter_bar/filter_bar.dart": "8d69dfee03daf927ef165eed7875ff4014978e07f24a6a63307907e834183570",
     "components/filter_bar/filter_bar_body.dart": "98c54716e4477103474148a3e5577ce2b02b7b2bd2228bd8fe635849591e3c5b",
-    "components/filter_bar/filter_bar_controls.dart": "54420b8ccf2274b367073ed774611ae0aca11247ee22441eca4a1b55a035ee78",
-    "components/filter_bar/filter_bar_dialog.dart": "02453264bfeac02e18fc35a4dc5353df5b7fbde52e6c64131f6d4fddeb49ed8f",
+    "components/filter_bar/filter_bar_controls.dart": "cf1d49d12cac50774b360525fc92ef32ed6dc6b6b3931baa0e12ba6bf943bb17",
+    "components/filter_bar/filter_bar_dialog.dart": "71c63ddca8d28181b3fafdb793979eb397ed5e5b5807bb63f3e89ab9c784bb50",
     "components/filter_bar/filter_bar_inline.dart": "548120f85f837ea88f55246bc2ea72faad0e2b243ae8d25d5b57307b123fc722",
     "components/filter_bar/filter_bar_layout.dart": "a72c776b2729250709f75620897a866574275c9a4f122eb8294643f866d4c87b",
-    "components/filter_bar/filter_bar_menu.dart": "c7bfe79105f403410936cadcb2304d3c5eae9d40dce6fdf7c9d72de481194330",
+    "components/filter_bar/filter_bar_menu.dart": "37b637f823bc4b267dae6dddb3e17de9e264544a3ce6a0a1b65c9007dac9abcf",
     "components/filter_bar/filter_bar_overflow.dart": "d4a8c32820de3b3b0377cf517be5423edc3c5668b5290d45f96a2e1241f97d59",
     "components/filter_bar/filter_bar_search.dart": "a955f51938463eb8e6bb3b4494ebe08e6a34ae8b54ad0074a84ff43f54276ef3",
-    "components/filter_bar/filter_bar_sheet.dart": "46c0f0071e89e1712bd83f84990ff6cf3944ab43b71e9b1388714412f6f115c7",
+    "components/filter_bar/filter_bar_sheet.dart": "5228c2fe3874e604c340a86c5d595d13b4a97f03d0246a94055bd7b407a4778c",
     "components/filter_bar/filter_bar_style.dart": "d070d8991f0099dd77b963425e545fdb5fec972b305470d551f26b3bd059e06f",
     "components/filter_bar/filter_bar_theme.dart": "23285d875e48fc719a90e5d2c7a319a87930cf0582212aae84a3f0b33ae367d1",
-    "components/filter_bar/filter_bar_triggers.dart": "63f81be9b2f370a79b5880b50557eaa35605df623ff174eef6b2225b5d9a3d49",
+    "components/filter_bar/filter_bar_triggers.dart": "befbd385d79ccc8a2c7f217ed6081e659ffdd619db18ba30e36d4e081b9bbe3f",
     "components/filter_bar/preview.dart": "a99746b05cab0805112740cf357963f7eb9a2ae78f129866542a0d7ad6374e30",
     "components/form/form.dart": "cff3437d974557780aebe7d6beee223d8f378c54c68320af73a94b1fe5bf5850",
     "components/form/form_style.dart": "a65166cea466a2241b03b018592f8b80e8fe89740305dc20d81390baaae1b386",
@@ -11049,7 +12363,7 @@
     "components/keyboard_shortcut/keyboard_shortcut_style.dart": "981aa7be785620b33caca32d9edf0a2b7471a0bade61ce4d957220bcc0f4e563",
     "components/keyboard_shortcut/keyboard_shortcut_theme.dart": "941fa588703a84c03383b57ab34acf6e12bbb1867aaa53a8b8d2ffd55b6b9d20",
     "components/keyboard_shortcut/preview.dart": "7ed36a064a5c686d52625cf6ee86f145bfc99a6f536e2147844596bf9a407a38",
-    "components/list_tile/list_tile.dart": "db3b9102739100d16cd716ea364fedf8540c8206a8b78cf48f94bfaca1bbc189",
+    "components/list_tile/list_tile.dart": "e6228bc981458c48e3c08ab77f8e2b1d0479cd70feeeb7aedd8b939b620e6a74",
     "components/list_tile/list_tile_style.dart": "fef15a45cc636c717e1f01fc7de6e8d5d38cec4af80d64e87f3aa65dd9941622",
     "components/list_tile/list_tile_theme.dart": "9fe37645a2f02c97f12f51e30bbcdac3d7451a501bd6a11ae7bca4469f7e62ac",
     "components/list_tile/preview.dart": "6e6ab8b9676206b6acbfb750e65372298212b4731fe908cb0fcd080c8e550cea",
@@ -11063,11 +12377,11 @@
     "components/media_query/media_query_style.dart": "0eaf6ac048ef55eafbe8c4a0c602372f427101cb379d0a6d29d9006a59c949cd",
     "components/media_query/media_query_theme.dart": "0531f36504a3f2a8a8cc218fbce6bee9a9f26b66d0092566a9aece8bdfa43229",
     "components/media_query/preview.dart": "738b4393b90a0dfbbc02f80f24825dac1a142c6f7c50729641fd133d73a4d14b",
-    "components/menu/menu.dart": "a68e1464802ebefba8a379133ba80c00fe572eb64d1d89aaa4fe15d66bc438b2",
-    "components/menu/menu_style.dart": "88c6cbf59faec6bfbc6714ede84dc45598c0f58c42e35c3ad37e382538720f8a",
+    "components/menu/menu.dart": "264485e13c5a87bafdf49c76a058903a71a90afb1cae13444fef16c37506e4a8",
+    "components/menu/menu_style.dart": "2ba25fe6c4c11755bdcd59bf2a4c637f26b1d46260f9b1b98124e07d39ffac4a",
     "components/menu/menu_theme.dart": "9d4391f0a637e365ab4b85c6aefb1820230a22cf06938373a75994d21c1d9a9e",
     "components/menu/preview.dart": "04afa42ed642aad1c6bd0485f61dcb33afed9cc451f648d87bf90e4b3655ebb6",
-    "components/menubar/menubar.dart": "b0d73ba7a250d03d067b216aba8b3249ac83b8f06eca7df3f75118d0480cdc3e",
+    "components/menubar/menubar.dart": "5430b62cc071a532149e18e2b6cec49099bc00b75accf19010f58fdb1169f60f",
     "components/menubar/preview.dart": "ed1ac587856191726ea7abc39ea95597b302c3c8e4015faa5265038a9a8e4049",
     "components/multi_select/multi_select.dart": "adac8c758357e637fae873857aabb9d8c7dc7b5955d5a5691440d3c0c59fbde9",
     "components/multi_select/preview.dart": "658ad335d70be269ff225882cc5be2618057b48e672c248bb63e7ad4c9fc559b",
@@ -11075,14 +12389,14 @@
     "components/multiple_choice/multiple_choice_style.dart": "97cde1eae50353d699e5697a0fd3ba143c4148a70ef2b1fa773e270e7e0abd8f",
     "components/multiple_choice/multiple_choice_theme.dart": "d01b823c31178ae49aa453efcd59952351f07e0795089f03a76bae7d11e81122",
     "components/multiple_choice/preview.dart": "dd4b9f58b80f6a04cb00f647b688d6e5f802be9434ce16a7dd78739b9af4124e",
-    "components/navigation_bar/navigation_bar.dart": "bff6003f470d0b441450f9e8a549c996191186c7b00c796532bbd23d038feb29",
-    "components/navigation_bar/navigation_bar_style.dart": "7671b6e293876c53d94fb63285ffd41a8c4f22f6dbfe9fe94aa38215e1d5229d",
+    "components/navigation_bar/navigation_bar.dart": "3dda875800d90c40f168b8195d4dbc2ed928f8869bf877706de59413f08f7d93",
+    "components/navigation_bar/navigation_bar_style.dart": "55b8ca5e1bd7fc6d48db0d684665957c225caf04f2b44c52df1c89c9bead9dc8",
     "components/navigation_bar/navigation_bar_theme.dart": "90a8c087d40f57a188d5d55bfa4bbb1db976a914c7c58088572b8eae7368db27",
-    "components/navigation_bar/preview.dart": "26db3c5e3948fe3802c629029fb14cd23cdcc143adf185416ca158503177c0af",
-    "components/navigation_menu/navigation_menu.dart": "f61befd87d791b07ef5765a6acb2e99b1cb076e322ea498fd82ef960e2c79f8e",
-    "components/navigation_menu/navigation_menu_style.dart": "4f2f8ee3d6833941d537dd53349b2350b22f0bc9d2fbf21a3c81f2d94722f3b8",
+    "components/navigation_bar/preview.dart": "983c4b439637fadf27b57b770b36cb0ff21f9696e3d00a24500bc3cad6358963",
+    "components/navigation_menu/navigation_menu.dart": "a250dbbb20e788b942e7cde2fa3385bf5b3be83b9c1ad302c1a43c2eddf4c85f",
+    "components/navigation_menu/navigation_menu_style.dart": "805320776b79f8010925e5edea30e83b419dd9cdec6554e0ba4dd4f9453db602",
     "components/navigation_menu/navigation_menu_theme.dart": "b095750a07d777e23133d8afc9004c2e5a58d3149520df7bf3f762a72102a28c",
-    "components/navigation_menu/preview.dart": "66dd6b66e144afb05577c051750292f2773ee431c00c7de8813930e6e4b5b605",
+    "components/navigation_menu/preview.dart": "2f289797c5352d2d36bc5bdb658c28ab052c671a96a3de7bc77820166267013b",
     "components/number_ticker/number_ticker.dart": "403da54ca65baccd4f7710928a29a368117262f5ad3d102f16e594f5d3436f47",
     "components/number_ticker/number_ticker_style.dart": "24f4c37a064a4d03e704fcea82b55be633cfe1fe3600f5af25e3b52980d58ffe",
     "components/number_ticker/number_ticker_theme.dart": "fdd67ef5889f39faf7aba3153494e2004852fdd9f9c759399fefd5423fb498b0",
@@ -11099,11 +12413,11 @@
     "components/overflow_marquee/overflow_marquee_style.dart": "07aeafacd72334219e388c1371a75a0e78ca3823a3d90f94d21e137db77dfba9",
     "components/overflow_marquee/overflow_marquee_theme.dart": "a0d064556b916170fc3ffadaeb7991e963cd5b07d987f803330724b9f8902a1f",
     "components/overflow_marquee/preview.dart": "08cd923e7f3564ae2ad586784da215b6c5404f5b50a3b0f84df52c766e59c966",
-    "components/overlay_configuration/overlay_configuration.dart": "91188b9ada185780b1464fa7ca3f1586fc8c0fc336fe78d86f19003a16f9e84c",
+    "components/overlay_configuration/overlay_configuration.dart": "a5d8b532bb357c8e1beb62b8be06031d2fc7a7801b12b1414916181520c53639",
     "components/overlay_configuration/preview.dart": "1f1bd0609796cb4925ef5fa256318dab22e1060362a2426eb88dacb2f962e675",
     "components/page_route/page_route.dart": "35b1d014b549e24c733e7c4936befefc858355e4bf04bc851caa9aaad5c55907",
     "components/page_route/preview.dart": "767e9936a7742060e50ebf9e0b6ff36b4667b8f6f18f85f088c0d32cc2a508b7",
-    "components/pagination/pagination.dart": "e7faf0f906c8ad97f00fb218e5a01bb17b1ae6ea948497994795ac7505c86626",
+    "components/pagination/pagination.dart": "b53ec9bbd9ac67d82242ebffb9ef4c8aad590d87bd82ac7d3249bf66e341c118",
     "components/pagination/pagination_style.dart": "13bf5f6290cbac7cd20fb5576430bdfb510c032394c0932df585c9f081a0c821",
     "components/pagination/pagination_theme.dart": "17b65829b531827964005ee34f5768479cb6269a7ef31b7a51459ede2df4360b",
     "components/pagination/preview.dart": "eebbb8dd7905a8df60e91a843f135b8ca445cc5bcd372b771c7f131218d92545",
@@ -11115,8 +12429,8 @@
     "components/phone_input/preview.dart": "7fe76b9992e56e0b202bea1c3084d896e24ba1bfff8fefa0fb69fe35bd916679",
     "components/pinned_sheet/pinned_sheet.dart": "e7a61822a08ee5abdda77df0bb56eb5e2fe81c47b537620e97927c4c70a3dfc8",
     "components/pinned_sheet/preview.dart": "c268060255945b62f34b3983a0bc95553339b2f6728f2822e672b69ec7f6a7a3",
-    "components/popup/popup.dart": "4ec34d81e5b0632ba2985e64c8e856426bb68ae84b8df06fb6023cb96fd82ad0",
-    "components/popup/preview.dart": "f5e357563850f43630e61f3fc01182e7840b3027ef44ddb0b47d4b4fa1f1c7f7",
+    "components/popup/popup.dart": "e3d5f7a985a1b3fcb2a01898aee3ae1562df97d4481d0583d51f65c9255ea6eb",
+    "components/popup/preview.dart": "a7e696139b562f42ea475f03907edcd34b7289ce64e83dd674bc58d761a27b4f",
     "components/progress/preview.dart": "e62737f25038abf886a76c241a491f20262ae84ea1453e64b0fe19f5172fdabe",
     "components/progress/progress.dart": "daa85f325fb358598822450ecf0d012a5b47ee2b15509516c864878013dd9cfa",
     "components/progress/progress_style.dart": "dea8eea72d1ed044648f1c34cc424ae2bfc6548f4c7d8a5c4553fef3c2395f16",
@@ -11165,27 +12479,27 @@
     "components/search_bar/search_bar_style.dart": "4df537ff36957863949a31258af3a74f3966e2208e844f133bf9570040d4208d",
     "components/search_bar/search_bar_theme.dart": "abde4c8fe4cb8c2e8e083cf0634b95dbbc7475bc9f1769024a572506e0918665",
     "components/segmented_control/preview.dart": "1e2733eda33d7d13ad4d91c28db597c4996be859778f6756e1dfdd8b4944b951",
-    "components/segmented_control/segmented_control.dart": "77d9882c520a8e01314f591efef916f1800dfaaab83b3793f8dfa976847d6593",
+    "components/segmented_control/segmented_control.dart": "9382cea929821397b8519f4e53357734ac357cc0e5e0878e9dd00b8baf98e235",
     "components/segmented_control/segmented_control_button.dart": "c9bf8eafc8111f74793b9ab27b1fbf39cffbb016f280d7f7c73b9b8b634f6fd6",
-    "components/segmented_control/segmented_control_defaults.dart": "67650cb379e80282b5e33330e572b22d5b4436d3b8408ef1edae3437ce05ad77",
+    "components/segmented_control/segmented_control_defaults.dart": "a8fff58df745cba9c33a5705119b154de34cc396400b604903f8939f6f7f5c42",
     "components/segmented_control/segmented_control_keys.dart": "03f3473e59d4dbd57c3fd723cf33e9574ccb60f238fdf4e6a58fd99b6410c567",
-    "components/segmented_control/segmented_control_metrics.dart": "deff36039556b3da10c7cd11ae80510e008380f80ec21d64bc1feab7a6c54163",
+    "components/segmented_control/segmented_control_metrics.dart": "03952864c0666fe83138e313f0b98fc9495aa0ed02b2a0e1240731a65d06c79a",
     "components/segmented_control/segmented_control_segment.dart": "4cd69a0508f7d2cfad28465c5a7e776453dce851c30704f149fc6d67c25db106",
     "components/segmented_control/segmented_control_selection.dart": "9555f63baf101fa1569c0dd4f0e94e3d8c64851a7eecea13b0b851a9b281a18c",
-    "components/segmented_control/segmented_control_style.dart": "33a0c8aa870a6bbb322d3592aa15570be5fc9fb4cfa17c1cf3dc19a3258a3c01",
+    "components/segmented_control/segmented_control_style.dart": "60033b84d022f91b7acf2eda20d5560f92a2e047fff253c5a6ae4744dd1e8222",
     "components/segmented_control/segmented_control_theme.dart": "27e6291c98370d6be3e33252db0fa823dbace5a5178849ca44608c5f40ec55ea",
-    "components/segmented_control/segmented_control_thumb.dart": "d3c57bb95618b48ecd66c026d678e46445402090e4908c10a669bbca2594911c",
+    "components/segmented_control/segmented_control_thumb.dart": "4268021dea321532e1c634c557fceb8bf4108da21da5cd75acf81ae172301c52",
     "components/select/preview.dart": "191fb361d8a34504e3487bf22665e78d9aa78faca13cf53f40674314a909e6ac",
-    "components/select/select.dart": "451a4faf51870aa7104db70c2d78245279a388caec527af4efddfc7ed07205b5",
+    "components/select/select.dart": "2376efd5766d56131da2ef4bc042f4b3484bfbe52d96fb0b699e5321dbf60c20",
     "components/select/select_style.dart": "89a0db3d5038f1521a01bf890134b5b78b1efe5a102790f4344596583f81ff0b",
     "components/select/select_theme.dart": "12c99982ce95294ee168ec3ff80e4a8bd27d797ea99d927151e5f1a10089ca01",
     "components/selectable/preview.dart": "c8257bc74fa61bf0a00e0f4a1579cf53fe71d93fb944d751d0bc18c33fab4400",
     "components/selectable/selectable.dart": "2c48592851f1d87e02ab5dbe3dfae40ee4372bbff1021673f2f7a79a6a663b06",
     "components/selectable/selectable_style.dart": "b8d3ee601dbb1b311bea16d0d552fec5033eacaceb5e9b1e158e48723ed32391",
     "components/selectable/selectable_theme.dart": "5458cecf1a831324a482edab1931a046b2b4c9cc496d086cdcdf244af0d84895",
-    "components/sidebar/preview.dart": "d2735446749f9b5bc201453650e558da96a5cd396ca7f7189642667bca09f5df",
-    "components/sidebar/sidebar.dart": "6cc1804729c7b9c9617d658bb48bb7f75dce797b23df4182620da26c20bbb371",
-    "components/sidebar/sidebar_style.dart": "81c7ebacdf46475b448832b9bcb219bd6295f43bf3e5b7803b8324981a0a951f",
+    "components/sidebar/preview.dart": "555b934c905f6a477f4cc03665a4a674bc629fb852173bdfb258710c34bdcb99",
+    "components/sidebar/sidebar.dart": "553a4064a2621252126160eca31f50439b79467d5f1baf1fccdff6c4de5fc74e",
+    "components/sidebar/sidebar_style.dart": "a8cce6aa8fa97479fff0f4393e050d2cd232f9140a35f3101f2d05b31b599f99",
     "components/sidebar/sidebar_theme.dart": "37ee65f7b0ef7fdfd23a0d3cd513cbc30000f53a850191f69ea713457720ef99",
     "components/signature_pad/preview.dart": "0575906c965b59960183612731bf46040b547350aed6db655debb45e8660739e",
     "components/signature_pad/signature_pad.dart": "5169883483eda0654fb56430355100e8e88c21c5589c7ffced3655e8a4f24c93",
@@ -11202,7 +12516,7 @@
     "components/skeleton/skeleton_table.dart": "888d70626f58fa64350ef4141f45718460932be7d5bc7b7cd65040e032c20f93",
     "components/skeleton/skeleton_theme.dart": "c78eb0e915c9ed5ef4e204c83d68f337139427fe67f12c5e361c01b3985bb0c5",
     "components/slider/preview.dart": "c125f85795f4286053370142f6aca4f2abc8052cb247feb9df328855157b0ce6",
-    "components/slider/slider.dart": "d76d7514975555383c6629e9f3390bec0c97aceeddde35ac785f81f7984d7a37",
+    "components/slider/slider.dart": "51b723c66ea117a46ebcc79fe7f71d107882c8209519f750922d8c0fc9f11bf8",
     "components/slider/slider_style.dart": "924cd9b6fe54a1bb453cfa98c240225d391f2271787bcc271a3d46ac3a64d8b9",
     "components/slider/slider_theme.dart": "bc32a519176aef300fe092cdeb6a949ffdbe5f214bad1633152f08783a1058e5",
     "components/sortable/preview.dart": "dda0fbee1a4353d2e492c172fea8e43c7d3648f13474c42735e79bd54aac71a3",
@@ -11218,7 +12532,8 @@
     "components/stage_container/stage_container_style.dart": "52e88e413694add9d013564b1d26e8cfb6b853841a9176b588efaf9109522a1c",
     "components/stage_container/stage_container_theme.dart": "e3b978f28e5b520b82653db9031f40a8c67c74e1ff0a10c5d6cf55d2c3b1f568",
     "components/star_rating/preview.dart": "4c5e70a2e715bb0fe9a6a2d97dd3623233db4c6d64c18c0231370b02743bd038",
-    "components/star_rating/star_rating.dart": "e326f57226fa541d55d9271f0aa3089a5abf3433e4883ed8dd1a3d7900902646",
+    "components/star_rating/star_rating.dart": "bd4730ca14cb5a8fb901ea72ae6cc4d0aea5006caa5796c398b5412f42598501",
+    "components/star_rating/star_rating_pop.dart": "e51438f94e28e58a0dba25e6174df5e91eebeffac8870c8baad3c2dc3468ce3d",
     "components/star_rating/star_rating_style.dart": "087bb4d73b17682d62865613720955a483ea7d5c28dd1844d3b9ea79b66dfd28",
     "components/star_rating/star_rating_theme.dart": "3378906e0da63e8f022bf20b738214fb276bccb74c7098d98a649e8941a284a0",
     "components/stepper/preview.dart": "2b71cfbb55e69c3ee2f59ebef49e73cf0d841b333ac5554803203d3ca6a9d16b",
@@ -11229,18 +12544,18 @@
     "components/steps/steps.dart": "56dbf1f22c20698ffa933c6311149e42156dc22e6c782d3c5d9be3272414b500",
     "components/steps/steps_style.dart": "9199e49f41feeea60abc3ead6baeb178ff29e906dca611b5f4928a59d8b13272",
     "components/steps/steps_theme.dart": "3ae02e6c7990e17e81b74eca3ee31cded8fb5278cbdd53bed7d785ba5183ff18",
-    "components/swipe_actions/preview.dart": "9340b92dd48b843f57370a6c01bab8b612f90175226cbcd0f40145376edfa1bf",
+    "components/swipe_actions/preview.dart": "000e75dcd1b8ad8e0ce61c2add604b7ff90c1a4957d95bf7f8c83494af9717ee",
     "components/swipe_actions/swipe_action.dart": "dfcc60d37d37fbcbdbf3d77734fc0a2e00f4f189f9126a487a784dda143efd19",
-    "components/swipe_actions/swipe_action_buttons.dart": "3c40de3c27a065e9b2b029d026e3c39ae25e19eb8a1982f52973264e5eeddc3e",
-    "components/swipe_actions/swipe_actions.dart": "3f93865bf25532139cc06a9a2858f0c6682372463b7682396656fa8e3b94c65e",
-    "components/swipe_actions/swipe_actions_style.dart": "6c4c4dc4ff075e99375c38d5e252277e76e08b9bad4a5d8fe9b992fced029b23",
+    "components/swipe_actions/swipe_action_buttons.dart": "cbc224d64639877bc8fe4b576badd9d1d8442725529a3a49fd3e485ef179fbef",
+    "components/swipe_actions/swipe_actions.dart": "cfef906ebd5c124f46d91e7f2657d6e95a7eedb4e7ca592c01f6d1f5162b9e00",
+    "components/swipe_actions/swipe_actions_style.dart": "4cb34d88f1fa592f1cbb40c1a7fae3c120f1055a0d23fbcd81a4de16fab94a7b",
     "components/swipe_actions/swipe_actions_theme.dart": "90ede7ba858c09244c92875d378723ec3c640db235c349e3eda3a995b8f12e20",
     "components/swiper/preview.dart": "d76e99b227ee05dc762552cc6c6e6c7bc6654bb1f4f2a359879e68050d76eb5b",
     "components/swiper/swiper.dart": "b66f990a31484c353464efa0ac83b870806c17ad96032d9f754b5505a4d0f51c",
     "components/swiper/swiper_style.dart": "a8e57f8ce3c90ff8033b4d7b94299c359854c8ae9835cd835100ead6ab41685e",
     "components/swiper/swiper_theme.dart": "2ce8b805b964558383acacb54ea85f436e93c2db9b924b8146387b06d2608ff4",
     "components/switch/preview.dart": "5232e75281154ee5d75b71a3dbfc8664c5d305703b46c6f26007a575b5360922",
-    "components/switch/switch.dart": "9593634f052642831e5c4c75f5909ae8ca10fd61467e1ce944cbf814eea4bd52",
+    "components/switch/switch.dart": "1c1d57d9a4c3fef632252b81af1183b3de1de59048342fe847c54e55dc6d36f8",
     "components/switch/switch_style.dart": "d7439d897979e1908673104b79366bc47420e78ef48c246f8215fd67790604bd",
     "components/switch/switch_theme.dart": "34ce47538e082ab0daeada5f6236e246ddc7dd1955235979dd0b68373e489d1e",
     "components/switcher/preview.dart": "1397d699d6cc6ecb4b035541175bc159d907538c787b1955d0942db412f12df8",
@@ -11252,8 +12567,8 @@
     "components/table/table_style.dart": "ee2ff570cbee260e1e9d6566303858954ad1b0085b4af083ffdfcc93422ec85c",
     "components/table/table_theme.dart": "873f3a4b284509606bad00a7a82f7b7939fc6b1ef03a5ac7120065f961978309",
     "components/tabs/preview.dart": "e13331460fee672fb8de0d0a3789d91c88b5987f12c7981383c0243fe7eee458",
-    "components/tabs/tabs.dart": "0bf46997e35bbee638c3a35a406f5d1393b2a33ce10fd4684fc9af87f2d07e51",
-    "components/tabs/tabs_style.dart": "e8bdc00514ba0e4e360d5b7fa49b3cb6bb2bb8371b3e4045d41c79bb8a793cbd",
+    "components/tabs/tabs.dart": "8a4c729c5e9853190f3e271857996e81424a4849f7a138b1f801a46daccbeb7f",
+    "components/tabs/tabs_style.dart": "b81402ca8b31f56357ddf97f95816b6b5c88863f15a328630951b68c888da84e",
     "components/tabs/tabs_theme.dart": "cebfae48a5f2739e15abbc3c9e8ec1de8f7ac1c82b9d7e13982a31441555371c",
     "components/text_animate/preview.dart": "ee14ff77056dd872cb85e051c3cd022cc35f865d7aa57c5cb9dc4a5b36d09a1b",
     "components/text_animate/text_animate.dart": "08419b69e0351756fd642c3b8461f55ec093a1bb7d84dbc2a811409d0a4bc46e",
@@ -11272,11 +12587,11 @@
     "components/timeline_animation/preview.dart": "9bd1ff83134a91e41745cc0da9ef890c7626c8e6abfed45545bd4c5f54c490eb",
     "components/timeline_animation/timeline_animation.dart": "d51c5214f3d44a54426f58a743dce68829f09c15b299bcc12469ecaa559145e8",
     "components/toast/preview.dart": "6523125db57d5141ec00e94447ceb051c255bd10c4d5ec8d23ed46c780685a39",
-    "components/toast/toast.dart": "454e597ac6296075c467571f635246893c2008f7e8aee59bb5285bbb6783618c",
+    "components/toast/toast.dart": "d8af741e9fd72ce28ea153c0a128e6d70565833bbe9f07b909a14778154f8ed2",
     "components/toast/toast_style.dart": "667f2fffc2d836b5c1f4ab78aa5e58d7f0bd0966b25661c23bb84ea6f31fda2f",
     "components/toast/toast_theme.dart": "a1f48f6603741624a5845362cfb2b85c434a91f4df9f82b33fa1ea4bbf5b94e2",
     "components/toggle/preview.dart": "001d77beb05d73969a05ce7284b9baffc30ddd2dfb9dd9f0453c628fb77f7c76",
-    "components/toggle/toggle.dart": "22cc8f8a7769d4ea73e698db2875d572229f1a09ce196f949e3f1fc7d3c1ee97",
+    "components/toggle/toggle.dart": "de046e17995a70a45b2c9bb4921167317dab5c1bcb2f1d79d6ed0386c1b0717e",
     "components/toggle/toggle_style.dart": "0d766a0621012968d00715fb487871f349bf4dba232057f25d3e8b6ad395a4ad",
     "components/toggle/toggle_theme.dart": "94686b183df1d6836a145134f26e66f9e3d2ec07ce495b60fe165748c5840520",
     "components/toolbar/preview.dart": "8bfbd0e5f504484f87ca150163bc1e83908ca28c248297fe1aee2c27fdc654f2",
@@ -11284,7 +12599,7 @@
     "components/toolbar/toolbar_defaults.dart": "a907bc6a5db039f7a6f7960b98610326877e688949b25cca44a4eb2ea374e531",
     "components/toolbar/toolbar_group.dart": "53606873a6d6a63846a231bf5abaa5db698175f54b2ddcbbbff80d4de747a5e9",
     "components/toolbar/toolbar_item.dart": "d06ec9f227f18b11ba74cc90f1d7bd745bef51a5f030867d9058db2df0f234b6",
-    "components/toolbar/toolbar_item_surface.dart": "f4654b2b0fe448407e297c60cc878149ea20ca1e059ce78f30c4fd4f07d1a75a",
+    "components/toolbar/toolbar_item_surface.dart": "fc8891428010b2594da57f319c0a253a24f5894c9c94f330d6aea09caa318dce",
     "components/toolbar/toolbar_items.dart": "100238e41fcf6725d1d2dad7a245707857c4f13aa3d896564ee685e94d840469",
     "components/toolbar/toolbar_keys.dart": "1e0e43b501c2a31a4214bfa88e108f0c0a733cf202d6b5e11b506fe7e13d4ee4",
     "components/toolbar/toolbar_overflow.dart": "a03292d5a106b06f78ef7a417af5a1d62fd26448963d7e43918e337c6452054a",
@@ -11293,7 +12608,7 @@
     "components/toolbar/toolbar_theme.dart": "4a4b8ddd831ee83bd372a1a041c8225db41ff5727b83e486e781852eaaf05856",
     "components/toolbar/toolbar_toggle_item.dart": "0057910c9fcc0a292a36c0f5577dc53b576a30fe90c4a67159876e1cdee431f9",
     "components/tooltip/preview.dart": "2898f8f0a90ef1f3ad2f288c122499b81ebcbb4802dd6efe5d1db33220d5d3f7",
-    "components/tooltip/tooltip.dart": "1ce5e8e0b1da34f7c3a56b2c465566114e41c99f2c6d403d6c75bcba8a8069d4",
+    "components/tooltip/tooltip.dart": "1eaf0cb52cb0e8417b6e7d0109519083bb8241e0426ba953a67813f9b185be4a",
     "components/tooltip/tooltip_style.dart": "39d6b17632bb934ded7b9497c6eab29b15c75e7e672a7e3743b5cee516914976",
     "components/tooltip/tooltip_theme.dart": "7d0180f345a15c3bae80896c71d7e78bda0ce53318cc397e2d9fd3cbffb8d54e",
     "components/tracker/preview.dart": "bd1854bf0ad2b1fcec3cf9e58d78acc62292772e6353601c30838157d6952e10",
@@ -11385,17 +12700,17 @@
     "primitives/axis_size.dart": "b66045ba987f0c129c4c3d6a375ed50e7f7227943541b799781dfeb16904cad3",
     "primitives/basic_layout.dart": "4bc94cdfca53a5f41dc5025c99e996642c0d7b4bf60483512eb4b2be26d58f81",
     "primitives/chart/chart_math.dart": "acf733943b41328de8838898b1e0a19a10235900e728963884d16300d0bd4bef",
-    "primitives/clickable.dart": "a419f3db04b164bb8bbbda9134dcb445de1a946a1260c6170a39a2a693d714a6",
-    "primitives/clickable_state.dart": "358598d1ae4e24870e2ac6dac4e7dc8661ba2960889bbbcc2a2c6da5deb61964",
+    "primitives/clickable.dart": "d960c3d7f2ae1de1d53549fe95af6673e20a1f450eb9e23677b3170e16b189eb",
+    "primitives/clickable_state.dart": "deb2d641ce6c88c746ac388ef6ac72f6e96954aaefbd2eb85b0de0084ff544e5",
     "primitives/color_field_paint.dart": "ced7d3c7cd03282ae73da0c743a18f6e159e0eac3570b3c20f62a06ad43636fb",
     "primitives/color_math.dart": "827d8cb1ec09eefa7b77421e9b7acc0a66ee9f0def9f740bfaedda27692b4909",
     "primitives/countries.dart": "892eb3b607f0ef3ebfb362d9eb06dd3cc878ab73a659ceba7d7ae7c06faaf8b4",
     "primitives/date_math.dart": "8382007a17ad0ae22dffdd5892c6d8bf7a85c5921227ddaa368aef3dcb1a33c7",
     "primitives/drag_sort.dart": "97c2568902cd28b021f2432a15904bb49383a7d5f69732d7ddfb5bb19822fdf7",
-    "primitives/drawer_route/drawer_panel.dart": "cbdfa2e68220b5a8fa517e7b9247393d393f0c03e7fcc3a09882d6ec25cb758b",
+    "primitives/drawer_route/drawer_panel.dart": "d327d8ee92e4c3bf23ac7e612dd0da23ec4de9812578d56d7efcd68d7c024000",
     "primitives/drawer_route/drawer_panel_surface.dart": "567d8cdaeffa6b264c8e0afa98825f3b1bb372635504276dec45b22d7c7501cb",
     "primitives/drawer_route/drawer_route.dart": "934b844fed5b65bb2bfb60202cc6e1a79ec73cdbd7974fd45757945f19a03aac",
-    "primitives/drawer_route/drawer_shell.dart": "191864cceb90735677053c49ba331bc320fa2c54fe81e66619b60a73022987d4",
+    "primitives/drawer_route/drawer_shell.dart": "230613f3a3def3111f821867d9c164c4b48e7a5567e89ff465d565df786b90a9",
     "primitives/error_handling/error_handling.dart": "aa93bc3171d221d165de374a10fd1cca6d05e36bd47ef8ec4e663c4ce89b23bb",
     "primitives/error_handling/error_models.dart": "5f3b8d3b087b563eecc5eea6dee300de61db322465d246dd82a3fefa37e9efd7",
     "primitives/error_handling/error_recovery.dart": "46a07bc07c310298bbaa5588df0ca12f3a1a9ca9045a0cd681c9dd813b5dfbdc",
@@ -11416,7 +12731,7 @@
     "primitives/filter_core/filter_matching.dart": "33f7bc184a377a4d81339bd185bd2dfc9e981bb9b7d70cd88324cb8c7b3fa5ef",
     "primitives/filter_core/filter_state.dart": "94b6c5f8f7f7eac95e4a87e0bc3290b335bbd99071475129743be87ca0d46dc7",
     "primitives/filter_core/filter_theme.dart": "3295d07883b8ff2371d1517763d98781cbe6722bf94883a9e29388204fd6bd63",
-    "primitives/focus_outline.dart": "ada3901336b9a76e8dd98d1c434a473e5c6c7602c2d257dcb78bcf727d35afbc",
+    "primitives/focus_outline.dart": "e9a9ca2b0fddc03357368a9afcdb2805c5c368685438da52c67c1fc2c511e0b5",
     "primitives/focus_tap.dart": "0bae98db37f74ebb8558896fd2e0e6c864f82749998dcf70b2af7c4133dd09f4",
     "primitives/form_core/form_builders.dart": "bfa036ea629f243558ceb78993e3bb448300033ffff19963b574966f95af05b1",
     "primitives/form_core/form_control.dart": "5cb89ff7ac898e05e8e4b722862056bfd0e992df2c30f2e0dd35d2bd5700ffdc",
@@ -11424,7 +12739,7 @@
     "primitives/form_core/form_core.dart": "9b434ea6eb612bf4beefb37af49da5f4ada4b5cc2dfc5316bc1d237e512863ad",
     "primitives/form_core/form_entry.dart": "7842f8fcff74d953d5575c3eaded154bd2ecc18a171d80548c953e3353715b4d",
     "primitives/form_core/form_value.dart": "0bcf67745e5cfd7bf19fce94243c950e8b8a8e361654d86314379eabf6c21bf0",
-    "primitives/form_core/object_form_field.dart": "b119d0e97bd99fbe8143fb0447daba94cebca4a6bfa410b1e9a84639c8025f57",
+    "primitives/form_core/object_form_field.dart": "17f28a212a444a983b34ff3f17b62884c95860b1573fd17fa9afb6308c861e10",
     "primitives/form_core/object_form_prompt.dart": "17f742c7b24e6928a717b0b1c1850a6432c7a95c6663d6df98a84d6d4eea0959",
     "primitives/form_core/validation.dart": "3eaef214a7ab4d607832e4e3e6e5ec0694be8428b4032d2bd4533a921061d7a1",
     "primitives/form_core/validators.dart": "a97e954cb5d57b569642da55aa338a3d22163d095bfa0f2e9fe2527c77d7c104",
@@ -11516,37 +12831,38 @@
     "primitives/masonry_layout.dart": "12ceeef658a8374e4868fa63dc275dab73c7389b2f6de1e1abb7c447f63a0e79",
     "primitives/measured_extent.dart": "25bbb75970195c4101be632e51588a4e25333fbe78467cd06ee9ce97d78c0c02",
     "primitives/menu_nav.dart": "4a262310ce078a6a88d2796af5c505fb07cf0bc1b0b12bbe2531e6ece27d8c6f",
-    "primitives/menu_rows.dart": "9ec2cc45cae1bbcddc5637fc1afe5f6befe03e6304e4e1df7766da80099eba7c",
+    "primitives/menu_rows.dart": "d709956e8bef8263f5999d84a4675ff9352ba2b4b02f08896575ca4c91341b9f",
     "primitives/motion/error_shake.dart": "ec20039de34621b0ec5236a8fdcc6a37a1eb86f4f78c817759edbd8c0fef5f1d",
     "primitives/motion/fade_slide_in.dart": "69ce1bc3d16618eeabd28b97d72fb48d32b65f7a16fd281ee2a6870f0ce7b4bf",
     "primitives/motion/hover_elevate.dart": "52da1e7fab4f0fbd322503654546bfad814908f04177f7a9d838424fe52ccf88",
-    "primitives/motion/motion.dart": "884e40bb73e80d315ef7a12c14b7be724064646e2db25f7faaac68541ecb8691",
+    "primitives/motion/motion.dart": "fcc794247653989848f9cc7dba3abfb9c7095e9b6c9be086d220da45111ad8f8",
     "primitives/motion/motion_chevron.dart": "da1507a55a75045160b13cc7843e5388e5b13f99deb3be301996797f8d797428",
     "primitives/motion/motion_collapse.dart": "1bdf0ea554f81aaf8a717e5cf89dbc0cd5bb8cf5b061ebbbc075becc6dd2088c",
     "primitives/motion/motion_enter.dart": "8627c056675dda026488fae327a2525aa419b07039d12e69587b181974dc4723",
     "primitives/motion/motion_presence.dart": "fee6fa22be60fae2068bbce284cf373899c7af72124e0a6b0331b591739079ab",
-    "primitives/motion/motion_scope.dart": "b728e4a7ed808c46d640e4066cfebd26ed2b3fe5df580137d201fe37d08f2a9f",
+    "primitives/motion/motion_scope.dart": "83a9ef61f00c34de6c6a0fe4887aa4710ba62ab1ed060bc253b10f8e5b44425e",
     "primitives/motion/motion_spec.dart": "b20858afc06f3505db6c9552e8e424aed910b4863f74adcdf367f0e279c37b62",
     "primitives/motion/press_scale.dart": "78df358795ca97adb52415061394a75a3bc351b73e772604919acb801875731e",
     "primitives/motion/scale_in.dart": "2f6d79448df5ed72c2f39d252ff873701ea5426643c72e749e22503bd3cbcc5d",
+    "primitives/motion/sliding_indicator.dart": "8c1b7944d835b5b1a8bbd7ee95a2e0a41e2c5e4316c54679decc62a6e976dd0e",
     "primitives/motion/stagger.dart": "24a88b059948205512e07a43b91e6259453e9ffc3e25642f2387036c7065e6ad",
     "primitives/navigation/navigation_item_row.dart": "624d5a25a77f7ec76a47c2da1eac52a91aa7c893c3cdb08cc84f22217b110ccd",
     "primitives/navigation/navigation_items.dart": "88d76ff1a26db197d46363402d5de11e79e1c68b3db3698afe5c960020262adf",
-    "primitives/navigation/navigation_sections.dart": "c6ac2b24f6f59d976cd4d9237d02f15403896eaab77d076e13d751965821c428",
-    "primitives/navigation/navigation_theme.dart": "d431d8e552ece6829b42f95e2f47c6436875afe01d764704dc0c94fd5112d8c6",
+    "primitives/navigation/navigation_sections.dart": "c67a3407edc6d77719439282e7e71646524ce9ba45a7fee260749323a3a77909",
+    "primitives/navigation/navigation_theme.dart": "7958a726e5f84f26154807ad9a40b24a8320777e7063e7a3db7f0eb296c5d232",
     "primitives/object_segments.dart": "f21bca2f2d54fe06043b119e51257bdcde7f59696b829aa4f8185b6215f4548e",
     "primitives/overlap_layout.dart": "21414dced07ac2bff7db9782f59fe8a2b1f37cbbf0222dc8e1f999d857e7bae8",
-    "primitives/overlay.dart": "02e19c062b821e658c765613c470056a8ddacbab118cf4b4ff1d714f5ad3a488",
-    "primitives/overlay_manager.dart": "3d0980f1b29b9db15724f489492e4aa34b0a9dd75e25fa7cd1f174f9af26f07a",
-    "primitives/overlay_manager_layer.dart": "b9e8a2e179cf3da1dd17fe2c57c285c65910ef69c002007353241eb5f12aac41",
+    "primitives/overlay.dart": "32c929264d52015c32c2ae2b4b01fd8697909d3d78cd30acb1d98635955599cb",
+    "primitives/overlay_manager.dart": "c4b64a44cb7538f8aa3f94126e9ad6267a3f3ac3ed824e63bd84a0d7e8157002",
+    "primitives/overlay_manager_layer.dart": "858a1f581bc616a9084cb749be0082c99141e7efd13a66760d3bb4a5b4790236",
     "primitives/phone_number.dart": "d6a8e6b60f54f1326a878491e68964d50f3a9f090ce851c2d2eaec960922ce18",
-    "primitives/popover.dart": "57f1a257207ec6bfbbd8672876f1f8e8f7503d4f177b53144ebd18964ab97c99",
-    "primitives/popover_controller.dart": "17c0d3ce813f111249aa9b9df46c011bda25f63871d8d54e0738badba6424b36",
+    "primitives/popover.dart": "729fe9d98e07bce39b53531a095a772b864e1fe546bb6456c0320e9ea5f200a6",
+    "primitives/popover_controller.dart": "868cb60e13e86d38b739e614e02299edb95bc4b322d0d7f353bd5bc2353b4f56",
     "primitives/popover_layout.dart": "32c7a1adc919d35a932e6d2a98e0cf21bfa47da3d7ad9f6397b6a42963919522",
     "primitives/popover_layout_render.dart": "6dab492863cb3251d78a2c7a6bf498eb260e5d6c0346afb04a8b26475061745b",
-    "primitives/popover_overlay_handler.dart": "695ea3592983ed90673e169a8721babfe10bff754f446b52d9ad2fd5949e2767",
-    "primitives/popover_overlay_state.dart": "6433d14b5ab8f1fbae2d29b6f2dec8c38332007cf7a50e22877eeb3b91db33a4",
-    "primitives/popover_overlay_widget.dart": "4264efc244ad01e973c4d9908c251f3d0a37a479b6d2c07cf42e86542a9cfd0e",
+    "primitives/popover_overlay_handler.dart": "d3074e70511c02cf0c8875e545ef7b92df63b999f5e67e5693c070b578c435c2",
+    "primitives/popover_overlay_state.dart": "3521f386d2d30920f7677cb050778ed0bbe2fb0a785c01e547184e08bfaa3a44",
+    "primitives/popover_overlay_widget.dart": "a223a55420d65595601c2b1178461b162926ef06b06897e1f8cbbabea3069328",
     "primitives/resizable_handle.dart": "5e783b3ff434636e98ecc0fe57112e18cd4faf22ca6f5c9412c371c5a8c83bfe",
     "primitives/resizable_pane.dart": "09ef91d97a8af12a24480f44c2f5014bc3efdb65228fb59690a0b67348bf1523",
     "primitives/roving_group.dart": "5cd0bdc9da51b1d427332a55d873238ebfd8773bf7e6235a8b337aabb3c2b465",
@@ -11557,15 +12873,15 @@
     "primitives/search/fuzzy_typo.dart": "d58d216d75de5caac784c7e1f82342b31c23f3003a8f49e445b4d3e07404a0dc",
     "primitives/search/search_index.dart": "faf8b78ecb296b24ec967d9bcea160d1e9ae335a954d4b49ce92fc719a43a21c",
     "primitives/select_popup.dart": "56106f445aed1f03b132c6fc830fbc6c09d0bcb5022b6e58f435a993f25f8c06",
-    "primitives/selectable_radio/selectable_radio.dart": "503e354fbb030dd1fadd4d157d571582987ea669ccb0674e49522eade7858793",
-    "primitives/selectable_radio/selectable_radio_theme.dart": "86f970311e8eba98421cbbd24423b2071be2e1997a48c3cd1328f12491d22fb6",
+    "primitives/selectable_radio/selectable_radio.dart": "cb2a7db93603ef3279517e51f024eefd12a7e864b5a8259cdcd6c16d9221928f",
+    "primitives/selectable_radio/selectable_radio_theme.dart": "2dde2c9ca157ff48d4ee8ffe58947b51924fdf9b32b8f54365d894bcf2518287",
     "primitives/sheet_overlay.dart": "f08e11123bee230d83eb75933c7ce419eb78d7e7c5227fd855e613e61c6c4dc4",
     "primitives/sheet_stage.dart": "4e08a613c6c08a97acbb503bf86934ff18acc2355ec84b4d5857e7b5d96f0ceb",
     "primitives/slider/color_field_slider.dart": "03651fcf4cc4f8978aa47d25d4209dac43fd345eac59513c737884e235f6e8be",
     "primitives/slider/slider.dart": "5b48eda01b02e80a553092a75bf6ac675bb51ed8db2734243ab40f1bcdeaf442",
     "primitives/slider/slider_controller.dart": "586603b5b5908c07d3b1c605631195dae37405c3466c7eb6acaf09fe4c8720af",
     "primitives/slider/slider_logic.dart": "872f4c068e8f7a51979053a62fb6bd3796b3da7031e662e7983d0587a7d27e83",
-    "primitives/slider/slider_painter.dart": "2a2b4b8c13fc587c9655ccaff015de1d0d718f78f136aa385ba23cb3e8f43a04",
+    "primitives/slider/slider_painter.dart": "91b06cbd24afa005174d0a3468026061421e5144e8bc14db36a53bcd1f6fefcd",
     "primitives/slider_value.dart": "a0f9f6cbdfe64b2d9a28ef71d114709d03779aa088eee8929fa7d58a6932f010",
     "primitives/sortable_layer.dart": "816f3acfe62b27183372be53690df0be52ed343f15fdb7b171fc5874473334bb",
     "primitives/streaming_text/streaming_block.dart": "9d88d142d2157cc1e161b3cfd1751bfc48a058fecbbe359ba96055e6190cb67e",
@@ -11601,7 +12917,7 @@
     "primitives/text/text.dart": "4cece6a202ccb22b0bd594bee50e0fc2321a00f1c564f84c47c5669c77d83e4d",
     "primitives/text/text_extension.dart": "7d605af4f73ae19383eefe81bf4e6685e22bb23ac9018460f838ca19bf812557",
     "primitives/text_editing/editable_text_host.dart": "387b0aa9fbdf7ab9eca27a37b0e01a77eec6e2f98ad95eedded67b44e84a7489",
-    "primitives/text_editing/editable_text_shell.dart": "c04ffa5c8720a52c79f0fa342db2d2cfdc31bbdc180e9527a3b6ebd271482137",
+    "primitives/text_editing/editable_text_shell.dart": "f5436dd5c3076327ee180733ffd1381279cc612aaa213e2eb9b74f4229e8d7a6",
     "primitives/text_editing/editable_text_style.dart": "a80e0b200b39002ff3bec820310b66d8b8d78c6b6b51e842114cc73860fa215c",
     "primitives/text_editing/editable_text_validation.dart": "f7f40ddcdb957c4f6688d11ac1fb63c2a07cdabd767da677f5822e8ceb36b0ec",
     "primitives/text_editing/segmented_editing.dart": "6db4d4e18c09aed9e4aa90a5d0a3d0ca092b5f200359488b3ab3eb4195cac6ee",
@@ -11613,10 +12929,10 @@
     "primitives/text_editing/token_units.dart": "304baf82cc19fe6e51582fb2eb2d7934056e71321223b7aebf459f39c41bf8f9",
     "primitives/toast_queue/toast_controller.dart": "bccc526a139af1737d4b31b1e5723b5f7da892c3a4c4e29f2e188780567ff5ab",
     "primitives/toast_queue/toast_entry.dart": "b5efa0df9be9b9d81a0636067517520547e6f025dfc745418baee422f6163112",
-    "primitives/toast_queue/toast_exit.dart": "f80ad314e43eb46b34147345681d210fa1f168a8c791076708d01c5d447cfd2b",
+    "primitives/toast_queue/toast_exit.dart": "8365c40b1bd28e3e76e23815a356d5beaf5aaa23dfb48760f7df8952959579ed",
     "primitives/toast_queue/toast_placement.dart": "5be48ebe7abcb2a728acb5ac95ea21d931609404b37d4857bde106b0c79dc084",
-    "primitives/toast_queue/toast_queue.dart": "e9c1e47ab3cb3537787feacc7610507acdac2e2e95bafba82760d670a9559257",
-    "primitives/touch_hit_area.dart": "9c9c94df0f9c47c97a37fd5f8a0c17e0f59bdf34d4638f68c7c96da891b9e819",
+    "primitives/toast_queue/toast_queue.dart": "4f4be360b5b0b5ed6f826ea16cf4c94fe7635dfd0b23a3ccd136dec03d814361",
+    "primitives/touch_hit_area.dart": "4329a64c7a8f14e8eb6fb61f7c55fb2ec465e28577d8242d40ddb8235322b558",
     "primitives/tree_selection/tree_nodes.dart": "4cfd2bbcf5f2b24eb52f3384bcef6f857f4a1b79e124d71dfb1b2a83f39d7da4",
     "primitives/tree_selection/tree_selection.dart": "554af28f3168a8f48578fa7243aced526924cc870bac2ec0899be5459f1f2523",
     "primitives/widget_states.dart": "401f655425baba6a55a3a12f4c48d9885d60871d7ee3197835a86817ec00414a",
@@ -11658,7 +12974,7 @@
     "theme/interop/internal/css_mapping.dart": "dc3ed8e9a95d5ebfbabda2490d271efd53ff3778ab2b8b9accf39e4a64813f9d",
     "theme/interop/internal/css_syntax.dart": "8593d320454a6c6f9c5afb4cf1a4c20775e0a9918996f6fd87419ae906257e41",
     "theme/interop/internal/theme_diagnostics.dart": "2b47951be412273a42d3356578992efdaaa0b0885164038f501ce824c1006995",
-    "theme/interop/internal/token_inventory.dart": "b6e32b7d68302375a28909c36662967f731896abff606d572ccf4f6c9030cc67",
+    "theme/interop/internal/token_inventory.dart": "bf176bb5257736afa1fa6de9c905ae5a88c7a2d849ee732714a8a174be2a7049",
     "theme/interop/interop.dart": "727a9cfde2ce9df22536643ef5a3aef8cd781d6b048eb3e80e3c10ddf96fceb1",
     "theme/interop/mapping.dart": "ffc3dbd8a8eae1b2c6785c6bf83d8468dc77862a385eb1c8aad1985f9f7a4841",
     "theme/interop/preset_codec.dart": "9b6ccf5d90e1455dacd95f6b08f9122477a396ecfe707ab5c4fcc1ddf2572a70",
@@ -11671,7 +12987,7 @@
     "theme/interop/writers/web_css_writer.dart": "b300addee24819ff6b40d4458dd5dea9a513c6f1e046e22bad838a48b9f19303",
     "theme/motion.dart": "8e17d353a27de6277381c197ed27475ad8974e538f5f4bd6cb217ed9d576385f",
     "theme/syntax_colors.dart": "09bf4279cb0c78202ef2e71c1579f65972faf8c4ea22bc1d23b5aa79fa60aa85",
-    "theme/theme.dart": "5a1163ffb59889615f8a7f050f1149ea78df21a4d13523d6207074f943986d0a",
+    "theme/theme.dart": "5c1111758a0a7eb87077c6f02675a181994ab192ea1773aaee2f4443bc38023f",
     "theme/tokens.dart": "e4d0355e416ec86b111690f2a4bd0e1d26208c7549e7d0ce4dd9c27018582ca1",
     "theme/typography.dart": "87c5cdef20bb8983494343890d038c6c7ae55a1cdb0286dd3a63bd99c3e4a2c8",
     "themes/amber-minimal.json": "13a12831d4ff5f6d49d5375d631c40ccd4e0db522686e89f5c872e362eca73d1",
@@ -11697,7 +13013,7 @@
     "themes/mono.json": "b9a75217024e090411cba43759ce071f9849e303d925d22750c3506696e95a8b",
     "themes/nature.json": "a7a9a0ec112d2579ad48c53a1f01839979163d4ff5dc4c182d8cf6f79b56c25e",
     "themes/neo-brutalism.json": "06d8bd4ddfb6619e9121dcf3adfe015a3f9b9004a87d9ee506dbc05f9ff6ff8e",
-    "themes/neutral.json": "961b8124758edb10bd6d6d18f56bb4538ddd0eb354981a31f390f0cef5054609",
+    "themes/neutral.json": "599e7df7c382f76959b030d09ac267de1573894082c066cdbeca0f511d10aef8",
     "themes/northern-lights.json": "f280946bcd91d55be48051acfff66b5a90114d21d5b9fbe8a378930dcafe9ad6",
     "themes/notebook.json": "508f91b949cc4ae2e1f734388db660e6291ab28ec2e34a0ecd96a5429c71c63d",
     "themes/ocean-breeze.json": "045400ec171e09ac3993a8dc3b1f8c1776da14ee43502339a46d36b8ace899f2",
@@ -12222,6 +13538,7 @@
       "deps": {
         "primitives": [
           "localizations",
+          "motion",
           "overlay",
           "sheet_overlay",
           "surface"
@@ -12324,6 +13641,7 @@
           "localizations",
           "overlay",
           "popover_controller",
+          "touch_hit_area",
           "widget_states"
         ]
       },
@@ -12569,6 +13887,7 @@
         "primitives/motion/motion_spec.dart",
         "primitives/motion/press_scale.dart",
         "primitives/motion/scale_in.dart",
+        "primitives/motion/sliding_indicator.dart",
         "primitives/motion/stagger.dart"
       ]
     },
@@ -12716,6 +14035,7 @@
     "popover_overlay_state": {
       "deps": {
         "primitives": [
+          "motion",
           "overlay",
           "popover_layout",
           "popover_overlay_widget"
@@ -13015,7 +14335,9 @@
     },
     "toast_queue": {
       "deps": {
-        "primitives": []
+        "primitives": [
+          "motion"
+        ]
       },
       "files": [
         "primitives/toast_queue/toast_controller.dart",

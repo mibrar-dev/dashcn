@@ -44,7 +44,7 @@
     "semantics": "rows are buttons with their label and selected state; collapsed icons expose tooltips with the row label"
   },
   "sizes": {
-    "rail": "264 px expanded, 64 px collapsed",
+    "rail": "256 px expanded, 64 px collapsed",
     "row": "32 px row height, 16 px icon, 12 px muted group label"
   },
   "notes": [

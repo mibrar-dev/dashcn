@@ -130,6 +130,7 @@ class _SliderState extends State<Slider>
   FocusNode? _ownedFocusNode;
   int? _activeThumb;
   bool _dragging = false;
+  bool _pressed = false;
   bool _focused = false;
 
   FocusNode? get _focusNode => widget.focusNode ?? _ownedFocusNode;
@@ -348,60 +349,70 @@ class _SliderState extends State<Slider>
                         rangeEnd: widget.isRange ? shownEnd : null,
                       );
                       _lastView = view;
-                      Widget content = SizedBox(
-                        height: canvasHeight,
-                        child: CustomPaint(
-                          size: Size(width, canvasHeight),
-                          painter: SliderPainter(
+                      // The press flag follows the pointer directly (Listener),
+                      // so the thumb grows on the same frame as the touch
+                      // rather than after the gesture arena resolves.
+                      final Widget content = Listener(
+                        behavior: HitTestBehavior.translucent,
+                        onPointerDown: widget.enabled
+                            ? (_) => setState(() => _pressed = true)
+                            : null,
+                        onPointerUp: widget.enabled
+                            ? (_) => setState(() => _pressed = false)
+                            : null,
+                        onPointerCancel: widget.enabled
+                            ? (_) => setState(() => _pressed = false)
+                            : null,
+                        child: GestureDetector(
+                          behavior: HitTestBehavior.opaque,
+                          onTapDown: widget.enabled
+                              ? (d) {
+                                  _activeThumb = _logic.pickActiveThumb(
+                                    view,
+                                    d.localPosition.dx,
+                                  );
+                                  _handleDx(view, d.localPosition.dx);
+                                }
+                              : null,
+                          onHorizontalDragStart: widget.enabled
+                              ? (d) => setState(() {
+                                  _dragging = true;
+                                  _activeThumb = _logic.pickActiveThumb(
+                                    view,
+                                    d.localPosition.dx,
+                                  );
+                                })
+                              : null,
+                          onHorizontalDragUpdate: widget.enabled
+                              ? (d) => _handleDx(view, d.localPosition.dx)
+                              : null,
+                          onHorizontalDragEnd: widget.enabled
+                              ? (_) => setState(() {
+                                  _dragging = false;
+                                  _activeThumb = null;
+                                })
+                              : null,
+                          onHorizontalDragCancel: widget.enabled
+                              ? () => setState(() {
+                                  _dragging = false;
+                                  _activeThumb = null;
+                                })
+                              : null,
+                          child: _pressFeedback(
+                            context: context,
+                            theme: theme,
                             view: view,
-                            marksStyle: marksStyleForVariant(widget.variant),
-                            thumbShape: thumbShape,
+                            canvasHeight: canvasHeight,
                             trackColor: trackColor,
                             fillColor: fillColor,
                             thumbColor: thumbColor,
                             thumbBorderColor: thumbBorderColor,
                             markColor: markColor,
-                            focused: _focused,
+                            marksStyle: marksStyleForVariant(widget.variant),
+                            thumbShape: thumbShape,
                             ringColor: theme.colors.ring,
                           ),
                         ),
-                      );
-                      content = GestureDetector(
-                        behavior: HitTestBehavior.opaque,
-                        onTapDown: widget.enabled
-                            ? (d) {
-                                _activeThumb = _logic.pickActiveThumb(
-                                  view,
-                                  d.localPosition.dx,
-                                );
-                                _handleDx(view, d.localPosition.dx);
-                              }
-                            : null,
-                        onHorizontalDragStart: widget.enabled
-                            ? (d) => setState(() {
-                                _dragging = true;
-                                _activeThumb = _logic.pickActiveThumb(
-                                  view,
-                                  d.localPosition.dx,
-                                );
-                              })
-                            : null,
-                        onHorizontalDragUpdate: widget.enabled
-                            ? (d) => _handleDx(view, d.localPosition.dx)
-                            : null,
-                        onHorizontalDragEnd: widget.enabled
-                            ? (_) => setState(() {
-                                _dragging = false;
-                                _activeThumb = null;
-                              })
-                            : null,
-                        onHorizontalDragCancel: widget.enabled
-                            ? () => setState(() {
-                                _dragging = false;
-                                _activeThumb = null;
-                              })
-                            : null,
-                        child: content,
                       );
                       return content;
                     },
@@ -415,6 +426,131 @@ class _SliderState extends State<Slider>
 
   SliderView? _lastView;
 
+  /// The value shown on the label: the active thumb in range mode.
+  double _labelValue() {
+    if (!widget.isRange) return widget.value;
+    return (_activeThumb ?? 0) == 0
+        ? widget.rangeValue!.start
+        : widget.rangeValue!.end;
+  }
+
+  /// Formats the label value: whole numbers without decimals.
+  String _formatLabel(double v) {
+    final rounded = v.roundToDouble();
+    return rounded == v ? v.toStringAsFixed(0) : v.toStringAsFixed(1);
+  }
+
+  /// Wraps the painted track in the press feedback: the thumb eases to
+  /// 1.2 while pressed (no lag when dragging), and the value label fades in
+  /// while rising 4 px above the thumb.
+  Widget _pressFeedback({
+    required BuildContext context,
+    required ThemeData theme,
+    required SliderView view,
+    required double canvasHeight,
+    required Color trackColor,
+    required Color fillColor,
+    required Color thumbColor,
+    required Color thumbBorderColor,
+    required Color markColor,
+    required SliderMarksStyle marksStyle,
+    required SliderThumbShape thumbShape,
+    required Color ringColor,
+  }) {
+    final Duration duration = resolveMotionDuration(
+      context,
+      theme.motion.durations.instant,
+    );
+    final Curve curve = theme.motion.curves.standard;
+    final bool pressed = _pressed && widget.enabled;
+    final Offset thumbCenter = view.thumbs[_activeThumb ?? 0].center;
+    final bool labelVisible = pressed;
+    // The label is built only while it shows or fades: at rest the slider
+    // lays out exactly as without it, so centring and hit testing ignore it.
+    return TweenAnimationBuilder<double>(
+      tween: Tween<double>(end: labelVisible ? 1.0 : 0.0),
+      duration: duration,
+      curve: curve,
+      child: TweenAnimationBuilder<double>(
+        // Reduced motion keeps the thumb at rest: no scale at all.
+        tween: Tween<double>(
+          end: pressed && !motionReduced(context)
+              ? _sliderThumbPressScale
+              : 1.0,
+        ),
+        duration: duration,
+        curve: curve,
+        builder: (BuildContext context, double scale, Widget? _) {
+          return SizedBox(
+            height: canvasHeight,
+            child: CustomPaint(
+              size: Size(view.trackRect.width, canvasHeight),
+              painter: SliderPainter(
+                view: view,
+                marksStyle: marksStyle,
+                thumbShape: thumbShape,
+                trackColor: trackColor,
+                fillColor: fillColor,
+                thumbColor: thumbColor,
+                thumbBorderColor: thumbBorderColor,
+                markColor: markColor,
+                focused: _focused,
+                ringColor: ringColor,
+                thumbScale: scale,
+              ),
+            ),
+          );
+        },
+      ),
+      builder: (BuildContext context, double shown, Widget? canvas) {
+        return Stack(
+          clipBehavior: Clip.none,
+          children: <Widget>[
+            canvas!,
+            if (shown > 0)
+              Positioned(
+                left: thumbCenter.dx - _sliderLabelWidth / 2,
+                width: _sliderLabelWidth,
+                top: -_sliderLabelGap - _sliderLabelHeight,
+                height: _sliderLabelHeight,
+                child: IgnorePointer(
+                  child: Builder(
+                    builder: (BuildContext context) {
+                      // The label fades by alpha (no Opacity layer) and rises 4 px
+                      // into place as it appears.
+                      return Transform.translate(
+                        offset: Offset(0, _sliderLabelRise * (1 - shown)),
+                        child: Center(
+                          child: DefaultTextStyle.merge(
+                            style: TextStyle(
+                              fontSize: 12,
+                              color: theme.colors.primaryForeground.withValues(
+                                alpha: shown,
+                              ),
+                            ),
+                            child: Container(
+                              alignment: Alignment.center,
+                              decoration: BoxDecoration(
+                                color: theme.colors.primary.withValues(
+                                  alpha: shown,
+                                ),
+                                borderRadius: BorderRadius.circular(4),
+                              ),
+                              child: Text(_formatLabel(_labelValue())),
+                            ),
+                          ),
+                        ),
+                      );
+                    },
+                  ),
+                ),
+              ),
+          ],
+        );
+      },
+    );
+  }
+
   /// Form validation asked for a different value.
   @override
   void didReplaceFormValue(SliderValue value) {
@@ -425,6 +561,15 @@ class _SliderState extends State<Slider>
     }
   }
 }
+
+/// Thumb scale while pressed (MOTION.md: grows from 1.0 to 1.2).
+const double _sliderThumbPressScale = 1.2;
+
+/// Value label geometry above the active thumb.
+const double _sliderLabelWidth = 40;
+const double _sliderLabelHeight = 20;
+const double _sliderLabelGap = 4;
+const double _sliderLabelRise = 4;
 
 /// Eases the shown slider values toward their targets with two nested
 /// tweens (range start/end collapse to one value in single mode).

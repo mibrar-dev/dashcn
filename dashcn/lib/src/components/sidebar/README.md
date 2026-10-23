@@ -3,7 +3,7 @@
 A production dashboard sidebar: a header (logo or app name plus a collapse
 control), grouped navigation sections with labels, 32 px rows with a 16 px
 icon, label, optional badge and optional trailing chevron for sub-menus, and
-a footer account row (avatar, name, email, dropdown). The rail is 264 px
+a footer account row (avatar, name, email, dropdown). The rail is 256 px
 expanded and 64 px collapsed (icons only, with tooltips).
 
 The same widget renders as a fixed column on desktop and inside a drawer or

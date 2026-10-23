@@ -9,6 +9,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:dashcn/src/components/sidebar/sidebar.dart';
 import 'package:dashcn/src/foundation/icons/lucide_icons.dart';
+import 'package:dashcn/src/primitives/clickable.dart';
 import 'package:dashcn/src/theme/theme.dart';
 import 'package:flutter_test/flutter_test.dart';
 
@@ -97,6 +98,26 @@ void main() {
     await tester.pumpWidget(_sidebar(onSelected: (String id) => selected = id));
     await tester.tap(find.text('Reports'));
     expect(selected, 'Reports');
+  });
+
+  testWidgets('rows are 32 px, sub-items 28 px, group labels 32 px', (
+    tester,
+  ) async {
+    await tester.pumpWidget(_sidebar());
+    await tester.pump();
+    Finder rowOf(String label) =>
+        find.ancestor(of: find.text(label), matching: find.byType(Clickable));
+    expect(tester.getSize(rowOf('Dashboard')).height, 32);
+    // Group labels are 32 px rows: the innermost SizedBox above the text
+    // carries the height.
+    final Finder labelBox = find.ancestor(
+      of: find.text('Main'),
+      matching: find.byType(SizedBox),
+    );
+    expect(tester.widget<SizedBox>(labelBox.first).height, 32);
+    await tester.tap(find.text('Settings'));
+    await tester.pump();
+    expect(tester.getSize(rowOf('Profile')).height, 28);
   });
 
   testWidgets('tap on a parent expands its sub-menu', (tester) async {

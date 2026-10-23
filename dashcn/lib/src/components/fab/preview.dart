@@ -281,7 +281,10 @@ class _FabHideOnScrollExampleState extends State<_FabHideOnScrollExample> {
 Widget _fabHideOnScroll(BuildContext context) =>
     const _FabHideOnScrollExample();
 
-/// A customised button: secondary fill, custom radius and no elevation.
+/// A customised button: secondary fill, custom radius and token shadow.
+///
+/// Extended 56 px pill with a 16 px icon plus label; elevation 3 paints the
+/// theme shadowLg so the button lifts off the stage instead of looking flat.
 Widget _fabCustomized(BuildContext context) {
   return const Center(
     child: Fab(
@@ -294,9 +297,9 @@ Widget _fabCustomized(BuildContext context) {
         foreground: StateValue(
           rest: ThemedColor.ref(ColorRef.secondaryForeground),
         ),
-        borderRadius: BorderRadius.all(Radius.circular(8)),
-        elevation: 0,
-        gap: 6,
+        borderRadius: BorderRadius.all(Radius.circular(16)),
+        elevation: 3,
+        gap: 8,
       ),
     ),
   );

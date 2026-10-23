@@ -354,7 +354,24 @@ class MenubarTheme extends ComponentThemeData
   );
 }
 
+/// Sizing contract for the menu family (SIZING.md: one 4 px scale for the
+/// whole library; same sizes on desktop and mobile, touch comfort from an
+/// invisible hit area, never larger visuals).
+///
+/// Menu-family rows are 32 px tall with 8 px horizontal and 6 px vertical
+/// padding (the 20 px body line plus 12 px padding); horizontal bar triggers
+/// are 28 px tall with 8 px horizontal and 4 px vertical padding, so a 36 px
+/// bar root (4 px surface padding) holds them exactly.
+const double kMenuRowHeight = 32.0;
+
+/// Visual height of one horizontal bar trigger (menubar, 28 px).
+const double kMenuBarTriggerHeight = 28.0;
+
 /// Token-derived baseline rows; every unset override field falls through here.
+///
+/// `itemPadding` stays null on purpose: rows resolve the 8/6 default and
+/// horizontal bar triggers the shallower 8/4 trigger padding in `menu.dart`,
+/// so one defaults row serves both geometries.
 const MenuTheme menuDefaults = MenuTheme(
   background: StateValue<ThemedColor>(
     rest: ThemedColor.value(Color(0x00000000)),
@@ -369,7 +386,6 @@ const MenuTheme menuDefaults = MenuTheme(
     focused: ThemedColor.ref(ColorRef.accentForeground),
   ),
   textStyle: TextStyle(fontSize: 14),
-  itemPadding: menuItemDefaultPadding,
 );
 
 /// Default row padding: upstream `px-2 py-1.5`, density-scaled.
@@ -377,6 +393,12 @@ const EdgeInsetsGeometry menuItemDefaultPadding = EdgeInsetsDensity.pxSymmetric(
   horizontal: 8,
   vertical: 6,
 );
+
+/// Default trigger padding for horizontal bar roots (menubar): 8 px
+/// horizontal like the rows, 4 px vertical so the 20 px body line measures
+/// exactly 28 px inside a 36 px bar root (4 px surface padding).
+const EdgeInsetsGeometry menuBarTriggerDefaultPadding =
+    EdgeInsetsDensity.pxSymmetric(horizontal: 8, vertical: 4);
 
 /// Row padding from the density tokens: horizontal `gap` (8 compact),
 /// vertical `verticalPadding` (6 compact), times [scale].

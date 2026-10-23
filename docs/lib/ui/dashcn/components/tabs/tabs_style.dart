@@ -112,13 +112,14 @@ class TabsTheme extends ComponentThemeData implements Mergeable<TabsTheme> {
   /// Strip fill. Default: `muted`.
   final StateValue<ThemedColor>? containerColor;
 
-  /// Strip padding. Default: all 3 (p-[3px]).
+  /// Strip padding. Default: all 4 (p-1), so the strip is 36 px around the
+  /// 28 px triggers (SIZING.md bars).
   final EdgeInsetsGeometry? containerPadding;
 
   /// Strip and selected-tab radius. Default: ambient `radiusLg`/`radiusMd`.
   final BorderRadiusGeometry? borderRadius;
 
-  /// Tab padding, horizontal only (px-2); the label centers in the 30px
+  /// Tab padding, horizontal only (px-2); the label centers in the 28px
   /// trigger, so vertical padding would only stack on top of it.
   final EdgeInsetsGeometry? tabPadding;
 
@@ -243,9 +244,12 @@ class TabsTheme extends ComponentThemeData implements Mergeable<TabsTheme> {
 }
 
 /// Token-derived baselines for [TabsTheme].
+///
+/// The strip is 36 px: 4 px container padding around 28 px triggers
+/// (SIZING.md bars).
 const TabsTheme tabsDefaults = TabsTheme(
   containerColor: StateValue(rest: ThemedColor.ref(ColorRef.muted)),
-  containerPadding: EdgeInsetsDensity.pxAll(3),
+  containerPadding: EdgeInsetsDensity.pxAll(4),
   tabPadding: EdgeInsetsDensity.pxSymmetric(horizontal: 8),
   selectedColor: StateValue(rest: ThemedColor.ref(ColorRef.background)),
   labelColor: StateValue(rest: ThemedColor.ref(ColorRef.mutedForeground)),

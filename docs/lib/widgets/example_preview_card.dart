@@ -27,6 +27,7 @@ import '../playground/builders.dart';
 import '../playground/ui/scope.dart';
 import '../playground/values.dart';
 import '../routing/docs_router.dart';
+import '../state/docs_content_pages.dart';
 import '../state/docs_state.dart';
 import '../ui/dashcn/components/button/button.dart';
 import '../ui/dashcn/components/tabs/tabs.dart';
@@ -348,13 +349,15 @@ class _ExampleToolbar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final ThemeData theme = Theme.of(context);
+    final Locale tabLocale =
+        DocsRouterScope.maybeOf(context)?.state.locale ?? const Locale('en');
     final Widget tabs = Tabs(
       key: ValueKey<String>('example-tabs-$exampleIndex'),
       index: tab,
       onChanged: onTab,
-      children: const <TabItem>[
-        TabItem(child: Text('Preview')),
-        TabItem(child: Text('Code')),
+      children: <TabItem>[
+        TabItem(child: Text(docsContentPage(tabLocale, 'pagePreview'))),
+        TabItem(child: Text(docsContentPage(tabLocale, 'pageCode'))),
       ],
     );
     final bool narrow = MediaQuery.widthOf(context) < kPhoneWidthBreakpoint;

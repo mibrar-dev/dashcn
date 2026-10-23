@@ -2,6 +2,7 @@
 // `carousel_style.dart` holds the theme rows, the controller and the layout
 // math. The old bugs this port fixed are listed in README.md.
 
+import 'package:flutter/physics.dart';
 import 'package:flutter/scheduler.dart' show Ticker;
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
@@ -101,8 +102,7 @@ class Carousel extends StatefulWidget {
   State<Carousel> createState() => _CarouselState();
 }
 
-class _CarouselState extends State<Carousel>
-    with SingleTickerProviderStateMixin {
+class _CarouselState extends State<Carousel> with TickerProviderStateMixin {
   late CarouselController _controller;
   late bool _ownsController;
   late Ticker _ticker;
@@ -122,6 +122,37 @@ class _CarouselState extends State<Carousel>
   /// Reduced-motion flag, refreshed every build for the ticker and page
   /// transitions below (they run outside builds and cannot look it up).
   bool _reducedMotion = false;
+
+  /// Drives a velocity-fed spring from the release point to the snap target.
+  /// Critically damped (ratio 1): no overshoot past the target page.
+  late final AnimationController _snap = AnimationController.unbounded(
+    vsync: this,
+  )..addListener(_applySnap);
+
+  static const SpringDescription _snapSpring = SpringDescription(
+    mass: 1,
+    stiffness: 400,
+    damping: 40,
+  );
+
+  void _applySnap() {
+    _controller.jumpTo(_snap.value);
+  }
+
+  /// Springs the page position from its current value to [target], starting
+  /// at [pagesPerSecond] (the fling velocity, in pages). Jumps under reduced
+  /// motion.
+  void _springTo(double target, double pagesPerSecond) {
+    _snap.stop();
+    if (_reducedMotion) {
+      _controller.jumpTo(target);
+      return;
+    }
+    _snap.value = _controller.value;
+    _snap.animateWith(
+      SpringSimulation(_snapSpring, _controller.value, target, pagesPerSecond),
+    );
+  }
 
   @override
   void initState() {
@@ -153,6 +184,7 @@ class _CarouselState extends State<Carousel>
   void dispose() {
     _controller.removeListener(_handleControllerChanged);
     _ticker.dispose();
+    _snap.dispose();
     // Only a controller the widget created may be disposed here.
     if (_ownsController) _controller.dispose();
     super.dispose();
@@ -280,6 +312,7 @@ class _CarouselState extends State<Carousel>
   }
 
   void _handleDragStart() {
+    _snap.stop();
     _dragging = true;
     _syncTicker();
   }
@@ -304,7 +337,9 @@ class _CarouselState extends State<Carousel>
       itemCount: widget.itemCount,
       wrap: theme.wrap!,
     );
-    _goTo(target, theme);
+    // Fling velocity (px/s) in pages/s: dragging left (negative) moves the
+    // page position forward, so the page velocity has the opposite sign.
+    _springTo(target, -(details.primaryVelocity ?? 0) / extent);
     _syncTicker();
   }
 

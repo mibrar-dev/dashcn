@@ -287,6 +287,28 @@ void main() {
       expect(next, 'b');
     });
 
+    testWidgets('paints a 36 px track with 28 px segments', (tester) async {
+      await tester.pumpWidget(
+        _frame(
+          data: const ThemeData(platform: TargetPlatform.macOS),
+          child: SegmentedControl<String>(
+            value: 'a',
+            onChanged: _noop,
+            segments: _segments(),
+          ),
+        ),
+      );
+      // SIZING.md bars: 36 px track, 28 px items — the tabs-strip look.
+      expect(tester.getSize(find.byType(SegmentedControl<String>)).height, 36);
+      final Finder segment = find
+          .descendant(
+            of: find.byType(SegmentedControl<String>),
+            matching: find.byType(Clickable),
+          )
+          .first;
+      expect(tester.getSize(segment).height, 28);
+    });
+
     testWidgets('honours a widget-leg style override', (tester) async {
       await tester.pumpWidget(
         _frame(
@@ -333,9 +355,11 @@ void main() {
           ),
         ),
       );
-      // The painted track keeps the size table (32 px plus the 3 px track
-      // padding on each side); the box grows to the 48 px touch minimum and
-      // the growth is transparent space around the track.
+      // SIZING.md: the painted track keeps 36 px and the segment visuals
+      // 28 px on every platform; the control's box grows to the 48 px touch
+      // minimum and the segments stretch to it, so every segment keeps a
+      // 48 px invisible hit area with unchanged visuals.
+      expect(tester.getSize(find.byType(SegmentedControl<String>)).height, 48);
       final Finder segment = find
           .descendant(
             of: find.byType(SegmentedControl<String>),

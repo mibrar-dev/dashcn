@@ -178,8 +178,8 @@ class _FabState extends State<Fab> {
     final BorderRadiusGeometry radius =
         resolved.borderRadius ?? BorderRadius.circular(box / 2);
 
-    // Touch platforms grow the hit box with transparent padding, never the
-    // painted circle.
+    // Touch comfort is an invisible hit-test/semantics expansion, never the
+    // painted circle and never layout.
     final double touchVertical = math.max(
       0,
       (touchMinEdge(ambient.platform) - box) / 2,
@@ -229,14 +229,14 @@ class _FabState extends State<Fab> {
       gap: gap,
     );
 
-    final Widget button = Semantics(
-      button: true,
-      enabled: enabled,
-      label: widget.semanticLabel ?? _labelText,
-      child: Opacity(
-        opacity: enabled ? 1 : _fabDisabledOpacity,
-        child: TouchHitArea(
-          vertical: touchVertical,
+    final Widget button = TouchHitArea(
+      vertical: touchVertical,
+      child: Semantics(
+        button: true,
+        enabled: enabled,
+        label: widget.semanticLabel ?? _labelText,
+        child: Opacity(
+          opacity: enabled ? 1 : _fabDisabledOpacity,
           child: Clickable(
             enabled: enabled,
             statesController: _states,

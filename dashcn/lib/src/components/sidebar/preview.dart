@@ -28,7 +28,7 @@ import 'sidebar.dart';
 ///
 /// Tracks the density phone breakpoint ([kPhoneWidthBreakpoint], 600 px) so
 /// the docs 295 px example stage (375 px viewport) and any narrow stage use
-/// the phone bar (no 264 px rail) instead of overflowing.
+/// the phone bar (no 256 px rail) instead of overflowing.
 const double kSidebarPhoneWidth = kPhoneWidthBreakpoint;
 
 /// Fallback shell height when the stage leaves the height unbounded.
@@ -264,7 +264,7 @@ class _PhoneDemoState extends State<_PhoneDemo> {
 
 /// Full sidebar beside content on wide stages, phone bar + drawer below
 /// [kSidebarPhoneWidth] (the density phone breakpoint). Narrow desktop
-/// stages use the collapsed 64 px rail so the 264 px rail never overflows
+/// stages use the collapsed 64 px rail so the 256 px rail never overflows
 /// the docs 560 px example stage; the content column scrolls vertically
 /// when the stage height is bounded. Collapse control and account footer
 /// included.
@@ -299,7 +299,7 @@ class _DashboardDemoState extends State<_DashboardDemo> {
           // Docs stages (560 px at 1440 px viewports, 295 px at 375 px
           // viewports which take the phone branch above) stay overflow-free:
           // tight desktop widths keep the collapsed rail (narrower sidebar
-          // inside the stage) instead of forcing the full 264 px rail.
+          // inside the stage) instead of forcing the full 256 px rail.
           final bool narrowStage = width < 720;
           body = Row(
             crossAxisAlignment: CrossAxisAlignment.stretch,

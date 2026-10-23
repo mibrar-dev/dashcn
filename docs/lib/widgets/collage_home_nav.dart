@@ -6,6 +6,8 @@
 // [CollageCard] for the home wall.
 
 import 'package:flutter/widgets.dart';
+import '../routing/docs_router.dart';
+import '../state/docs_content_home.dart';
 
 import '../ui/dashcn/components/breadcrumb/breadcrumb.dart';
 import '../ui/dashcn/components/checkbox/checkbox.dart';
@@ -30,9 +32,11 @@ class HomeSidebarCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final Locale locale =
+        DocsRouterScope.maybeOf(context)?.state.locale ?? const Locale('en');
     return CollageCard(
-      title: 'Workspace',
-      subtitle: 'Jump anywhere in the app.',
+      title: docsHome(locale, 'homeWorkspaceTitle'),
+      subtitle: docsHome(locale, 'homeWorkspaceSub'),
       children: <Widget>[
         for (final (String group, List<String> items) in groups) ...<Widget>[
           StudioCaption(group),
@@ -110,9 +114,11 @@ class _HomeBrowseCardState extends State<HomeBrowseCard> {
 
   @override
   Widget build(BuildContext context) {
+    final Locale locale =
+        DocsRouterScope.maybeOf(context)?.state.locale ?? const Locale('en');
     return CollageCard(
-      title: 'Browse',
-      subtitle: 'Reports and statements',
+      title: docsHome(locale, 'homeBrowseTitle'),
+      subtitle: docsHome(locale, 'homeBrowseSub'),
       children: <Widget>[
         const Breadcrumb(
           children: <Widget>[
@@ -162,8 +168,10 @@ class _HomeStepperCardState extends State<HomeStepperCard> {
 
   @override
   Widget build(BuildContext context) {
+    final Locale locale =
+        DocsRouterScope.maybeOf(context)?.state.locale ?? const Locale('en');
     return CollageCard(
-      title: 'Release checklist',
+      title: docsHome(locale, 'homeChecklistTitle'),
       subtitle: '${_done.length} of ${steps.length} steps done',
       children: <Widget>[
         for (int i = 0; i < steps.length; i++)

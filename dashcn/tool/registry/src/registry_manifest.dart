@@ -22,6 +22,7 @@ import '../../rearch/src/json_utils.dart';
 import 'categories.dart';
 import 'dart_imports.dart';
 import 'layer_scan.dart';
+import 'locale_keys.dart';
 import 'manifest_error.dart';
 
 /// Builds the manifest JSON for the registry at [appRoot] (the
@@ -230,6 +231,16 @@ class _Builder {
       hashes[file] = _sha256(file);
     }
 
+    final foundationJson = _unitsJson(foundation);
+    final themeJson = _unitsJson(theme);
+    final primitivesJson = _primitivesJson(primitives, deps);
+    _addLocalizationKeys(
+      componentJson,
+      foundation: foundationJson,
+      theme: themeJson,
+      primitives: primitivesJson,
+    );
+
     return <String, Object?>{
       'schemaVersion': 2,
       'registry': <String, Object?>{
@@ -247,9 +258,9 @@ class _Builder {
         },
         'userOwnedSuffix': '_theme.dart',
       },
-      'foundation': _unitsJson(foundation),
-      'theme': _unitsJson(theme),
-      'primitives': _primitivesJson(primitives, deps),
+      'foundation': foundationJson,
+      'theme': themeJson,
+      'primitives': primitivesJson,
       'components': componentJson,
       'blocks': blockJson,
       'flows': flowJson,
@@ -257,6 +268,79 @@ class _Builder {
       'themes': themesJson,
       'fileHashes': hashes,
     };
+  }
+
+  /// Sets `localizationKeys` on every component: the locale keys its own
+  /// sources read, plus the keys of every unit it depends on, transitively.
+  /// Installing a component therefore installs every string it can show.
+  ///
+  /// The key universe is `lib/src/manifests/locale_tables.json`, so run
+  /// `tool/gen_locale_manifest.dart` before this generator.
+  void _addLocalizationKeys(
+    Map<String, Object?> componentJson, {
+    required Map<String, Object?> foundation,
+    required Map<String, Object?> theme,
+    required Map<String, Object?> primitives,
+  }) {
+    final universe = _localeKeyUniverse();
+    final nodes = <String, _LocaleNode>{};
+    void addUnits(String layer, Map<String, Object?> units) {
+      for (final entry in units.entries) {
+        nodes['$layer:${entry.key}'] = _LocaleNode.of(
+          entry.value as Map<String, Object?>,
+        );
+      }
+    }
+
+    addUnits('foundation', foundation);
+    addUnits('theme', theme);
+    addUnits('primitives', primitives);
+    for (final entry in componentJson.entries) {
+      nodes['components:${entry.key}'] = _LocaleNode.of(
+        entry.value as Map<String, Object?>,
+      );
+    }
+
+    final memo = <String, Set<String>>{};
+    Set<String> closure(String token) {
+      final cached = memo[token];
+      if (cached != null) {
+        return cached;
+      }
+      final node = nodes[token];
+      final keys = <String>{};
+      memo[token] = keys;
+      if (node == null) {
+        return keys;
+      }
+      for (final file in node.files) {
+        if (file.startsWith('primitives/localizations/')) {
+          continue;
+        }
+        keys.addAll(localeKeysUsedIn('$root/$file', universe));
+      }
+      for (final dep in node.deps) {
+        keys.addAll(closure(dep));
+      }
+      return keys;
+    }
+
+    for (final id in componentJson.keys) {
+      final keys = closure('components:$id').toList()..sort();
+      (componentJson[id] as Map<String, Object?>)['localizationKeys'] = keys;
+    }
+  }
+
+  /// Every key in `locale_tables.json`.
+  Set<String> _localeKeyUniverse() {
+    final file = File('$root/manifests/locale_tables.json');
+    if (!file.existsSync()) {
+      throw ManifestBuildException(
+        'locale_tables.json is missing; run tool/gen_locale_manifest.dart',
+      );
+    }
+    final tables = jsonDecode(file.readAsStringSync()) as Map<String, dynamic>;
+    return (tables['keys'] as Map<String, dynamic>).keys.toSet();
   }
 
   String _sha256(String relPath) =>
@@ -1047,3 +1131,31 @@ class _Builder {
 }
 
 String _baseName(String path) => path.split(Platform.pathSeparator).last;
+
+/// One unit's files and dependency tokens (`layer:id`) for the locale-key
+/// closure.
+class _LocaleNode {
+  _LocaleNode(this.files, this.deps);
+
+  factory _LocaleNode.of(Map<String, Object?> entry) {
+    final files = (entry['files'] as List).cast<String>();
+    final deps = <String>[];
+    final rawDeps = entry['deps'];
+    if (rawDeps is Map) {
+      for (final layer in const <String>[
+        'components',
+        'foundation',
+        'theme',
+        'primitives',
+      ]) {
+        for (final id in (rawDeps[layer] as List?) ?? const <Object?>[]) {
+          deps.add('$layer:$id');
+        }
+      }
+    }
+    return _LocaleNode(files, deps);
+  }
+
+  final List<String> files;
+  final List<String> deps;
+}

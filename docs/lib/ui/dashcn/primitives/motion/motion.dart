@@ -16,4 +16,5 @@ export 'motion_scope.dart';
 export 'motion_spec.dart';
 export 'press_scale.dart';
 export 'scale_in.dart';
+export 'sliding_indicator.dart';
 export 'stagger.dart';

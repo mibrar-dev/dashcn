@@ -55,6 +55,8 @@ Widget buildSegmentedControlTrack({
 ///
 /// The track is its own layer: it paints at the control's track height and
 /// is centred in the control's box, so the touch growth stays invisible.
+/// The segments and thumbs sit inside the track with the control padding as
+/// the visible inset (28 px segments in a 36 px track).
 Widget buildSegmentedControlStack<T>({
   required BuildContext context,
   required SegmentedControlStyle style,
@@ -62,6 +64,8 @@ Widget buildSegmentedControlStack<T>({
   required List<SegmentedControlSegment<T>> segments,
   required List<double> widths,
   required double margin,
+  required EdgeInsets segmentPadding,
+  required EdgeInsets linePadding,
   required double boxHeight,
   required bool rtl,
   required bool measured,
@@ -78,10 +82,14 @@ Widget buildSegmentedControlStack<T>({
         segments: segments,
         widths: widths,
         margin: margin,
+        segmentPadding: segmentPadding,
         rtl: rtl,
         measured: measured,
       ),
-      SizedBox(height: boxHeight, child: line),
+      SizedBox(
+        height: boxHeight,
+        child: Padding(padding: linePadding, child: line),
+      ),
     ],
   );
 }
@@ -102,6 +110,7 @@ List<Widget> buildSegmentedControlThumbs<T>({
   required List<SegmentedControlSegment<T>> segments,
   required List<double> widths,
   required double margin,
+  required EdgeInsets segmentPadding,
   required bool rtl,
   required bool measured,
 }) {
@@ -109,9 +118,11 @@ List<Widget> buildSegmentedControlThumbs<T>({
     return const <Widget>[];
   }
   final ThemeData ambient = Theme.of(context);
+  // The pill slides to the new segment on a spring over the base duration
+  // (200 ms, MOTION.md: selection pill).
   final Duration duration = resolveMotionDuration(
     context,
-    ambient.motion.durations.fast,
+    ambient.motion.durations.base,
   );
   final Curve curve = ambient.motion.curves.spring;
   final Color fill =
@@ -136,6 +147,10 @@ List<Widget> buildSegmentedControlThumbs<T>({
               : Border.all(color: border, width: borderWidth),
         ),
       );
+      // The thumb covers its segment exactly: the track padding stays
+      // visible around it, like a tab pill inside its strip.
+      final double thumbTop = margin + segmentPadding.top;
+      final double thumbBottom = margin + segmentPadding.bottom;
       thumbs.add(
         AnimatedPositioned(
           duration: duration,
@@ -143,8 +158,8 @@ List<Widget> buildSegmentedControlThumbs<T>({
           left: rtl ? null : offset,
           right: rtl ? offset : null,
           width: width,
-          top: margin,
-          bottom: margin,
+          top: thumbTop,
+          bottom: thumbBottom,
           child: thumb,
         ),
       );

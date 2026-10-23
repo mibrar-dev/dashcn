@@ -9,6 +9,7 @@ import 'dart:async';
 import 'dart:math' as math;
 
 import '../../foundation/geometry.dart';
+
 import 'package:flutter/widgets.dart';
 
 import '../../foundation/data.dart';
@@ -32,6 +33,9 @@ export 'button_status_content.dart';
 export 'button_style.dart';
 
 /// Opacity applied to the whole button while disabled (upstream `opacity-50`).
+/// Press scale for the button (MOTION.md: 0.97, spring back).
+const double _buttonPressScale = 0.97;
+
 const double _buttonDisabledOpacity = 0.5;
 
 /// Cursor for an enabled button; the system arrow while disabled.
@@ -270,24 +274,27 @@ class _ButtonState extends State<Button> {
           select: (t) => t.forVariant(widget.variant),
           defaults: buttonDefaults.forVariant(widget.variant)!,
         );
+    // Same visuals on desktop and mobile: resolve the ambient tokens
+    // directly (no phone-width touch switch). Touch comfort comes from the
+    // invisible [TouchHitArea] below, never larger visuals.
     final DensityTokens tokens =
         widget.densityTokens ??
         ComponentTheme.maybeOf<ButtonTheme>(context)?.themeDensityTokens ??
         ComponentThemes.maybeOf<ButtonTheme>(context)?.themeDensityTokens ??
-        resolveDensityTokens(context);
+        Theme.of(context).densityTokens;
     final ButtonSizeMetrics metrics = buttonMetricsForTokens(
       widget.size,
       tokens,
     );
     final ButtonGroupData? group = Data.maybeOf<ButtonGroupData>(context);
-    // Touch platforms grow the hit box (transparent padding, never visuals)
-    // to the platform minimum height. Joined groups are excluded: padding
-    // would separate their shared edges.
+    // Touch comfort is an invisible hit-test/semantics expansion (never
+    // larger visuals or layout) to the platform minimum height. Joined
+    // groups are excluded: expansion would overlap their shared edges.
     final double touchVertical = group != null
         ? 0
         : math.max(0, (touchMinEdge(theme.platform) - metrics.minHeight) / 2);
-    // Icon buttons are square (36x36): the same growth applies horizontally
-    // so the width meets the minimum too (36x48 failed the tap target).
+    // Icon buttons are square (36x36): the same expansion applies
+    // horizontally so the hit/semantics region meets the minimum too.
     // Text buttons size to their content plus horizontal padding, so only
     // the fixed-minimum icon size needs it.
     final double touchHorizontal = group != null || metrics.minWidth <= 0
@@ -370,14 +377,14 @@ class _ButtonState extends State<Button> {
       child: Center(widthFactor: 1, heightFactor: 1, child: content),
     );
 
-    return Semantics(
-      button: true,
-      enabled: enabled,
-      child: Opacity(
-        opacity: enabled ? 1 : _buttonDisabledOpacity,
-        child: TouchHitArea(
-          vertical: touchVertical,
-          horizontal: touchHorizontal,
+    return TouchHitArea(
+      vertical: touchVertical,
+      horizontal: touchHorizontal,
+      child: Semantics(
+        button: true,
+        enabled: enabled,
+        child: Opacity(
+          opacity: enabled ? 1 : _buttonDisabledOpacity,
           child: Clickable(
             enabled: enabled,
             onPressed: enabled ? _handlePress : null,
@@ -386,6 +393,9 @@ class _ButtonState extends State<Button> {
             onFocus: widget.onFocusChange,
             focusNode: _focusNode,
             decoration: WidgetStateProperty.resolveWith(paint.decorationFor),
+            // Press to 0.97 and spring back (MOTION.md: button).
+            pressScale: _buttonPressScale,
+            pressCurve: theme.motion.curves.spring,
             mouseCursor: _buttonMouseCursor,
             padding: WidgetStatePropertyAll<EdgeInsetsGeometry>(contentPadding),
             textStyle: WidgetStateProperty.resolveWith(paint.textStyleFor),

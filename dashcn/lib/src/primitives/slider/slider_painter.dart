@@ -43,6 +43,7 @@ class SliderPainter extends CustomPainter {
     required this.markColor,
     required this.focused,
     required this.ringColor,
+    this.thumbScale = 1.0,
   });
 
   final SliderView view;
@@ -55,6 +56,10 @@ class SliderPainter extends CustomPainter {
   final Color markColor;
   final bool focused;
   final Color ringColor;
+
+  /// Scale applied to every thumb about its centre (1.0 at rest; the
+  /// component eases it to 1.2 while the thumb is pressed).
+  final double thumbScale;
 
   double _xForT(double t) {
     final inset = view.thumbInset;
@@ -124,18 +129,18 @@ class SliderPainter extends CustomPainter {
     for (final thumb in view.thumbs) {
       switch (thumbShape) {
         case SliderThumbShape.bar:
-          final w = math.min(thumb.size.width * 0.6, 12.0);
+          final w = math.min(thumb.size.width * 0.6, 12.0) * thumbScale;
           final rect = Rect.fromCenter(
             center: thumb.center,
             width: w,
-            height: thumb.size.height,
+            height: thumb.size.height * thumbScale,
           );
           canvas.drawRRect(
             RRect.fromRectAndRadius(rect, Radius.circular(w / 2)),
             Paint()..color = thumbColor,
           );
         case SliderThumbShape.circle:
-          final r = thumb.size.width / 2;
+          final r = thumb.size.width / 2 * thumbScale;
           canvas.drawCircle(thumb.center, r, Paint()..color = thumbColor);
           canvas.drawCircle(
             thumb.center,
@@ -171,6 +176,7 @@ class SliderPainter extends CustomPainter {
         oldDelegate.thumbBorderColor != thumbBorderColor ||
         oldDelegate.markColor != markColor ||
         oldDelegate.focused != focused ||
-        oldDelegate.ringColor != ringColor;
+        oldDelegate.ringColor != ringColor ||
+        oldDelegate.thumbScale != thumbScale;
   }
 }

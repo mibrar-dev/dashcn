@@ -6634,7 +6634,7 @@ const Map<String, DocsApiTable> kApiTables = <String, DocsApiTable>{
         type: 'bool',
         isRequired: false,
         defaultValue: 'false',
-        doc: 'Icon-only 56 px rail with tooltips; labels hide.',
+        doc: 'Icon-only 64 px rail with tooltips; labels hide.',
       ),
       DocsApiParam(
         name: 'onToggleCollapsed',
@@ -7604,8 +7604,6 @@ const Map<String, DocsApiTable> kApiTables = <String, DocsApiTable>{
     symbol: 'CodeSnippet',
     hasApiTable: true,
     parseClean: true,
-    summary:
-        'Scrollable code block with syntax colouring, top-right [actions] and a built-in copy button.',
     params: <DocsApiParam>[
       DocsApiParam(
         name: 'code',
@@ -10149,7 +10147,7 @@ const Map<String, DocsApiTable> kApiTables = <String, DocsApiTable>{
         type: 'double?',
         isRequired: false,
         doc:
-            'Width of one action; null resolves from the density tokens\n(`control + 24`: 56 compact / 64 comfortable / 72 touch).\nThe revealed run is `actions.length * actionExtent`.',
+            'Width of one action; null resolves from the density tokens\n(at least 64: 64 compact / 64 comfortable / 72 touch).\nThe revealed run is `actions.length * actionExtent`.',
       ),
       DocsApiParam(
         name: 'controller',
@@ -14521,12 +14519,12 @@ const Map<String, DocsThemeTable> kThemeTables = <String, DocsThemeTable>{
       DocsThemeField(
         name: 'collapsedWidth',
         type: 'double?',
-        description: 'collapsed rail width, default 56',
+        description: 'collapsed rail width, default 64',
       ),
       DocsThemeField(
         name: 'expandedWidth',
         type: 'double?',
-        description: 'expanded rail width, default 240',
+        description: 'expanded rail width, default 256',
       ),
       DocsThemeField(
         name: 'foreground',
@@ -15453,7 +15451,7 @@ const Map<String, DocsThemeTable> kThemeTables = <String, DocsThemeTable>{
       DocsThemeField(
         name: 'copyFeedbackDuration',
         type: 'Duration?',
-        description: 'duration to show copied feedback, 2000ms',
+        description: 'duration to show copied feedback, 1500ms',
       ),
       DocsThemeField(
         name: 'copyIcon',

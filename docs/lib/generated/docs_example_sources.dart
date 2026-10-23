@@ -1378,7 +1378,10 @@ import 'package:<your_app>/ui/dashcn/components/fab/fab.dart';
 
 void _noop() {}
 
-/// A customised button: secondary fill, custom radius and no elevation.
+/// A customised button: secondary fill, custom radius and token shadow.
+///
+/// Extended 56 px pill with a 16 px icon plus label; elevation 3 paints the
+/// theme shadowLg so the button lifts off the stage instead of looking flat.
 Widget _fabCustomized(BuildContext context) {
   return const Center(
     child: Fab(
@@ -1391,9 +1394,9 @@ Widget _fabCustomized(BuildContext context) {
         foreground: StateValue(
           rest: ThemedColor.ref(ColorRef.secondaryForeground),
         ),
-        borderRadius: BorderRadius.all(Radius.circular(8)),
-        elevation: 0,
-        gap: 6,
+        borderRadius: BorderRadius.all(Radius.circular(16)),
+        elevation: 3,
+        gap: 8,
       ),
     ),
   );
@@ -19415,12 +19418,164 @@ Widget _single(BuildContext context) {
     DocsExampleSource(
       name: 'Default',
       builder: '_commandDefault',
-      code: r'''import 'package:flutter/widgets.dart';
+      code: r'''import 'package:flutter/rendering.dart';
+import 'package:flutter/widgets.dart';
+import 'package:<your_app>/ui/dashcn/foundation/platform.dart';
 import 'package:<your_app>/ui/dashcn/primitives/subfocus_list_item.dart';
 import 'package:<your_app>/ui/dashcn/theme/color_tokens.dart';
 import 'package:<your_app>/ui/dashcn/theme/theme.dart';
 import 'package:<your_app>/ui/dashcn/components/button/button.dart';
 import 'package:<your_app>/ui/dashcn/components/command/command.dart';
+
+// Temporary hit-test-only 32 -> 48 px expansion for command rows.
+//
+// SIZING: menu-family rows are 32 px on desktop and mobile alike; touch
+// comfort comes from an invisible hit area, never larger visuals. PR 60's
+// `touch_hit_area` primitive implements exactly this (hit-test + semantics
+// expansion with no layout growth) but lives on branch
+// `fix/sizing-controls-tiles`, not yet in this branch, so these demos keep
+// a local wrapper with the same contract. Switch these rows to
+// `TouchHitArea` once PR 60 merges and delete the local wrapper.
+class _CommandRowHitArea extends StatelessWidget {
+  /// Creates a hit-area wrapper with per-side [vertical] expansion.
+  const _CommandRowHitArea({required this.vertical, required this.child});
+
+  /// Invisible expansion per side, top and bottom.
+  final double vertical;
+
+  /// The 32 px row.
+  final Widget child;
+
+  @override
+  Widget build(BuildContext context) {
+    if (vertical <= 0) {
+      return child;
+    }
+    if (Theme.of(context).touchTargets == TouchTargets.shrinkWrap) {
+      return child;
+    }
+    if (!isMobile(Theme.of(context).platform)) {
+      return child;
+    }
+    return _CommandHitExpander(vertical: vertical, child: child);
+  }
+}
+
+/// Render-object expander: same layout size as [child], larger semantics
+/// and hit test on touch platforms.
+class _CommandHitExpander extends SingleChildRenderObjectWidget {
+  /// Creates an expander with per-side [vertical] growth.
+  const _CommandHitExpander({required this.vertical, required super.child});
+
+  /// Expansion per side, top and bottom.
+  final double vertical;
+
+  @override
+  RenderObject createRenderObject(BuildContext context) {
+    return _RenderCommandHitArea(vertical: vertical);
+  }
+
+  @override
+  void updateRenderObject(
+    BuildContext context,
+    _RenderCommandHitArea renderObject,
+  ) {
+    renderObject.vertical = vertical;
+  }
+}
+
+/// Proxy whose layout size is the child's size, but whose semantics bounds
+/// and hit test include the invisible per-side expansion.
+///
+/// A semantics container that merges non-container descendants (the tap from
+/// `Clickable`/`GestureDetector`) into the expanded rect, so the scorecard
+/// tap guidelines (which read `SemanticsNode.rect`) see the platform
+/// minimum while `tester.getSize` still reports the 32 px visual size.
+class _RenderCommandHitArea extends RenderProxyBox
+    with SemanticsAnnotationsMixin {
+  /// Creates a hit-area proxy with per-side expansion.
+  _RenderCommandHitArea({required double vertical})
+    // ignore: prefer_initializing_formals
+    : _vertical = vertical {
+    initSemanticsAnnotations(
+      properties: const SemanticsProperties(),
+      container: true,
+      explicitChildNodes: false,
+      excludeSemantics: false,
+      blockUserActions: false,
+      localeForSubtree: null,
+      textDirection: null,
+    );
+  }
+
+  double _vertical;
+
+  /// Expansion per side, top and bottom.
+  double get vertical => _vertical;
+
+  /// Sets the vertical expansion and marks semantics layout dirty when it
+  /// changes (the semantics rect derives from it).
+  set vertical(double value) {
+    if (_vertical == value) {
+      return;
+    }
+    _vertical = value;
+    markNeedsLayout();
+    markNeedsSemanticsUpdate();
+  }
+
+  @override
+  void performLayout() {
+    if (child != null) {
+      child!.layout(constraints, parentUsesSize: true);
+      size = child!.size;
+    } else {
+      size = constraints.smallest;
+    }
+  }
+
+  /// Semantics bounds include the invisible expansion so the scorecard tap
+  /// target guidelines (which read `SemanticsNode.rect`) see the platform
+  /// minimum while `tester.getSize` still reports the visual size.
+  @override
+  Rect get semanticBounds {
+    if (_vertical <= 0) {
+      return Offset.zero & size;
+    }
+    return Rect.fromLTWH(
+      0,
+      -_vertical,
+      size.width,
+      size.height + _vertical * 2,
+    );
+  }
+
+  @override
+  bool hitTest(BoxHitTestResult result, {required Offset position}) {
+    if (_vertical <= 0) {
+      return super.hitTest(result, position: position);
+    }
+    final Rect expanded = Rect.fromLTWH(
+      0,
+      -_vertical,
+      size.width,
+      size.height + _vertical * 2,
+    );
+    if (!expanded.contains(position)) {
+      return false;
+    }
+    if (child == null) {
+      return false;
+    }
+    // Inside the visual box: normal hit test. In the invisible overflow:
+    // forward to the nearest edge so padding taps still press the control.
+    final Offset clamped = Offset(
+      position.dx.clamp(0.0, size.width),
+      position.dy.clamp(0.0, size.height),
+    );
+    return child!.hitTest(result, position: clamped);
+  }
+}
 
 /// Commands the palette offers.
 const List<String> _commandValues = <String>[
@@ -19471,11 +19626,17 @@ class _CommandPaletteState extends State<_CommandPalette> {
                   if (!widget.buildGroups) {
                     for (final String value in ranked) {
                       items.add(
-                        SubFocusListItem(
-                          // 48px rows meet the touch minimum.
-                          minHeight: 48,
-                          title: Text(value),
-                          onTap: () => setState(() => _lastCommand = value),
+                        // SIZING h-8 (32 px) like the menu family; the
+                        // hit-test-only wrapper reports the 48 px tap target
+                        // without changing layout (switch to TouchHitArea
+                        // once PR 60 merges).
+                        _CommandRowHitArea(
+                          vertical: 8,
+                          child: SubFocusListItem(
+                            minHeight: 32,
+                            title: Text(value),
+                            onTap: () => setState(() => _lastCommand = value),
+                          ),
                         ),
                       );
                     }
@@ -19504,11 +19665,16 @@ class _CommandPaletteState extends State<_CommandPalette> {
                       );
                       for (final String value in ranked) {
                         items.add(
-                          SubFocusListItem(
-                            // 48px rows meet the touch minimum.
-                            minHeight: 48,
-                            title: Text(value),
-                            onTap: () => setState(() => _lastCommand = value),
+                          // SIZING h-8 (32 px); hit-test-only 48 px target
+                          // via the local wrapper (switch to TouchHitArea
+                          // once PR 60 merges).
+                          _CommandRowHitArea(
+                            vertical: 8,
+                            child: SubFocusListItem(
+                              minHeight: 32,
+                              title: Text(value),
+                              onTap: () => setState(() => _lastCommand = value),
+                            ),
                           ),
                         );
                       }
@@ -19543,12 +19709,164 @@ Widget _commandDefault(BuildContext context) => const _CommandPalette();
     DocsExampleSource(
       name: 'With groups',
       builder: '_commandWithGroups',
-      code: r'''import 'package:flutter/widgets.dart';
+      code: r'''import 'package:flutter/rendering.dart';
+import 'package:flutter/widgets.dart';
+import 'package:<your_app>/ui/dashcn/foundation/platform.dart';
 import 'package:<your_app>/ui/dashcn/primitives/subfocus_list_item.dart';
 import 'package:<your_app>/ui/dashcn/theme/color_tokens.dart';
 import 'package:<your_app>/ui/dashcn/theme/theme.dart';
 import 'package:<your_app>/ui/dashcn/components/button/button.dart';
 import 'package:<your_app>/ui/dashcn/components/command/command.dart';
+
+// Temporary hit-test-only 32 -> 48 px expansion for command rows.
+//
+// SIZING: menu-family rows are 32 px on desktop and mobile alike; touch
+// comfort comes from an invisible hit area, never larger visuals. PR 60's
+// `touch_hit_area` primitive implements exactly this (hit-test + semantics
+// expansion with no layout growth) but lives on branch
+// `fix/sizing-controls-tiles`, not yet in this branch, so these demos keep
+// a local wrapper with the same contract. Switch these rows to
+// `TouchHitArea` once PR 60 merges and delete the local wrapper.
+class _CommandRowHitArea extends StatelessWidget {
+  /// Creates a hit-area wrapper with per-side [vertical] expansion.
+  const _CommandRowHitArea({required this.vertical, required this.child});
+
+  /// Invisible expansion per side, top and bottom.
+  final double vertical;
+
+  /// The 32 px row.
+  final Widget child;
+
+  @override
+  Widget build(BuildContext context) {
+    if (vertical <= 0) {
+      return child;
+    }
+    if (Theme.of(context).touchTargets == TouchTargets.shrinkWrap) {
+      return child;
+    }
+    if (!isMobile(Theme.of(context).platform)) {
+      return child;
+    }
+    return _CommandHitExpander(vertical: vertical, child: child);
+  }
+}
+
+/// Render-object expander: same layout size as [child], larger semantics
+/// and hit test on touch platforms.
+class _CommandHitExpander extends SingleChildRenderObjectWidget {
+  /// Creates an expander with per-side [vertical] growth.
+  const _CommandHitExpander({required this.vertical, required super.child});
+
+  /// Expansion per side, top and bottom.
+  final double vertical;
+
+  @override
+  RenderObject createRenderObject(BuildContext context) {
+    return _RenderCommandHitArea(vertical: vertical);
+  }
+
+  @override
+  void updateRenderObject(
+    BuildContext context,
+    _RenderCommandHitArea renderObject,
+  ) {
+    renderObject.vertical = vertical;
+  }
+}
+
+/// Proxy whose layout size is the child's size, but whose semantics bounds
+/// and hit test include the invisible per-side expansion.
+///
+/// A semantics container that merges non-container descendants (the tap from
+/// `Clickable`/`GestureDetector`) into the expanded rect, so the scorecard
+/// tap guidelines (which read `SemanticsNode.rect`) see the platform
+/// minimum while `tester.getSize` still reports the 32 px visual size.
+class _RenderCommandHitArea extends RenderProxyBox
+    with SemanticsAnnotationsMixin {
+  /// Creates a hit-area proxy with per-side expansion.
+  _RenderCommandHitArea({required double vertical})
+    // ignore: prefer_initializing_formals
+    : _vertical = vertical {
+    initSemanticsAnnotations(
+      properties: const SemanticsProperties(),
+      container: true,
+      explicitChildNodes: false,
+      excludeSemantics: false,
+      blockUserActions: false,
+      localeForSubtree: null,
+      textDirection: null,
+    );
+  }
+
+  double _vertical;
+
+  /// Expansion per side, top and bottom.
+  double get vertical => _vertical;
+
+  /// Sets the vertical expansion and marks semantics layout dirty when it
+  /// changes (the semantics rect derives from it).
+  set vertical(double value) {
+    if (_vertical == value) {
+      return;
+    }
+    _vertical = value;
+    markNeedsLayout();
+    markNeedsSemanticsUpdate();
+  }
+
+  @override
+  void performLayout() {
+    if (child != null) {
+      child!.layout(constraints, parentUsesSize: true);
+      size = child!.size;
+    } else {
+      size = constraints.smallest;
+    }
+  }
+
+  /// Semantics bounds include the invisible expansion so the scorecard tap
+  /// target guidelines (which read `SemanticsNode.rect`) see the platform
+  /// minimum while `tester.getSize` still reports the visual size.
+  @override
+  Rect get semanticBounds {
+    if (_vertical <= 0) {
+      return Offset.zero & size;
+    }
+    return Rect.fromLTWH(
+      0,
+      -_vertical,
+      size.width,
+      size.height + _vertical * 2,
+    );
+  }
+
+  @override
+  bool hitTest(BoxHitTestResult result, {required Offset position}) {
+    if (_vertical <= 0) {
+      return super.hitTest(result, position: position);
+    }
+    final Rect expanded = Rect.fromLTWH(
+      0,
+      -_vertical,
+      size.width,
+      size.height + _vertical * 2,
+    );
+    if (!expanded.contains(position)) {
+      return false;
+    }
+    if (child == null) {
+      return false;
+    }
+    // Inside the visual box: normal hit test. In the invisible overflow:
+    // forward to the nearest edge so padding taps still press the control.
+    final Offset clamped = Offset(
+      position.dx.clamp(0.0, size.width),
+      position.dy.clamp(0.0, size.height),
+    );
+    return child!.hitTest(result, position: clamped);
+  }
+}
 
 /// Commands the palette offers.
 const List<String> _commandValues = <String>[
@@ -19599,11 +19917,17 @@ class _CommandPaletteState extends State<_CommandPalette> {
                   if (!widget.buildGroups) {
                     for (final String value in ranked) {
                       items.add(
-                        SubFocusListItem(
-                          // 48px rows meet the touch minimum.
-                          minHeight: 48,
-                          title: Text(value),
-                          onTap: () => setState(() => _lastCommand = value),
+                        // SIZING h-8 (32 px) like the menu family; the
+                        // hit-test-only wrapper reports the 48 px tap target
+                        // without changing layout (switch to TouchHitArea
+                        // once PR 60 merges).
+                        _CommandRowHitArea(
+                          vertical: 8,
+                          child: SubFocusListItem(
+                            minHeight: 32,
+                            title: Text(value),
+                            onTap: () => setState(() => _lastCommand = value),
+                          ),
                         ),
                       );
                     }
@@ -19632,11 +19956,16 @@ class _CommandPaletteState extends State<_CommandPalette> {
                       );
                       for (final String value in ranked) {
                         items.add(
-                          SubFocusListItem(
-                            // 48px rows meet the touch minimum.
-                            minHeight: 48,
-                            title: Text(value),
-                            onTap: () => setState(() => _lastCommand = value),
+                          // SIZING h-8 (32 px); hit-test-only 48 px target
+                          // via the local wrapper (switch to TouchHitArea
+                          // once PR 60 merges).
+                          _CommandRowHitArea(
+                            vertical: 8,
+                            child: SubFocusListItem(
+                              minHeight: 32,
+                              title: Text(value),
+                              onTap: () => setState(() => _lastCommand = value),
+                            ),
                           ),
                         );
                       }
@@ -19672,12 +20001,164 @@ Widget _commandWithGroups(BuildContext context) =>
     DocsExampleSource(
       name: 'Dialog',
       builder: '_commandDialog',
-      code: r'''import 'package:flutter/widgets.dart';
+      code: r'''import 'package:flutter/rendering.dart';
+import 'package:flutter/widgets.dart';
+import 'package:<your_app>/ui/dashcn/foundation/platform.dart';
 import 'package:<your_app>/ui/dashcn/primitives/subfocus_list_item.dart';
 import 'package:<your_app>/ui/dashcn/theme/color_tokens.dart';
 import 'package:<your_app>/ui/dashcn/theme/theme.dart';
 import 'package:<your_app>/ui/dashcn/components/button/button.dart';
 import 'package:<your_app>/ui/dashcn/components/command/command.dart';
+
+// Temporary hit-test-only 32 -> 48 px expansion for command rows.
+//
+// SIZING: menu-family rows are 32 px on desktop and mobile alike; touch
+// comfort comes from an invisible hit area, never larger visuals. PR 60's
+// `touch_hit_area` primitive implements exactly this (hit-test + semantics
+// expansion with no layout growth) but lives on branch
+// `fix/sizing-controls-tiles`, not yet in this branch, so these demos keep
+// a local wrapper with the same contract. Switch these rows to
+// `TouchHitArea` once PR 60 merges and delete the local wrapper.
+class _CommandRowHitArea extends StatelessWidget {
+  /// Creates a hit-area wrapper with per-side [vertical] expansion.
+  const _CommandRowHitArea({required this.vertical, required this.child});
+
+  /// Invisible expansion per side, top and bottom.
+  final double vertical;
+
+  /// The 32 px row.
+  final Widget child;
+
+  @override
+  Widget build(BuildContext context) {
+    if (vertical <= 0) {
+      return child;
+    }
+    if (Theme.of(context).touchTargets == TouchTargets.shrinkWrap) {
+      return child;
+    }
+    if (!isMobile(Theme.of(context).platform)) {
+      return child;
+    }
+    return _CommandHitExpander(vertical: vertical, child: child);
+  }
+}
+
+/// Render-object expander: same layout size as [child], larger semantics
+/// and hit test on touch platforms.
+class _CommandHitExpander extends SingleChildRenderObjectWidget {
+  /// Creates an expander with per-side [vertical] growth.
+  const _CommandHitExpander({required this.vertical, required super.child});
+
+  /// Expansion per side, top and bottom.
+  final double vertical;
+
+  @override
+  RenderObject createRenderObject(BuildContext context) {
+    return _RenderCommandHitArea(vertical: vertical);
+  }
+
+  @override
+  void updateRenderObject(
+    BuildContext context,
+    _RenderCommandHitArea renderObject,
+  ) {
+    renderObject.vertical = vertical;
+  }
+}
+
+/// Proxy whose layout size is the child's size, but whose semantics bounds
+/// and hit test include the invisible per-side expansion.
+///
+/// A semantics container that merges non-container descendants (the tap from
+/// `Clickable`/`GestureDetector`) into the expanded rect, so the scorecard
+/// tap guidelines (which read `SemanticsNode.rect`) see the platform
+/// minimum while `tester.getSize` still reports the 32 px visual size.
+class _RenderCommandHitArea extends RenderProxyBox
+    with SemanticsAnnotationsMixin {
+  /// Creates a hit-area proxy with per-side expansion.
+  _RenderCommandHitArea({required double vertical})
+    // ignore: prefer_initializing_formals
+    : _vertical = vertical {
+    initSemanticsAnnotations(
+      properties: const SemanticsProperties(),
+      container: true,
+      explicitChildNodes: false,
+      excludeSemantics: false,
+      blockUserActions: false,
+      localeForSubtree: null,
+      textDirection: null,
+    );
+  }
+
+  double _vertical;
+
+  /// Expansion per side, top and bottom.
+  double get vertical => _vertical;
+
+  /// Sets the vertical expansion and marks semantics layout dirty when it
+  /// changes (the semantics rect derives from it).
+  set vertical(double value) {
+    if (_vertical == value) {
+      return;
+    }
+    _vertical = value;
+    markNeedsLayout();
+    markNeedsSemanticsUpdate();
+  }
+
+  @override
+  void performLayout() {
+    if (child != null) {
+      child!.layout(constraints, parentUsesSize: true);
+      size = child!.size;
+    } else {
+      size = constraints.smallest;
+    }
+  }
+
+  /// Semantics bounds include the invisible expansion so the scorecard tap
+  /// target guidelines (which read `SemanticsNode.rect`) see the platform
+  /// minimum while `tester.getSize` still reports the visual size.
+  @override
+  Rect get semanticBounds {
+    if (_vertical <= 0) {
+      return Offset.zero & size;
+    }
+    return Rect.fromLTWH(
+      0,
+      -_vertical,
+      size.width,
+      size.height + _vertical * 2,
+    );
+  }
+
+  @override
+  bool hitTest(BoxHitTestResult result, {required Offset position}) {
+    if (_vertical <= 0) {
+      return super.hitTest(result, position: position);
+    }
+    final Rect expanded = Rect.fromLTWH(
+      0,
+      -_vertical,
+      size.width,
+      size.height + _vertical * 2,
+    );
+    if (!expanded.contains(position)) {
+      return false;
+    }
+    if (child == null) {
+      return false;
+    }
+    // Inside the visual box: normal hit test. In the invisible overflow:
+    // forward to the nearest edge so padding taps still press the control.
+    final Offset clamped = Offset(
+      position.dx.clamp(0.0, size.width),
+      position.dy.clamp(0.0, size.height),
+    );
+    return child!.hitTest(result, position: clamped);
+  }
+}
 
 /// Commands the palette offers.
 const List<String> _commandValues = <String>[
@@ -19696,8 +20177,13 @@ class _CommandDialogTrigger extends StatelessWidget {
   Stream<List<Widget>> _results(BuildContext context, String? query) async* {
     final List<String> ranked = rankCommandLabels(_commandValues, query);
     yield <Widget>[
+      // SIZING h-8 (32 px); hit-test-only 48 px target (local wrapper until
+      // PR 60's TouchHitArea lands).
       for (final String value in ranked)
-        SubFocusListItem(minHeight: 48, title: Text(value)),
+        _CommandRowHitArea(
+          vertical: 8,
+          child: SubFocusListItem(minHeight: 32, title: Text(value)),
+        ),
     ];
   }
 
@@ -19719,12 +20205,164 @@ Widget _commandDialog(BuildContext context) => const _CommandDialogTrigger();
     DocsExampleSource(
       name: 'Customized',
       builder: '_commandCustomized',
-      code: r'''import 'package:flutter/widgets.dart';
+      code: r'''import 'package:flutter/rendering.dart';
+import 'package:flutter/widgets.dart';
+import 'package:<your_app>/ui/dashcn/foundation/platform.dart';
 import 'package:<your_app>/ui/dashcn/primitives/subfocus_list_item.dart';
 import 'package:<your_app>/ui/dashcn/theme/color_tokens.dart';
 import 'package:<your_app>/ui/dashcn/theme/theme.dart';
 import 'package:<your_app>/ui/dashcn/components/button/button.dart';
 import 'package:<your_app>/ui/dashcn/components/command/command.dart';
+
+// Temporary hit-test-only 32 -> 48 px expansion for command rows.
+//
+// SIZING: menu-family rows are 32 px on desktop and mobile alike; touch
+// comfort comes from an invisible hit area, never larger visuals. PR 60's
+// `touch_hit_area` primitive implements exactly this (hit-test + semantics
+// expansion with no layout growth) but lives on branch
+// `fix/sizing-controls-tiles`, not yet in this branch, so these demos keep
+// a local wrapper with the same contract. Switch these rows to
+// `TouchHitArea` once PR 60 merges and delete the local wrapper.
+class _CommandRowHitArea extends StatelessWidget {
+  /// Creates a hit-area wrapper with per-side [vertical] expansion.
+  const _CommandRowHitArea({required this.vertical, required this.child});
+
+  /// Invisible expansion per side, top and bottom.
+  final double vertical;
+
+  /// The 32 px row.
+  final Widget child;
+
+  @override
+  Widget build(BuildContext context) {
+    if (vertical <= 0) {
+      return child;
+    }
+    if (Theme.of(context).touchTargets == TouchTargets.shrinkWrap) {
+      return child;
+    }
+    if (!isMobile(Theme.of(context).platform)) {
+      return child;
+    }
+    return _CommandHitExpander(vertical: vertical, child: child);
+  }
+}
+
+/// Render-object expander: same layout size as [child], larger semantics
+/// and hit test on touch platforms.
+class _CommandHitExpander extends SingleChildRenderObjectWidget {
+  /// Creates an expander with per-side [vertical] growth.
+  const _CommandHitExpander({required this.vertical, required super.child});
+
+  /// Expansion per side, top and bottom.
+  final double vertical;
+
+  @override
+  RenderObject createRenderObject(BuildContext context) {
+    return _RenderCommandHitArea(vertical: vertical);
+  }
+
+  @override
+  void updateRenderObject(
+    BuildContext context,
+    _RenderCommandHitArea renderObject,
+  ) {
+    renderObject.vertical = vertical;
+  }
+}
+
+/// Proxy whose layout size is the child's size, but whose semantics bounds
+/// and hit test include the invisible per-side expansion.
+///
+/// A semantics container that merges non-container descendants (the tap from
+/// `Clickable`/`GestureDetector`) into the expanded rect, so the scorecard
+/// tap guidelines (which read `SemanticsNode.rect`) see the platform
+/// minimum while `tester.getSize` still reports the 32 px visual size.
+class _RenderCommandHitArea extends RenderProxyBox
+    with SemanticsAnnotationsMixin {
+  /// Creates a hit-area proxy with per-side expansion.
+  _RenderCommandHitArea({required double vertical})
+    // ignore: prefer_initializing_formals
+    : _vertical = vertical {
+    initSemanticsAnnotations(
+      properties: const SemanticsProperties(),
+      container: true,
+      explicitChildNodes: false,
+      excludeSemantics: false,
+      blockUserActions: false,
+      localeForSubtree: null,
+      textDirection: null,
+    );
+  }
+
+  double _vertical;
+
+  /// Expansion per side, top and bottom.
+  double get vertical => _vertical;
+
+  /// Sets the vertical expansion and marks semantics layout dirty when it
+  /// changes (the semantics rect derives from it).
+  set vertical(double value) {
+    if (_vertical == value) {
+      return;
+    }
+    _vertical = value;
+    markNeedsLayout();
+    markNeedsSemanticsUpdate();
+  }
+
+  @override
+  void performLayout() {
+    if (child != null) {
+      child!.layout(constraints, parentUsesSize: true);
+      size = child!.size;
+    } else {
+      size = constraints.smallest;
+    }
+  }
+
+  /// Semantics bounds include the invisible expansion so the scorecard tap
+  /// target guidelines (which read `SemanticsNode.rect`) see the platform
+  /// minimum while `tester.getSize` still reports the visual size.
+  @override
+  Rect get semanticBounds {
+    if (_vertical <= 0) {
+      return Offset.zero & size;
+    }
+    return Rect.fromLTWH(
+      0,
+      -_vertical,
+      size.width,
+      size.height + _vertical * 2,
+    );
+  }
+
+  @override
+  bool hitTest(BoxHitTestResult result, {required Offset position}) {
+    if (_vertical <= 0) {
+      return super.hitTest(result, position: position);
+    }
+    final Rect expanded = Rect.fromLTWH(
+      0,
+      -_vertical,
+      size.width,
+      size.height + _vertical * 2,
+    );
+    if (!expanded.contains(position)) {
+      return false;
+    }
+    if (child == null) {
+      return false;
+    }
+    // Inside the visual box: normal hit test. In the invisible overflow:
+    // forward to the nearest edge so padding taps still press the control.
+    final Offset clamped = Offset(
+      position.dx.clamp(0.0, size.width),
+      position.dy.clamp(0.0, size.height),
+    );
+    return child!.hitTest(result, position: clamped);
+  }
+}
 
 /// Commands the palette offers.
 const List<String> _commandValues = <String>[
@@ -19736,7 +20374,8 @@ const List<String> _commandValues = <String>[
   'Settings',
 ];
 
-/// A customized palette: widget-leg theme override (tinted fill).
+/// A customized palette: widget-leg theme override (muted tint that stays
+/// readable in light and dark mode).
 Widget _commandCustomized(BuildContext context) {
   return Center(
     child: SizedBox(
@@ -19746,7 +20385,7 @@ Widget _commandCustomized(BuildContext context) {
         child: Command(
           debounceDuration: Duration.zero,
           theme: const CommandTheme(
-            background: ThemedColor.value(Color(0xFFF0FDF4)),
+            background: ThemedColor.ref(ColorRef.muted),
           ),
           builder: (context, query) async* {
             final List<String> ranked = rankCommandLabels(
@@ -19754,8 +20393,13 @@ Widget _commandCustomized(BuildContext context) {
               query,
             );
             yield <Widget>[
+              // SIZING h-8 (32 px); hit-test-only 48 px target (local
+              // wrapper until PR 60's TouchHitArea lands).
               for (final String value in ranked)
-                SubFocusListItem(minHeight: 48, title: Text(value)),
+                _CommandRowHitArea(
+                  vertical: 8,
+                  child: SubFocusListItem(minHeight: 32, title: Text(value)),
+                ),
             ];
           },
         ),
@@ -21811,6 +22455,7 @@ Widget _breadcrumbResponsive(BuildContext context) => const _ResponsiveTrail();
       builder: '_default',
       code: r'''import 'package:flutter/widgets.dart';
 import 'package:<your_app>/ui/dashcn/foundation/icons/radix_icons.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
 import 'package:<your_app>/ui/dashcn/components/navigation_bar/navigation_bar.dart';
 
 /// Shared bar items for the horizontal examples.
@@ -21862,6 +22507,7 @@ Widget _default(BuildContext context) =>
       builder: '_withLabels',
       code: r'''import 'package:flutter/widgets.dart';
 import 'package:<your_app>/ui/dashcn/foundation/icons/radix_icons.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
 import 'package:<your_app>/ui/dashcn/components/navigation_bar/navigation_bar.dart';
 
 /// Shared bar items for the horizontal examples.
@@ -21913,6 +22559,7 @@ Widget _withLabels(BuildContext context) =>
       builder: '_sidebar',
       code: r'''import 'package:flutter/widgets.dart';
 import 'package:<your_app>/ui/dashcn/foundation/icons/radix_icons.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
 import 'package:<your_app>/ui/dashcn/components/navigation_bar/navigation_bar.dart';
 
 /// Shared bar items for the horizontal examples.
@@ -21943,13 +22590,38 @@ class _SidebarDemoState extends State<_SidebarDemo> {
 
   @override
   Widget build(BuildContext context) {
+    final ThemeData theme = Theme.of(context);
+    // Tall enough for the header, both groups, the expanded collapsible
+    // children and the footer with no scrolling.
     return SizedBox(
-      width: 260,
-      height: 320,
+      width: 256,
+      height: 420,
       child: NavigationBar(
         container: NavigationContainerType.sidebar,
         index: _index,
         onSelected: (int value) => setState(() => _index = value),
+        header: <Widget>[
+          Padding(
+            padding: const EdgeInsets.fromLTRB(8, 8, 8, 4),
+            child: Text(
+              'Acme Inc',
+              style: theme.typography.small.copyWith(
+                fontWeight: FontWeight.w600,
+              ),
+            ),
+          ),
+        ],
+        footer: <Widget>[
+          Padding(
+            padding: const EdgeInsets.fromLTRB(8, 4, 8, 8),
+            child: Text(
+              'v1.0.0',
+              style: theme.typography.xSmall.copyWith(
+                color: theme.colors.mutedForeground,
+              ),
+            ),
+          ),
+        ],
         children: <NavigationBarItem>[
           const NavigationLabel(child: Text('Main')),
           ..._barItems(),
@@ -22018,6 +22690,7 @@ Widget _featuredTile(ThemeData theme) {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           const Text('dashcn').small().medium(),
+          const SizedBox(height: 4),
           const Text('Beautifully designed components').muted().small(),
         ],
       ),
@@ -22041,11 +22714,13 @@ Widget _gettingStarted(ThemeData theme) {
               content: Text('Re-usable components for your apps'),
               onPressed: _noop,
             ),
+            SizedBox(height: 8),
             NavigationMenuContent(
               title: Text('Installation'),
               content: Text('How to install dependencies and code'),
               onPressed: _noop,
             ),
+            SizedBox(height: 8),
             NavigationMenuContent(
               title: Text('Typography'),
               content: Text('Styles for headings and paragraphs'),
@@ -22328,7 +23003,7 @@ import 'package:<your_app>/ui/dashcn/components/sidebar/sidebar.dart';
 ///
 /// Tracks the density phone breakpoint ([kPhoneWidthBreakpoint], 600 px) so
 /// the docs 295 px example stage (375 px viewport) and any narrow stage use
-/// the phone bar (no 240 px rail) instead of overflowing.
+/// the phone bar (no 256 px rail) instead of overflowing.
 const double kSidebarPhoneWidth = kPhoneWidthBreakpoint;
 
 /// Fallback shell height when the stage leaves the height unbounded.
@@ -22564,7 +23239,7 @@ class _PhoneDemoState extends State<_PhoneDemo> {
 
 /// Full sidebar beside content on wide stages, phone bar + drawer below
 /// [kSidebarPhoneWidth] (the density phone breakpoint). Narrow desktop
-/// stages use the collapsed 56 px rail so the 240 px rail never overflows
+/// stages use the collapsed 64 px rail so the 256 px rail never overflows
 /// the docs 560 px example stage; the content column scrolls vertically
 /// when the stage height is bounded. Collapse control and account footer
 /// included.
@@ -22599,7 +23274,7 @@ class _DashboardDemoState extends State<_DashboardDemo> {
           // Docs stages (560 px at 1440 px viewports, 295 px at 375 px
           // viewports which take the phone branch above) stay overflow-free:
           // tight desktop widths keep the collapsed rail (narrower sidebar
-          // inside the stage) instead of forcing the full 240 px rail.
+          // inside the stage) instead of forcing the full 256 px rail.
           final bool narrowStage = width < 720;
           body = Row(
             crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -22624,7 +23299,7 @@ class _DashboardDemoState extends State<_DashboardDemo> {
   }
 }
 
-/// Collapsed 56 px icon rail beside content, with tooltips on every row.
+/// Collapsed 64 px icon rail beside content, with tooltips on every row.
 /// Below [kSidebarPhoneWidth] the rail stays beside a squeezed content
 /// column (both fit the 295 px phone stage).
 class _CollapsedDemo extends StatefulWidget {
@@ -22975,7 +23650,7 @@ import 'package:<your_app>/ui/dashcn/components/sidebar/sidebar.dart';
 ///
 /// Tracks the density phone breakpoint ([kPhoneWidthBreakpoint], 600 px) so
 /// the docs 295 px example stage (375 px viewport) and any narrow stage use
-/// the phone bar (no 240 px rail) instead of overflowing.
+/// the phone bar (no 256 px rail) instead of overflowing.
 const double kSidebarPhoneWidth = kPhoneWidthBreakpoint;
 
 /// Fallback shell height when the stage leaves the height unbounded.
@@ -23117,7 +23792,7 @@ class _DemoContent extends StatelessWidget {
   }
 }
 
-/// Collapsed 56 px icon rail beside content, with tooltips on every row.
+/// Collapsed 64 px icon rail beside content, with tooltips on every row.
 /// Below [kSidebarPhoneWidth] the rail stays beside a squeezed content
 /// column (both fit the 295 px phone stage).
 class _CollapsedDemo extends StatefulWidget {
@@ -26274,14 +26949,16 @@ class _ProfileCard extends StatelessWidget {
   }
 }
 
-/// A customized surface: widget-leg theme override (tinted fill, no border).
+/// A customized surface: widget-leg theme override (tinted fill). The fill
+/// and the text come from the paired `secondary` tokens so the text stays
+/// readable in light and dark mode alike.
 Widget _customized(BuildContext context) {
   return const SizedBox(
     width: 220,
     child: MenuPopup(
       theme: MenuPopupTheme(
-        background: ThemedColor.value(Color(0xFFF0FDF4)),
-        borderWidth: 0,
+        background: ThemedColor.ref(ColorRef.secondary),
+        foreground: ThemedColor.ref(ColorRef.secondaryForeground),
       ),
       children: <Widget>[_ProfileCard()],
     ),
@@ -29983,13 +30660,52 @@ Widget _narrow(BuildContext context) {
       code: r'''import 'package:flutter/widgets.dart';
 import 'package:<your_app>/ui/dashcn/foundation/gap.dart';
 import 'package:<your_app>/ui/dashcn/primitives/motion/motion_spec.dart';
+import 'package:<your_app>/ui/dashcn/theme/color_tokens.dart';
 import 'package:<your_app>/ui/dashcn/theme/density_tokens.dart';
 import 'package:<your_app>/ui/dashcn/theme/theme.dart';
 import 'package:<your_app>/ui/dashcn/components/card/card.dart';
+import 'package:<your_app>/ui/dashcn/components/list_tile/list_tile.dart';
 import 'package:<your_app>/ui/dashcn/components/swipe_actions/swipe_actions.dart';
 
+// List-tile row padding: 8 px horizontal (sizing scale). Vertical 4 px so
+// the rendered rows land exactly on the list-tile heights under both the
+// test font and real fonts (Geist runs ~1.3 line height: single-line content
+// ~26 clamps to the 32 minimum; two-line ~47 clamps to the 48 minimum).
+const EdgeInsets _rowPadding = EdgeInsets.symmetric(horizontal: 8, vertical: 4);
+
+/// 1 px divider between rows inside the shared surface.
+Widget _rowDivider(ThemeData appTheme) => Container(
+  height: 1,
+  color: ThemedColor.ref(ColorRef.border).resolve(appTheme.colors),
+);
+
+/// One surface holding the swipeable rows (never a card per row).
+Widget _listSurface(ThemeData appTheme, List<Widget> rows) => Card(
+  padding: EdgeInsets.zero,
+  clipBehavior: Clip.antiAlias,
+  child: Column(
+    mainAxisSize: MainAxisSize.min,
+    crossAxisAlignment: CrossAxisAlignment.stretch,
+    children: <Widget>[
+      for (int i = 0; i < rows.length; i++) ...<Widget>[
+        rows[i],
+        if (i < rows.length - 1) _rowDivider(appTheme),
+      ],
+    ],
+  ),
+);
+
+/// Single-line 32 px list-tile row. Uses the list tile's own token
+/// typography (natural line heights) with an explicit foreground pair so the
+/// text stays readable on the card surface under bare-Theme harnesses.
+Widget _singleRow(ThemeData appTheme, String label) => ListTile(
+  contentPadding: _rowPadding,
+  textColor: ThemedColor.ref(ColorRef.foreground),
+  title: Text(label),
+);
+
 /// Three inbox rows; Archive and Delete both file the row away, Delete by
-/// button or by full swipe, with a live inbox count below.
+/// button or by full swipe, with a live inbox count 8 px below the list.
 class _SwipeActionsDemo extends StatefulWidget {
   const _SwipeActionsDemo();
 
@@ -30022,44 +30738,26 @@ class _SwipeActionsDemoState extends State<_SwipeActionsDemo> {
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
-            for (final String row in _rows) ...<Widget>[
-              SwipeActions(
-                actions: <SwipeAction>[
-                  SwipeAction(label: 'Archive', onPressed: () => _remove(row)),
-                  SwipeAction(
-                    label: 'Delete',
-                    destructive: true,
-                    onPressed: () => _remove(row),
-                  ),
-                ],
-                onDismissed: () => _remove(row),
-                child: Card(
-                  child: SizedBox(
-                    // Compact density row (36 px, within the 32-40 compact
-                    // band); the action tiles stretch to this height so the
-                    // swipe reveal always matches the row.
-                    height: 36,
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 12),
-                      child: Align(
-                        alignment: Alignment.centerLeft,
-                        // Explicit token colour: under a bare Theme
-                        // (scorecard harness, tests) there is no app
-                        // DefaultTextStyle, and the raw white default
-                        // fails contrast.
-                        child: Text(
-                          row,
-                          style: appTheme.typography.textSmall.copyWith(
-                            color: appTheme.colors.foreground,
-                          ),
-                        ),
-                      ),
+            _listSurface(appTheme, <Widget>[
+              for (final String row in _rows)
+                SwipeActions(
+                  actions: <SwipeAction>[
+                    SwipeAction(
+                      label: 'Archive',
+                      onPressed: () => _remove(row),
                     ),
-                  ),
+                    SwipeAction(
+                      label: 'Delete',
+                      destructive: true,
+                      onPressed: () => _remove(row),
+                    ),
+                  ],
+                  onDismissed: () => _remove(row),
+                  child: _singleRow(appTheme, row),
                 ),
-              ),
-              Gap(appTheme.spacing.sm),
-            ],
+            ]),
+            // Caption sits 8 px (sm) below the list.
+            Gap(appTheme.spacing.sm),
             Text(
               'Inbox: ${_rows.length}',
               // Foreground, not muted: muted small text lands just under
@@ -30085,10 +30783,49 @@ Widget _default(BuildContext context) => const _SwipeActionsDemo();
       code: r'''import 'package:flutter/widgets.dart';
 import 'package:<your_app>/ui/dashcn/foundation/gap.dart';
 import 'package:<your_app>/ui/dashcn/primitives/motion/motion_spec.dart';
+import 'package:<your_app>/ui/dashcn/theme/color_tokens.dart';
 import 'package:<your_app>/ui/dashcn/theme/density_tokens.dart';
 import 'package:<your_app>/ui/dashcn/theme/theme.dart';
 import 'package:<your_app>/ui/dashcn/components/card/card.dart';
+import 'package:<your_app>/ui/dashcn/components/list_tile/list_tile.dart';
 import 'package:<your_app>/ui/dashcn/components/swipe_actions/swipe_actions.dart';
+
+// List-tile row padding: 8 px horizontal (sizing scale). Vertical 4 px so
+// the rendered rows land exactly on the list-tile heights under both the
+// test font and real fonts (Geist runs ~1.3 line height: single-line content
+// ~26 clamps to the 32 minimum; two-line ~47 clamps to the 48 minimum).
+const EdgeInsets _rowPadding = EdgeInsets.symmetric(horizontal: 8, vertical: 4);
+
+/// 1 px divider between rows inside the shared surface.
+Widget _rowDivider(ThemeData appTheme) => Container(
+  height: 1,
+  color: ThemedColor.ref(ColorRef.border).resolve(appTheme.colors),
+);
+
+/// One surface holding the swipeable rows (never a card per row).
+Widget _listSurface(ThemeData appTheme, List<Widget> rows) => Card(
+  padding: EdgeInsets.zero,
+  clipBehavior: Clip.antiAlias,
+  child: Column(
+    mainAxisSize: MainAxisSize.min,
+    crossAxisAlignment: CrossAxisAlignment.stretch,
+    children: <Widget>[
+      for (int i = 0; i < rows.length; i++) ...<Widget>[
+        rows[i],
+        if (i < rows.length - 1) _rowDivider(appTheme),
+      ],
+    ],
+  ),
+);
+
+/// Single-line 32 px list-tile row. Uses the list tile's own token
+/// typography (natural line heights) with an explicit foreground pair so the
+/// text stays readable on the card surface under bare-Theme harnesses.
+Widget _singleRow(ThemeData appTheme, String label) => ListTile(
+  contentPadding: _rowPadding,
+  textColor: ThemedColor.ref(ColorRef.foreground),
+  title: Text(label),
+);
 
 Widget _compact(BuildContext context) {
   final ThemeData appTheme = Theme.of(context);
@@ -30096,31 +30833,25 @@ Widget _compact(BuildContext context) {
     color: appTheme.colors.background,
     child: Padding(
       padding: EdgeInsets.all(appTheme.spacing.sm),
-      child: SwipeActions(
-        densityTokens: DensityTokens.compact,
-        actions: <SwipeAction>[
-          SwipeAction(label: 'Archive', onPressed: () {}),
-          SwipeAction(label: 'Delete', destructive: true, onPressed: () {}),
-        ],
-        onDismissed: () {},
-        child: Card(
-          child: SizedBox(
-            height: 36,
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 12),
-              child: Align(
-                alignment: Alignment.centerLeft,
-                child: Text(
-                  'Compact row 36, tile 56',
-                  style: appTheme.typography.textSmall.copyWith(
-                    color: appTheme.colors.foreground,
-                  ),
-                ),
-              ),
-            ),
+      child: _listSurface(appTheme, <Widget>[
+        // Dense file list: single-line rows, compact action tiles.
+        for (final String file in const <String>[
+          'Q3 budget.xlsx',
+          'Team offsite notes.docx',
+          'Logo final.png',
+        ])
+          SwipeActions(
+            densityTokens: DensityTokens.compact,
+            actions: <SwipeAction>[
+              SwipeAction(label: 'Archive', onPressed: () {}),
+              SwipeAction(label: 'Delete', destructive: true, onPressed: () {}),
+            ],
+            onDismissed: () {},
+            // List-tile single-line row (32); the action tiles stretch to
+            // this full row height.
+            child: _singleRow(appTheme, file),
           ),
-        ),
-      ),
+      ]),
     ),
   );
 }
@@ -30132,10 +30863,52 @@ Widget _compact(BuildContext context) {
       code: r'''import 'package:flutter/widgets.dart';
 import 'package:<your_app>/ui/dashcn/foundation/gap.dart';
 import 'package:<your_app>/ui/dashcn/primitives/motion/motion_spec.dart';
+import 'package:<your_app>/ui/dashcn/theme/color_tokens.dart';
 import 'package:<your_app>/ui/dashcn/theme/density_tokens.dart';
 import 'package:<your_app>/ui/dashcn/theme/theme.dart';
 import 'package:<your_app>/ui/dashcn/components/card/card.dart';
+import 'package:<your_app>/ui/dashcn/components/list_tile/list_tile.dart';
 import 'package:<your_app>/ui/dashcn/components/swipe_actions/swipe_actions.dart';
+
+// List-tile row padding: 8 px horizontal (sizing scale). Vertical 4 px so
+// the rendered rows land exactly on the list-tile heights under both the
+// test font and real fonts (Geist runs ~1.3 line height: single-line content
+// ~26 clamps to the 32 minimum; two-line ~47 clamps to the 48 minimum).
+const EdgeInsets _rowPadding = EdgeInsets.symmetric(horizontal: 8, vertical: 4);
+
+/// 1 px divider between rows inside the shared surface.
+Widget _rowDivider(ThemeData appTheme) => Container(
+  height: 1,
+  color: ThemedColor.ref(ColorRef.border).resolve(appTheme.colors),
+);
+
+/// One surface holding the swipeable rows (never a card per row).
+Widget _listSurface(ThemeData appTheme, List<Widget> rows) => Card(
+  padding: EdgeInsets.zero,
+  clipBehavior: Clip.antiAlias,
+  child: Column(
+    mainAxisSize: MainAxisSize.min,
+    crossAxisAlignment: CrossAxisAlignment.stretch,
+    children: <Widget>[
+      for (int i = 0; i < rows.length; i++) ...<Widget>[
+        rows[i],
+        if (i < rows.length - 1) _rowDivider(appTheme),
+      ],
+    ],
+  ),
+);
+
+/// Two-line 48 px list-tile row. Plain [Text] children so the tile's token
+/// title/subtitle styles (and their natural line heights) apply; explicit
+/// foreground pairs keep contrast on the card surface.
+Widget _twoLineRow(ThemeData appTheme, String title, String subtitle) =>
+    ListTile(
+      contentPadding: _rowPadding,
+      textColor: ThemedColor.ref(ColorRef.foreground),
+      subtitleColor: ThemedColor.ref(ColorRef.foreground),
+      title: Text(title),
+      subtitle: Text(subtitle),
+    );
 
 Widget _comfortable(BuildContext context) {
   final ThemeData appTheme = Theme.of(context);
@@ -30143,31 +30916,24 @@ Widget _comfortable(BuildContext context) {
     color: appTheme.colors.background,
     child: Padding(
       padding: EdgeInsets.all(appTheme.spacing.sm),
-      child: SwipeActions(
-        densityTokens: DensityTokens.comfortable,
-        actions: <SwipeAction>[
-          SwipeAction(label: 'Archive', onPressed: () {}),
-          SwipeAction(label: 'Delete', destructive: true, onPressed: () {}),
-        ],
-        onDismissed: () {},
-        child: Card(
-          child: SizedBox(
-            height: 44,
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 14),
-              child: Align(
-                alignment: Alignment.centerLeft,
-                child: Text(
-                  'Comfortable row 44, tile 64',
-                  style: appTheme.typography.textSmall.copyWith(
-                    color: appTheme.colors.foreground,
-                  ),
-                ),
-              ),
-            ),
+      child: _listSurface(appTheme, <Widget>[
+        // Two-line inbox rows: sender as title, preview as subtitle.
+        for (final (String, String) mail in const <(String, String)>[
+          ('Priya Shah', 'Design review moved to 10:30 tomorrow'),
+          ('Ops alerts', 'Build 418 passed on main, deploy is ready'),
+        ])
+          SwipeActions(
+            densityTokens: DensityTokens.comfortable,
+            actions: <SwipeAction>[
+              SwipeAction(label: 'Archive', onPressed: () {}),
+              SwipeAction(label: 'Delete', destructive: true, onPressed: () {}),
+            ],
+            onDismissed: () {},
+            // List-tile two-line row (48); the action tiles stretch to
+            // this full row height.
+            child: _twoLineRow(appTheme, mail.$1, mail.$2),
           ),
-        ),
-      ),
+      ]),
     ),
   );
 }
@@ -30179,13 +30945,52 @@ Widget _comfortable(BuildContext context) {
       code: r'''import 'package:flutter/widgets.dart';
 import 'package:<your_app>/ui/dashcn/foundation/gap.dart';
 import 'package:<your_app>/ui/dashcn/primitives/motion/motion_spec.dart';
+import 'package:<your_app>/ui/dashcn/theme/color_tokens.dart';
 import 'package:<your_app>/ui/dashcn/theme/density_tokens.dart';
 import 'package:<your_app>/ui/dashcn/theme/theme.dart';
 import 'package:<your_app>/ui/dashcn/components/card/card.dart';
+import 'package:<your_app>/ui/dashcn/components/list_tile/list_tile.dart';
 import 'package:<your_app>/ui/dashcn/components/swipe_actions/swipe_actions.dart';
 
+// List-tile row padding: 8 px horizontal (sizing scale). Vertical 4 px so
+// the rendered rows land exactly on the list-tile heights under both the
+// test font and real fonts (Geist runs ~1.3 line height: single-line content
+// ~26 clamps to the 32 minimum; two-line ~47 clamps to the 48 minimum).
+const EdgeInsets _rowPadding = EdgeInsets.symmetric(horizontal: 8, vertical: 4);
+
+/// 1 px divider between rows inside the shared surface.
+Widget _rowDivider(ThemeData appTheme) => Container(
+  height: 1,
+  color: ThemedColor.ref(ColorRef.border).resolve(appTheme.colors),
+);
+
+/// One surface holding the swipeable rows (never a card per row).
+Widget _listSurface(ThemeData appTheme, List<Widget> rows) => Card(
+  padding: EdgeInsets.zero,
+  clipBehavior: Clip.antiAlias,
+  child: Column(
+    mainAxisSize: MainAxisSize.min,
+    crossAxisAlignment: CrossAxisAlignment.stretch,
+    children: <Widget>[
+      for (int i = 0; i < rows.length; i++) ...<Widget>[
+        rows[i],
+        if (i < rows.length - 1) _rowDivider(appTheme),
+      ],
+    ],
+  ),
+);
+
+/// Single-line 32 px list-tile row. Uses the list tile's own token
+/// typography (natural line heights) with an explicit foreground pair so the
+/// text stays readable on the card surface under bare-Theme harnesses.
+Widget _singleRow(ThemeData appTheme, String label) => ListTile(
+  contentPadding: _rowPadding,
+  textColor: ThemedColor.ref(ColorRef.foreground),
+  title: Text(label),
+);
+
 /// Three inbox rows; Archive and Delete both file the row away, Delete by
-/// button or by full swipe, with a live inbox count below.
+/// button or by full swipe, with a live inbox count 8 px below the list.
 class _SwipeActionsDemo extends StatefulWidget {
   const _SwipeActionsDemo();
 
@@ -30218,44 +31023,26 @@ class _SwipeActionsDemoState extends State<_SwipeActionsDemo> {
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
-            for (final String row in _rows) ...<Widget>[
-              SwipeActions(
-                actions: <SwipeAction>[
-                  SwipeAction(label: 'Archive', onPressed: () => _remove(row)),
-                  SwipeAction(
-                    label: 'Delete',
-                    destructive: true,
-                    onPressed: () => _remove(row),
-                  ),
-                ],
-                onDismissed: () => _remove(row),
-                child: Card(
-                  child: SizedBox(
-                    // Compact density row (36 px, within the 32-40 compact
-                    // band); the action tiles stretch to this height so the
-                    // swipe reveal always matches the row.
-                    height: 36,
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 12),
-                      child: Align(
-                        alignment: Alignment.centerLeft,
-                        // Explicit token colour: under a bare Theme
-                        // (scorecard harness, tests) there is no app
-                        // DefaultTextStyle, and the raw white default
-                        // fails contrast.
-                        child: Text(
-                          row,
-                          style: appTheme.typography.textSmall.copyWith(
-                            color: appTheme.colors.foreground,
-                          ),
-                        ),
-                      ),
+            _listSurface(appTheme, <Widget>[
+              for (final String row in _rows)
+                SwipeActions(
+                  actions: <SwipeAction>[
+                    SwipeAction(
+                      label: 'Archive',
+                      onPressed: () => _remove(row),
                     ),
-                  ),
+                    SwipeAction(
+                      label: 'Delete',
+                      destructive: true,
+                      onPressed: () => _remove(row),
+                    ),
+                  ],
+                  onDismissed: () => _remove(row),
+                  child: _singleRow(appTheme, row),
                 ),
-              ),
-              Gap(appTheme.spacing.sm),
-            ],
+            ]),
+            // Caption sits 8 px (sm) below the list.
+            Gap(appTheme.spacing.sm),
             Text(
               'Inbox: ${_rows.length}',
               // Foreground, not muted: muted small text lands just under
@@ -30284,10 +31071,49 @@ Widget _rightToLeft(BuildContext context) => const Directionality(
       code: r'''import 'package:flutter/widgets.dart';
 import 'package:<your_app>/ui/dashcn/foundation/gap.dart';
 import 'package:<your_app>/ui/dashcn/primitives/motion/motion_spec.dart';
+import 'package:<your_app>/ui/dashcn/theme/color_tokens.dart';
 import 'package:<your_app>/ui/dashcn/theme/density_tokens.dart';
 import 'package:<your_app>/ui/dashcn/theme/theme.dart';
 import 'package:<your_app>/ui/dashcn/components/card/card.dart';
+import 'package:<your_app>/ui/dashcn/components/list_tile/list_tile.dart';
 import 'package:<your_app>/ui/dashcn/components/swipe_actions/swipe_actions.dart';
+
+// List-tile row padding: 8 px horizontal (sizing scale). Vertical 4 px so
+// the rendered rows land exactly on the list-tile heights under both the
+// test font and real fonts (Geist runs ~1.3 line height: single-line content
+// ~26 clamps to the 32 minimum; two-line ~47 clamps to the 48 minimum).
+const EdgeInsets _rowPadding = EdgeInsets.symmetric(horizontal: 8, vertical: 4);
+
+/// 1 px divider between rows inside the shared surface.
+Widget _rowDivider(ThemeData appTheme) => Container(
+  height: 1,
+  color: ThemedColor.ref(ColorRef.border).resolve(appTheme.colors),
+);
+
+/// One surface holding the swipeable rows (never a card per row).
+Widget _listSurface(ThemeData appTheme, List<Widget> rows) => Card(
+  padding: EdgeInsets.zero,
+  clipBehavior: Clip.antiAlias,
+  child: Column(
+    mainAxisSize: MainAxisSize.min,
+    crossAxisAlignment: CrossAxisAlignment.stretch,
+    children: <Widget>[
+      for (int i = 0; i < rows.length; i++) ...<Widget>[
+        rows[i],
+        if (i < rows.length - 1) _rowDivider(appTheme),
+      ],
+    ],
+  ),
+);
+
+/// Single-line 32 px list-tile row. Uses the list tile's own token
+/// typography (natural line heights) with an explicit foreground pair so the
+/// text stays readable on the card surface under bare-Theme harnesses.
+Widget _singleRow(ThemeData appTheme, String label) => ListTile(
+  contentPadding: _rowPadding,
+  textColor: ThemedColor.ref(ColorRef.foreground),
+  title: Text(label),
+);
 
 /// Custom action builders: each button scales/fades in with its own reveal
 /// progress, so callers can paint anything behind the row.
@@ -30297,56 +31123,43 @@ Widget _customBuilders(BuildContext context) {
     color: appTheme.colors.background,
     child: Padding(
       padding: EdgeInsets.all(appTheme.spacing.sm),
-      child: SwipeActions(
-        actions: <SwipeAction>[
-          SwipeAction(
-            label: 'Pin',
-            builder: (BuildContext context, double progress) => Opacity(
-              opacity: progress,
-              child: Transform.scale(
-                scale: 0.6 + 0.4 * progress,
-                child: Container(
-                  width: 32,
-                  height: 32,
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    color: appTheme.colors.primary,
-                  ),
-                  child: Center(
-                    child: Text(
-                      'Pin',
-                      style: appTheme.typography.textSmall.copyWith(
-                        color: appTheme.colors.primaryForeground,
+      child: _listSurface(appTheme, <Widget>[
+        SwipeActions(
+          actions: <SwipeAction>[
+            SwipeAction(
+              label: 'Pin',
+              builder: (BuildContext context, double progress) => Opacity(
+                opacity: progress,
+                child: Transform.scale(
+                  scale: 0.6 + 0.4 * progress,
+                  child: Container(
+                    width: 32,
+                    height: 32,
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      color: appTheme.colors.primary,
+                    ),
+                    child: Center(
+                      child: Text(
+                        'Pin',
+                        style: appTheme.typography.textSmall.copyWith(
+                          color: appTheme.colors.primaryForeground,
+                        ),
                       ),
                     ),
                   ),
                 ),
               ),
+              onPressed: () {},
             ),
-            onPressed: () {},
-          ),
-          SwipeAction(label: 'Delete', destructive: true, onPressed: () {}),
-        ],
-        onDismissed: () {},
-        child: Card(
-          child: SizedBox(
-            // Compact density row; the custom builders above stretch to it.
-            height: 36,
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 12),
-              child: Align(
-                alignment: Alignment.centerLeft,
-                child: Text(
-                  'Custom builders',
-                  style: appTheme.typography.textSmall.copyWith(
-                    color: appTheme.colors.foreground,
-                  ),
-                ),
-              ),
-            ),
-          ),
+            SwipeAction(label: 'Delete', destructive: true, onPressed: () {}),
+          ],
+          onDismissed: () {},
+          // List-tile single-line row (32); the custom builders above
+          // center in its full height.
+          child: _singleRow(appTheme, 'Travel packing list'),
         ),
-      ),
+      ]),
     ),
   );
 }
@@ -30358,10 +31171,49 @@ Widget _customBuilders(BuildContext context) {
       code: r'''import 'package:flutter/widgets.dart';
 import 'package:<your_app>/ui/dashcn/foundation/gap.dart';
 import 'package:<your_app>/ui/dashcn/primitives/motion/motion_spec.dart';
+import 'package:<your_app>/ui/dashcn/theme/color_tokens.dart';
 import 'package:<your_app>/ui/dashcn/theme/density_tokens.dart';
 import 'package:<your_app>/ui/dashcn/theme/theme.dart';
 import 'package:<your_app>/ui/dashcn/components/card/card.dart';
+import 'package:<your_app>/ui/dashcn/components/list_tile/list_tile.dart';
 import 'package:<your_app>/ui/dashcn/components/swipe_actions/swipe_actions.dart';
+
+// List-tile row padding: 8 px horizontal (sizing scale). Vertical 4 px so
+// the rendered rows land exactly on the list-tile heights under both the
+// test font and real fonts (Geist runs ~1.3 line height: single-line content
+// ~26 clamps to the 32 minimum; two-line ~47 clamps to the 48 minimum).
+const EdgeInsets _rowPadding = EdgeInsets.symmetric(horizontal: 8, vertical: 4);
+
+/// 1 px divider between rows inside the shared surface.
+Widget _rowDivider(ThemeData appTheme) => Container(
+  height: 1,
+  color: ThemedColor.ref(ColorRef.border).resolve(appTheme.colors),
+);
+
+/// One surface holding the swipeable rows (never a card per row).
+Widget _listSurface(ThemeData appTheme, List<Widget> rows) => Card(
+  padding: EdgeInsets.zero,
+  clipBehavior: Clip.antiAlias,
+  child: Column(
+    mainAxisSize: MainAxisSize.min,
+    crossAxisAlignment: CrossAxisAlignment.stretch,
+    children: <Widget>[
+      for (int i = 0; i < rows.length; i++) ...<Widget>[
+        rows[i],
+        if (i < rows.length - 1) _rowDivider(appTheme),
+      ],
+    ],
+  ),
+);
+
+/// Single-line 32 px list-tile row. Uses the list tile's own token
+/// typography (natural line heights) with an explicit foreground pair so the
+/// text stays readable on the card surface under bare-Theme harnesses.
+Widget _singleRow(ThemeData appTheme, String label) => ListTile(
+  contentPadding: _rowPadding,
+  textColor: ThemedColor.ref(ColorRef.foreground),
+  title: Text(label),
+);
 
 /// Per-instance motion override: a slower settle and collapse for this row
 /// only; the rest of the app keeps the theme timing.
@@ -30371,35 +31223,21 @@ Widget _motionOverride(BuildContext context) {
     color: appTheme.colors.background,
     child: Padding(
       padding: EdgeInsets.all(appTheme.spacing.sm),
-      child: SwipeActions(
-        motion: const MotionSpec(
-          enterDuration: Duration(milliseconds: 450),
-          exitDuration: Duration(milliseconds: 450),
-        ),
-        actions: <SwipeAction>[
-          SwipeAction(label: 'Archive', onPressed: () {}),
-          SwipeAction(label: 'Delete', destructive: true, onPressed: () {}),
-        ],
-        onDismissed: () {},
-        child: Card(
-          child: SizedBox(
-            // Compact density row.
-            height: 36,
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 12),
-              child: Align(
-                alignment: Alignment.centerLeft,
-                child: Text(
-                  'Slow motion',
-                  style: appTheme.typography.textSmall.copyWith(
-                    color: appTheme.colors.foreground,
-                  ),
-                ),
-              ),
-            ),
+      child: _listSurface(appTheme, <Widget>[
+        SwipeActions(
+          motion: const MotionSpec(
+            enterDuration: Duration(milliseconds: 450),
+            exitDuration: Duration(milliseconds: 450),
           ),
+          actions: <SwipeAction>[
+            SwipeAction(label: 'Archive', onPressed: () {}),
+            SwipeAction(label: 'Delete', destructive: true, onPressed: () {}),
+          ],
+          onDismissed: () {},
+          // List-tile single-line row (32).
+          child: _singleRow(appTheme, 'Team offsite agenda'),
         ),
-      ),
+      ]),
     ),
   );
 }

@@ -43,6 +43,10 @@ typedef CodeSnippetCodeBuilder =
 ///
 /// Text is selectable by mouse and keyboard (`Ctrl/Cmd+A`, `Ctrl/Cmd+C`).
 /// Long lines scroll horizontally inside the block without overflowing.
+/// How long the copied check stays before the copy icon returns (MOTION.md:
+/// reverts after 1.5 s).
+const Duration _copyFeedbackDefault = Duration(milliseconds: 1500);
+
 class CodeSnippet extends StatefulWidget {
   /// Creates a code snippet display.
   const CodeSnippet({
@@ -277,7 +281,7 @@ class _CodeSnippetState extends State<CodeSnippet> {
   ) {
     final bool isCopied = _isCopied;
     final Duration feedbackDuration =
-        style.copyFeedbackDuration ?? const Duration(milliseconds: 2000);
+        style.copyFeedbackDuration ?? _copyFeedbackDefault;
     void onCopy() => _handleCopy(feedbackDuration);
 
     if (widget.copyButtonBuilder != null) {
@@ -303,12 +307,12 @@ class _CodeSnippetState extends State<CodeSnippet> {
       (touchMinEdge(ambient.platform) - buttonSize) / 2,
     );
 
-    return Semantics(
-      button: true,
-      label: isCopied ? 'Copied' : 'Copy code',
-      child: TouchHitArea(
-        vertical: touch,
-        horizontal: touch,
+    return TouchHitArea(
+      vertical: touch,
+      horizontal: touch,
+      child: Semantics(
+        button: true,
+        label: isCopied ? 'Copied' : 'Copy code',
         child: SizedBox(
           width: buttonSize,
           height: buttonSize,
@@ -343,6 +347,20 @@ class _CodeSnippetState extends State<CodeSnippet> {
                 duration: animDuration,
                 switchInCurve: ambient.motion.curves.standard,
                 switchOutCurve: ambient.motion.curves.standard,
+                // Icon swap: the new icon fades in while scaling from 0.8 to 1,
+                // the old one fades out (MOTION.md: cross-scale 150 ms). Under
+                // reduced motion only the opacity changes.
+                transitionBuilder: (Widget child, Animation<double> anim) {
+                  final Widget faded = FadeTransition(
+                    opacity: anim,
+                    child: child,
+                  );
+                  if (disableAnimations) return faded;
+                  return ScaleTransition(
+                    scale: Tween<double>(begin: 0.8, end: 1.0).animate(anim),
+                    child: faded,
+                  );
+                },
                 child: Icon(
                   iconData,
                   key: ValueKey<bool>(isCopied),
