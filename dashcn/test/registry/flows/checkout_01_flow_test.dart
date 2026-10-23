@@ -26,8 +26,8 @@ List<Checkout01CartItem> _items() => const <Checkout01CartItem>[
   Checkout01CartItem(name: 'Desk lamp', price: 54),
 ];
 
-/// Width of one revealed action (1 x 56 px compact tile per row).
-const double _actionsWidth = 56;
+/// Width of one revealed action (1 x 64 px readable tile per row).
+const double _actionsWidth = 64;
 
 void main() {
   for (final brightness in flowBrightnesses) {

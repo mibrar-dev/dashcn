@@ -73,14 +73,21 @@ Future<T?> showDialog<T>({
   // installing the route. Under reduced motion the route snaps with no
   // transition.
   final style = _resolve(context, theme);
-  final duration = motionReduced(context)
-      ? Duration.zero
+  // Enter 200 ms (decelerate); exit 150 ms (accelerate, fade). Reduced motion
+  // keeps only a short opacity fade and no scale.
+  final reduced = motionReduced(context);
+  final duration = reduced
+      ? kOverlayReducedFade
       : (style.transitionDuration ?? Theme.of(context).motion.durations.base);
+  final reverseDuration = reduced
+      ? kOverlayReducedFade
+      : Theme.of(context).motion.durations.fast;
   return navigator.push(
     DialogRoute<T>(
       builder: builder,
       widgetTheme: theme,
       duration: duration,
+      reverseDuration: reverseDuration,
       barrierColorOverride: barrierColor,
       barrierLabel: barrierLabel,
       barrierDismissible: barrierDismissible,
@@ -114,6 +121,7 @@ class DialogRoute<T> extends ModalRoute<T> {
     required this.alignment,
     required this.fullScreen,
     required this.openerFocus,
+    this.reverseDuration,
     this.barrierColorOverride,
     this.barrierLabel,
     this.themes,
@@ -129,8 +137,11 @@ class DialogRoute<T> extends ModalRoute<T> {
   /// this route's subtree.
   final DialogTheme? widgetTheme;
 
-  /// Open and close transition duration, resolved when the route was pushed.
+  /// Open transition duration, resolved when the route was pushed.
   final Duration duration;
+
+  /// Close transition duration; null reuses [duration].
+  final Duration? reverseDuration;
 
   /// Barrier color override; `null` resolves [DialogTheme.barrierColor].
   final ThemedColor? barrierColorOverride;
@@ -178,7 +189,7 @@ class DialogRoute<T> extends ModalRoute<T> {
   Duration get transitionDuration => duration;
 
   @override
-  Duration get reverseTransitionDuration => duration;
+  Duration get reverseTransitionDuration => reverseDuration ?? duration;
 
   @override
   Widget buildPage(
@@ -197,7 +208,8 @@ class DialogRoute<T> extends ModalRoute<T> {
     final barrier = _DialogBarrier(
       this,
       animation: animation,
-      curve: barrierCurve,
+      // The scrim fades in over 150 ms of the 200 ms open (the first 75 %).
+      curve: const Interval(0, 0.75),
     );
     return _wrapCaptured(barrier, themes, data);
   }
@@ -209,23 +221,30 @@ class DialogRoute<T> extends ModalRoute<T> {
     Animation<double> secondaryAnimation,
     Widget child,
   ) {
-    // Scale 0.96 to 1 plus fade, reversed on close. Curves come from the
-    // motion tokens so the dialog matches every other floating surface.
+    // Enter: fade plus scale 0.96 to 1 (decelerate, 200 ms). Exit: fade and
+    // scale back (accelerate, 150 ms). Reduced motion: fade only, no scale.
     final MotionTokens motion = Theme.of(context).motion;
-    final scale = CurvedAnimation(
-      parent: animation.drive(Tween<double>(begin: 0.96, end: 1.0)),
-      curve: motion.curves.emphasizedOut,
-      reverseCurve: motion.curves.emphasizedIn,
-    );
     final opacity = CurvedAnimation(
       parent: animation,
       curve: motion.curves.emphasizedOut,
       reverseCurve: motion.curves.emphasizedIn,
     );
-    return ScaleTransition(
-      scale: scale,
-      child: FadeTransition(opacity: opacity, child: child),
+    final Widget faded = FadeTransition(opacity: opacity, child: child);
+    if (motionReduced(context)) {
+      return faded;
+    }
+    // The curve runs on time and the tween maps its output to 0.96..1. (The
+    // reverse order applied the curve to the scale value, pinning it at 1.)
+    final CurvedAnimation timed = CurvedAnimation(
+      parent: animation,
+      curve: motion.curves.emphasizedOut,
+      reverseCurve: motion.curves.emphasizedIn,
     );
+    final Animation<double> scale = Tween<double>(
+      begin: 0.96,
+      end: 1.0,
+    ).animate(timed);
+    return ScaleTransition(scale: scale, child: faded);
   }
 }
 

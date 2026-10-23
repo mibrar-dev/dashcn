@@ -18,6 +18,7 @@ import '../../foundation/gap.dart';
 import '../../foundation/geometry.dart';
 import '../../foundation/icons/lucide_icons.dart';
 import '../../primitives/clickable.dart';
+import '../../primitives/touch_hit_area.dart';
 import '../../primitives/form_core/form_value.dart';
 import '../../primitives/overlay.dart';
 import '../../primitives/popover_controller.dart';
@@ -147,6 +148,11 @@ class _SelectState<T> extends State<Select<T>>
   FocusNode get _focus =>
       widget.focusNode ?? (_ownedFocus ??= FocusNode(debugLabel: 'Select'));
 
+  /// Visual trigger anchor (the painted 36 px [Clickable]). Popovers anchor
+  /// to the visible box so the popup sits within 12 px of the trigger; the
+  /// invisible [TouchHitArea] never changes layout.
+  final GlobalKey _triggerAnchorKey = GlobalKey(debugLabel: 'SelectTrigger');
+
   bool get _enabled => widget.enabled ?? widget.onChanged != null;
 
   bool get _searching => widget.builder != null;
@@ -227,9 +233,15 @@ class _SelectState<T> extends State<Select<T>>
       );
 
   void _open() {
+    // Anchor to the painted trigger's [Clickable]: the invisible TouchHitArea
+    // never changes layout, but anchoring to `context` (the outer box)
+    // would still leave a gap to a placeholder. The inner anchor keeps the
+    // 12 px contract (8 px centering + 4 px offset).
+    final BuildContext anchorContext =
+        _triggerAnchorKey.currentContext ?? context;
     _popover
         .show<void>(
-          context: context,
+          context: anchorContext,
           adaptive: widget.adaptive,
           // Below the trigger's start edge; the popup hugs the widest
           // option and is never narrower than the trigger.
@@ -337,47 +349,65 @@ class _SelectState<T> extends State<Select<T>>
     final double borderWidth = trigger.borderColor == null
         ? 0
         : trigger.borderWidth ?? 1;
+    final double triggerHeight = widget.triggerMinHeight ?? 36;
+    // Touch comfort is an invisible hit-test/semantics expansion, never
+    // larger visuals or layout: the trigger paints at 36 px and the layout
+    // stays 36 px, while taps and the reported tap target reach the platform
+    // minimum (iOS 44, Android 48) on touch platforms. Popups anchor to the
+    // painted visual box via [_triggerAnchorKey] so they stay within 12 px.
+    final double touchVertical = math.max(
+      0,
+      (touchMinEdge(ambient.platform) - triggerHeight) / 2,
+    );
     return Data<SelectData>.inherit(
       data: _data(),
-      child: Opacity(
-        opacity: enabled ? 1 : 0.5,
-        child: IntrinsicWidth(
-          child: Clickable(
+      child: TouchHitArea(
+        vertical: touchVertical,
+        child: Opacity(
+          opacity: enabled ? 1 : 0.5,
+          child: Semantics(
+            button: true,
             enabled: enabled,
-            focusNode: _focus,
-            onPressed: enabled ? _open : null,
-            decoration: WidgetStateProperty.resolveWith(decorationFor),
-            padding: WidgetStatePropertyAll<EdgeInsetsGeometry>(
-              insetBorder(resolvedPadding, borderWidth),
-            ),
-            textStyle: WidgetStateProperty.resolveWith(
-              (states) => TextStyle(
-                fontSize: 14,
-                color: colorFor(trigger.foreground, states),
-              ),
-            ),
-            iconTheme: WidgetStateProperty.resolveWith(
-              (states) => IconThemeData(
-                size: 16,
-                color: colorFor(trigger.foreground, states),
-              ),
-            ),
-            child: ConstrainedBox(
-              constraints: BoxConstraints(
-                minHeight:
-                    (widget.triggerMinHeight ?? 36) -
-                    math.max(resolvedPadding.top, borderWidth) -
-                    math.max(resolvedPadding.bottom, borderWidth),
-              ),
-              child: Row(
-                mainAxisSize: MainAxisSize.min,
-                children: <Widget>[
-                  Expanded(child: valueContent),
-                  if (widget.expandIcon != null) ...<Widget>[
-                    Gap(ambient.spacing.sm),
-                    widget.expandIcon!,
-                  ],
-                ],
+            child: IntrinsicWidth(
+              child: Clickable(
+                key: _triggerAnchorKey,
+                enabled: enabled,
+                focusNode: _focus,
+                onPressed: enabled ? _open : null,
+                decoration: WidgetStateProperty.resolveWith(decorationFor),
+                padding: WidgetStatePropertyAll<EdgeInsetsGeometry>(
+                  insetBorder(resolvedPadding, borderWidth),
+                ),
+                textStyle: WidgetStateProperty.resolveWith(
+                  (states) => TextStyle(
+                    fontSize: 14,
+                    color: colorFor(trigger.foreground, states),
+                  ),
+                ),
+                iconTheme: WidgetStateProperty.resolveWith(
+                  (states) => IconThemeData(
+                    size: 16,
+                    color: colorFor(trigger.foreground, states),
+                  ),
+                ),
+                child: ConstrainedBox(
+                  constraints: BoxConstraints(
+                    minHeight:
+                        (widget.triggerMinHeight ?? 36) -
+                        math.max(resolvedPadding.top, borderWidth) -
+                        math.max(resolvedPadding.bottom, borderWidth),
+                  ),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: <Widget>[
+                      Expanded(child: valueContent),
+                      if (widget.expandIcon != null) ...<Widget>[
+                        Gap(ambient.spacing.sm),
+                        widget.expandIcon!,
+                      ],
+                    ],
+                  ),
+                ),
               ),
             ),
           ),
