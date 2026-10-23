@@ -134,17 +134,20 @@ void main() {
       expectNoPanelErrors(tester, 'button at 390 with sheet');
     });
 
-    testWidgets('unknown components render nothing', (
+    testWidgets('components without specs show theme section but no code', (
       WidgetTester tester,
     ) async {
       await pumpPanel(tester, 'toggle_group');
       expect(find.byType(PlaygroundPanel), findsOneWidget);
-      expect(find.text('Controls'), findsNothing);
+      expect(
+        find.byKey(const ValueKey<String>('playground-group-theme')),
+        findsOneWidget,
+      );
       expect(
         find.byKey(const ValueKey<String>('playground-code')),
         findsNothing,
       );
-      expectNoPanelErrors(tester, 'toggle_group renders nothing');
+      expectNoPanelErrors(tester, 'toggle_group renders theme section');
     });
   });
 

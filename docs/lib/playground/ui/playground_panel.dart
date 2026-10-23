@@ -1,25 +1,13 @@
-// The live props playground panel (P9-2b): preview, controls and code.
+// The live props playground panel: preview, controls and code.
 //
-// `PlaygroundPanel(componentId:)` renders the P9-2a builder for [componentId]
-// inside P9-1's [FramedPreview] (frames keep working here), a control row per
-// editable `ControlSpec` ([ControlRow]), and the live `emitCode` snippet in
-// the existing [DocsCodeFigure] (syntax-highlighted, selectable, copyable).
-// Components without a builder render nothing — the integration step (P9-Z)
-// shows "Playground coming soon" there.
+// `PlaygroundPanel(componentId:)` renders the builder for [componentId]
+// inside [FramedPreview], controls for theme tokens and component props,
+// and the live `emitCode` snippet. Components without a props builder
+// still render the Theme section.
 //
-// Layout follows the viewport width: controls beside the preview at
-// [kPlaygroundSideBySideWidth] (1100 px) and up, below the preview under
-// that, and inside a kit bottom sheet (`openSheet` from the `drawer`
-// component) under [kPlaygroundSheetWidth] (600 px), opened by an
-// `Edit controls` button. The code block always sits underneath.
-//
-// State: values seed from the spec defaults, then from [initialQuery] (or
-// the live browser URL on web), so a configured playground is shareable and
-// survives reload. Every commit and reset clamps dependent ranges
-// (`bounds.dart`), syncs the text controllers, and reports the non-default
-// query through [onQueryChanged] plus a best-effort engine URL update; P9-Z
-// wires [onQueryChanged]/[initialQuery] into the docs router state
-// (see `query.dart`).
+// Layout follows viewport width: controls beside preview at
+// [kPlaygroundSideBySideWidth] (1100 px), below preview under that,
+// or in bottom sheet under [kPlaygroundSheetWidth] (600 px).
 
 import 'dart:async';
 
@@ -35,11 +23,13 @@ import '../../state/docs_strings.dart';
 import '../../ui/dashcn/components/drawer/drawer.dart';
 import '../../ui/dashcn/foundation/gap.dart';
 import '../../ui/dashcn/theme/theme.dart';
+import '../theme_values.dart';
 import '../values.dart';
 import 'bounds.dart';
 import 'numeric_controls.dart';
 import 'panel_body.dart';
 import 'query.dart';
+import 'theme_section.dart';
 
 /// Viewport width at/above which controls sit beside the preview.
 const double kPlaygroundSideBySideWidth = 1100;
@@ -63,18 +53,13 @@ class PlaygroundPanel extends StatefulWidget {
     this.inlineControls = false,
   });
 
-  /// Registry component id (must have a spec and a playground builder).
+  /// Registry component id.
   final String componentId;
 
-  /// Seed query (`p.<name>` entries); defaults to the browser URL on web.
-  ///
-  /// P9-Z passes the router's parsed query here so back/forward restores
-  /// the panel.
+  /// Seed query (`p.<name>` and `t.<name>` entries).
   final Map<String, String>? initialQuery;
 
   /// Called with the non-default query after every change and reset.
-  ///
-  /// P9-Z merges this into the router state (browser URL + history).
   final ValueChanged<Map<String, String>>? onQueryChanged;
 
   /// Dependent-range table (see `bounds.dart`).
@@ -84,10 +69,6 @@ class PlaygroundPanel extends StatefulWidget {
   final bool reportUrl;
 
   /// When true the controls render inline even below [kPlaygroundSheetWidth].
-  ///
-  /// The component page's 380 px right panel sets this: its narrow width
-  /// would otherwise hide the grouped controls behind an `Edit controls`
-  /// sheet button. Standalone embeds keep the sheet behaviour.
   final bool inlineControls;
 
   @override
@@ -98,17 +79,25 @@ class _PlaygroundPanelState extends State<PlaygroundPanel> {
   ComponentControls? _spec;
   PlaygroundBuilder? _builder;
   PlaygroundValues? _values;
+  PlaygroundThemeValues? _themeValues;
   final Map<String, TextEditingController> _controllers =
       <String, TextEditingController>{};
 
-  /// Bumped on every commit/reset so sheet routes rebuild too (the panel's
-  /// own `setState` cannot reach into an open overlay route).
   final ValueNotifier<int> _version = ValueNotifier<int>(0);
 
   @override
   void initState() {
     super.initState();
     _initForId(widget.componentId, widget.initialQuery);
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    _themeValues ??= PlaygroundThemeValues.fromQuery(
+      Theme.of(context),
+      widget.initialQuery ?? browserPlaygroundQuery(),
+    );
   }
 
   @override
@@ -138,35 +127,39 @@ class _PlaygroundPanelState extends State<PlaygroundPanel> {
     _spec = kControlSpecs[componentId];
     _builder = kPlaygroundBuilders[componentId];
     final ComponentControls? spec = _spec;
-    if (spec == null) {
+    if (spec != null) {
+      _values = PlaygroundValues.fromQuery(
+        spec,
+        query ?? browserPlaygroundQuery(),
+      );
+      clampBoundedValues(spec, _values!, boundedBy: widget.boundedBy);
+      _seedControllers(spec, _values!);
+    } else {
       _values = null;
-      return;
     }
-    _values = PlaygroundValues.fromQuery(
-      spec,
-      query ?? browserPlaygroundQuery(),
-    );
-    clampBoundedValues(spec, _values!, boundedBy: widget.boundedBy);
-    _seedControllers(spec, _values!);
   }
 
   void _applyQuery(Map<String, String>? query) {
-    final ComponentControls? spec = _spec;
-    final PlaygroundValues? values = _values;
-    if (spec == null || values == null) {
-      return;
-    }
-    final PlaygroundValues seeded = PlaygroundValues.fromQuery(
-      spec,
+    final ThemeData siteTheme = Theme.of(context);
+    _themeValues = PlaygroundThemeValues.fromQuery(
+      siteTheme,
       query ?? browserPlaygroundQuery(),
     );
-    for (final ControlSpec control in spec.controls) {
-      if (control.isEditable) {
-        values.set(control.name, seeded.valueOf(control.name));
+    final ComponentControls? spec = _spec;
+    final PlaygroundValues? values = _values;
+    if (spec != null && values != null) {
+      final PlaygroundValues seeded = PlaygroundValues.fromQuery(
+        spec,
+        query ?? browserPlaygroundQuery(),
+      );
+      for (final ControlSpec control in spec.controls) {
+        if (control.isEditable) {
+          values.set(control.name, seeded.valueOf(control.name));
+        }
       }
+      clampBoundedValues(spec, values, boundedBy: widget.boundedBy);
+      _syncControllers(spec, values);
     }
-    clampBoundedValues(spec, values, boundedBy: widget.boundedBy);
-    _syncControllers(spec, values);
     _version.value++;
     setState(() {});
   }
@@ -185,13 +178,9 @@ class _PlaygroundPanelState extends State<PlaygroundPanel> {
   void _syncControllers(ComponentControls spec, PlaygroundValues values) {
     for (final ControlSpec control in spec.controls) {
       final TextEditingController? controller = _controllers[control.name];
-      if (controller == null) {
-        continue;
-      }
+      if (controller == null) continue;
       final String next = _fieldString(spec, control, values);
-      if (controller.text != next) {
-        controller.text = next;
-      }
+      if (controller.text != next) controller.text = next;
     }
   }
 
@@ -211,9 +200,7 @@ class _PlaygroundPanelState extends State<PlaygroundPanel> {
   void _commit(String name, Object? value) {
     final ComponentControls? spec = _spec;
     final PlaygroundValues? values = _values;
-    if (spec == null || values == null) {
-      return;
-    }
+    if (spec == null || values == null) return;
     values.set(name, value);
     clampBoundedValues(
       spec,
@@ -224,42 +211,54 @@ class _PlaygroundPanelState extends State<PlaygroundPanel> {
     _syncControllers(spec, values);
     _version.value++;
     setState(() {});
-    _notifyQuery(spec, values);
+    _notifyQuery();
+  }
+
+  void _commitTheme(PlaygroundThemeValues next) {
+    _themeValues = next;
+    _version.value++;
+    setState(() {});
+    _notifyQuery();
   }
 
   void _reset() {
+    final ThemeData siteTheme = Theme.of(context);
     final ComponentControls? spec = _spec;
     final PlaygroundValues? values = _values;
-    if (spec == null || values == null) {
-      return;
+    if (spec != null && values != null) {
+      values.reset(spec);
+      clampBoundedValues(spec, values, boundedBy: widget.boundedBy);
+      _syncControllers(spec, values);
     }
-    values.reset(spec);
-    clampBoundedValues(spec, values, boundedBy: widget.boundedBy);
-    _syncControllers(spec, values);
+    _themeValues = PlaygroundThemeValues.defaults(siteTheme);
     _version.value++;
     setState(() {});
-    _notifyQuery(spec, values);
+    _notifyQuery();
   }
 
-  void _notifyQuery(ComponentControls spec, PlaygroundValues values) {
-    final Map<String, String> query = playgroundQuery(spec, values);
+  void _notifyQuery() {
+    final ThemeData siteTheme = Theme.of(context);
+    final ComponentControls? spec = _spec;
+    final PlaygroundValues? values = _values;
+    final Map<String, String> query = <String, String>{};
+    if (spec != null && values != null) {
+      query.addAll(playgroundQuery(spec, values));
+    }
+    if (_themeValues != null) {
+      query.addAll(_themeValues!.toQuery(siteTheme));
+    }
     widget.onQueryChanged?.call(query);
     if (widget.reportUrl) {
       try {
-        unawaited(reportPlaygroundUri(playgroundUri(Uri.base, spec, values)));
-      } catch (_) {
-        // No browser URL (tests, non-web embedders): the callback above
-        // is the testable seam.
-      }
+        unawaited(reportPlaygroundUri(mergedPlaygroundUri(Uri.base, query)));
+      } catch (_) {}
     }
   }
 
   Future<void> _openSheet() {
-    final ComponentControls? spec = _spec;
-    final PlaygroundValues? values = _values;
-    if (spec == null || values == null) {
-      return Future<void>.value();
-    }
+    final ThemeData theme = Theme.of(context);
+    final PlaygroundThemeValues tv =
+        _themeValues ?? PlaygroundThemeValues.defaults(theme);
     return openSheet<void>(
       context: context,
       builder: (BuildContext sheetContext) => SingleChildScrollView(
@@ -286,14 +285,19 @@ class _PlaygroundPanelState extends State<PlaygroundPanel> {
                 ),
               ],
             ),
-            PlaygroundControlsList(
-              spec: spec,
-              values: values,
-              version: _version,
-              controllers: _controllers,
-              onCommit: _commit,
-              boundedBy: widget.boundedBy,
-            ),
+            Gap(theme.spacing.sm),
+            PlaygroundThemeSection(themeValues: tv, onCommit: _commitTheme),
+            if (_spec != null && _values != null) ...<Widget>[
+              Gap(theme.spacing.md),
+              PlaygroundControlsList(
+                spec: _spec!,
+                values: _values!,
+                version: _version,
+                controllers: _controllers,
+                onCommit: _commit,
+                boundedBy: widget.boundedBy,
+              ),
+            ],
           ],
         ),
       ),
@@ -301,15 +305,18 @@ class _PlaygroundPanelState extends State<PlaygroundPanel> {
   }
 
   PlaygroundControlsCard _controlsCard(
-    ComponentControls spec,
-    PlaygroundValues values,
+    ComponentControls? spec,
+    PlaygroundValues? values,
   ) {
+    final ThemeData theme = Theme.of(context);
     return PlaygroundControlsCard(
       spec: spec,
       values: values,
+      themeValues: _themeValues ?? PlaygroundThemeValues.defaults(theme),
       version: _version,
       controllers: _controllers,
       onCommit: _commit,
+      onThemeCommit: _commitTheme,
       onReset: _reset,
       boundedBy: widget.boundedBy,
     );
@@ -317,14 +324,19 @@ class _PlaygroundPanelState extends State<PlaygroundPanel> {
 
   @override
   Widget build(BuildContext context) {
+    final ThemeData theme = Theme.of(context);
+    _themeValues ??= PlaygroundThemeValues.fromQuery(
+      theme,
+      widget.initialQuery ?? browserPlaygroundQuery(),
+    );
     final ComponentControls? spec = _spec;
     final PlaygroundBuilder? builder = _builder;
     final PlaygroundValues? values = _values;
-    // Components without a builder render nothing (P9-Z shows
-    // "Playground coming soon" there instead).
-    if (spec == null || builder == null || values == null) {
-      return const SizedBox.shrink();
+
+    if (builder == null || spec == null || values == null) {
+      return _controlsCard(spec, values);
     }
+
     return LayoutBuilder(
       builder: (BuildContext context, BoxConstraints constraints) {
         final double width = constraints.maxWidth;
@@ -334,7 +346,6 @@ class _PlaygroundPanelState extends State<PlaygroundPanel> {
           values: values,
         );
         final Widget code = PlaygroundCodeBlock(spec: spec, values: values);
-        final ThemeData theme = Theme.of(context);
         if (!widget.inlineControls &&
             width.isFinite &&
             width < kPlaygroundSheetWidth) {

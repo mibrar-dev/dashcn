@@ -26,11 +26,14 @@ import '../../widgets/device_frame/framed_preview.dart';
 import '../../widgets/preview_stage.dart';
 import '../builder.dart';
 import '../code.dart';
+import '../theme_values.dart';
 import '../values.dart';
 import 'control_label.dart';
 import 'controls.dart';
 import 'groups.dart';
 import 'query.dart';
+import 'scope.dart';
+import 'theme_section.dart';
 
 /// The framed live preview (P9-1 frames keep working inside the playground).
 class PlaygroundPreview extends StatelessWidget {
@@ -53,15 +56,19 @@ class PlaygroundPreview extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return FramedPreview(
-      id: 'playground-$componentId',
-      child: PreviewStage(
-        minHeight: 200,
-        child: Builder(
-          builder: (BuildContext context) => builder(context, values),
-        ),
+    final ThemeData? themeOverride = PlaygroundScope.maybeOf(
+      context,
+    )?.themeOverride;
+    Widget stage = PreviewStage(
+      minHeight: 200,
+      child: Builder(
+        builder: (BuildContext context) => builder(context, values),
       ),
     );
+    if (themeOverride != null) {
+      stage = Theme(data: themeOverride, child: stage);
+    }
+    return FramedPreview(id: 'playground-$componentId', child: stage);
   }
 }
 
@@ -115,18 +122,23 @@ class PlaygroundControlsCard extends StatelessWidget {
     super.key,
     required this.spec,
     required this.values,
+    required this.themeValues,
     required this.version,
     required this.controllers,
     required this.onCommit,
+    required this.onThemeCommit,
     required this.onReset,
     this.boundedBy,
   });
 
-  /// The component's control spec.
-  final ComponentControls spec;
+  /// The component's control spec, or null when none exist.
+  final ComponentControls? spec;
 
-  /// Live values (read at build time).
-  final PlaygroundValues values;
+  /// Live values (read at build time), or null.
+  final PlaygroundValues? values;
+
+  /// Live theme overrides.
+  final PlaygroundThemeValues themeValues;
 
   /// Bumped on every commit/reset (drives the rows, incl. in sheets).
   final ValueNotifier<int> version;
@@ -137,6 +149,9 @@ class PlaygroundControlsCard extends StatelessWidget {
   /// Called with the next value.
   final ControlCommitted onCommit;
 
+  /// Called with updated theme values.
+  final ValueChanged<PlaygroundThemeValues> onThemeCommit;
+
   /// Restores the spec defaults.
   final VoidCallback onReset;
 
@@ -146,8 +161,15 @@ class PlaygroundControlsCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final ThemeData theme = Theme.of(context);
-    final bool pristine = playgroundQuery(spec, values).isEmpty;
-    final String code = emitCode(spec, values);
+    final ComponentControls? spec = this.spec;
+    final PlaygroundValues? values = this.values;
+    final bool propsPristine =
+        spec == null || values == null || playgroundQuery(spec, values).isEmpty;
+    final bool themePristine = themeValues.isDefault(theme);
+    final bool pristine = propsPristine && themePristine;
+    final String code = spec != null && values != null
+        ? emitCode(spec, values)
+        : '';
     final Locale locale =
         DocsRouterScope.maybeOf(context)?.state.locale ?? const Locale('en');
     final String copyLabel = docsChrome(locale, 'pgCopyCode');
@@ -163,35 +185,38 @@ class PlaygroundControlsCard extends StatelessWidget {
               variant: ButtonVariant.outline,
               size: ButtonSize.sm,
               onPressed: pristine ? null : onReset,
-              child: Text(
-                docsChrome(
-                  DocsRouterScope.maybeOf(context)?.state.locale ??
-                      const Locale('en'),
-                  'pgReset',
-                ),
+              child: Text(docsChrome(locale, 'pgReset')),
+            ),
+            if (code.isNotEmpty) ...<Widget>[
+              Gap(theme.spacing.xs),
+              CopyButton(
+                key: const ValueKey<String>('playground-copy'),
+                text: code,
+                label: copyLabel,
+                showLabel: true,
+                variant: ButtonVariant.secondary,
+                size: ButtonSize.sm,
+                tooltip: copyLabel,
               ),
-            ),
-            Gap(theme.spacing.xs),
-            CopyButton(
-              key: const ValueKey<String>('playground-copy'),
-              text: code,
-              label: copyLabel,
-              showLabel: true,
-              variant: ButtonVariant.secondary,
-              size: ButtonSize.sm,
-              tooltip: copyLabel,
-            ),
+            ],
           ],
         ),
         Gap(theme.spacing.sm),
-        PlaygroundControlsList(
-          spec: spec,
-          values: values,
-          version: version,
-          controllers: controllers,
-          onCommit: onCommit,
-          boundedBy: boundedBy,
+        PlaygroundThemeSection(
+          themeValues: themeValues,
+          onCommit: onThemeCommit,
         ),
+        if (spec != null && values != null) ...<Widget>[
+          Gap(theme.spacing.md),
+          PlaygroundControlsList(
+            spec: spec,
+            values: values,
+            version: version,
+            controllers: controllers,
+            onCommit: onCommit,
+            boundedBy: boundedBy,
+          ),
+        ],
       ],
     );
   }

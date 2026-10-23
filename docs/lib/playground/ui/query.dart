@@ -35,7 +35,7 @@ Map<String, String> playgroundQuery(
 
 /// [base] with the current playground params merged in.
 ///
-/// Unrelated params survive; `p.*` keys back at their defaults are dropped.
+/// Unrelated params survive; `p.*` and `t.*` keys back at their defaults are dropped.
 Uri playgroundUri(Uri base, ComponentControls spec, PlaygroundValues values) {
   final Map<String, String> params = Map<String, String>.of(
     base.queryParameters,
@@ -44,11 +44,23 @@ Uri playgroundUri(Uri base, ComponentControls spec, PlaygroundValues values) {
   return base.replace(queryParameters: params.isEmpty ? null : params);
 }
 
-/// The `p.*` entries of [uri], for [PlaygroundValues.fromQuery].
+/// [base] with all current playground and theme query parameters merged in.
+Uri mergedPlaygroundUri(Uri base, Map<String, String> query) {
+  final Map<String, String> params =
+      Map<String, String>.of(base.queryParameters)..removeWhere(
+        (String key, String value) =>
+            key.startsWith('p.') || key.startsWith('t.'),
+      );
+  params.addAll(query);
+  return base.replace(queryParameters: params.isEmpty ? null : params);
+}
+
+/// The `p.*` and `t.*` entries of [uri], for [PlaygroundValues.fromQuery] and theme.
 Map<String, String> playgroundQueryOf(Uri uri) {
   return <String, String>{
     for (final MapEntry<String, String> entry in uri.queryParameters.entries)
-      if (entry.key.startsWith('p.')) entry.key: entry.value,
+      if (entry.key.startsWith('p.') || entry.key.startsWith('t.'))
+        entry.key: entry.value,
   };
 }
 
