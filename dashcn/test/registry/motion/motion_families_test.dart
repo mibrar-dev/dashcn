@@ -13,6 +13,7 @@ import 'package:dashcn/src/components/calendar/preview.dart';
 import 'package:dashcn/src/components/card/card.dart';
 import 'package:dashcn/src/components/card/preview.dart';
 import 'package:dashcn/src/components/carousel/preview.dart';
+import 'package:dashcn/src/components/checkbox/checkbox_mark.dart';
 import 'package:dashcn/src/components/checkbox/preview.dart';
 import 'package:dashcn/src/components/collapsible/preview.dart';
 import 'package:dashcn/src/components/dialog/preview.dart';
@@ -254,44 +255,34 @@ void main() {
       interact: (WidgetTester tester) async {
         await tester.tap(find.text('Accept terms'));
       },
+      // The stroke starts 50 ms in (after the fill): sample past that lead.
+      midExtra: const Duration(milliseconds: 80),
       expectMid: (WidgetTester tester) {
-        // Rendered fade: AnimatedOpacity builds a FadeTransition carrying
-        // the current value (its own field is the target).
-        final List<double> opacities = <double>[
-          for (final FadeTransition f in tester.widgetList<FadeTransition>(
-            find.byType(FadeTransition),
-          ))
-            f.opacity.value,
-        ];
+        // The check draws in (path stroke) after the fill: progress is
+        // mid-flight between 0 and 1 while the stroke runs.
+        final double progress = tester
+            .state<CheckboxMarkState>(find.byType(CheckboxMark))
+            .progress;
         expect(
-          opacities.any((double o) => o > 0 && o < 1),
+          progress > 0 && progress < 1,
           isTrue,
-          reason: 'indicator fade mid-flight: $opacities',
+          reason: 'check draw mid-flight: $progress',
         );
       },
-      fingerprint: (WidgetTester tester) {
-        final List<double> opacities = <double>[
-          for (final AnimatedOpacity o in tester.widgetList<AnimatedOpacity>(
-            find.byType(AnimatedOpacity),
-          ))
-            o.opacity,
-        ];
-        return 'opacities=$opacities';
-      },
+      fingerprint: (WidgetTester tester) =>
+          'progress=${tester.state<CheckboxMarkState>(find.byType(CheckboxMark)).progress}',
     ),
     _Family(
       name: 'radio select',
       preview: radioGroupPreviews.first,
       interact: (WidgetTester tester) async {
-        _FamilyHolders.dotBefore = tester.getSize(
-          find.byKey(kRadioIndicatorDotKey).at(1),
-        );
+        // The dot is a scale around a fixed-size child: the child's painted
+        // rect (through the scale) grows, not the layout size.
+        _FamilyHolders.dotBefore = _radioDotRect(tester, 1);
         await tester.tap(find.text('Pro'));
       },
       expectMid: (WidgetTester tester) {
-        final Size mid = tester.getSize(
-          find.byKey(kRadioIndicatorDotKey).at(1),
-        );
+        final Rect mid = _radioDotRect(tester, 1);
         expect(
           mid.width,
           greaterThan(_FamilyHolders.dotBefore.width),
@@ -299,7 +290,7 @@ void main() {
         );
       },
       fingerprint: (WidgetTester tester) =>
-          'dot=${tester.getSize(find.byKey(kRadioIndicatorDotKey).at(1))}',
+          'dot=${_radioDotRect(tester, 1).size}',
     ),
     _Family(
       name: 'switch toggle',
@@ -831,7 +822,7 @@ void main() {
 class _FamilyHolders {
   static TestGesture? pressGesture;
   static TestGesture? hoverGesture;
-  static Size dotBefore = Size.zero;
+  static Rect dotBefore = Rect.zero;
   static Offset thumbBefore = Offset.zero;
 }
 
@@ -854,3 +845,14 @@ class _ValueHostState extends State<_ValueHost> {
   @override
   Widget build(BuildContext context) => Progress(value: value);
 }
+
+/// Painted rect of the radio dot at [index]: the dot's child box, measured
+/// through the scale transform on its parent.
+Rect _radioDotRect(WidgetTester tester, int index) => tester.getRect(
+  find
+      .descendant(
+        of: find.byKey(kRadioIndicatorDotKey).at(index),
+        matching: find.byType(Container),
+      )
+      .first,
+);
