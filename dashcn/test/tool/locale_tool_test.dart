@@ -1,5 +1,7 @@
 // Tests for the offline locale installer (`tool/locale.dart`) and its
-// manifest generator (`tool/gen_locale_manifest.dart`).
+// manifest generator (`tool/gen_locale_manifest.dart`). The component
+// scenario (en, then ar, then components and locales in any order) lives in
+// `locale_components_test.dart`.
 import 'dart:convert';
 import 'dart:io';
 
@@ -8,12 +10,15 @@ import 'package:flutter_test/flutter_test.dart';
 import '../../tool/locale.dart' as locale_tool;
 
 late Map<String, dynamic> _manifest;
+late Map<String, dynamic> _registry;
 
 String get _manifestPath => 'lib/src/manifests/locale_tables.json';
+String get _registryPath => 'lib/src/manifests/registry.json';
 
 void main() {
   setUpAll(() {
     _manifest = locale_tool.loadManifest(_manifestPath);
+    _registry = locale_tool.loadRegistry(_registryPath);
   });
 
   test('manifest generation is checked in and fresh', () {
@@ -54,97 +59,6 @@ void main() {
     expect(ltr, contains('ltr'));
   });
 
-  test('add writes a complete standalone table', () {
-    final Directory dir = Directory.systemTemp.createTempSync('locale_add');
-    try {
-      final String status = locale_tool.localeAdd(
-        _manifest,
-        'ar',
-        dir: dir.path,
-      );
-      expect(status, contains('installed ar'));
-      final File file = File(
-        '${dir.path}/dashcn_locales/dashcn_locale_ar.dart',
-      );
-      expect(file.existsSync(), isTrue);
-      final String src = file.readAsStringSync();
-      expect(
-        src,
-        contains('class DashcnLocaleAr extends ComponentLocalizations'),
-      );
-      expect(src, contains("const Locale('ar')"));
-      expect(src, contains('String _number(Object? value)'));
-      // Complete: every manifest key has an override.
-      final int overrides = RegExp(r'@override').allMatches(src).length;
-      expect(overrides, _manifest['keyCount']);
-      // Barrel wires the delegate and supported locales.
-      final File barrel = File(
-        '${dir.path}/dashcn_locales/dashcn_locales.dart',
-      );
-      expect(barrel.existsSync(), isTrue);
-      final String barrelSrc = barrel.readAsStringSync();
-      expect(barrelSrc, contains('dashcnLocalesDelegate'));
-      expect(barrelSrc, contains('dashcnSupportedLocales'));
-      expect(barrelSrc, contains('DashcnLocalesDelegate'));
-    } finally {
-      dir.deleteSync(recursive: true);
-    }
-  });
-
-  test('add resolves inherited tables (pt-BR, zh-Hans)', () {
-    final Directory dir = Directory.systemTemp.createTempSync('locale_add');
-    try {
-      locale_tool.localeAdd(_manifest, 'pt-BR', dir: dir.path);
-      final String src = File(
-        '${dir.path}/dashcn_locales/dashcn_locale_pt_br.dart',
-      ).readAsStringSync();
-      expect(src, contains('class DashcnLocalePtBr'));
-      // Inherited from pt plus its own overrides: still complete.
-      final int overrides = RegExp(r'@override').allMatches(src).length;
-      expect(overrides, _manifest['keyCount']);
-      expect(src, contains('Iniciar teste gratuito'));
-      locale_tool.localeAdd(_manifest, 'zh-Hans', dir: dir.path);
-      final String hans = File(
-        '${dir.path}/dashcn_locales/dashcn_locale_zh_hans.dart',
-      ).readAsStringSync();
-      expect(
-        RegExp(r'@override').allMatches(hans).length,
-        _manifest['keyCount'],
-      );
-      // The barrel now wires both installed locales.
-      final String barrel = File(
-        '${dir.path}/dashcn_locales/dashcn_locales.dart',
-      ).readAsStringSync();
-      expect(barrel, contains('DashcnLocalePtBr'));
-      expect(barrel, contains('DashcnLocaleZhHans'));
-    } finally {
-      dir.deleteSync(recursive: true);
-    }
-  });
-
-  test('re-add is idempotent', () {
-    final Directory dir = Directory.systemTemp.createTempSync('locale_add');
-    try {
-      expect(
-        locale_tool.localeAdd(_manifest, 'de', dir: dir.path),
-        contains('installed de'),
-      );
-      final File file = File(
-        '${dir.path}/dashcn_locales/dashcn_locale_de.dart',
-      );
-      final DateTime first = file.lastModifiedSync();
-      sleep(const Duration(milliseconds: 20));
-      expect(
-        locale_tool.localeAdd(_manifest, 'de', dir: dir.path),
-        contains('already installed'),
-      );
-      expect(file.lastModifiedSync(), first);
-      expect(file.readAsStringSync(), contains('Abbrechen'));
-    } finally {
-      dir.deleteSync(recursive: true);
-    }
-  });
-
   test('list --json reports direction and key counts per locale', () {
     final List<String> lines = locale_tool.localeList(_manifest, json: true);
     expect(lines, hasLength(1));
@@ -167,6 +81,160 @@ void main() {
     expect(payload['zh-Hans']['inherits'], 'zh');
   });
 
+  test('add with no components writes an override-free locale file', () {
+    final Directory dir = Directory.systemTemp.createTempSync('locale_add');
+    try {
+      final String status = locale_tool.localeAdd(
+        _manifest,
+        _registry,
+        'ar',
+        dir: dir.path,
+      );
+      expect(status, contains('installed ar'));
+      final String src = File(
+        '${dir.path}/dashcn_locales/dashcn_locale_ar.dart',
+      ).readAsStringSync();
+      expect(
+        src,
+        contains('class DashcnLocaleAr extends ComponentLocalizations'),
+      );
+      expect(src, contains("const Locale('ar')"));
+      // No component is installed, so there is nothing to override yet.
+      expect(RegExp('@override').allMatches(src), isEmpty);
+      final String barrel = File(
+        '${dir.path}/dashcn_locales/dashcn_locales.dart',
+      ).readAsStringSync();
+      expect(barrel, contains('dashcnLocalesDelegates'));
+      expect(barrel, contains('DashcnLocaleAr'));
+      expect(barrel, contains('dashcnSupportedLocales'));
+    } finally {
+      dir.deleteSync(recursive: true);
+    }
+  });
+
+  test('locale file imports intl only when a key formats numbers', () {
+    final String plain = locale_tool.generateLocaleFile(
+      _manifest,
+      'de',
+      <String>{'dialogDismiss'},
+    );
+    expect(plain, isNot(contains('package:intl')));
+    expect(plain, isNot(contains('_number(')));
+    final String numeric = locale_tool.generateLocaleFile(
+      _manifest,
+      'ar',
+      <String>{'paginationPage'},
+    );
+    expect(numeric, contains("import 'package:intl/intl.dart' as intl;"));
+    expect(numeric, contains('String _number(Object? value)'));
+  });
+
+  test('locale file overrides exactly the keys it is given', () {
+    final String src = locale_tool.generateLocaleFile(_manifest, 'ja', <String>{
+      'dialogDismiss',
+      'buttonNext',
+    });
+    expect(RegExp('@override').allMatches(src), hasLength(2));
+    expect(src, contains('String get dialogDismiss'));
+    expect(src, contains('String get buttonNext'));
+  });
+
+  test('add resolves inherited tables (pt-BR, zh-Hans)', () {
+    final Directory dir = Directory.systemTemp.createTempSync('locale_add');
+    try {
+      locale_tool.componentAdd(
+        _manifest,
+        _registry,
+        'pagination',
+        dir: dir.path,
+      );
+      locale_tool.localeAdd(_manifest, _registry, 'pt-BR', dir: dir.path);
+      final String src = File(
+        '${dir.path}/dashcn_locales/dashcn_locale_pt_br.dart',
+      ).readAsStringSync();
+      expect(src, contains('class DashcnLocalePtBr'));
+      // Inherited from pt: the pagination string resolves through the pt table.
+      final String expected = locale_tool.resolveTable(
+        _manifest,
+        'pt-BR',
+      )['paginationPage']!;
+      expect(src, contains(expected));
+      locale_tool.localeAdd(_manifest, _registry, 'zh-Hans', dir: dir.path);
+      final String hans = File(
+        '${dir.path}/dashcn_locales/dashcn_locale_zh_hans.dart',
+      ).readAsStringSync();
+      expect(hans, contains('class DashcnLocaleZhHans'));
+      // The barrel now wires both installed locales.
+      final String barrel = File(
+        '${dir.path}/dashcn_locales/dashcn_locales.dart',
+      ).readAsStringSync();
+      expect(barrel, contains('DashcnLocalePtBr'));
+      expect(barrel, contains('DashcnLocaleZhHans'));
+    } finally {
+      dir.deleteSync(recursive: true);
+    }
+  });
+
+  test('re-add is idempotent', () {
+    final Directory dir = Directory.systemTemp.createTempSync('locale_add');
+    try {
+      locale_tool.componentAdd(_manifest, _registry, 'dropzone', dir: dir.path);
+      expect(
+        locale_tool.localeAdd(_manifest, _registry, 'de', dir: dir.path),
+        contains('installed de'),
+      );
+      final File file = File(
+        '${dir.path}/dashcn_locales/dashcn_locale_de.dart',
+      );
+      final DateTime first = file.lastModifiedSync();
+      final String before = file.readAsStringSync();
+      sleep(const Duration(milliseconds: 20));
+      expect(
+        locale_tool.localeAdd(_manifest, _registry, 'de', dir: dir.path),
+        contains('already installed'),
+      );
+      expect(file.lastModifiedSync(), first);
+      expect(file.readAsStringSync(), before);
+    } finally {
+      dir.deleteSync(recursive: true);
+    }
+  });
+
+  test('unknown locale errors with the supported list', () {
+    final Directory dir = Directory.systemTemp.createTempSync('locale_add');
+    try {
+      expect(
+        () => locale_tool.localeAdd(_manifest, _registry, 'xx', dir: dir.path),
+        throwsArgumentError,
+      );
+      expect(
+        () => locale_tool.componentAdd(
+          _manifest,
+          _registry,
+          'no_such_component',
+          dir: dir.path,
+        ),
+        throwsArgumentError,
+      );
+    } finally {
+      dir.deleteSync(recursive: true);
+    }
+  });
+
+  test('generated locale file has balanced braces', () {
+    final String src = locale_tool.generateLocaleFile(
+      _manifest,
+      'ja',
+      locale_tool.componentKeys(_registry, 'pagination').toSet(),
+    );
+    expect(src, contains('class DashcnLocaleJa'));
+    // Balanced braces as a smoke check for verbatim expression embedding.
+    expect(
+      RegExp(r'\{').allMatches(src).length,
+      RegExp(r'\}').allMatches(src).length,
+    );
+  });
+
   test('loads from a vendored manifest path (CLI package offline copy)', () {
     final Directory dir = Directory.systemTemp.createTempSync('locale_vendor');
     try {
@@ -178,6 +246,7 @@ void main() {
       expect((manifest['locales'] as Map).containsKey('ar'), isTrue);
       final String status = locale_tool.localeAdd(
         manifest,
+        _registry,
         'ar',
         dir: dir.path,
       );
@@ -194,8 +263,8 @@ void main() {
   test('barrel wires every installed locale and stays sorted', () {
     final Directory dir = Directory.systemTemp.createTempSync('locale_add');
     try {
-      locale_tool.localeAdd(_manifest, 'ja', dir: dir.path);
-      locale_tool.localeAdd(_manifest, 'ar', dir: dir.path);
+      locale_tool.localeAdd(_manifest, _registry, 'ja', dir: dir.path);
+      locale_tool.localeAdd(_manifest, _registry, 'ar', dir: dir.path);
       final String barrel = File(
         '${dir.path}/dashcn_locales/dashcn_locales.dart',
       ).readAsStringSync();
@@ -208,27 +277,5 @@ void main() {
     } finally {
       dir.deleteSync(recursive: true);
     }
-  });
-
-  test('unknown locale errors with the supported list', () {
-    final Directory dir = Directory.systemTemp.createTempSync('locale_add');
-    try {
-      expect(
-        () => locale_tool.localeAdd(_manifest, 'xx', dir: dir.path),
-        throwsArgumentError,
-      );
-    } finally {
-      dir.deleteSync(recursive: true);
-    }
-  });
-
-  test('generated locale file parses as valid Dart', () {
-    final String src = locale_tool.generateLocaleFile(_manifest, 'ja');
-    expect(src, contains('class DashcnLocaleJa'));
-    // Balanced braces as a smoke check for verbatim expression embedding.
-    expect(
-      RegExp(r'\{').allMatches(src).length,
-      RegExp(r'\}').allMatches(src).length,
-    );
   });
 }

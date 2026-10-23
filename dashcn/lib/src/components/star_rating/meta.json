@@ -18,16 +18,19 @@
     ],
     "theme": [
       "color_tokens",
+      "motion",
       "theme"
     ],
     "primitives": [
       "clickable",
-      "form_core"
+      "form_core",
+      "motion"
     ],
     "components": []
   },
   "files": [
     "star_rating.dart",
+    "star_rating_pop.dart",
     "star_rating_style.dart",
     "star_rating_theme.dart",
     "preview.dart"

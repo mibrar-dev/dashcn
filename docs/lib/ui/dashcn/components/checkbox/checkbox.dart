@@ -11,15 +11,14 @@ import 'package:flutter/widgets.dart';
 
 import '../../foundation/data.dart';
 import '../../foundation/gap.dart';
-import '../../foundation/icons/lucide_icons.dart';
 import '../../primitives/clickable.dart';
 import '../../primitives/form_core/form_value.dart';
-import '../../primitives/motion/motion_scope.dart';
 import '../../primitives/motion/motion_spec.dart';
 import '../../primitives/widget_states.dart';
 import '../../theme/color_tokens.dart';
 import '../../theme/motion.dart';
 import '../../theme/theme.dart';
+import 'checkbox_mark.dart';
 import 'checkbox_style.dart';
 
 export 'checkbox_style.dart';
@@ -38,9 +37,6 @@ const _checkboxMouseCursor = StateValue<MouseCursor>(
   rest: SystemMouseCursors.click,
   disabled: SystemMouseCursors.basic,
 );
-
-/// Duration of the indicator fade.
-const Duration _checkboxIndicatorDuration = Duration(milliseconds: 100);
 
 /// Holds the value of an uncontrolled [Checkbox].
 class CheckboxController extends ValueNotifier<CheckboxValue> {
@@ -347,6 +343,9 @@ class _CheckboxState extends State<Checkbox>
           onHover: widget.onHover,
           onFocus: widget.onFocusChange,
           focusNode: _focusNode,
+          // No whole-row press scale: the thumb (switch) and the box fill
+          // (checkbox) carry the press feedback.
+          pressScale: 1.0,
           mouseCursor: _checkboxMouseCursor,
           padding: const WidgetStatePropertyAll<EdgeInsetsGeometry?>(null),
           decoration: const WidgetStatePropertyAll<Decoration?>(null),
@@ -405,54 +404,27 @@ class _CheckboxBox extends StatelessWidget {
           ? null
           : Border.all(color: border, width: borderWidth),
     );
-    // The check mark scales in with a spring while fading: a subtle draw-in
-    // that never changes layout (the 16 px box keeps its size so tap targets
-    // and label metrics never shift). The box fill/border cross-fades through
-    // an AnimatedContainer on the same clock, so value and hover changes
-    // glide instead of jumping. Under reduced motion both snap with no
-    // ticker.
+    // The box fills first (instant, 100 ms), then the check path draws in
+    // (see `CheckboxMark`). The fill cross-fades through a decoration tween on
+    // the same clock so value and hover changes glide instead of jumping.
+    // Under reduced motion both snap with no ticker.
     final MotionTokens motion = Theme.of(context).motion;
     final MotionSpec? spec = this.motion;
     final Duration fillDuration = spec != null
-        ? spec.resolveEnterDuration(context, motion.durations.fast, state: true)
-        : motion.resolveStateDuration(motion.durations.fast);
+        ? spec.resolveEnterDuration(
+            context,
+            motion.durations.instant,
+            state: true,
+          )
+        : motion.resolveStateDuration(motion.durations.instant);
     final Curve fillCurve = spec != null
         ? spec.resolveEnterCurve(context, motion.curves.standard)
         : motion.resolveStateCurve(motion.curves.standard);
-    final Duration indicatorDuration = spec != null
-        ? spec.resolveEnterDuration(
-            context,
-            _checkboxIndicatorDuration,
-            state: true,
-          )
-        : resolveMotionDuration(context, _checkboxIndicatorDuration);
-    final bool shown = indicatorColor != null;
-    final Widget indicator = AnimatedOpacity(
-      duration: indicatorDuration,
-      opacity: shown ? 1 : 0,
-      child: AnimatedScale(
-        scale: shown ? 1.0 : 0.6,
-        duration: indicatorDuration,
-        curve: motion.curves.spring,
-        child: SizedBox.fromSize(
-          size: Size.square(indicatorSize),
-          child: indicatorColor == null
-              ? null
-              : IconTheme.merge(
-                  data: IconThemeData(
-                    color: indicatorColor,
-                    size: indicatorSize,
-                  ),
-                  child: Icon(
-                    value == CheckboxValue.indeterminate
-                        ? LucideIcons.minus
-                        : LucideIcons.check,
-                    size: indicatorSize,
-                    color: indicatorColor,
-                  ),
-                ),
-        ),
-      ),
+    final Widget indicator = CheckboxMark(
+      shown: indicatorColor != null,
+      indeterminate: value == CheckboxValue.indeterminate,
+      size: indicatorSize,
+      color: indicatorColor,
     );
     // The box keeps its `DecoratedBox` identity (tests read its decoration
     // by key): the fill/border cross-fades through a decoration tween on

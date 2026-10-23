@@ -652,7 +652,7 @@ const List<DocsComponent> kComponents = <DocsComponent>[
     install: 'dashcn add checkbox',
     import:
         "import 'package:<your_app>/ui/dashcn/components/checkbox/checkbox.dart';",
-    fileCount: 3,
+    fileCount: 4,
     stability: 'stable',
     listed: true,
     placement: 'center',
@@ -903,7 +903,7 @@ const List<DocsComponent> kComponents = <DocsComponent>[
     install: 'dashcn add star_rating',
     import:
         "import 'package:<your_app>/ui/dashcn/components/star_rating/star_rating.dart';",
-    fileCount: 3,
+    fileCount: 4,
     stability: 'stable',
     listed: true,
     placement: 'center',

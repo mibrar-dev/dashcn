@@ -288,13 +288,16 @@ Widget translatedDialog(Locale locale, Widget child) {
 }
 '''),
   'cli-add': DocsSample('sh', r'''
-# List every locale the kit ships, with direction and install status.
+# List every locale the kit ships, with direction and key count.
 dart run tool/locale.dart list
 
-# Write the wiring for Arabic into your project (no pasting).
+# Install the English base and the strings pagination needs.
+dart run tool/locale.dart component pagination --dir .
+
+# Install Arabic for every component already in the project.
 dart run tool/locale.dart add ar --dir .
 
-# Re-adding is a byte-identical no-op.
+# Re-running either command is a byte-identical no-op.
 dart run tool/locale.dart add ar --dir .
 '''),
   'wiring': DocsSample('dart', r'''
