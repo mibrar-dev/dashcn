@@ -132,7 +132,8 @@ void main() {
     testWidgets('defaults theme wins with no overrides', (tester) async {
       await _pump(tester, initial: const <Color>[_blue]);
       expect(historyDefaults.selectedBorderWidth, 2);
-      expect(historyDefaults.spacing, 4);
+      // Spacing is token-driven: the null default resolves spacing.xs at build.
+      expect(historyDefaults.spacing, isNull);
     });
 
     testWidgets('theme precedence: widget > tree > app > defaults', (
