@@ -12,13 +12,16 @@
   ],
   "deps": {
     "foundation": [
+      "component_preview",
       "gap",
       "icons"
     ],
     "theme": [
       "theme"
     ],
-    "primitives": ["localizations"],
+    "primitives": [
+      "localizations"
+    ],
     "components": [
       "avatar",
       "badge",

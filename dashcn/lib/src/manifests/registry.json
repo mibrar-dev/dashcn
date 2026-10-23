@@ -14,6 +14,7 @@
           "tabs"
         ],
         "foundation": [
+          "component_preview",
           "gap"
         ],
         "primitives": [
@@ -56,6 +57,7 @@
           "switch"
         ],
         "foundation": [
+          "component_preview",
           "gap"
         ],
         "primitives": [
@@ -92,6 +94,7 @@
           "divider"
         ],
         "foundation": [
+          "component_preview",
           "gap",
           "icons"
         ],
@@ -130,6 +133,7 @@
           "divider"
         ],
         "foundation": [
+          "component_preview",
           "gap",
           "icons"
         ],
@@ -171,6 +175,7 @@
           "table"
         ],
         "foundation": [
+          "component_preview",
           "gap"
         ],
         "primitives": [
@@ -211,6 +216,7 @@
           "tabs"
         ],
         "foundation": [
+          "component_preview",
           "gap"
         ],
         "primitives": [
@@ -251,6 +257,7 @@
           "input"
         ],
         "foundation": [
+          "component_preview",
           "gap"
         ],
         "primitives": [
@@ -287,6 +294,7 @@
           "input"
         ],
         "foundation": [
+          "component_preview",
           "gap",
           "icons"
         ],
@@ -327,6 +335,7 @@
           "input"
         ],
         "foundation": [
+          "component_preview",
           "gap",
           "icons"
         ],
@@ -366,6 +375,7 @@
           "input_otp"
         ],
         "foundation": [
+          "component_preview",
           "gap"
         ],
         "primitives": [
@@ -405,6 +415,7 @@
           "input_otp"
         ],
         "foundation": [
+          "component_preview",
           "gap",
           "icons"
         ],
@@ -443,6 +454,7 @@
           "drawer"
         ],
         "foundation": [
+          "component_preview",
           "gap",
           "icons"
         ],
@@ -485,6 +497,7 @@
           "progress"
         ],
         "foundation": [
+          "component_preview",
           "gap",
           "icons"
         ],
@@ -529,6 +542,7 @@
           "progress"
         ],
         "foundation": [
+          "component_preview",
           "gap",
           "icons"
         ],
@@ -570,6 +584,7 @@
           "input"
         ],
         "foundation": [
+          "component_preview",
           "gap"
         ],
         "primitives": [
@@ -609,6 +624,7 @@
           "progress"
         ],
         "foundation": [
+          "component_preview",
           "gap",
           "icons"
         ],
@@ -12041,7 +12057,7 @@
     "blocks/otp-01/README.md": "1de94fe9d7937965a096fe8458dd78b88c913627f0e5a51f301a694a86dea905",
     "blocks/otp-01/otp_01.dart": "dd7cd0174c7d127f90bb6bbcc078e4e037bd4c05f2e584b22f1aaf3286bf4749",
     "blocks/pricing-01/README.md": "bb6070ed3f196ec40206bdeeb99827b9a15b1fee9de071bd3fba5beea6776a34",
-    "blocks/pricing-01/pricing_01.dart": "89274c090e75826be77bea6b0174e3f092744adf8a3f5514ca1c77093385df09",
+    "blocks/pricing-01/pricing_01.dart": "cca1e3d8a6fc6a3a9d860169a28195e08a56a3b6ca92e6be517b22f2c1c01229",
     "blocks/pricing-01/pricing_01_promo.dart": "f6170a5e67f7bf7dbefa0cb98292791683d8012a6f0998c1b6dbb4e4318fc2ae",
     "blocks/sidebar-01/README.md": "8895903c9c4c61e1fa9074e8cb3a8bc1cd2dbed824109bc9f52bf08bed6bbf5e",
     "blocks/sidebar-01/sidebar_01.dart": "f670aa221c55968fc7c4366c7e421af387f2979f671140a595e588d70b2c7aa0",
@@ -13039,6 +13055,7 @@
           "page_route"
         ],
         "foundation": [
+          "component_preview",
           "gap"
         ],
         "primitives": [
@@ -13098,6 +13115,7 @@
           "swipe_actions"
         ],
         "foundation": [
+          "component_preview",
           "gap"
         ],
         "primitives": [
@@ -13150,6 +13168,7 @@
           "swipe_actions"
         ],
         "foundation": [
+          "component_preview",
           "gap",
           "icons"
         ],
@@ -13202,6 +13221,7 @@
           "page_route"
         ],
         "foundation": [
+          "component_preview",
           "gap",
           "icons"
         ],
@@ -13252,6 +13272,7 @@
           "switch"
         ],
         "foundation": [
+          "component_preview",
           "gap"
         ],
         "primitives": [
