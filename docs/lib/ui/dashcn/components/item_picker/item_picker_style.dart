@@ -115,5 +115,4 @@ const EdgeInsetsGeometry itemPickerDefaultPadding = EdgeInsetsDensity.pxAll(8);
 const ItemPickerTheme itemPickerDefaults = ItemPickerTheme(
   constraints: BoxConstraints(maxWidth: 320, maxHeight: 320),
   padding: itemPickerDefaultPadding,
-  spacing: 4,
 );

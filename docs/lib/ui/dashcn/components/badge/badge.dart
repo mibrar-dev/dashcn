@@ -104,9 +104,12 @@ class Badge extends StatelessWidget {
       resolved.padding ?? badgeDefaultPadding,
       ambient.density.baseContentPadding * ambient.scaling,
     );
-    final double iconSize = (resolved.iconSize ?? 12) * ambient.scaling;
+    final double iconSize =
+        (resolved.iconSize ?? ambient.iconTheme.xSmall.size ?? 12) *
+        ambient.scaling;
     final double gap = ambient.spacing.sm;
-    final double dotSize = badgeDotSize * ambient.scaling;
+    final double dotSize =
+        (ambient.iconTheme.x2Small.size ?? badgeDotSize) * ambient.scaling;
 
     Color? colorFor(StateValue<ThemedColor>? value, Set<WidgetState> states) =>
         value?.resolve(states)?.resolve(ambient.colors);

@@ -133,7 +133,6 @@ const _controlRow = SegmentedControlStyle(
   thumbBackground: _thumbBg,
   thumbBorderColor: ThemedColor.ref(ColorRef.border),
   thumbBorderWidth: 1,
-  borderRadius: BorderRadius.all(Radius.circular(8)),
   padding: EdgeInsetsDensity.pxAll(4),
   gap: 0,
 );

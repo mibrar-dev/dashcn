@@ -1663,6 +1663,7 @@ const Map<String, List<DocsDep>> kComponentDeps = <String, List<DocsDep>>{
   'spell_check_suggestions_toolbar': <DocsDep>[
     DocsDep(id: 'menu', kind: DocsDepKind.component),
     DocsDep(id: 'localizations', kind: DocsDepKind.primitive),
+    DocsDep(id: 'theme', kind: DocsDepKind.theme),
   ],
   'stage_container': <DocsDep>[
     DocsDep(id: 'color_tokens', kind: DocsDepKind.theme),

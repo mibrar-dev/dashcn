@@ -350,7 +350,7 @@ class MenuShortcut extends StatelessWidget {
       shortcut,
       style: app.typography.small.copyWith(
         fontSize: 12,
-        letterSpacing: 1.2,
+        letterSpacing: app.tracking.wide ?? 1.2,
         color: app.colors.mutedForeground,
       ),
     );

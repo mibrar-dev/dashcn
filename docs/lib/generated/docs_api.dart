@@ -9228,7 +9228,7 @@ const Map<String, DocsApiTable> kApiTables = <String, DocsApiTable>{
         name: 'radius',
         type: 'Radius',
         isRequired: false,
-        defaultValue: 'const Radius.circular(0)',
+        defaultValue: 'Radius.zero',
         doc: 'Corner radius of the gradient.',
       ),
       DocsApiParam(
@@ -9309,7 +9309,7 @@ const Map<String, DocsApiTable> kApiTables = <String, DocsApiTable>{
         name: 'radius',
         type: 'Radius',
         isRequired: false,
-        defaultValue: 'const Radius.circular(0)',
+        defaultValue: 'Radius.zero',
         doc: 'Corner radius of the gradient.',
       ),
       DocsApiParam(

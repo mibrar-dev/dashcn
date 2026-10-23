@@ -276,7 +276,7 @@ class _FeatureCarouselState extends State<FeatureCarousel> {
         widget.cardBuilder?.call(context, item, _index, theme) ??
         FeatureCarouselCenterCard(
           item: item,
-          radius: theme.radius!,
+          radius: theme.radius ?? Theme.of(context).radiusXl,
           fill: theme.cardFill!.resolve(colors),
           border: border,
           accent: (item.accentColor ?? theme.accentColor!).resolve(colors),
@@ -288,7 +288,7 @@ class _FeatureCarouselState extends State<FeatureCarousel> {
         for (final int i in <int>[3, 2, 1])
           FeatureCarouselGhostCard(
             indexFromFront: i,
-            radius: theme.radius!,
+            radius: theme.radius ?? Theme.of(context).radiusXl,
             fill: theme.ghostFill!.resolve(colors),
             border: border,
           ),
@@ -344,7 +344,7 @@ class _FeatureCarouselState extends State<FeatureCarousel> {
       foreground: theme.controlForeground!.resolve(colors),
       width: featureCarouselDefaultArrowSize,
       height: featureCarouselDefaultArrowSize,
-      radius: BorderRadius.circular(theme.radius ?? 12),
+      radius: BorderRadius.circular(theme.radius ?? Theme.of(context).radiusXl),
       child: Icon(icon, size: 24),
     );
   }

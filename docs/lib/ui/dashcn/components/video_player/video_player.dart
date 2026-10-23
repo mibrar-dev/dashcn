@@ -330,7 +330,9 @@ class _VideoPlayerState extends State<VideoPlayer> {
     final Color fg =
         style.foreground?.resolve(colors) ?? const Color(0xFFFFFFFF);
     final BorderRadiusGeometry radius =
-        style.borderRadius ?? BorderRadius.circular(18);
+        // 18 px at the default theme: the floating frame keeps 6 px above
+        // radiusXl so it reads as media chrome at any theme radius.
+        style.borderRadius ?? BorderRadius.circular(ambient.radiusXl + 6);
     final Duration fade = resolveMotionDuration(
       context,
       style.fadeDuration ?? kDefaultDuration,
@@ -507,7 +509,8 @@ class _VideoPlayerState extends State<VideoPlayer> {
       padding: padding,
       decoration: BoxDecoration(
         color: surfaceColor(base, opacity),
-        borderRadius: BorderRadius.circular(10),
+        // 10 px at the default theme: the info bar keeps 2 px above radiusLg.
+        borderRadius: BorderRadius.circular(ambient.radiusLg + 2),
       ),
       child: Column(
         mainAxisSize: MainAxisSize.min,
@@ -520,7 +523,7 @@ class _VideoPlayerState extends State<VideoPlayer> {
               overflow: TextOverflow.ellipsis,
               style: TextStyle(
                 color: fg,
-                fontSize: 14,
+                fontSize: ambient.densityTokens.bodyTextSize,
                 fontWeight: FontWeight.w600,
               ),
             ),
@@ -529,14 +532,19 @@ class _VideoPlayerState extends State<VideoPlayer> {
               widget.subtitle!,
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
-              style: TextStyle(color: fg.withAlpha(0xB3), fontSize: 12),
+              style: TextStyle(
+                color: fg.withAlpha(0xB3),
+                // 12 px small text at the default theme (typography xSmall).
+                fontSize: ambient.typography.xSmall.fontSize ?? 12,
+              ),
             ),
         ],
       ),
     );
     return GlassSurface(
       surfaceBlur: blur,
-      borderRadius: BorderRadius.circular(10),
+      // Matches the info bar above: 10 px at the default theme.
+      borderRadius: BorderRadius.circular(ambient.radiusLg + 2),
       child: bar,
     );
   }

@@ -116,6 +116,9 @@ class AudioExpandedCard extends StatefulWidget {
 class _AudioExpandedCardState extends State<AudioExpandedCard> {
   bool _detailsOpen = false;
 
+  /// Width of one equaliser bar; bars stay fully round (radius = width / 2).
+  static const double _waveBarWidth = 3;
+
   @override
   Widget build(BuildContext context) {
     // Density-driven gaps: at the default density baseGap is 8, so gapMd
@@ -311,7 +314,7 @@ class _AudioExpandedCardState extends State<AudioExpandedCard> {
           decoration: BoxDecoration(
             color: cardPaint,
             border: Border.all(color: ambient.colors.border),
-            borderRadius: BorderRadius.circular(12),
+            borderRadius: BorderRadius.circular(ambient.radiusXl),
           ),
           child: Column(
             mainAxisSize: MainAxisSize.min,
@@ -382,7 +385,7 @@ class _AudioExpandedCardState extends State<AudioExpandedCard> {
                     ),
                     decoration: BoxDecoration(
                       border: Border.all(color: ambient.colors.border),
-                      borderRadius: BorderRadius.circular(8),
+                      borderRadius: BorderRadius.circular(ambient.radiusLg),
                     ),
                     child: Icon(LucideIcons.x, size: 16, color: widget.fg),
                   ),
@@ -395,7 +398,7 @@ class _AudioExpandedCardState extends State<AudioExpandedCard> {
     );
     return GlassSurface(
       surfaceBlur: blur,
-      borderRadius: BorderRadius.circular(12),
+      borderRadius: BorderRadius.circular(ambient.radiusXl),
       child: panel,
     );
   }
@@ -422,12 +425,13 @@ class _AudioExpandedCardState extends State<AudioExpandedCard> {
         children: <Widget>[
           for (int i = 0; i < 5; i++)
             Container(
-              width: 3,
+              width: _waveBarWidth,
               height: 6 + (i % 3) * 5.0,
               margin: const EdgeInsets.symmetric(horizontal: 1.5),
               decoration: BoxDecoration(
                 color: widget.muted,
-                borderRadius: BorderRadius.circular(1.5),
+                // Fully round bars: the pill radius is half the bar width.
+                borderRadius: BorderRadius.circular(_waveBarWidth / 2),
               ),
             ),
         ],
@@ -459,7 +463,7 @@ class _AudioExpandedCardState extends State<AudioExpandedCard> {
                 TextStyle(
                   color: widget.muted,
                   fontSize: 11,
-                  letterSpacing: 1.2,
+                  letterSpacing: Theme.of(context).tracking.wide ?? 1.2,
                   fontWeight: FontWeight.w500,
                 ),
           ),
