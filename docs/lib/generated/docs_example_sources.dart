@@ -23341,7 +23341,9 @@ Widget _featuredTile(ThemeData theme) {
         children: <Widget>[
           const Text('dashcn').small().medium(),
           const SizedBox(height: 4),
-          Text('Beautifully designed components').muted().small(),
+          Text(
+            'Beautifully designed components',
+          ).muted().small(),
         ],
       ),
     ),
@@ -23361,19 +23363,25 @@ Widget _gettingStarted(ThemeData theme) {
           children: <Widget>[
             NavigationMenuContent(
               title: Text('Introduction'),
-              content: Text('Re-usable components for your apps'),
+              content: Text(
+                'Re-usable components for your apps',
+              ),
               onPressed: _noop,
             ),
             SizedBox(height: 8),
             NavigationMenuContent(
               title: Text('Installation'),
-              content: Text('How to install dependencies and code'),
+              content: Text(
+                'How to install dependencies and code',
+              ),
               onPressed: _noop,
             ),
             SizedBox(height: 8),
             NavigationMenuContent(
               title: Text('Typography'),
-              content: Text('Styles for headings and paragraphs'),
+              content: Text(
+                'Styles for headings and paragraphs',
+              ),
               onPressed: _noop,
             ),
           ],
@@ -23392,7 +23400,9 @@ Widget _componentsGrid() {
     children: <Widget>[
       NavigationMenuContent(
         title: Text('Alert Dialog'),
-        content: Text('A modal dialog that interrupts the user'),
+        content: Text(
+          'A modal dialog that interrupts the user',
+        ),
         onPressed: _noop,
       ),
       NavigationMenuContent(
@@ -23402,12 +23412,16 @@ Widget _componentsGrid() {
       ),
       NavigationMenuContent(
         title: Text('Progress'),
-        content: Text('Displays an indicator showing progress'),
+        content: Text(
+          'Displays an indicator showing progress',
+        ),
         onPressed: _noop,
       ),
       NavigationMenuContent(
         title: Text('Scroll Area'),
-        content: Text('Visually separates content into sections'),
+        content: Text(
+          'Visually separates content into sections',
+        ),
         onPressed: _noop,
       ),
       NavigationMenuContent(
@@ -23457,7 +23471,9 @@ class _DefaultBarState extends State<_DefaultBar> {
                 child: Text('Components'),
               ),
               NavigationMenuItem(
-                onPressed: () => setState(() => _page = 'Documentation'),
+                onPressed: () => setState(
+                  () => _page = 'Documentation',
+                ),
                 child: Text('Docs'),
               ),
             ],

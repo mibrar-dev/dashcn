@@ -421,7 +421,7 @@ void main() {
     // The P6-F3 contract the docs stage enforces: every named example of the
     // five P7-C1 components pumps inside 720x420 and at 375 wide, under light
     // and dark, with no exception and no overflow.
-    const List<Object> suites = <Object>[
+    List<Object> suites = <Object>[
       chipPreviews,
       carouselPreviews,
       pinnedSheetPreviews,
