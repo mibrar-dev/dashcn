@@ -31,10 +31,7 @@ void main() {
 
       await pumpFlow(
         tester,
-        Auth01Flow(
-          key: ValueKey<String>('auth-otp'),
-          initialScreen: '/otp',
-        ),
+        Auth01Flow(key: ValueKey<String>('auth-otp'), initialScreen: '/otp'),
         brightness: brightness,
         direction: TextDirection.ltr,
       );

@@ -3,11 +3,13 @@
 
 /// Translated sample strings per locale tag (see `docsLocaleTag`).
 /// A locale or key that is missing here falls back to English at runtime.
-const Map<String, Map<String, String>> docsSampleTable =
-    <String, Map<String, String>>{
+const Map<String, Map<String, String>>
+docsSampleTable = <String, Map<String, String>>{
   'ar': <String, String>{
-    '"The kit paid for itself the week we adopted it. Every screen ships on-brand, light or dark."': '"أثبتت المكتبة جدواها في الأسبوع الذي اعتمدناها فيه. كل شاشة تُطلق متوافقة مع الهوية، فاتحة أو داكنة."',
-    '"We onboarded the whole team in an afternoon."': '"لقد أعددنا الفريق بأكمله في فترة بعد الظهر."',
+    '"The kit paid for itself the week we adopted it. Every screen ships on-brand, light or dark."':
+        '"أثبتت المكتبة جدواها في الأسبوع الذي اعتمدناها فيه. كل شاشة تُطلق متوافقة مع الهوية، فاتحة أو داكنة."',
+    '"We onboarded the whole team in an afternoon."':
+        '"لقد أعددنا الفريق بأكمله في فترة بعد الظهر."',
     '+1.2 kW': '+1.2 kW',
     '+10.2% vs last quarter': '+10.2% مقارنة بالربع الماضي',
     '+12.4% vs last month': '+12.4% مقارنة بالشهر الماضي',
@@ -46,16 +48,20 @@ const Map<String, Map<String, String>> docsSampleTable =
     '7.2 of 10 GB': '7.2 من أصل 10 غيغابايت',
     '85 shares': '85 مشاركة',
     'A dialog pushed over a page route.': 'مربع حوار يُعرض فوق مسار صفحة.',
-    'A longer subtitle that spans multiple lines in the tile.': 'عنوان فرعي أطول يمتد على عدة أسطر داخل البطاقة.',
+    'A longer subtitle that spans multiple lines in the tile.':
+        'عنوان فرعي أطول يمتد على عدة أسطر داخل البطاقة.',
     'A modal dialog that interrupts the user': 'مربع حوار منبثق يقاطع المستخدم',
     'A new update is available.': 'يتوفر تحديث جديد.',
     'A popup that displays information': 'نافذة منبثقة تعرض معلومات',
     'A set of layered sections of content': 'مجموعة من أقسام المحتوى المتراكبة',
-    'A single slide, so the CTA sits under one card.': 'شريحة واحدة، بحيث تظهر دعوة الإجراء أسفل بطاقة واحدة.',
-    'A strategy for building wealth over time.': 'استراتيجية لبناء الثروة على المدى الطويل.',
+    'A single slide, so the CTA sits under one card.':
+        'شريحة واحدة، بحيث تظهر دعوة الإجراء أسفل بطاقة واحدة.',
+    'A strategy for building wealth over time.':
+        'استراتيجية لبناء الثروة على المدى الطويل.',
     'Above / below and hint': 'أعلى / أسفل وتلميح',
     'Absolute placement': 'تموضع مطلق',
-    'Accelerated savings plan · recurring monthly': 'خطة ادخار متسارعة · شهرية متكررة',
+    'Accelerated savings plan · recurring monthly':
+        'خطة ادخار متسارعة · شهرية متكررة',
     'Accent': 'تمييز',
     'Accented group bubble.': 'فقاعة مجموعة مُبرزة.',
     'Accept': 'قبول',
@@ -63,7 +69,8 @@ const Map<String, Map<String, String>> docsSampleTable =
     'Accessibility': 'إمكانية الوصول',
     'Accessible by default.': 'قابل للوصول افتراضيًا.',
     'Account': 'الحساب',
-    'Account created — check your inbox to verify it.': 'تم إنشاء الحساب. تحقق من بريدك الوارد لتأكيده.',
+    'Account created — check your inbox to verify it.':
+        'تم إنشاء الحساب. تحقق من بريدك الوارد لتأكيده.',
     'Account options': 'خيارات الحساب',
     'Acme': 'Acme',
     'Acme Inc': 'Acme Inc',
@@ -78,11 +85,13 @@ const Map<String, Map<String, String>> docsSampleTable =
     'Activity tracker': 'متتبع النشاط',
     'Ada Lovelace': 'Ada Lovelace',
     'Ada Lovelace — Engineer, Acme': 'Ada Lovelace — مهندسة، Acme',
-    'Ada deployed Marketing site to production': 'نشرت Ada موقع التسويق إلى بيئة الإنتاج',
+    'Ada deployed Marketing site to production':
+        'نشرت Ada موقع التسويق إلى بيئة الإنتاج',
     'Ada pushed 3 commits to Atlas': 'دفعت Ada ثلاثة commits إلى Atlas',
     'Ada shared Welcome aboard with you': 'شاركت Ada «Welcome aboard» معك',
     'Add a tag and press Enter': 'أضف علامة واضغط Enter',
-    'Add any notes for this payout configuration...': 'أضف أي ملاحظات لإعدادات الدفع هذه...',
+    'Add any notes for this payout configuration...':
+        'أضف أي ملاحظات لإعدادات الدفع هذه...',
     'Add item': 'إضافة عنصر',
     'Add item (large)': 'إضافة عنصر (كبير)',
     'Add item (regular)': 'إضافة عنصر (عادي)',
@@ -98,9 +107,11 @@ const Map<String, Map<String, String>> docsSampleTable =
     'Align left': 'محاذاة لليسار',
     'All 42 theme presets': 'جميع القوالب الـ42 للسمات',
     'All component categories': 'جميع فئات المكوّنات',
-    'All set — refresh the report to see the corrected split.': 'تم كل شيء — حدّث التقرير لرؤية التقسيم المصحح.',
+    'All set — refresh the report to see the corrected split.':
+        'تم كل شيء — حدّث التقرير لرؤية التقسيم المصحح.',
     'All systems go': 'كل الأنظمة تعمل',
-    'Allow others to see your stream count': 'السماح للآخرين برؤية عدد مرات الاستماع',
+    'Allow others to see your stream count':
+        'السماح للآخرين برؤية عدد مرات الاستماع',
     'Alpha': 'ألفا',
     'Alpha + history': 'Alpha + السجل',
     'Alpha grid': 'شبكة Alpha',
@@ -114,7 +125,8 @@ const Map<String, Map<String, String>> docsSampleTable =
     'Amex': 'Amex',
     'Amount': 'المبلغ',
     'Amount to Invest': 'المبلغ المراد استثماره',
-    'An expanding bottom sheet with a drag handle.': 'لوحة سفلية قابلة للتوسيع مع مقبض سحب.',
+    'An expanding bottom sheet with a drag handle.':
+        'لوحة سفلية قابلة للتوسيع مع مقبض سحب.',
     'Analyst': 'محلل',
     'Analytics': 'التحليلات',
     'Anchored': 'مثبّت',
@@ -147,7 +159,8 @@ const Map<String, Map<String, String>> docsSampleTable =
     'Async (failure)': 'غير متزامن (فشل)',
     'Async (success)': 'غير متزامن (نجاح)',
     'At least 8 characters': '8 أحرف على الأقل',
-    'At least 8 characters. Changing it signs you out elsewhere.': '8 أحرف على الأقل. سيؤدي تغييرها إلى تسجيل خروجك من الأجهزة الأخرى.',
+    'At least 8 characters. Changing it signs you out elsewhere.':
+        '8 أحرف على الأقل. سيؤدي تغييرها إلى تسجيل خروجك من الأجهزة الأخرى.',
     'Atlas': 'Atlas',
     'Auto Insurance': 'تأمين السيارات',
     'Auto-Transfer': 'التحويل التلقائي',
@@ -180,12 +193,14 @@ const Map<String, Map<String, String>> docsSampleTable =
     'Bar hidden': 'الشريط مخفي',
     'Bare card, default padding': 'بطاقة بسيطة، الحشو الافتراضي',
     'Barrier locked': 'الحاجز مقفل',
-    'Based on the last six months of payouts.': 'بناءً على آخر ستة أشهر من الدفعات.',
+    'Based on the last six months of payouts.':
+        'بناءً على آخر ستة أشهر من الدفعات.',
     'Battery Level': 'مستوى البطارية',
     'Battery level 85 percent': 'مستوى البطارية 85 بالمئة',
     'Beacon': 'Beacon',
     'Beautifully designed components': 'مكوّنات مصممة بعناية',
-    'Beautifully designed components that you can copy and paste.': 'مكوّنات مصممة بعناية يمكنك نسخها ولصقها.',
+    'Beautifully designed components that you can copy and paste.':
+        'مكوّنات مصممة بعناية يمكنك نسخها ولصقها.',
     'Beautifully designed components.': 'مكوّنات مصممة بعناية.',
     'Beta': 'تجريبي',
     'Beta channel': 'قناة البيتا',
@@ -196,33 +211,41 @@ const Map<String, Map<String, String>> docsSampleTable =
     'Billing — yesterday': 'الفوترة — أمس',
     'Bjarne Kern': 'Bjarne Kern',
     'Bjarne commented on Beacon specs': 'علّق Bjarne على مواصفات Beacon',
-    'Bjarne invited Sofia to Design system': 'دعا Bjarne سوفيا إلى Design system',
+    'Bjarne invited Sofia to Design system':
+        'دعا Bjarne سوفيا إلى Design system',
     'Blocks and charts': 'كتل ومخططات',
     'Blue': 'أزرق',
     'Blue Bottle Coffee': 'Blue Bottle Coffee',
     'Blue sample': 'عينة زرقاء',
     'Blue sample image': 'صورة العينة الزرقاء',
     'Blur': 'ضبابية',
-    'Body copy that keeps its box while loading.': 'نص المتن الذي يحافظ على صندوقه أثناء التحميل.',
+    'Body copy that keeps its box while loading.':
+        'نص المتن الذي يحافظ على صندوقه أثناء التحميل.',
     'Bold': 'عريض',
     'Bottom sheet': 'لوحة سفلية',
     'Bounce rate': 'معدل الارتداد',
-    'Breaking News: dashcn continuous marquee components now live across all platforms! • Seamless looping with soft edge fades • Fully keyboard accessible': 'أخبار عاجلة: مكوّنات dashcn للشريط المتحرك المستمر متاحة الآن على جميع المنصات! • حلقة سلسة مع تلاشٍ ناعم للحواف • قابلة للتشغيل بالكامل من لوحة المفاتيح',
+    'Breaking News: dashcn continuous marquee components now live across all platforms! • Seamless looping with soft edge fades • Fully keyboard accessible':
+        'أخبار عاجلة: مكوّنات dashcn للشريط المتحرك المستمر متاحة الآن على جميع المنصات! • حلقة سلسة مع تلاشٍ ناعم للحواف • قابلة للتشغيل بالكامل من لوحة المفاتيح',
     'Browse': 'استعراض',
     'Browsers': 'المتصفحات',
     'Builders': 'المنشئات',
     'Buy Investment': 'شراء استثمار',
     'Buying Power': 'القوة الشرائية',
-    'By signing in you agree to our terms of service.': 'بتسجيل الدخول فإنك توافق على شروط الخدمة الخاصة بنا.',
+    'By signing in you agree to our terms of service.':
+        'بتسجيل الدخول فإنك توافق على شروط الخدمة الخاصة بنا.',
     'Calculator': 'آلة حاسبة',
     'Calendar link': 'رابط التقويم',
     'Camera': 'الكاميرا',
     'Camera fallback': 'بديل الكاميرا',
-    'Camera unavailable — permission denied': 'الكاميرا غير متاحة — تم رفض الإذن',
+    'Camera unavailable — permission denied':
+        'الكاميرا غير متاحة — تم رفض الإذن',
     'Can I change plans later?': 'هل يمكنني تغيير الخطة لاحقًا؟',
-    'Can I export my data for tax purposes?': 'هل يمكنني تصدير بياناتي لأغراض ضريبية؟',
-    'Can we move the sidebar review to Thursday?': 'هل يمكننا نقل مراجعة الشريط الجانبي إلى يوم الخميس؟',
-    'Can you re-check the 2026-01 payout?': 'هل يمكنك إعادة التحقق من دفعة 2026-01؟',
+    'Can I export my data for tax purposes?':
+        'هل يمكنني تصدير بياناتي لأغراض ضريبية؟',
+    'Can we move the sidebar review to Thursday?':
+        'هل يمكننا نقل مراجعة الشريط الجانبي إلى يوم الخميس؟',
+    'Can you re-check the 2026-01 payout?':
+        'هل يمكنك إعادة التحقق من دفعة 2026-01؟',
     'Cancel': 'إلغاء',
     'Cancelled': 'ملغى',
     'Captioned premiere': 'عرض أول مع ترجمة',
@@ -243,8 +266,10 @@ const Map<String, Map<String, String>> docsSampleTable =
     'Choose a plan': 'اختر خطة',
     'Choose an action': 'اختر إجراءً',
     'Choose what you want to be notified about.': 'اختر ما تريد أن تُخطَر به.',
-    'Choose what you want to hear about, and where.': 'اختر ما تريد أن تتلقى إشعارات عنه، وأين.',
-    'Choose which cookies we may set.': 'اختر ملفات تعريف الارتباط التي يمكننا تعيينها.',
+    'Choose what you want to hear about, and where.':
+        'اختر ما تريد أن تتلقى إشعارات عنه، وأين.',
+    'Choose which cookies we may set.':
+        'اختر ملفات تعريف الارتباط التي يمكننا تعيينها.',
     'Chrome': 'Chrome',
     'Claimable Balance': 'الرصيد القابل للمطالبة',
     'Clear': 'مسح',
@@ -255,7 +280,8 @@ const Map<String, Map<String, String>> docsSampleTable =
     'Close panel': 'إغلاق اللوحة',
     'Cobalt': 'Cobalt',
     'Code': 'الرمز',
-    'Code applied — your discount shows at checkout.': 'تم تطبيق الرمز — سيظهر خصمك عند الدفع.',
+    'Code applied — your discount shows at checkout.':
+        'تم تطبيق الرمز — سيظهر خصمك عند الدفع.',
     'Code verified. You are signed in.': 'تم التحقق من الرمز. تم تسجيل دخولك.',
     'Collapsed': 'مطوي',
     'Comfortable': 'مريح',
@@ -312,13 +338,15 @@ const Map<String, Map<String, String>> docsSampleTable =
     'Custom row': 'صف مخصص',
     'Custom rows': 'صفوف مخصصة',
     'Custom size': 'حجم مخصص',
-    'Custom speed: 75 px/s • Custom gap: 40 px • Custom edge fades • Pinned builder slots': 'سرعة مخصصة: 75 بكسل/ثانية • فجوة مخصصة: 40 بكسل • تلاشٍ مخصص للحواف • فتحات منشئ مثبتة',
+    'Custom speed: 75 px/s • Custom gap: 40 px • Custom edge fades • Pinned builder slots':
+        'سرعة مخصصة: 75 بكسل/ثانية • فجوة مخصصة: 40 بكسل • تلاشٍ مخصص للحواف • فتحات منشئ مثبتة',
     'Custom theme': 'سمة مخصصة',
     'Custom themes': 'سمات مخصصة',
     'Custom title and row': 'عنوان وصف مخصصان',
     'Customized': 'مخصَّص',
     'Cut the selection': 'قص التحديد',
-    'Daily portfolio summary and price alerts.': 'ملخص يومي للمحفظة وتنبيهات الأسعار.',
+    'Daily portfolio summary and price alerts.':
+        'ملخص يومي للمحفظة وتنبيهات الأسعار.',
     'Dark mode': 'الوضع الداكن',
     'Dart': 'Dart',
     'Dashboard': 'لوحة المعلومات',
@@ -332,7 +360,8 @@ const Map<String, Map<String, String>> docsSampleTable =
     'Dedicated support': 'دعم مخصص',
     'Default': 'افتراضي',
     'Default Currency': 'العملة الافتراضية',
-    'Define your financial target and we will help pace it.': 'حدّد هدفك المالي وسنساعدك على تحقيقه بالوتيرة المناسبة.',
+    'Define your financial target and we will help pace it.':
+        'حدّد هدفك المالي وسنساعدك على تحقيقه بالوتيرة المناسبة.',
     'Degraded': 'متدهور',
     'Delete': 'حذف',
     'Delete account': 'حذف الحساب',
@@ -351,7 +380,8 @@ const Map<String, Map<String, String>> docsSampleTable =
     'Deploy queued': 'النشر في الانتظار',
     'Deploying now - two minutes.': 'جارٍ النشر الآن — دقيقتان.',
     'Deployment': 'النشر',
-    'Deployment. Ships when the checks pass.': 'نشر. يُطلق عند اجتياز الفحوصات.',
+    'Deployment. Ships when the checks pass.':
+        'نشر. يُطلق عند اجتياز الفحوصات.',
     'Deployments': 'عمليات النشر',
     'Deploys': 'عمليات النشر',
     'Deposits, withdrawals, and transfers.': 'الإيداعات والسحوبات والتحويلات.',
@@ -362,7 +392,8 @@ const Map<String, Map<String, String>> docsSampleTable =
     'Designer': 'مصمم',
     'Desk lamp': 'مصباح مكتبي',
     'Desktop': 'سطح المكتب',
-    'Desktop: right-click · touch: long-press': 'سطح المكتب: نقر بالزر الأيمن · اللمس: ضغط مطوّل',
+    'Desktop: right-click · touch: long-press':
+        'سطح المكتب: نقر بالزر الأيمن · اللمس: ضغط مطوّل',
     'Destructive': 'مدمّر',
     'Details': 'التفاصيل',
     'Determinate': 'محدد',
@@ -393,8 +424,10 @@ const Map<String, Map<String, String>> docsSampleTable =
     'Drag down to dismiss': 'اسحب للأسفل للإغلاق',
     'Drag on either axis': 'اسحب على أي محور',
     'Drag over': 'السحب فوق',
-    'Drag the handle to move between snap stages.': 'اسحب المقبض للتنقل بين مراحل الالتصاق.',
-    'Drag the title bar; resize from any edge.': 'اسحب شريط العنوان؛ وغيّر الحجم من أي حافة.',
+    'Drag the handle to move between snap stages.':
+        'اسحب المقبض للتنقل بين مراحل الالتصاق.',
+    'Drag the title bar; resize from any edge.':
+        'اسحب شريط العنوان؛ وغيّر الحجم من أي حافة.',
     'Drawer content': 'محتوى الدرج',
     'Driven by a controller': 'يتحكم فيه متحكم',
     'Drop a folder here to upload it whole.': 'أفلِت مجلدًا هنا لرفعه كاملًا.',
@@ -411,7 +444,8 @@ const Map<String, Map<String, String>> docsSampleTable =
     'Eighty five percent': 'خمسة وثمانون بالمئة',
     'Email': 'البريد الإلكتروني',
     'Email Notifications': 'إشعارات البريد الإلكتروني',
-    'Email verified — you are all set.': 'تم التحقق من البريد الإلكتروني — كل شيء جاهز.',
+    'Email verified — you are all set.':
+        'تم التحقق من البريد الإلكتروني — كل شيء جاهز.',
     'Email, password': 'البريد الإلكتروني، كلمة المرور',
     'Embedded directly into a layout': 'مضمّن مباشرة في التخطيط',
     'Empty': 'فارغ',
@@ -421,28 +455,37 @@ const Map<String, Map<String, String>> docsSampleTable =
     'Engineer': 'مهندسة',
     'English subtitles': 'ترجمة إنجليزية',
     'Enter a password': 'أدخل كلمة المرور',
-    'Enter the 6-digit code we texted to ···· 1192.': 'أدخل الرمز المكوّن من 6 أرقام الذي أرسلناه إلى ···· 1192.',
-    'Enter your credentials to access your workspace.': 'أدخل بيانات الاعتماد للوصول إلى مساحة عملك.',
+    'Enter the 6-digit code we texted to ···· 1192.':
+        'أدخل الرمز المكوّن من 6 أرقام الذي أرسلناه إلى ···· 1192.',
+    'Enter your credentials to access your workspace.':
+        'أدخل بيانات الاعتماد للوصول إلى مساحة عملك.',
     'Enter your details below to continue.': 'أدخل بياناتك أدناه للمتابعة.',
-    'Enter your email below to create your account.': 'أدخل بريدك الإلكتروني أدناه لإنشاء حسابك.',
+    'Enter your email below to create your account.':
+        'أدخل بريدك الإلكتروني أدناه لإنشاء حسابك.',
     'Enterprise': 'المؤسسات',
     'Epsilon': 'إبسيلون',
     'Error': 'خطأ',
     'Error fallback': 'بديل الخطأ',
     'Estimated Shares': 'الأسهم المقدّرة',
     'Every deploy is immutable.': 'كل عملية نشر غير قابلة للتغيير.',
-    'Every deploy is immutable; roll back from the history tab.': 'كل عملية نشر غير قابلة للتغيير؛ يمكنك التراجع من علامة التبويب السجل.',
-    'Every plan starts with 14 days, no card required.': 'تبدأ كل خطة بـ 14 يومًا، دون الحاجة إلى بطاقة.',
+    'Every deploy is immutable; roll back from the history tab.':
+        'كل عملية نشر غير قابلة للتغيير؛ يمكنك التراجع من علامة التبويب السجل.',
+    'Every plan starts with 14 days, no card required.':
+        'تبدأ كل خطة بـ 14 يومًا، دون الحاجة إلى بطاقة.',
     'Every release measured.': 'كل إصدار مُقاس.',
-    'Every report exports as CSV, including the royalty ledger.': 'يمكن تصدير كل تقرير بصيغة CSV، بما في ذلك دفتر الحقوق.',
+    'Every report exports as CSV, including the royalty ledger.':
+        'يمكن تصدير كل تقرير بصيغة CSV، بما في ذلك دفتر الحقوق.',
     'Everyday backpack': 'حقيبة ظهر يومية',
-    'Everyone with access to this workspace.': 'كل من لديه حق الوصول إلى مساحة العمل هذه.',
+    'Everyone with access to this workspace.':
+        'كل من لديه حق الوصول إلى مساحة العمل هذه.',
     'Everything': 'كل شيء',
-    'Everything in one place, at arm’s reach.': 'كل شيء في مكان واحد، في متناول يدك.',
+    'Everything in one place, at arm’s reach.':
+        'كل شيء في مكان واحد، في متناول يدك.',
     'Expanded': 'موسّع',
     'Expanded card': 'بطاقة موسّعة',
     'Expanded target': 'الهدف الموسّع',
-    'Experiment with the API before you ship it.': 'جرّب الواجهة البرمجية قبل إطلاقها.',
+    'Experiment with the API before you ship it.':
+        'جرّب الواجهة البرمجية قبل إطلاقها.',
     'Export CSV': 'تصدير CSV',
     'Export report': 'تصدير التقرير',
     'Extended': 'موسّع',
@@ -462,7 +505,8 @@ const Map<String, Map<String, String>> docsSampleTable =
     'Filled trigger': 'مُشغّل مملوء',
     'Filters': 'عوامل التصفية',
     'Filters cleared.': 'تم مسح عوامل التصفية.',
-    'Final WAV approved by the label.': 'تمت الموافقة على ملف WAV النهائي من قِبل شركة التسجيلات.',
+    'Final WAV approved by the label.':
+        'تمت الموافقة على ملف WAV النهائي من قِبل شركة التسجيلات.',
     'Firefox': 'Firefox',
     'First': 'الأول',
     'First message': 'الرسالة الأولى',
@@ -471,10 +515,13 @@ const Map<String, Map<String, String>> docsSampleTable =
     'Flutter': 'Flutter',
     'Food & Drink': 'الطعام والشراب',
     'For Bigger Blazes': 'For Bigger Blazes',
-    'For sighted users to preview content': 'لمعاينة المحتوى للمستخدمين المبصرين',
+    'For sighted users to preview content':
+        'لمعاينة المحتوى للمستخدمين المبصرين',
     'Format': 'التنسيق',
-    'Four people have access to this workspace.': 'أربعة أشخاص لديهم حق الوصول إلى مساحة العمل هذه.',
-    'Four shared workspaces, updated today.': 'أربع مساحات عمل مشتركة، تم تحديثها اليوم.',
+    'Four people have access to this workspace.':
+        'أربعة أشخاص لديهم حق الوصول إلى مساحة العمل هذه.',
+    'Four shared workspaces, updated today.':
+        'أربع مساحات عمل مشتركة، تم تحديثها اليوم.',
     'Four slots': 'أربع فتحات',
     'France': 'فرنسا',
     'Free': 'مجاني',
@@ -489,7 +536,8 @@ const Map<String, Map<String, String>> docsSampleTable =
     'Gamma': 'غاما',
     'General, Billing and Goals': 'عام والفوترة والأهداف',
     'Generate Report': 'إنشاء تقرير',
-    'Generated from the preset palette.': 'مُنشأ من لوحة الألوان المحددة مسبقًا.',
+    'Generated from the preset palette.':
+        'مُنشأ من لوحة الألوان المحددة مسبقًا.',
     'Get started': 'ابدأ',
     'Getting started': 'البدء',
     'Ghost': 'شبحي',
@@ -499,7 +547,8 @@ const Map<String, Map<String, String>> docsSampleTable =
     'Goal name': 'اسم الهدف',
     'Good': 'جيد',
     'Google': 'Google',
-    'Got it — pulling up your payout history now.': 'حسنًا — جارٍ عرض سجل مدفوعاتك الآن.',
+    'Got it — pulling up your payout history now.':
+        'حسنًا — جارٍ عرض سجل مدفوعاتك الآن.',
     'Grape': 'عنب',
     'Green': 'أخضر',
     'Green sample': 'عينة خضراء',
@@ -534,15 +583,18 @@ const Map<String, Map<String, String>> docsSampleTable =
     'Horizontal': 'أفقي',
     'House deposit': 'دفعة منزل',
     'Hover me': 'مرر المؤشر فوقي',
-    'How do I connect my bank or investment accounts?': 'كيف أربط حساباتي المصرفية أو الاستثمارية؟',
+    'How do I connect my bank or investment accounts?':
+        'كيف أربط حساباتي المصرفية أو الاستثمارية؟',
     'How royalties are paid out.': 'كيف تُدفع الحقوق.',
     'How secure is my financial data?': 'ما مدى أمان بياناتي المالية؟',
     'How to install dependencies and code': 'كيفية تثبيت التبعيات والكود',
     'Hue': 'درجة اللون',
     'Hue strip': 'شريط الدرجات',
     'Hue × Saturation': 'الدرجة × التشبع',
-    'I see it — that month was prorated after the reissue.': 'أفهم — تم احتساب ذلك الشهر بالتناسب بعد إعادة الإصدار.',
-    'I see it — that month was prorated.': 'أفهم — تم احتساب ذلك الشهر بالتناسب.',
+    'I see it — that month was prorated after the reissue.':
+        'أفهم — تم احتساب ذلك الشهر بالتناسب بعد إعادة الإصدار.',
+    'I see it — that month was prorated.':
+        'أفهم — تم احتساب ذلك الشهر بالتناسب.',
     'Ibrar Ahmed': 'Ibrar Ahmed',
     'Ibrar Ali': 'Ibrar Ali',
     'Icon': 'أيقونة',
@@ -553,7 +605,8 @@ const Map<String, Map<String, String>> docsSampleTable =
     'In menu item': 'في عنصر القائمة',
     'In progress': 'قيد التنفيذ',
     'Inbox': 'صندوق الوارد',
-    'Include track names, dates and any error codes.': 'يُرجى تضمين أسماء المقاطع والتواريخ وأي رموز أخطاء.',
+    'Include track names, dates and any error codes.':
+        'يُرجى تضمين أسماء المقاطع والتواريخ وأي رموز أخطاء.',
     'Income': 'الدخل',
     'Incoming': 'الواردة',
     'Indeterminate': 'غير محدد',
@@ -599,7 +652,8 @@ const Map<String, Map<String, String>> docsSampleTable =
     'Jump to…': 'الانتقال إلى…',
     'June': 'يونيو',
     'Just sent the new mockups.': 'أرسلت للتو النماذج الجديدة.',
-    'Kara moved Design review to Thursday': 'نقلت Kara مراجعة التصميم إلى يوم الخميس',
+    'Kara moved Design review to Thursday':
+        'نقلت Kara مراجعة التصميم إلى يوم الخميس',
     'Kara — 2 hours ago': 'Kara — قبل ساعتين',
     'Kickoff': 'الانطلاق',
     'Kiwi': 'كيوي',
@@ -643,7 +697,8 @@ const Map<String, Map<String, String>> docsSampleTable =
     'Loading': 'جارٍ التحميل',
     'Loading card': 'بطاقة قيد التحميل',
     'Loading...': 'جارٍ التحميل...',
-    'Login attempts and account changes.': 'محاولات تسجيل الدخول وتغييرات الحساب.',
+    'Login attempts and account changes.':
+        'محاولات تسجيل الدخول وتغييرات الحساب.',
     'Long': 'طويل',
     'Long lines': 'أسطر طويلة',
     'Long text': 'نص طويل',
@@ -654,8 +709,10 @@ const Map<String, Map<String, String>> docsSampleTable =
     'Main content area': 'منطقة المحتوى الرئيسية',
     'Manage plan': 'إدارة الخطة',
     'Manage storage': 'إدارة مساحة التخزين',
-    'Manage your account settings and notifications.': 'أدر إعدادات حسابك وإشعاراتك.',
-    'Manage your account settings and set your email preferences.': 'أدر إعدادات حسابك وحدد تفضيلات بريدك الإلكتروني.',
+    'Manage your account settings and notifications.':
+        'أدر إعدادات حسابك وإشعاراتك.',
+    'Manage your account settings and set your email preferences.':
+        'أدر إعدادات حسابك وحدد تفضيلات بريدك الإلكتروني.',
     'Manager': 'مدير',
     'Mango': 'مانجو',
     'Many actions': 'إجراءات كثيرة',
@@ -677,20 +734,23 @@ const Map<String, Map<String, String>> docsSampleTable =
     'Member': 'عضو',
     'Members': 'الأعضاء',
     'Mentions and replies': 'الإشارات والردود',
-    'Menus open anchored popovers, like the desktop app.': 'تفتح القوائم نوافذ منبثقة مثبّتة، كما في تطبيق سطح المكتب.',
+    'Menus open anchored popovers, like the desktop app.':
+        'تفتح القوائم نوافذ منبثقة مثبّتة، كما في تطبيق سطح المكتب.',
     'Message': 'الرسالة',
     'Message Sent': 'تم إرسال الرسالة',
     'Metadata': 'البيانات الوصفية',
     'Method': 'الطريقة',
     'Metrics for every release.': 'مقاييس لكل إصدار.',
-    'Midnight City — M83 (Extended Club Mix, 2024 Remaster)': 'Midnight City — M83 (Extended Club Mix, 2024 Remaster)',
+    'Midnight City — M83 (Extended Club Mix, 2024 Remaster)':
+        'Midnight City — M83 (Extended Club Mix, 2024 Remaster)',
     'Midnight Drive — 2026': 'Midnight Drive — 2026',
     'Mini (32)': 'صغير جدًا (32)',
     'Mini (40)': 'صغير جدًا (40)',
     'Mini (48)': 'صغير جدًا (48)',
     'Mini sizes': 'مقاسات صغيرة',
     'Minimal': 'بسيط',
-    'Minimum 3000 × 3000px · JPEG or PNG only': 'الحد الأدنى 3000 × 3000 بكسل · JPEG أو PNG فقط',
+    'Minimum 3000 × 3000px · JPEG or PNG only':
+        'الحد الأدنى 3000 × 3000 بكسل · JPEG أو PNG فقط',
     'Minimum Payout Amount': 'الحد الأدنى لمبلغ الدفع',
     'Minimum payout amount': 'الحد الأدنى لمبلغ الدفع',
     'Mint': 'نعناع',
@@ -722,7 +782,8 @@ const Map<String, Map<String, String>> docsSampleTable =
     'Needs at least two chips': 'يحتاج إلى رقاقتين على الأقل',
     'Net Revenue': 'صافي الإيرادات',
     'Net Royalties': 'صافي الحقوق',
-    'Net revenue for the selected period, after fees.': 'صافي الإيرادات للفترة المحددة بعد الرسوم.',
+    'Net revenue for the selected period, after fees.':
+        'صافي الإيرادات للفترة المحددة بعد الرسوم.',
     'Netflix Subscription': 'اشتراك Netflix',
     'New Goal': 'هدف جديد',
     'New document': 'مستند جديد',
@@ -768,7 +829,8 @@ const Map<String, Map<String, String>> docsSampleTable =
     'On (disabled)': 'مفعّل (معطّل)',
     'On hold': 'معلّق',
     'One command copies the source in': 'أمر واحد ينسخ المصدر',
-    'One email every Monday with everything that happened.': 'رسالة بريد إلكتروني كل يوم اثنين تتضمن كل ما حدث.',
+    'One email every Monday with everything that happened.':
+        'رسالة بريد إلكتروني كل يوم اثنين تتضمن كل ما حدث.',
     'Online MP4': 'MP4 عبر الإنترنت',
     'Only you have access': 'أنت وحدك لديك حق الوصول',
     'Open': 'فتح',
@@ -786,7 +848,8 @@ const Map<String, Map<String, String>> docsSampleTable =
     'Open scaled drawer': 'فتح درج مُقاس',
     'Open settings': 'فتح الإعدادات',
     'Open sheet': 'فتح الورقة',
-    'Open the Ledger mobile app and scan this code to link.': 'افتح تطبيق Ledger للجوال وامسح هذا الرمز للربط.',
+    'Open the Ledger mobile app and scan this code to link.':
+        'افتح تطبيق Ledger للجوال وامسح هذا الرمز للربط.',
     'Open themed drawer': 'فتح درج بالسمة',
     'Open top': 'فتح من الأعلى',
     'Opened a document': 'فتح مستندًا',
@@ -840,7 +903,8 @@ const Map<String, Map<String, String>> docsSampleTable =
     'Pick a date range for your report.': 'اختر نطاق تاريخ لتقريرك.',
     'Pick a day, then a time that suits you.': 'اختر يومًا، ثم وقتًا يناسبك.',
     'Pick a row': 'اختر صفًا',
-    'Pick a row in the sidebar to switch sections.': 'اختر صفًا في الشريط الجانبي للتنقل بين الأقسام.',
+    'Pick a row in the sidebar to switch sections.':
+        'اختر صفًا في الشريط الجانبي للتنقل بين الأقسام.',
     'Pick again': 'اختر مرة أخرى',
     'Pick an action from the menu': 'اختر إجراءً من القائمة',
     'Pick at least two chips.': 'اختر رقاقتين على الأقل.',
@@ -897,12 +961,14 @@ const Map<String, Map<String, String>> docsSampleTable =
     'Public Statistics': 'إحصاءات عامة',
     'Publish': 'نشر',
     'Publish release': 'نشر الإصدار',
-    'Pull to refresh or start a new chat.': 'اسحب للتحديث أو ابدأ محادثة جديدة.',
+    'Pull to refresh or start a new chat.':
+        'اسحب للتحديث أو ابدأ محادثة جديدة.',
     'Q2 Dividend Income': 'دخل توزيعات الأرباح للربع الثاني',
     'QR code for the typed URL': 'رمز QR للرابط المكتوب',
     'Quantity': 'الكمية',
     'Quarter': 'ربع سنة',
-    'Quarterly payouts across your portfolio holdings.': 'مدفوعات ربع سنوية عبر حيازات محفظتك.',
+    'Quarterly payouts across your portfolio holdings.':
+        'مدفوعات ربع سنوية عبر حيازات محفظتك.',
     'Quinn': 'Quinn',
     'Quote': 'عرض السعر',
     'RTL reverse': 'RTL معكوس',
@@ -910,7 +976,8 @@ const Map<String, Map<String, String>> docsSampleTable =
     'Radar Chart - Custom Label': 'مخطط رادار - تسمية مخصصة',
     'Radar Chart - Dots': 'مخطط رادار - نقاط',
     'Radar Chart - Grid Circle': 'مخطط رادار - شبكة دائرية',
-    'Radar Chart - Grid Circle - No lines': 'مخطط رادار - شبكة دائرية - بدون خطوط',
+    'Radar Chart - Grid Circle - No lines':
+        'مخطط رادار - شبكة دائرية - بدون خطوط',
     'Radar Chart - Grid Circle Filled': 'مخطط رادار - شبكة دائرية مملوءة',
     'Radar Chart - Grid Custom': 'مخطط رادار - شبكة مخصصة',
     'Radar Chart - Grid Filled': 'مخطط رادار - شبكة مملوءة',
@@ -926,7 +993,8 @@ const Map<String, Map<String, String>> docsSampleTable =
     'Radial Chart - Text': 'مخطط شعاعي - نص',
     'Range': 'النطاق',
     'Rating': 'التقييم',
-    'Re-usable components for your apps': 'مكوّنات قابلة لإعادة الاستخدام لتطبيقاتك',
+    'Re-usable components for your apps':
+        'مكوّنات قابلة لإعادة الاستخدام لتطبيقاتك',
     'Read terms': 'اقرأ الشروط',
     'Read-only': 'للقراءة فقط',
     'Read-only value': 'قيمة للقراءة فقط',
@@ -965,12 +1033,14 @@ const Map<String, Map<String, String>> docsSampleTable =
     'Required for the site to work.': 'مطلوب لعمل الموقع.',
     'Resend': 'إعادة الإرسال',
     'Reset': 'إعادة التعيين',
-    'Reset link sent. Check your inbox to continue.': 'تم إرسال رابط إعادة التعيين. تحقق من بريدك الوارد للمتابعة.',
+    'Reset link sent. Check your inbox to continue.':
+        'تم إرسال رابط إعادة التعيين. تحقق من بريدك الوارد للمتابعة.',
     'Responsive': 'متجاوب',
     'Retirement': 'التقاعد',
     'Retrying...': 'جارٍ إعادة المحاولة...',
     'Returns': 'المرتجعات',
-    'Revenue, subscriptions and the most recent orders.': 'الإيرادات والاشتراكات وأحدث الطلبات.',
+    'Revenue, subscriptions and the most recent orders.':
+        'الإيرادات والاشتراكات وأحدث الطلبات.',
     'Reversed, with radius': 'معكوس، مع نصف قطر',
     'Review': 'مراجعة',
     'Review Order': 'مراجعة الطلب',
@@ -998,8 +1068,10 @@ const Map<String, Map<String, String>> docsSampleTable =
     'Row 5': 'الصف 5',
     'Row 6': 'الصف 6',
     'Rows': 'الصفوف',
-    'Rows, columns and widths from one widget': 'الصفوف والأعمدة والعروض من أداة واحدة',
-    'Royalties settle on the 15th of every month.': 'تُسوّى حقوق الملكية في الخامس عشر من كل شهر.',
+    'Rows, columns and widths from one widget':
+        'الصفوف والأعمدة والعروض من أداة واحدة',
+    'Royalties settle on the 15th of every month.':
+        'تُسوّى حقوق الملكية في الخامس عشر من كل شهر.',
     'Running': 'قيد التشغيل',
     'S&P 500 VOO': 'S&P 500 VOO',
     'SSO and audit log': 'SSO وسجل التدقيق',
@@ -1037,13 +1109,15 @@ const Map<String, Map<String, String>> docsSampleTable =
     'See all': 'عرض الكل',
     'See you at the demo!': 'نراك في العرض التوضيحي!',
     'Select a colour': 'اختر لونًا',
-    'Select a date to view scheduled payments.': 'اختر تاريخًا لعرض الدفعات المجدولة.',
+    'Select a date to view scheduled payments.':
+        'اختر تاريخًا لعرض الدفعات المجدولة.',
     'Select a fruit': 'اختر فاكهة',
     'Select all rows': 'تحديد كل الصفوف',
     'Select fruits': 'اختر الفواكه',
     'Select produce': 'اختر المنتجات الزراعية',
     'Select row': 'تحديد الصف',
-    'Select this text to see the custom selection styling.': 'حدّد هذا النص لرؤية تنسيق التحديد المخصص.',
+    'Select this text to see the custom selection styling.':
+        'حدّد هذا النص لرؤية تنسيق التحديد المخصص.',
     'Selected': 'محدَّد',
     'Selected state': 'حالة التحديد',
     'Send': 'إرسال',
@@ -1057,10 +1131,12 @@ const Map<String, Map<String, String>> docsSampleTable =
     'Session expired': 'انتهت صلاحية الجلسة',
     'Session expiring': 'الجلسة على وشك الانتهاء',
     'Sessions': 'الجلسات',
-    'Sessions, devices and where the traffic came from.': 'الجلسات والأجهزة ومصادر الزيارات.',
+    'Sessions, devices and where the traffic came from.':
+        'الجلسات والأجهزة ومصادر الزيارات.',
     'Set a goal': 'حدّد هدفًا',
     'Set a new milestone': 'حدّد معلمًا جديدًا',
-    'Set the minimum balance before a payout is triggered.': 'حدّد الحد الأدنى للرصيد قبل تنفيذ الدفع.',
+    'Set the minimum balance before a payout is triggered.':
+        'حدّد الحد الأدنى للرصيد قبل تنفيذ الدفع.',
     'Settings': 'الإعدادات',
     'Shapes': 'الأشكال',
     'Share': 'مشاركة',
@@ -1071,7 +1147,8 @@ const Map<String, Map<String, String>> docsSampleTable =
     'Shared': 'مشترك',
     'Shared by email': 'تمت المشاركة عبر البريد الإلكتروني',
     'Shared playlist': 'قائمة تشغيل مشتركة',
-    'Shared with 4 people · edited 3 minutes ago': 'مشارك مع 4 أشخاص · عُدّل قبل 3 دقائق',
+    'Shared with 4 people · edited 3 minutes ago':
+        'مشارك مع 4 أشخاص · عُدّل قبل 3 دقائق',
     'Shared with you': 'مشترك معك',
     'Sheet content': 'محتوى الورقة',
     'Shell': 'الغلاف',
@@ -1079,7 +1156,8 @@ const Map<String, Map<String, String>> docsSampleTable =
     'Ship a new build to production.': 'أطلق بناءً جديدًا إلى بيئة الإنتاج.',
     'Shipping': 'الشحن',
     'Ships when the checks pass.': 'يُطلق عند اجتياز الفحوصات.',
-    'Shortcuts are documented on every control.': 'الاختصارات موثّقة على كل عنصر تحكم.',
+    'Shortcuts are documented on every control.':
+        'الاختصارات موثّقة على كل عنصر تحكم.',
     'Show again': 'إظهار مرة أخرى',
     'Show alert dialog': 'إظهار مربع تنبيه',
     'Show bookmarks bar': 'إظهار شريط الإشارات المرجعية',
@@ -1106,11 +1184,13 @@ const Map<String, Map<String, String>> docsSampleTable =
     'Sizes': 'الأحجام',
     'Skyler': 'Skyler',
     'Slide': 'شريحة',
-    'Slides in from the edge over the whole app.': 'ينزلق من الحافة فوق التطبيق بأكمله.',
+    'Slides in from the edge over the whole app.':
+        'ينزلق من الحافة فوق التطبيق بأكمله.',
     'Slots': 'الفتحات',
     'Slow motion': 'حركة بطيئة',
     'Small': 'صغير',
-    'Small forms built from the same primitives': 'نماذج صغيرة مبنية من نفس العناصر الأساسية',
+    'Small forms built from the same primitives':
+        'نماذج صغيرة مبنية من نفس العناصر الأساسية',
     'Snap points': 'نقاط الالتصاق',
     'Snoozed': 'مؤجَّل',
     'Social': 'الاجتماعي',
@@ -1134,7 +1214,8 @@ const Map<String, Map<String, String>> docsSampleTable =
     'Starring Continuous Marquee': 'بطولة Continuous Marquee',
     'Start distributing your music in minutes.': 'ابدأ توزيع موسيقاك في دقائق.',
     'Start upload': 'بدء الرفع',
-    'Start your 14-day trial. No credit card required.': 'ابدأ تجربتك لمدة 14 يومًا. لا حاجة إلى بطاقة ائتمان.',
+    'Start your 14-day trial. No credit card required.':
+        'ابدأ تجربتك لمدة 14 يومًا. لا حاجة إلى بطاقة ائتمان.',
     'Starter': 'المبتدئ',
     'Static outline': 'مخطط تفصيلي ثابت',
     'Status': 'الحالة',
@@ -1184,28 +1265,38 @@ const Map<String, Map<String, String>> docsSampleTable =
     'Team': 'الفريق',
     'Team Members': 'أعضاء الفريق',
     'Team — Monday': 'الفريق — الاثنين',
-    'Tell us what went wrong and we will pick it up.': 'أخبرنا بما حدث وسنتولى الأمر.',
+    'Tell us what went wrong and we will pick it up.':
+        'أخبرنا بما حدث وسنتولى الأمر.',
     'Terms': 'الشروط',
     'Terms of service': 'شروط الخدمة',
-    'That month was prorated after the reissue; I can send the breakdown.': 'تم احتساب ذلك الشهر بالتناسب بعد إعادة الإصدار؛ يمكنني إرسال التفاصيل.',
-    'The bank rejected the transfer. Update the IBAN.': 'رفض البنك التحويل. يُرجى تحديث رقم IBAN.',
-    'The barrier is locked: tap outside or press Escape does nothing. Use Cancel or Delete to leave.': 'الحاجز مقفل: النقر خارجه أو الضغط على Escape لن يفعل شيئًا. استخدم «إلغاء» أو «حذف» للمغادرة.',
+    'That month was prorated after the reissue; I can send the breakdown.':
+        'تم احتساب ذلك الشهر بالتناسب بعد إعادة الإصدار؛ يمكنني إرسال التفاصيل.',
+    'The bank rejected the transfer. Update the IBAN.':
+        'رفض البنك التحويل. يُرجى تحديث رقم IBAN.',
+    'The barrier is locked: tap outside or press Escape does nothing. Use Cancel or Delete to leave.':
+        'الحاجز مقفل: النقر خارجه أو الضغط على Escape لن يفعل شيئًا. استخدم «إلغاء» أو «حذف» للمغادرة.',
     'The message shows only once you type.': 'تظهر الرسالة فقط عند الكتابة.',
     'The new mockups are ready.': 'النماذج الجديدة جاهزة.',
-    'The request could not be completed. Please try again.': 'تعذّر إكمال الطلب. يُرجى المحاولة مرة أخرى.',
-    'The royalty report shows a lower split than expected.': 'يُظهر تقرير الحقوق تقسيمًا أقل من المتوقع.',
+    'The request could not be completed. Please try again.':
+        'تعذّر إكمال الطلب. يُرجى المحاولة مرة أخرى.',
+    'The royalty report shows a lower split than expected.':
+        'يُظهر تقرير الحقوق تقسيمًا أقل من المتوقع.',
     'The same content as a drawer or a sheet.': 'المحتوى نفسه كدرج أو لوحة.',
-    'The team meets every weekday morning.': 'يجتمع الفريق كل صباح في أيام العمل.',
+    'The team meets every weekday morning.':
+        'يجتمع الفريق كل صباح في أيام العمل.',
     'Theme presets': 'قوالب السمات',
     'Themed': 'بسمة',
     'Themed dots': 'نقاط مُنسّقة',
     'Third': 'الثالث',
     'Third message': 'الرسالة الثالثة',
-    'This action cannot be undone. The project and its history is removed.': 'لا يمكن التراجع عن هذا الإجراء. سيتم حذف المشروع وسجله.',
+    'This action cannot be undone. The project and its history is removed.':
+        'لا يمكن التراجع عن هذا الإجراء. سيتم حذف المشروع وسجله.',
     'This cannot be undone.': 'لا يمكن التراجع عن هذا.',
     'This field is required.': 'هذا الحقل مطلوب.',
-    'This is how others will see you on the site.': 'هكذا سيراك الآخرون على الموقع.',
-    'This permanently deletes your account and all of its data. This action cannot be undone.': 'سيؤدي هذا إلى حذف حسابك وجميع بياناته نهائيًا. لا يمكن التراجع عن هذا الإجراء.',
+    'This is how others will see you on the site.':
+        'هكذا سيراك الآخرون على الموقع.',
+    'This permanently deletes your account and all of its data. This action cannot be undone.':
+        'سيؤدي هذا إلى حذف حسابك وجميع بياناته نهائيًا. لا يمكن التراجع عن هذا الإجراء.',
     'This value is not allowed.': 'هذه القيمة غير مسموح بها.',
     'Thread Reply': 'الرد على المحادثة',
     'Three': 'ثلاثة',
@@ -1213,7 +1304,8 @@ const Map<String, Map<String, String>> docsSampleTable =
     'Three-line title': 'عنوان من ثلاثة أسطر',
     'Tile': 'بلاطة',
     'Time': 'الوقت',
-    'Tip: focus a chip and press Backspace to remove it.': 'نصيحة: ركّز على الرقاقة واضغط Backspace لإزالتها.',
+    'Tip: focus a chip and press Backspace to remove it.':
+        'نصيحة: ركّز على الرقاقة واضغط Backspace لإزالتها.',
     'Title': 'العنوان',
     'Toggled by the parent': 'يتم التبديل بواسطة العنصر الأب',
     'Toggles': 'المفاتيح',
@@ -1242,11 +1334,13 @@ const Map<String, Map<String, String>> docsSampleTable =
     'Translucent primary fill': 'تعبئة أساسية شفافة',
     'Transport': 'النقل',
     'Travel': 'السفر',
-    'Trial started — check your inbox to verify it.': 'بدأت التجربة. تحقق من بريدك الوارد لتأكيدها.',
+    'Trial started — check your inbox to verify it.':
+        'بدأت التجربة. تحقق من بريدك الوارد لتأكيدها.',
     'Trigger': 'المشغّل',
     'Try a different term.': 'جرّب مصطلحًا مختلفًا.',
     'Try again': 'حاول مرة أخرى',
-    'Twelve payouts settled in the last 30 days.': 'تمت تسوية اثنتي عشرة دفعة خلال آخر 30 يومًا.',
+    'Twelve payouts settled in the last 30 days.':
+        'تمت تسوية اثنتي عشرة دفعة خلال آخر 30 يومًا.',
     'Type a command...': 'اكتب أمرًا...',
     'Type to enable clear/copy': 'اكتب لتفعيل المسح/النسخ',
     'Type to filter': 'اكتب للتصفية',
@@ -1306,7 +1400,8 @@ const Map<String, Map<String, String>> docsSampleTable =
     'Welcome aboard': 'أهلًا بك معنا',
     'Went back': 'عاد للخلف',
     'What happened?': 'ماذا حدث؟',
-    'Where the balance is routed once it clears.': 'إلى أين يُوجَّه الرصيد بعد تسويته.',
+    'Where the balance is routed once it clears.':
+        'إلى أين يُوجَّه الرصيد بعد تسويته.',
     'Who can access this workspace.': 'من يمكنه الوصول إلى مساحة العمل هذه.',
     'Whole Foods Market': 'Whole Foods Market',
     'Whole home': 'المنزل بالكامل',
@@ -1346,22 +1441,30 @@ const Map<String, Map<String, String>> docsSampleTable =
     'Year grid': 'شبكة السنوات',
     'Yearly Activity': 'النشاط السنوي',
     'Yellow': 'أصفر',
-    'Yes. Defaults come from the global tokens and every part is overridable through AccordionTheme.': 'نعم. تأتي القيم الافتراضية من الرموز العامة، ويمكن تجاوز كل جزء عبر AccordionTheme.',
-    'Yes. It follows the WAI-ARIA disclosure pattern and responds to Enter and Space.': 'نعم. يتّبع نمط الإفصاح في WAI-ARIA ويستجيب لمفتاحي Enter وSpace.',
-    'Yes. Items animate with the theme duration.': 'نعم. تتحرك العناصر وفق مدة السمة.',
-    'Yes. Upgrades apply immediately, downgrades next cycle.': 'نعم. تسري الترقيات فورًا، وتسري التخفيضات في الدورة التالية.',
+    'Yes. Defaults come from the global tokens and every part is overridable through AccordionTheme.':
+        'نعم. تأتي القيم الافتراضية من الرموز العامة، ويمكن تجاوز كل جزء عبر AccordionTheme.',
+    'Yes. It follows the WAI-ARIA disclosure pattern and responds to Enter and Space.':
+        'نعم. يتّبع نمط الإفصاح في WAI-ARIA ويستجيب لمفتاحي Enter وSpace.',
+    'Yes. Items animate with the theme duration.':
+        'نعم. تتحرك العناصر وفق مدة السمة.',
+    'Yes. Upgrades apply immediately, downgrades next cycle.':
+        'نعم. تسري الترقيات فورًا، وتسري التخفيضات في الدورة التالية.',
     'Yesterday': 'أمس',
-    'You are running out of storage space.': 'مساحة التخزين لديك توشك على النفاد.',
+    'You are running out of storage space.':
+        'مساحة التخزين لديك توشك على النفاد.',
     'You can install components from the CLI.': 'يمكنك تثبيت المكوّنات من CLI.',
     'You have a new message.': 'لديك رسالة جديدة.',
-    'You have not met your targets for this year.': 'لم تحقق أهدافك لهذا العام.',
-    'You have unsaved changes to this document. Leaving now will lose them.': 'لديك تغييرات غير محفوظة في هذا المستند. ستفقدها إذا غادرت الآن.',
+    'You have not met your targets for this year.':
+        'لم تحقق أهدافك لهذا العام.',
+    'You have unsaved changes to this document. Leaving now will lose them.':
+        'لديك تغييرات غير محفوظة في هذا المستند. ستفقدها إذا غادرت الآن.',
     'You must accept the terms to continue.': 'يجب قبول الشروط للمتابعة.',
     'Your file is ready.': 'ملفك جاهز.',
     'Your invoice is ready': 'فاتورتك جاهزة',
     'Your latest account activity.': 'آخر نشاط في حسابك.',
     'Your receipt for the annual plan is attached.': 'إيصال خطتك السنوية مرفق.',
-    'Your subscription is active. A receipt was sent to your inbox.': 'اشتراكك نشط. تم إرسال إيصال إلى بريدك الوارد.',
+    'Your subscription is active. A receipt was sent to your inbox.':
+        'اشتراكك نشط. تم إرسال إيصال إلى بريدك الوارد.',
     'Zeta': 'زيتا',
     'Zoom': 'تكبير',
     'Zoom 100%': 'تكبير 100%',
@@ -1392,12 +1495,14 @@ const Map<String, Map<String, String>> docsSampleTable =
     'per user / month': 'لكل مستخدم / شهريًا',
     'popover fill': 'تعبئة النافذة المنبثقة',
     'privacy policy': 'سياسة الخصوصية',
-    'read-only (no click cursor, no tap target)': 'للقراءة فقط (بدون مؤشر نقر أو هدف لمس)',
+    'read-only (no click cursor, no tap target)':
+        'للقراءة فقط (بدون مؤشر نقر أو هدف لمس)',
     'reload futures': 'إعادة تحميل Futures',
     'replaces the whole field': 'يستبدل الحقل بالكامل',
     'replaces the word': 'يستبدل الكلمة',
     'scoped leg': 'الساق ذات النطاق',
-    'scoped theme leg (min 600 / max 1000)': 'ساق السمة ذات النطاق (الحد الأدنى 600 / الحد الأقصى 1000)',
+    'scoped theme leg (min 600 / max 1000)':
+        'ساق السمة ذات النطاق (الحد الأدنى 600 / الحد الأقصى 1000)',
     'scoped: inside 600..1000': 'ضمن النطاق: بين 600 و1000',
     'scoped: outside 600..1000': 'خارج النطاق: خارج 600..1000',
     'synchronous value': 'قيمة متزامنة',
@@ -1409,11 +1514,14 @@ const Map<String, Map<String, String>> docsSampleTable =
     'this card': 'هذه البطاقة',
     'time (length 2)': 'الوقت (الطول 2)',
     'with a padded completion': 'مع إكمال مُبطّن',
-    'مكتبة dashcn تدعم الاتجاه من اليمين إلى اليسار بشكل كامل مع حركة مستمرة وسلسة': 'مكتبة dashcn تدعم الاتجاه من اليمين إلى اليسار بشكل كامل مع حركة مستمرة وسلسة',
+    'مكتبة dashcn تدعم الاتجاه من اليمين إلى اليسار بشكل كامل مع حركة مستمرة وسلسة':
+        'مكتبة dashcn تدعم الاتجاه من اليمين إلى اليسار بشكل كامل مع حركة مستمرة وسلسة',
   },
   'de': <String, String>{
-    '"The kit paid for itself the week we adopted it. Every screen ships on-brand, light or dark."': '"Die Bibliothek hat sich schon in der ersten Woche bezahlt gemacht. Jeder Bildschirm erscheint im Markenlook, hell oder dunkel."',
-    '"We onboarded the whole team in an afternoon."': '"Wir haben das ganze Team an einem Nachmittag eingearbeitet."',
+    '"The kit paid for itself the week we adopted it. Every screen ships on-brand, light or dark."':
+        '"Die Bibliothek hat sich schon in der ersten Woche bezahlt gemacht. Jeder Bildschirm erscheint im Markenlook, hell oder dunkel."',
+    '"We onboarded the whole team in an afternoon."':
+        '"Wir haben das ganze Team an einem Nachmittag eingearbeitet."',
     '+1.2 kW': '+1,2 kW',
     '+10.2% vs last quarter': '+10,2 % ggü. letztem Quartal',
     '+12.4% vs last month': '+12,4 % ggü. letztem Monat',
@@ -1451,17 +1559,24 @@ const Map<String, Map<String, String>> docsSampleTable =
     '6h ago': 'vor 6 Std.',
     '7.2 of 10 GB': '7,2 von 10 GB',
     '85 shares': '85 Mal geteilt',
-    'A dialog pushed over a page route.': 'Ein Dialog, der über einer Seitenroute angezeigt wird.',
-    'A longer subtitle that spans multiple lines in the tile.': 'Ein längerer Untertitel, der sich in der Kachel über mehrere Zeilen erstreckt.',
-    'A modal dialog that interrupts the user': 'Ein modaler Dialog, der die Nutzerin oder den Nutzer unterbricht',
+    'A dialog pushed over a page route.':
+        'Ein Dialog, der über einer Seitenroute angezeigt wird.',
+    'A longer subtitle that spans multiple lines in the tile.':
+        'Ein längerer Untertitel, der sich in der Kachel über mehrere Zeilen erstreckt.',
+    'A modal dialog that interrupts the user':
+        'Ein modaler Dialog, der die Nutzerin oder den Nutzer unterbricht',
     'A new update is available.': 'Ein neues Update ist verfügbar.',
     'A popup that displays information': 'Ein Popup mit Informationen',
-    'A set of layered sections of content': 'Eine Gruppe geschichteter Inhaltsabschnitte',
-    'A single slide, so the CTA sits under one card.': 'Eine einzelne Folie, damit der Call-to-Action unter einer Karte steht.',
-    'A strategy for building wealth over time.': 'Eine Strategie, um über die Zeit Vermögen aufzubauen.',
+    'A set of layered sections of content':
+        'Eine Gruppe geschichteter Inhaltsabschnitte',
+    'A single slide, so the CTA sits under one card.':
+        'Eine einzelne Folie, damit der Call-to-Action unter einer Karte steht.',
+    'A strategy for building wealth over time.':
+        'Eine Strategie, um über die Zeit Vermögen aufzubauen.',
     'Above / below and hint': 'Oben / unten und Hinweis',
     'Absolute placement': 'Absolute Positionierung',
-    'Accelerated savings plan · recurring monthly': 'Beschleunigter Sparplan · monatlich wiederkehrend',
+    'Accelerated savings plan · recurring monthly':
+        'Beschleunigter Sparplan · monatlich wiederkehrend',
     'Accent': 'Akzent',
     'Accented group bubble.': 'Hervorgehobene Gruppenblase.',
     'Accept': 'Akzeptieren',
@@ -1469,7 +1584,8 @@ const Map<String, Map<String, String>> docsSampleTable =
     'Accessibility': 'Barrierefreiheit',
     'Accessible by default.': 'Standardmäßig barrierefrei.',
     'Account': 'Konto',
-    'Account created — check your inbox to verify it.': 'Konto erstellt. Prüfen Sie Ihr Postfach zur Bestätigung.',
+    'Account created — check your inbox to verify it.':
+        'Konto erstellt. Prüfen Sie Ihr Postfach zur Bestätigung.',
     'Account options': 'Kontooptionen',
     'Acme': 'Acme',
     'Acme Inc': 'Acme Inc',
@@ -1484,18 +1600,22 @@ const Map<String, Map<String, String>> docsSampleTable =
     'Activity tracker': 'Aktivitäts-Tracker',
     'Ada Lovelace': 'Ada Lovelace',
     'Ada Lovelace — Engineer, Acme': 'Ada Lovelace — Ingenieurin, Acme',
-    'Ada deployed Marketing site to production': 'Ada hat die Marketing-Website in die Produktion ausgeliefert',
+    'Ada deployed Marketing site to production':
+        'Ada hat die Marketing-Website in die Produktion ausgeliefert',
     'Ada pushed 3 commits to Atlas': 'Ada hat 3 Commits in Atlas gepusht',
-    'Ada shared Welcome aboard with you': 'Ada hat „Welcome aboard“ mit Ihnen geteilt',
+    'Ada shared Welcome aboard with you':
+        'Ada hat „Welcome aboard“ mit Ihnen geteilt',
     'Add a tag and press Enter': 'Tag hinzufügen und Enter drücken',
-    'Add any notes for this payout configuration...': 'Notizen zu dieser Auszahlungskonfiguration hinzufügen...',
+    'Add any notes for this payout configuration...':
+        'Notizen zu dieser Auszahlungskonfiguration hinzufügen...',
     'Add item': 'Element hinzufügen',
     'Add item (large)': 'Element hinzufügen (groß)',
     'Add item (regular)': 'Element hinzufügen (normal)',
     'Add item (small)': 'Element hinzufügen (klein)',
     'Add item pressed': 'Element hinzufügen gedrückt',
     'Add metadata': 'Metadaten hinzufügen',
-    'Add your personal information.': 'Fügen Sie Ihre persönlichen Daten hinzu.',
+    'Add your personal information.':
+        'Fügen Sie Ihre persönlichen Daten hinzu.',
     'Adds the component': 'Fügt die Komponente hinzu',
     'Admin': 'Admin',
     'Airplane mode': 'Flugmodus',
@@ -1504,9 +1624,11 @@ const Map<String, Map<String, String>> docsSampleTable =
     'Align left': 'Linksbündig ausrichten',
     'All 42 theme presets': 'Alle 42 Designvorlagen',
     'All component categories': 'Alle Komponentenkategorien',
-    'All set — refresh the report to see the corrected split.': 'Alles erledigt — aktualisieren Sie den Bericht, um die korrigierte Aufteilung zu sehen.',
+    'All set — refresh the report to see the corrected split.':
+        'Alles erledigt — aktualisieren Sie den Bericht, um die korrigierte Aufteilung zu sehen.',
     'All systems go': 'Alle Systeme laufen',
-    'Allow others to see your stream count': 'Anderen erlauben, Ihre Stream-Anzahl zu sehen',
+    'Allow others to see your stream count':
+        'Anderen erlauben, Ihre Stream-Anzahl zu sehen',
     'Alpha': 'Alpha',
     'Alpha + history': 'Alpha + Verlauf',
     'Alpha grid': 'Alpha-Raster',
@@ -1520,7 +1642,8 @@ const Map<String, Map<String, String>> docsSampleTable =
     'Amex': 'Amex',
     'Amount': 'Betrag',
     'Amount to Invest': 'Anlagebetrag',
-    'An expanding bottom sheet with a drag handle.': 'Ein ausklappbares unteres Blatt mit Ziehgriff.',
+    'An expanding bottom sheet with a drag handle.':
+        'Ein ausklappbares unteres Blatt mit Ziehgriff.',
     'Analyst': 'Analyst',
     'Analytics': 'Analysen',
     'Anchored': 'Verankert',
@@ -1553,7 +1676,8 @@ const Map<String, Map<String, String>> docsSampleTable =
     'Async (failure)': 'Asynchron (Fehler)',
     'Async (success)': 'Asynchron (Erfolg)',
     'At least 8 characters': 'Mindestens 8 Zeichen',
-    'At least 8 characters. Changing it signs you out elsewhere.': 'Mindestens 8 Zeichen. Beim Ändern werden Sie auf anderen Geräten abgemeldet.',
+    'At least 8 characters. Changing it signs you out elsewhere.':
+        'Mindestens 8 Zeichen. Beim Ändern werden Sie auf anderen Geräten abgemeldet.',
     'Atlas': 'Atlas',
     'Auto Insurance': 'Kfz-Versicherung',
     'Auto-Transfer': 'Automatische Überweisung',
@@ -1586,12 +1710,14 @@ const Map<String, Map<String, String>> docsSampleTable =
     'Bar hidden': 'Balken ausgeblendet',
     'Bare card, default padding': 'Schlichte Karte, Standardabstand',
     'Barrier locked': 'Barriere gesperrt',
-    'Based on the last six months of payouts.': 'Basierend auf den letzten sechs Monaten an Auszahlungen.',
+    'Based on the last six months of payouts.':
+        'Basierend auf den letzten sechs Monaten an Auszahlungen.',
     'Battery Level': 'Akkustand',
     'Battery level 85 percent': 'Akkustand 85 Prozent',
     'Beacon': 'Beacon',
     'Beautifully designed components': 'Wunderschön gestaltete Komponenten',
-    'Beautifully designed components that you can copy and paste.': 'Wunderschön gestaltete Komponenten zum Kopieren und Einfügen.',
+    'Beautifully designed components that you can copy and paste.':
+        'Wunderschön gestaltete Komponenten zum Kopieren und Einfügen.',
     'Beautifully designed components.': 'Wunderschön gestaltete Komponenten.',
     'Beta': 'Beta',
     'Beta channel': 'Beta-Kanal',
@@ -1601,34 +1727,43 @@ const Map<String, Map<String, String>> docsSampleTable =
     'Billing sent Invoice 4821': 'Abrechnung hat Rechnung 4821 gesendet',
     'Billing — yesterday': 'Abrechnung — gestern',
     'Bjarne Kern': 'Bjarne Kern',
-    'Bjarne commented on Beacon specs': 'Bjarne hat die Beacon-Spezifikationen kommentiert',
-    'Bjarne invited Sofia to Design system': 'Bjarne hat Sofia zu Design system eingeladen',
+    'Bjarne commented on Beacon specs':
+        'Bjarne hat die Beacon-Spezifikationen kommentiert',
+    'Bjarne invited Sofia to Design system':
+        'Bjarne hat Sofia zu Design system eingeladen',
     'Blocks and charts': 'Blöcke und Diagramme',
     'Blue': 'Blau',
     'Blue Bottle Coffee': 'Blue Bottle Coffee',
     'Blue sample': 'Blaues Beispiel',
     'Blue sample image': 'Blaues Beispielbild',
     'Blur': 'Unschärfe',
-    'Body copy that keeps its box while loading.': 'Fließtext, der beim Laden seinen Platz behält.',
+    'Body copy that keeps its box while loading.':
+        'Fließtext, der beim Laden seinen Platz behält.',
     'Bold': 'Fett',
     'Bottom sheet': 'Unteres Blatt',
     'Bounce rate': 'Absprungrate',
-    'Breaking News: dashcn continuous marquee components now live across all platforms! • Seamless looping with soft edge fades • Fully keyboard accessible': 'Eilmeldung: Die fortlaufenden dashcn-Laufband-Komponenten sind jetzt auf allen Plattformen verfügbar! • Nahtlose Schleife mit weichen Kantenverläufen • Vollständig per Tastatur bedienbar',
+    'Breaking News: dashcn continuous marquee components now live across all platforms! • Seamless looping with soft edge fades • Fully keyboard accessible':
+        'Eilmeldung: Die fortlaufenden dashcn-Laufband-Komponenten sind jetzt auf allen Plattformen verfügbar! • Nahtlose Schleife mit weichen Kantenverläufen • Vollständig per Tastatur bedienbar',
     'Browse': 'Durchsuchen',
     'Browsers': 'Browser',
     'Builders': 'Builder',
     'Buy Investment': 'Investment kaufen',
     'Buying Power': 'Kaufkraft',
-    'By signing in you agree to our terms of service.': 'Mit der Anmeldung stimmen Sie unseren Nutzungsbedingungen zu.',
+    'By signing in you agree to our terms of service.':
+        'Mit der Anmeldung stimmen Sie unseren Nutzungsbedingungen zu.',
     'Calculator': 'Rechner',
     'Calendar link': 'Kalender-Link',
     'Camera': 'Kamera',
     'Camera fallback': 'Kamera-Ersatz',
-    'Camera unavailable — permission denied': 'Kamera nicht verfügbar — Berechtigung verweigert',
+    'Camera unavailable — permission denied':
+        'Kamera nicht verfügbar — Berechtigung verweigert',
     'Can I change plans later?': 'Kann ich den Tarif später ändern?',
-    'Can I export my data for tax purposes?': 'Kann ich meine Daten für die Steuer exportieren?',
-    'Can we move the sidebar review to Thursday?': 'Können wir die Sidebar-Prüfung auf Donnerstag verschieben?',
-    'Can you re-check the 2026-01 payout?': 'Können Sie die Auszahlung 2026-01 noch einmal prüfen?',
+    'Can I export my data for tax purposes?':
+        'Kann ich meine Daten für die Steuer exportieren?',
+    'Can we move the sidebar review to Thursday?':
+        'Können wir die Sidebar-Prüfung auf Donnerstag verschieben?',
+    'Can you re-check the 2026-01 payout?':
+        'Können Sie die Auszahlung 2026-01 noch einmal prüfen?',
     'Cancel': 'Abbrechen',
     'Cancelled': 'Abgebrochen',
     'Captioned premiere': 'Premiere mit Untertiteln',
@@ -1648,9 +1783,12 @@ const Map<String, Map<String, String>> docsSampleTable =
     'Choose a method.': 'Wählen Sie eine Methode.',
     'Choose a plan': 'Tarif wählen',
     'Choose an action': 'Aktion auswählen',
-    'Choose what you want to be notified about.': 'Wählen Sie, worüber Sie benachrichtigt werden möchten.',
-    'Choose what you want to hear about, and where.': 'Wählen Sie, worüber und wo Sie informiert werden möchten.',
-    'Choose which cookies we may set.': 'Wählen Sie, welche Cookies wir setzen dürfen.',
+    'Choose what you want to be notified about.':
+        'Wählen Sie, worüber Sie benachrichtigt werden möchten.',
+    'Choose what you want to hear about, and where.':
+        'Wählen Sie, worüber und wo Sie informiert werden möchten.',
+    'Choose which cookies we may set.':
+        'Wählen Sie, welche Cookies wir setzen dürfen.',
     'Chrome': 'Chrome',
     'Claimable Balance': 'Auszahlbares Guthaben',
     'Clear': 'Leeren',
@@ -1661,7 +1799,8 @@ const Map<String, Map<String, String>> docsSampleTable =
     'Close panel': 'Panel schließen',
     'Cobalt': 'Cobalt',
     'Code': 'Code',
-    'Code applied — your discount shows at checkout.': 'Code angewendet — Ihr Rabatt wird an der Kasse angezeigt.',
+    'Code applied — your discount shows at checkout.':
+        'Code angewendet — Ihr Rabatt wird an der Kasse angezeigt.',
     'Code verified. You are signed in.': 'Code bestätigt. Sie sind angemeldet.',
     'Collapsed': 'Eingeklappt',
     'Comfortable': 'Komfortabel',
@@ -1675,7 +1814,8 @@ const Map<String, Map<String, String>> docsSampleTable =
     'Compact row 36, tile 56': 'Kompakte Zeile 36, Kachel 56',
     'Components': 'Komponenten',
     'Compose': 'Verfassen',
-    'Compose it with your own data.': 'Stellen Sie es mit Ihren eigenen Daten zusammen.',
+    'Compose it with your own data.':
+        'Stellen Sie es mit Ihren eigenen Daten zusammen.',
     'Confirm': 'Bestätigen',
     'Contact sales': 'Vertrieb kontaktieren',
     'Container': 'Container',
@@ -1693,12 +1833,14 @@ const Map<String, Map<String, String>> docsSampleTable =
     'Copied!': 'Kopiert!',
     'Copy': 'Kopieren',
     'Copy link': 'Link kopieren',
-    'Copy the source you install.': 'Kopieren Sie den Quellcode, den Sie installieren.',
+    'Copy the source you install.':
+        'Kopieren Sie den Quellcode, den Sie installieren.',
     'Coral': 'Koralle',
     'Counts generated from the manifest': 'Anzahlen aus dem Manifest erzeugt',
     'Cover Art': 'Covergrafik',
     'Cover art': 'Covergrafik',
-    'Cover passed the store checks.': 'Das Cover hat die Store-Prüfungen bestanden.',
+    'Cover passed the store checks.':
+        'Das Cover hat die Store-Prüfungen bestanden.',
     'Create': 'Erstellen',
     'Create Account': 'Konto erstellen',
     'Create Goal': 'Ziel erstellen',
@@ -1718,13 +1860,15 @@ const Map<String, Map<String, String>> docsSampleTable =
     'Custom row': 'Eigene Zeile',
     'Custom rows': 'Eigene Zeilen',
     'Custom size': 'Eigene Größe',
-    'Custom speed: 75 px/s • Custom gap: 40 px • Custom edge fades • Pinned builder slots': 'Eigene Geschwindigkeit: 75 px/s • Eigener Abstand: 40 px • Eigene Kantenverläufe • Fixierte Builder-Plätze',
+    'Custom speed: 75 px/s • Custom gap: 40 px • Custom edge fades • Pinned builder slots':
+        'Eigene Geschwindigkeit: 75 px/s • Eigener Abstand: 40 px • Eigene Kantenverläufe • Fixierte Builder-Plätze',
     'Custom theme': 'Eigenes Design',
     'Custom themes': 'Eigene Designs',
     'Custom title and row': 'Eigener Titel und Zeile',
     'Customized': 'Angepasst',
     'Cut the selection': 'Auswahl ausschneiden',
-    'Daily portfolio summary and price alerts.': 'Tägliche Portfolio-Zusammenfassung und Kursalarme.',
+    'Daily portfolio summary and price alerts.':
+        'Tägliche Portfolio-Zusammenfassung und Kursalarme.',
     'Dark mode': 'Dunkelmodus',
     'Dart': 'Dart',
     'Dashboard': 'Dashboard',
@@ -1738,7 +1882,8 @@ const Map<String, Map<String, String>> docsSampleTable =
     'Dedicated support': 'Dedizierter Support',
     'Default': 'Standard',
     'Default Currency': 'Standardwährung',
-    'Define your financial target and we will help pace it.': 'Legen Sie Ihr finanzielles Ziel fest, wir helfen beim Tempo.',
+    'Define your financial target and we will help pace it.':
+        'Legen Sie Ihr finanzielles Ziel fest, wir helfen beim Tempo.',
     'Degraded': 'Beeinträchtigt',
     'Delete': 'Löschen',
     'Delete account': 'Konto löschen',
@@ -1757,10 +1902,12 @@ const Map<String, Map<String, String>> docsSampleTable =
     'Deploy queued': 'Bereitstellung eingereiht',
     'Deploying now - two minutes.': 'Wird jetzt bereitgestellt – zwei Minuten.',
     'Deployment': 'Bereitstellung',
-    'Deployment. Ships when the checks pass.': 'Bereitstellung. Wird ausgeliefert, sobald die Prüfungen bestanden sind.',
+    'Deployment. Ships when the checks pass.':
+        'Bereitstellung. Wird ausgeliefert, sobald die Prüfungen bestanden sind.',
     'Deployments': 'Bereitstellungen',
     'Deploys': 'Bereitstellungen',
-    'Deposits, withdrawals, and transfers.': 'Einzahlungen, Abhebungen und Überweisungen.',
+    'Deposits, withdrawals, and transfers.':
+        'Einzahlungen, Abhebungen und Überweisungen.',
     'Design review': 'Design-Review',
     'Design review at 10': 'Design-Review um 10',
     'Design studio': 'Design-Studio',
@@ -1768,12 +1915,14 @@ const Map<String, Map<String, String>> docsSampleTable =
     'Designer': 'Designer',
     'Desk lamp': 'Schreibtischlampe',
     'Desktop': 'Desktop',
-    'Desktop: right-click · touch: long-press': 'Desktop: Rechtsklick · Touch: lange drücken',
+    'Desktop: right-click · touch: long-press':
+        'Desktop: Rechtsklick · Touch: lange drücken',
     'Destructive': 'Destruktiv',
     'Details': 'Details',
     'Determinate': 'Bestimmt',
     'Dialog prompt': 'Dialogaufforderung',
-    'Did you remember the meeting time?': 'Haben Sie die Besprechungszeit im Kopf?',
+    'Did you remember the meeting time?':
+        'Haben Sie die Besprechungszeit im Kopf?',
     'Direct': 'Direkt',
     'Directed by dashcn Team': 'Regie: dashcn-Team',
     'Disabled': 'Deaktiviert',
@@ -1783,8 +1932,10 @@ const Map<String, Map<String, String>> docsSampleTable =
     'Discard changes': 'Änderungen verwerfen',
     'Discard unsaved changes?': 'Nicht gespeicherte Änderungen verwerfen?',
     'Dismiss': 'Schließen',
-    'Dispatched within two working days.': 'Versand innerhalb von zwei Werktagen.',
-    'Displays an indicator showing progress': 'Zeigt einen Fortschrittsindikator an',
+    'Dispatched within two working days.':
+        'Versand innerhalb von zwei Werktagen.',
+    'Displays an indicator showing progress':
+        'Zeigt einen Fortschrittsindikator an',
     'Distribute Track': 'Titel verteilen',
     'Distributed': 'Verteilt',
     'Do it': 'Los',
@@ -1799,11 +1950,14 @@ const Map<String, Map<String, String>> docsSampleTable =
     'Drag down to dismiss': 'Nach unten ziehen zum Schließen',
     'Drag on either axis': 'Auf beiden Achsen ziehen',
     'Drag over': 'Darüber ziehen',
-    'Drag the handle to move between snap stages.': 'Ziehen Sie den Griff, um zwischen den Einrastpunkten zu wechseln.',
-    'Drag the title bar; resize from any edge.': 'Titelleiste ziehen; an einer beliebigen Kante die Größe ändern.',
+    'Drag the handle to move between snap stages.':
+        'Ziehen Sie den Griff, um zwischen den Einrastpunkten zu wechseln.',
+    'Drag the title bar; resize from any edge.':
+        'Titelleiste ziehen; an einer beliebigen Kante die Größe ändern.',
     'Drawer content': 'Schubladeninhalt',
     'Driven by a controller': 'Von einem Controller gesteuert',
-    'Drop a folder here to upload it whole.': 'Ordner hierher ziehen, um ihn komplett hochzuladen.',
+    'Drop a folder here to upload it whole.':
+        'Ordner hierher ziehen, um ihn komplett hochzuladen.',
     'Duplicate': 'Duplizieren',
     'Duplicated': 'Dupliziert',
     'Duration': 'Dauer',
@@ -1827,35 +1981,46 @@ const Map<String, Map<String, String>> docsSampleTable =
     'Engineer': 'Ingenieurin',
     'English subtitles': 'Englische Untertitel',
     'Enter a password': 'Passwort eingeben',
-    'Enter the 6-digit code we texted to ···· 1192.': 'Geben Sie den 6-stelligen Code ein, den wir an ···· 1192 geschickt haben.',
-    'Enter your credentials to access your workspace.': 'Geben Sie Ihre Zugangsdaten ein, um auf Ihren Arbeitsbereich zuzugreifen.',
-    'Enter your details below to continue.': 'Geben Sie unten Ihre Daten ein, um fortzufahren.',
-    'Enter your email below to create your account.': 'Geben Sie unten Ihre E-Mail-Adresse ein, um Ihr Konto zu erstellen.',
+    'Enter the 6-digit code we texted to ···· 1192.':
+        'Geben Sie den 6-stelligen Code ein, den wir an ···· 1192 geschickt haben.',
+    'Enter your credentials to access your workspace.':
+        'Geben Sie Ihre Zugangsdaten ein, um auf Ihren Arbeitsbereich zuzugreifen.',
+    'Enter your details below to continue.':
+        'Geben Sie unten Ihre Daten ein, um fortzufahren.',
+    'Enter your email below to create your account.':
+        'Geben Sie unten Ihre E-Mail-Adresse ein, um Ihr Konto zu erstellen.',
     'Enterprise': 'Enterprise',
     'Epsilon': 'Epsilon',
     'Error': 'Fehler',
     'Error fallback': 'Fehler-Fallback',
     'Estimated Shares': 'Geschätzte Anteile',
     'Every deploy is immutable.': 'Jede Bereitstellung ist unveränderlich.',
-    'Every deploy is immutable; roll back from the history tab.': 'Jede Bereitstellung ist unveränderlich; Rollback über den Verlauf-Tab.',
-    'Every plan starts with 14 days, no card required.': 'Jeder Tarif startet mit 14 Tagen, ohne Kreditkarte.',
+    'Every deploy is immutable; roll back from the history tab.':
+        'Jede Bereitstellung ist unveränderlich; Rollback über den Verlauf-Tab.',
+    'Every plan starts with 14 days, no card required.':
+        'Jeder Tarif startet mit 14 Tagen, ohne Kreditkarte.',
     'Every release measured.': 'Jede Version gemessen.',
-    'Every report exports as CSV, including the royalty ledger.': 'Jeder Bericht lässt sich als CSV exportieren, einschließlich des Tantiemen-Hauptbuchs.',
+    'Every report exports as CSV, including the royalty ledger.':
+        'Jeder Bericht lässt sich als CSV exportieren, einschließlich des Tantiemen-Hauptbuchs.',
     'Everyday backpack': 'Alltagsrucksack',
-    'Everyone with access to this workspace.': 'Alle mit Zugriff auf diesen Arbeitsbereich.',
+    'Everyone with access to this workspace.':
+        'Alle mit Zugriff auf diesen Arbeitsbereich.',
     'Everything': 'Alles',
-    'Everything in one place, at arm’s reach.': 'Alles an einem Ort, griffbereit.',
+    'Everything in one place, at arm’s reach.':
+        'Alles an einem Ort, griffbereit.',
     'Expanded': 'Erweitert',
     'Expanded card': 'Erweiterte Karte',
     'Expanded target': 'Erweitertes Ziel',
-    'Experiment with the API before you ship it.': 'Experimentieren Sie mit der API, bevor Sie sie ausliefern.',
+    'Experiment with the API before you ship it.':
+        'Experimentieren Sie mit der API, bevor Sie sie ausliefern.',
     'Export CSV': 'CSV exportieren',
     'Export report': 'Bericht exportieren',
     'Extended': 'Erweitert',
     'Extra information': 'Zusatzinformationen',
     'Eye dropper': 'Pipette',
     'Failed step': 'Fehlgeschlagener Schritt',
-    'Failed to sync your workspace.': 'Arbeitsbereich konnte nicht synchronisiert werden.',
+    'Failed to sync your workspace.':
+        'Arbeitsbereich konnte nicht synchronisiert werden.',
     'Fair': 'Mittel',
     'Fast': 'Schnell',
     'Favourite': 'Favorit',
@@ -1868,7 +2033,8 @@ const Map<String, Map<String, String>> docsSampleTable =
     'Filled trigger': 'Gefüllter Auslöser',
     'Filters': 'Filter',
     'Filters cleared.': 'Filter zurückgesetzt.',
-    'Final WAV approved by the label.': 'Finale WAV-Datei vom Label freigegeben.',
+    'Final WAV approved by the label.':
+        'Finale WAV-Datei vom Label freigegeben.',
     'Firefox': 'Firefox',
     'First': 'Erste',
     'First message': 'Erste Nachricht',
@@ -1877,14 +2043,18 @@ const Map<String, Map<String, String>> docsSampleTable =
     'Flutter': 'Flutter',
     'Food & Drink': 'Essen & Trinken',
     'For Bigger Blazes': 'For Bigger Blazes',
-    'For sighted users to preview content': 'Für sehende Nutzer zur Vorschau von Inhalten',
+    'For sighted users to preview content':
+        'Für sehende Nutzer zur Vorschau von Inhalten',
     'Format': 'Format',
-    'Four people have access to this workspace.': 'Vier Personen haben Zugriff auf diesen Arbeitsbereich.',
-    'Four shared workspaces, updated today.': 'Vier geteilte Arbeitsbereiche, heute aktualisiert.',
+    'Four people have access to this workspace.':
+        'Vier Personen haben Zugriff auf diesen Arbeitsbereich.',
+    'Four shared workspaces, updated today.':
+        'Vier geteilte Arbeitsbereiche, heute aktualisiert.',
     'Four slots': 'Vier Plätze',
     'France': 'Frankreich',
     'Free': 'Kostenlos',
-    'Free returns within 30 days.': 'Kostenlose Rücksendung innerhalb von 30 Tagen.',
+    'Free returns within 30 days.':
+        'Kostenlose Rücksendung innerhalb von 30 Tagen.',
     'Frequently asked questions': 'Häufig gestellte Fragen',
     'From thumbnails': 'Aus Miniaturansichten',
     'Fruits': 'Obst',
@@ -1895,7 +2065,8 @@ const Map<String, Map<String, String>> docsSampleTable =
     'Gamma': 'Gamma',
     'General, Billing and Goals': 'Allgemein, Abrechnung und Ziele',
     'Generate Report': 'Bericht erstellen',
-    'Generated from the preset palette.': 'Aus der Voreinstellungspalette erstellt.',
+    'Generated from the preset palette.':
+        'Aus der Voreinstellungspalette erstellt.',
     'Get started': 'Loslegen',
     'Getting started': 'Erste Schritte',
     'Ghost': 'Geist',
@@ -1905,7 +2076,8 @@ const Map<String, Map<String, String>> docsSampleTable =
     'Goal name': 'Zielname',
     'Good': 'Gut',
     'Google': 'Google',
-    'Got it — pulling up your payout history now.': 'Verstanden — Ihr Auszahlungsverlauf wird jetzt geladen.',
+    'Got it — pulling up your payout history now.':
+        'Verstanden — Ihr Auszahlungsverlauf wird jetzt geladen.',
     'Grape': 'Traube',
     'Green': 'Grün',
     'Green sample': 'Grünes Beispiel',
@@ -1924,7 +2096,8 @@ const Map<String, Map<String, String>> docsSampleTable =
     'Half': 'Halb',
     'Half width': 'Halbe Breite',
     'Harbor nights': 'Hafennächte',
-    'Have a code? Enter it below.': 'Haben Sie einen Code? Geben Sie ihn unten ein.',
+    'Have a code? Enter it below.':
+        'Haben Sie einen Code? Geben Sie ihn unten ein.',
     'Have an account?': 'Haben Sie ein Konto?',
     'Heading': 'Überschrift',
     'Heads up': 'Achtung',
@@ -1934,21 +2107,26 @@ const Map<String, Map<String, String>> docsSampleTable =
     'Help': 'Hilfe',
     'Help Center': 'Hilfecenter',
     'Helper text': 'Hilfetext',
-    'Here is everything you need to get started.': 'Hier finden Sie alles, was Sie zum Einstieg brauchen.',
+    'Here is everything you need to get started.':
+        'Hier finden Sie alles, was Sie zum Einstieg brauchen.',
     'Hide on scroll': 'Beim Scrollen ausblenden',
     'Home': 'Start',
     'Horizontal': 'Horizontal',
     'House deposit': 'Hauskaution',
     'Hover me': 'Fahren Sie darüber',
-    'How do I connect my bank or investment accounts?': 'Wie verbinde ich mein Bank- oder Anlagekonto?',
+    'How do I connect my bank or investment accounts?':
+        'Wie verbinde ich mein Bank- oder Anlagekonto?',
     'How royalties are paid out.': 'Wie Tantiemen ausgezahlt werden.',
     'How secure is my financial data?': 'Wie sicher sind meine Finanzdaten?',
-    'How to install dependencies and code': 'So installieren Sie Abhängigkeiten und Code',
+    'How to install dependencies and code':
+        'So installieren Sie Abhängigkeiten und Code',
     'Hue': 'Farbton',
     'Hue strip': 'Farbtonleiste',
     'Hue × Saturation': 'Farbton × Sättigung',
-    'I see it — that month was prorated after the reissue.': 'Verstanden – dieser Monat wurde nach der Neuausstellung anteilig berechnet.',
-    'I see it — that month was prorated.': 'Verstanden – dieser Monat wurde anteilig berechnet.',
+    'I see it — that month was prorated after the reissue.':
+        'Verstanden – dieser Monat wurde nach der Neuausstellung anteilig berechnet.',
+    'I see it — that month was prorated.':
+        'Verstanden – dieser Monat wurde anteilig berechnet.',
     'Ibrar Ahmed': 'Ibrar Ahmed',
     'Ibrar Ali': 'Ibrar Ali',
     'Icon': 'Symbol',
@@ -1959,7 +2137,8 @@ const Map<String, Map<String, String>> docsSampleTable =
     'In menu item': 'Im Menüelement',
     'In progress': 'In Bearbeitung',
     'Inbox': 'Posteingang',
-    'Include track names, dates and any error codes.': 'Bitte Titelnamen, Daten und Fehlercodes angeben.',
+    'Include track names, dates and any error codes.':
+        'Bitte Titelnamen, Daten und Fehlercodes angeben.',
     'Income': 'Einkommen',
     'Incoming': 'Eingehend',
     'Indeterminate': 'Unbestimmt',
@@ -2005,7 +2184,8 @@ const Map<String, Map<String, String>> docsSampleTable =
     'Jump to…': 'Springen zu…',
     'June': 'Juni',
     'Just sent the new mockups.': 'Gerade die neuen Mockups geschickt.',
-    'Kara moved Design review to Thursday': 'Kara hat das Design-Review auf Donnerstag verlegt',
+    'Kara moved Design review to Thursday':
+        'Kara hat das Design-Review auf Donnerstag verlegt',
     'Kara — 2 hours ago': 'Kara — vor 2 Std.',
     'Kickoff': 'Kickoff',
     'Kiwi': 'Kiwi',
@@ -2049,7 +2229,8 @@ const Map<String, Map<String, String>> docsSampleTable =
     'Loading': 'Lädt',
     'Loading card': 'Karte wird geladen',
     'Loading...': 'Wird geladen...',
-    'Login attempts and account changes.': 'Anmeldeversuche und Kontoänderungen.',
+    'Login attempts and account changes.':
+        'Anmeldeversuche und Kontoänderungen.',
     'Long': 'Lang',
     'Long lines': 'Lange Zeilen',
     'Long text': 'Langer Text',
@@ -2060,8 +2241,10 @@ const Map<String, Map<String, String>> docsSampleTable =
     'Main content area': 'Hauptinhaltsbereich',
     'Manage plan': 'Tarif verwalten',
     'Manage storage': 'Speicher verwalten',
-    'Manage your account settings and notifications.': 'Verwalten Sie Ihre Kontoeinstellungen und Benachrichtigungen.',
-    'Manage your account settings and set your email preferences.': 'Verwalten Sie Ihre Kontoeinstellungen und E-Mail-Präferenzen.',
+    'Manage your account settings and notifications.':
+        'Verwalten Sie Ihre Kontoeinstellungen und Benachrichtigungen.',
+    'Manage your account settings and set your email preferences.':
+        'Verwalten Sie Ihre Kontoeinstellungen und E-Mail-Präferenzen.',
     'Manager': 'Manager',
     'Mango': 'Mango',
     'Many actions': 'Viele Aktionen',
@@ -2074,7 +2257,8 @@ const Map<String, Map<String, String>> docsSampleTable =
     'Master delivered': 'Master geliefert',
     'Mastercard': 'Mastercard',
     'Maximized': 'Maximiert',
-    'Maximized; restore from the title bar.': 'Maximiert; über die Titelleiste wiederherstellen.',
+    'Maximized; restore from the title bar.':
+        'Maximiert; über die Titelleiste wiederherstellen.',
     'May 25, 2026': '25. Mai 2026',
     'Maya': 'Maya',
     'Maya Okafor': 'Maya Okafor',
@@ -2083,20 +2267,23 @@ const Map<String, Map<String, String>> docsSampleTable =
     'Member': 'Mitglied',
     'Members': 'Mitglieder',
     'Mentions and replies': 'Erwähnungen und Antworten',
-    'Menus open anchored popovers, like the desktop app.': 'Menüs öffnen verankerte Popovers, wie in der Desktop-App.',
+    'Menus open anchored popovers, like the desktop app.':
+        'Menüs öffnen verankerte Popovers, wie in der Desktop-App.',
     'Message': 'Nachricht',
     'Message Sent': 'Nachricht gesendet',
     'Metadata': 'Metadaten',
     'Method': 'Methode',
     'Metrics for every release.': 'Kennzahlen für jede Version.',
-    'Midnight City — M83 (Extended Club Mix, 2024 Remaster)': 'Midnight City — M83 (Extended Club Mix, 2024 Remaster)',
+    'Midnight City — M83 (Extended Club Mix, 2024 Remaster)':
+        'Midnight City — M83 (Extended Club Mix, 2024 Remaster)',
     'Midnight Drive — 2026': 'Midnight Drive — 2026',
     'Mini (32)': 'Mini (32)',
     'Mini (40)': 'Mini (40)',
     'Mini (48)': 'Mini (48)',
     'Mini sizes': 'Mini-Größen',
     'Minimal': 'Minimal',
-    'Minimum 3000 × 3000px · JPEG or PNG only': 'Mindestens 3000 × 3000 px · nur JPEG oder PNG',
+    'Minimum 3000 × 3000px · JPEG or PNG only':
+        'Mindestens 3000 × 3000 px · nur JPEG oder PNG',
     'Minimum Payout Amount': 'Mindestauszahlungsbetrag',
     'Minimum payout amount': 'Mindestauszahlungsbetrag',
     'Mint': 'Minze',
@@ -2108,7 +2295,8 @@ const Map<String, Map<String, String>> docsSampleTable =
     'Month': 'Monat',
     'Month grid': 'Monatsraster',
     'Monthly Average': 'Monatsdurchschnitt',
-    'Monthly royalty and distribution updates': 'Monatliche Tantiemen- und Verteilungs-Updates',
+    'Monthly royalty and distribution updates':
+        'Monatliche Tantiemen- und Verteilungs-Updates',
     'More': 'Mehr',
     'More tools': 'Weitere Werkzeuge',
     'Morning! Did the review land?': 'Morgen! Ist das Review angekommen?',
@@ -2128,7 +2316,8 @@ const Map<String, Map<String, String>> docsSampleTable =
     'Needs at least two chips': 'Mindestens zwei Chips erforderlich',
     'Net Revenue': 'Nettoumsatz',
     'Net Royalties': 'Nettotantiemen',
-    'Net revenue for the selected period, after fees.': 'Nettoumsatz für den gewählten Zeitraum nach Gebühren.',
+    'Net revenue for the selected period, after fees.':
+        'Nettoumsatz für den gewählten Zeitraum nach Gebühren.',
     'Netflix Subscription': 'Netflix-Abo',
     'New Goal': 'Neues Ziel',
     'New document': 'Neues Dokument',
@@ -2144,7 +2333,8 @@ const Map<String, Map<String, String>> docsSampleTable =
     'Nice work!': 'Gut gemacht!',
     'Nightly backup completed': 'Nächtliche Sicherung abgeschlossen',
     'No account yet?': 'Noch kein Konto?',
-    'No cap: paste a long paragraph': 'Ohne Limit: einen langen Absatz einfügen',
+    'No cap: paste a long paragraph':
+        'Ohne Limit: einen langen Absatz einfügen',
     'No chrome': 'Ohne Rahmen',
     'No data': 'Keine Daten',
     'No matches': 'Keine Treffer',
@@ -2174,7 +2364,8 @@ const Map<String, Map<String, String>> docsSampleTable =
     'On (disabled)': 'An (deaktiviert)',
     'On hold': 'Angehalten',
     'One command copies the source in': 'Ein Befehl kopiert den Quellcode',
-    'One email every Monday with everything that happened.': 'Jeden Montag eine E-Mail mit allem, was passiert ist.',
+    'One email every Monday with everything that happened.':
+        'Jeden Montag eine E-Mail mit allem, was passiert ist.',
     'Online MP4': 'Online-MP4',
     'Only you have access': 'Nur Sie haben Zugriff',
     'Open': 'Öffnen',
@@ -2192,7 +2383,8 @@ const Map<String, Map<String, String>> docsSampleTable =
     'Open scaled drawer': 'Skalierte Schublade öffnen',
     'Open settings': 'Einstellungen öffnen',
     'Open sheet': 'Blatt öffnen',
-    'Open the Ledger mobile app and scan this code to link.': 'Öffnen Sie die Ledger-Mobil-App und scannen Sie diesen Code zum Verknüpfen.',
+    'Open the Ledger mobile app and scan this code to link.':
+        'Öffnen Sie die Ledger-Mobil-App und scannen Sie diesen Code zum Verknüpfen.',
     'Open themed drawer': 'Gestaltete Schublade öffnen',
     'Open top': 'Oben öffnen',
     'Opened a document': 'Dokument geöffnet',
@@ -2243,10 +2435,13 @@ const Map<String, Map<String, String>> docsSampleTable =
     'Pick a colour': 'Farbe auswählen',
     'Pick a command': 'Befehl auswählen',
     'Pick a date': 'Datum auswählen',
-    'Pick a date range for your report.': 'Wählen Sie einen Datumsbereich für Ihren Bericht.',
-    'Pick a day, then a time that suits you.': 'Wählen Sie einen Tag und dann eine passende Uhrzeit.',
+    'Pick a date range for your report.':
+        'Wählen Sie einen Datumsbereich für Ihren Bericht.',
+    'Pick a day, then a time that suits you.':
+        'Wählen Sie einen Tag und dann eine passende Uhrzeit.',
     'Pick a row': 'Zeile auswählen',
-    'Pick a row in the sidebar to switch sections.': 'Wählen Sie in der Seitenleiste eine Zeile, um den Abschnitt zu wechseln.',
+    'Pick a row in the sidebar to switch sections.':
+        'Wählen Sie in der Seitenleiste eine Zeile, um den Abschnitt zu wechseln.',
     'Pick again': 'Erneut auswählen',
     'Pick an action from the menu': 'Aktion aus dem Menü auswählen',
     'Pick at least two chips.': 'Wählen Sie mindestens zwei Chips aus.',
@@ -2274,9 +2469,11 @@ const Map<String, Map<String, String>> docsSampleTable =
     'Play': 'Abspielen',
     'Playground': 'Spielwiese',
     'Playing · Synthwave': 'Wird abgespielt · Synthwave',
-    'Please log in again to continue.': 'Bitte melden Sie sich erneut an, um fortzufahren.',
+    'Please log in again to continue.':
+        'Bitte melden Sie sich erneut an, um fortzufahren.',
     'Please reply ASAP.': 'Bitte antworten Sie so schnell wie möglich.',
-    'Please wait while we process.': 'Bitte warten Sie, während wir verarbeiten.',
+    'Please wait while we process.':
+        'Bitte warten Sie, während wir verarbeiten.',
     'Positions': 'Positionen',
     'Power Usage': 'Stromverbrauch',
     'Preferences': 'Einstellungen',
@@ -2295,7 +2492,8 @@ const Map<String, Map<String, String>> docsSampleTable =
     'Product updates': 'Produktupdates',
     'Profile': 'Profil',
     'Profile saved.': 'Profil gespeichert.',
-    'Profile, billing and notifications.': 'Profil, Abrechnung und Benachrichtigungen.',
+    'Profile, billing and notifications.':
+        'Profil, Abrechnung und Benachrichtigungen.',
     'Project kickoff meeting.': 'Projekt-Kickoff-Meeting.',
     'Projected Finish': 'Voraussichtliches Ende',
     'Projects': 'Projekte',
@@ -2303,12 +2501,14 @@ const Map<String, Map<String, String>> docsSampleTable =
     'Public Statistics': 'Öffentliche Statistiken',
     'Publish': 'Veröffentlichen',
     'Publish release': 'Version veröffentlichen',
-    'Pull to refresh or start a new chat.': 'Zum Aktualisieren ziehen oder einen neuen Chat starten.',
+    'Pull to refresh or start a new chat.':
+        'Zum Aktualisieren ziehen oder einen neuen Chat starten.',
     'Q2 Dividend Income': 'Dividendeneinnahmen Q2',
     'QR code for the typed URL': 'QR-Code für die eingegebene URL',
     'Quantity': 'Menge',
     'Quarter': 'Quartal',
-    'Quarterly payouts across your portfolio holdings.': 'Quartalsweise Auszahlungen für Ihre Portfolio-Positionen.',
+    'Quarterly payouts across your portfolio holdings.':
+        'Quartalsweise Auszahlungen für Ihre Portfolio-Positionen.',
     'Quinn': 'Quinn',
     'Quote': 'Kurs',
     'RTL reverse': 'RTL umgekehrt',
@@ -2316,7 +2516,8 @@ const Map<String, Map<String, String>> docsSampleTable =
     'Radar Chart - Custom Label': 'Netzdiagramm – eigene Beschriftung',
     'Radar Chart - Dots': 'Netzdiagramm – Punkte',
     'Radar Chart - Grid Circle': 'Netzdiagramm – Kreisraster',
-    'Radar Chart - Grid Circle - No lines': 'Netzdiagramm – Kreisraster – ohne Linien',
+    'Radar Chart - Grid Circle - No lines':
+        'Netzdiagramm – Kreisraster – ohne Linien',
     'Radar Chart - Grid Circle Filled': 'Netzdiagramm – Kreisraster gefüllt',
     'Radar Chart - Grid Custom': 'Netzdiagramm – eigenes Raster',
     'Radar Chart - Grid Filled': 'Netzdiagramm – Raster gefüllt',
@@ -2332,7 +2533,8 @@ const Map<String, Map<String, String>> docsSampleTable =
     'Radial Chart - Text': 'Radialdiagramm – Text',
     'Range': 'Bereich',
     'Rating': 'Bewertung',
-    'Re-usable components for your apps': 'Wiederverwendbare Komponenten für Ihre Apps',
+    'Re-usable components for your apps':
+        'Wiederverwendbare Komponenten für Ihre Apps',
     'Read terms': 'Bedingungen lesen',
     'Read-only': 'Nur lesen',
     'Read-only value': 'Schreibgeschützter Wert',
@@ -2355,7 +2557,8 @@ const Map<String, Map<String, String>> docsSampleTable =
     'Release to upload.': 'Loslassen zum Hochladen.',
     'Reload': 'Neu laden',
     'Reloaded the page': 'Seite neu geladen',
-    'Remembers your preset and mode.': 'Speichert Ihre Voreinstellung und Ihren Modus.',
+    'Remembers your preset and mode.':
+        'Speichert Ihre Voreinstellung und Ihren Modus.',
     'Removable': 'Entfernbar',
     'Rename': 'Umbenennen',
     'Rename chosen': 'Umbenennen gewählt',
@@ -2368,19 +2571,23 @@ const Map<String, Map<String, String>> docsSampleTable =
     'Reporting Period': 'Berichtszeitraum',
     'Reports': 'Berichte',
     'Reports and statements': 'Berichte und Kontoauszüge',
-    'Required for the site to work.': 'Für die Funktion der Website erforderlich.',
+    'Required for the site to work.':
+        'Für die Funktion der Website erforderlich.',
     'Resend': 'Erneut senden',
     'Reset': 'Zurücksetzen',
-    'Reset link sent. Check your inbox to continue.': 'Link zum Zurücksetzen gesendet. Prüfen Sie Ihr Postfach, um fortzufahren.',
+    'Reset link sent. Check your inbox to continue.':
+        'Link zum Zurücksetzen gesendet. Prüfen Sie Ihr Postfach, um fortzufahren.',
     'Responsive': 'Responsiv',
     'Retirement': 'Altersvorsorge',
     'Retrying...': 'Wird erneut versucht...',
     'Returns': 'Rücksendungen',
-    'Revenue, subscriptions and the most recent orders.': 'Umsatz, Abonnements und die neuesten Bestellungen.',
+    'Revenue, subscriptions and the most recent orders.':
+        'Umsatz, Abonnements und die neuesten Bestellungen.',
     'Reversed, with radius': 'Umgekehrt, mit Radius',
     'Review': 'Prüfen',
     'Review Order': 'Bestellung prüfen',
-    'Review and confirm this request.': 'Prüfen und bestätigen Sie diese Anfrage.',
+    'Review and confirm this request.':
+        'Prüfen und bestätigen Sie diese Anfrage.',
     'Review items.': 'Elemente prüfen.',
     'Review the first concept batch.': 'Die erste Konzeptcharge prüfen.',
     'Rich content': 'Umfangreicher Inhalt',
@@ -2404,8 +2611,10 @@ const Map<String, Map<String, String>> docsSampleTable =
     'Row 5': 'Zeile 5',
     'Row 6': 'Zeile 6',
     'Rows': 'Zeilen',
-    'Rows, columns and widths from one widget': 'Zeilen, Spalten und Breiten aus einem Widget',
-    'Royalties settle on the 15th of every month.': 'Tantiemen werden jeweils am 15. eines Monats abgerechnet.',
+    'Rows, columns and widths from one widget':
+        'Zeilen, Spalten und Breiten aus einem Widget',
+    'Royalties settle on the 15th of every month.':
+        'Tantiemen werden jeweils am 15. eines Monats abgerechnet.',
     'Running': 'Läuft',
     'S&P 500 VOO': 'S&P 500 VOO',
     'SSO and audit log': 'SSO und Audit-Protokoll',
@@ -2443,13 +2652,15 @@ const Map<String, Map<String, String>> docsSampleTable =
     'See all': 'Alle ansehen',
     'See you at the demo!': 'Bis zur Demo!',
     'Select a colour': 'Farbe auswählen',
-    'Select a date to view scheduled payments.': 'Wählen Sie ein Datum, um geplante Zahlungen anzuzeigen.',
+    'Select a date to view scheduled payments.':
+        'Wählen Sie ein Datum, um geplante Zahlungen anzuzeigen.',
     'Select a fruit': 'Eine Frucht auswählen',
     'Select all rows': 'Alle Zeilen auswählen',
     'Select fruits': 'Obst auswählen',
     'Select produce': 'Obst und Gemüse auswählen',
     'Select row': 'Zeile auswählen',
-    'Select this text to see the custom selection styling.': 'Markieren Sie diesen Text, um die eigene Auswahlgestaltung zu sehen.',
+    'Select this text to see the custom selection styling.':
+        'Markieren Sie diesen Text, um die eigene Auswahlgestaltung zu sehen.',
     'Selected': 'Ausgewählt',
     'Selected state': 'Ausgewählter Zustand',
     'Send': 'Senden',
@@ -2463,10 +2674,12 @@ const Map<String, Map<String, String>> docsSampleTable =
     'Session expired': 'Sitzung abgelaufen',
     'Session expiring': 'Sitzung läuft ab',
     'Sessions': 'Sitzungen',
-    'Sessions, devices and where the traffic came from.': 'Sitzungen, Geräte und Herkunft der Zugriffe.',
+    'Sessions, devices and where the traffic came from.':
+        'Sitzungen, Geräte und Herkunft der Zugriffe.',
     'Set a goal': 'Ziel festlegen',
     'Set a new milestone': 'Neuen Meilenstein festlegen',
-    'Set the minimum balance before a payout is triggered.': 'Legen Sie das Mindestguthaben fest, ab dem eine Auszahlung ausgelöst wird.',
+    'Set the minimum balance before a payout is triggered.':
+        'Legen Sie das Mindestguthaben fest, ab dem eine Auszahlung ausgelöst wird.',
     'Settings': 'Einstellungen',
     'Shapes': 'Formen',
     'Share': 'Teilen',
@@ -2477,15 +2690,19 @@ const Map<String, Map<String, String>> docsSampleTable =
     'Shared': 'Geteilt',
     'Shared by email': 'Per E-Mail geteilt',
     'Shared playlist': 'Geteilte Playlist',
-    'Shared with 4 people · edited 3 minutes ago': 'Mit 4 Personen geteilt · vor 3 Min. bearbeitet',
+    'Shared with 4 people · edited 3 minutes ago':
+        'Mit 4 Personen geteilt · vor 3 Min. bearbeitet',
     'Shared with you': 'Mit Ihnen geteilt',
     'Sheet content': 'Blatt-Inhalt',
     'Shell': 'Shell',
     'Ship a build in seconds.': 'Einen Build in Sekunden ausliefern.',
-    'Ship a new build to production.': 'Einen neuen Build in die Produktion bringen.',
+    'Ship a new build to production.':
+        'Einen neuen Build in die Produktion bringen.',
     'Shipping': 'Versand',
-    'Ships when the checks pass.': 'Wird ausgeliefert, sobald die Prüfungen bestanden sind.',
-    'Shortcuts are documented on every control.': 'Tastenkürzel sind bei jedem Element dokumentiert.',
+    'Ships when the checks pass.':
+        'Wird ausgeliefert, sobald die Prüfungen bestanden sind.',
+    'Shortcuts are documented on every control.':
+        'Tastenkürzel sind bei jedem Element dokumentiert.',
     'Show again': 'Erneut anzeigen',
     'Show alert dialog': 'Warndialog anzeigen',
     'Show bookmarks bar': 'Lesezeichenleiste anzeigen',
@@ -2499,7 +2716,8 @@ const Map<String, Map<String, String>> docsSampleTable =
     'Show toast with action': 'Toast mit Aktion anzeigen',
     'Sign in': 'Anmelden',
     'Sign out': 'Abmelden',
-    'Sign up with your email address.': 'Registrieren Sie sich mit Ihrer E-Mail-Adresse.',
+    'Sign up with your email address.':
+        'Registrieren Sie sich mit Ihrer E-Mail-Adresse.',
     'Signature pad demo': 'Demo des Unterschriftenfelds',
     'Signature pad unavailable': 'Unterschriftenfeld nicht verfügbar',
     'Signed in with a passkey': 'Mit einem Passkey angemeldet',
@@ -2512,11 +2730,13 @@ const Map<String, Map<String, String>> docsSampleTable =
     'Sizes': 'Größen',
     'Skyler': 'Skyler',
     'Slide': 'Folie',
-    'Slides in from the edge over the whole app.': 'Gleitet vom Rand über die gesamte App.',
+    'Slides in from the edge over the whole app.':
+        'Gleitet vom Rand über die gesamte App.',
     'Slots': 'Plätze',
     'Slow motion': 'Zeitlupe',
     'Small': 'Klein',
-    'Small forms built from the same primitives': 'Kleine Formulare aus denselben Grundbausteinen',
+    'Small forms built from the same primitives':
+        'Kleine Formulare aus denselben Grundbausteinen',
     'Snap points': 'Einrastpunkte',
     'Snoozed': 'Pausiert',
     'Social': 'Social',
@@ -2538,9 +2758,11 @@ const Map<String, Map<String, String>> docsSampleTable =
     'Stable': 'Stabil',
     'Starred': 'Markiert',
     'Starring Continuous Marquee': 'Mit Continuous Marquee',
-    'Start distributing your music in minutes.': 'Verteilen Sie Ihre Musik in wenigen Minuten.',
+    'Start distributing your music in minutes.':
+        'Verteilen Sie Ihre Musik in wenigen Minuten.',
     'Start upload': 'Upload starten',
-    'Start your 14-day trial. No credit card required.': 'Starten Sie Ihre 14-tägige Testphase. Keine Kreditkarte erforderlich.',
+    'Start your 14-day trial. No credit card required.':
+        'Starten Sie Ihre 14-tägige Testphase. Keine Kreditkarte erforderlich.',
     'Starter': 'Starter',
     'Static outline': 'Statischer Umriss',
     'Status': 'Status',
@@ -2552,7 +2774,8 @@ const Map<String, Map<String, String>> docsSampleTable =
     'Storage used': 'Belegter Speicher',
     'Strawberry': 'Erdbeere',
     'Streaming': 'Streaming',
-    'Streaming line chart, last 40 points': 'Streaming-Liniendiagramm, letzte 40 Punkte',
+    'Streaming line chart, last 40 points':
+        'Streaming-Liniendiagramm, letzte 40 Punkte',
     'Streaming tail': 'Streaming-Ende',
     'Strictly Necessary': 'Unbedingt erforderlich',
     'Stripe Payout': 'Stripe-Auszahlung',
@@ -2581,7 +2804,8 @@ const Map<String, Map<String, String>> docsSampleTable =
     'Tag: Design': 'Tag: Design',
     'Tag: UI': 'Tag: UI',
     'Take a photo': 'Foto aufnehmen',
-    'Tap a star to leave your score.': 'Tippen Sie auf einen Stern, um zu bewerten.',
+    'Tap a star to leave your score.':
+        'Tippen Sie auf einen Stern, um zu bewerten.',
     'Tap a step indicator': 'Schrittanzeige antippen',
     'Tap an app-bar action': 'App-Leisten-Aktion antippen',
     'Tap the card to open it': 'Tippen Sie auf die Karte, um sie zu öffnen',
@@ -2590,28 +2814,40 @@ const Map<String, Map<String, String>> docsSampleTable =
     'Team': 'Team',
     'Team Members': 'Teammitglieder',
     'Team — Monday': 'Team — Montag',
-    'Tell us what went wrong and we will pick it up.': 'Sagen Sie uns, was schiefgelaufen ist, und wir kümmern uns darum.',
+    'Tell us what went wrong and we will pick it up.':
+        'Sagen Sie uns, was schiefgelaufen ist, und wir kümmern uns darum.',
     'Terms': 'Bedingungen',
     'Terms of service': 'Nutzungsbedingungen',
-    'That month was prorated after the reissue; I can send the breakdown.': 'Dieser Monat wurde nach der Neuausstellung anteilig berechnet; ich kann Ihnen die Aufschlüsselung schicken.',
-    'The bank rejected the transfer. Update the IBAN.': 'Die Bank hat die Überweisung abgelehnt. Bitte aktualisieren Sie die IBAN.',
-    'The barrier is locked: tap outside or press Escape does nothing. Use Cancel or Delete to leave.': 'Die Barriere ist gesperrt: Ein Tippen außerhalb oder Escape bewirkt nichts. Verwenden Sie „Abbrechen“ oder „Löschen“, um zu schließen.',
-    'The message shows only once you type.': 'Die Nachricht erscheint erst, wenn Sie etwas eingeben.',
+    'That month was prorated after the reissue; I can send the breakdown.':
+        'Dieser Monat wurde nach der Neuausstellung anteilig berechnet; ich kann Ihnen die Aufschlüsselung schicken.',
+    'The bank rejected the transfer. Update the IBAN.':
+        'Die Bank hat die Überweisung abgelehnt. Bitte aktualisieren Sie die IBAN.',
+    'The barrier is locked: tap outside or press Escape does nothing. Use Cancel or Delete to leave.':
+        'Die Barriere ist gesperrt: Ein Tippen außerhalb oder Escape bewirkt nichts. Verwenden Sie „Abbrechen“ oder „Löschen“, um zu schließen.',
+    'The message shows only once you type.':
+        'Die Nachricht erscheint erst, wenn Sie etwas eingeben.',
     'The new mockups are ready.': 'Die neuen Mockups sind fertig.',
-    'The request could not be completed. Please try again.': 'Die Anfrage konnte nicht abgeschlossen werden. Bitte versuchen Sie es erneut.',
-    'The royalty report shows a lower split than expected.': 'Der Tantiemenbericht zeigt eine niedrigere Aufteilung als erwartet.',
-    'The same content as a drawer or a sheet.': 'Derselbe Inhalt wie in einer Schublade oder einem Blatt.',
-    'The team meets every weekday morning.': 'Das Team trifft sich jeden Wochentagmorgen.',
+    'The request could not be completed. Please try again.':
+        'Die Anfrage konnte nicht abgeschlossen werden. Bitte versuchen Sie es erneut.',
+    'The royalty report shows a lower split than expected.':
+        'Der Tantiemenbericht zeigt eine niedrigere Aufteilung als erwartet.',
+    'The same content as a drawer or a sheet.':
+        'Derselbe Inhalt wie in einer Schublade oder einem Blatt.',
+    'The team meets every weekday morning.':
+        'Das Team trifft sich jeden Wochentagmorgen.',
     'Theme presets': 'Designvorlagen',
     'Themed': 'Gestaltet',
     'Themed dots': 'Gestaltete Punkte',
     'Third': 'Dritte',
     'Third message': 'Dritte Nachricht',
-    'This action cannot be undone. The project and its history is removed.': 'Diese Aktion kann nicht rückgängig gemacht werden. Das Projekt und sein Verlauf werden entfernt.',
+    'This action cannot be undone. The project and its history is removed.':
+        'Diese Aktion kann nicht rückgängig gemacht werden. Das Projekt und sein Verlauf werden entfernt.',
     'This cannot be undone.': 'Dies kann nicht rückgängig gemacht werden.',
     'This field is required.': 'Dieses Feld ist erforderlich.',
-    'This is how others will see you on the site.': 'So werden andere Sie auf der Website sehen.',
-    'This permanently deletes your account and all of its data. This action cannot be undone.': 'Dies löscht Ihr Konto und alle zugehörigen Daten dauerhaft. Diese Aktion kann nicht rückgängig gemacht werden.',
+    'This is how others will see you on the site.':
+        'So werden andere Sie auf der Website sehen.',
+    'This permanently deletes your account and all of its data. This action cannot be undone.':
+        'Dies löscht Ihr Konto und alle zugehörigen Daten dauerhaft. Diese Aktion kann nicht rückgängig gemacht werden.',
     'This value is not allowed.': 'Dieser Wert ist nicht zulässig.',
     'Thread Reply': 'Thread-Antwort',
     'Three': 'Drei',
@@ -2619,7 +2855,8 @@ const Map<String, Map<String, String>> docsSampleTable =
     'Three-line title': 'Dreizeiliger Titel',
     'Tile': 'Kachel',
     'Time': 'Zeit',
-    'Tip: focus a chip and press Backspace to remove it.': 'Tipp: Chip fokussieren und Rücktaste drücken, um ihn zu entfernen.',
+    'Tip: focus a chip and press Backspace to remove it.':
+        'Tipp: Chip fokussieren und Rücktaste drücken, um ihn zu entfernen.',
     'Title': 'Titel',
     'Toggled by the parent': 'Vom übergeordneten Element umgeschaltet',
     'Toggles': 'Schalter',
@@ -2648,11 +2885,13 @@ const Map<String, Map<String, String>> docsSampleTable =
     'Translucent primary fill': 'Transluzente Hauptfläche',
     'Transport': 'Verkehr',
     'Travel': 'Reisen',
-    'Trial started — check your inbox to verify it.': 'Testphase gestartet — prüfen Sie Ihr Postfach zur Bestätigung.',
+    'Trial started — check your inbox to verify it.':
+        'Testphase gestartet — prüfen Sie Ihr Postfach zur Bestätigung.',
     'Trigger': 'Auslöser',
     'Try a different term.': 'Versuchen Sie einen anderen Begriff.',
     'Try again': 'Erneut versuchen',
-    'Twelve payouts settled in the last 30 days.': 'Zwölf Auszahlungen in den letzten 30 Tagen abgerechnet.',
+    'Twelve payouts settled in the last 30 days.':
+        'Zwölf Auszahlungen in den letzten 30 Tagen abgerechnet.',
     'Type a command...': 'Befehl eingeben...',
     'Type to enable clear/copy': 'Eingeben, um Löschen/Kopieren zu aktivieren',
     'Type to filter': 'Zum Filtern eingeben',
@@ -2668,19 +2907,22 @@ const Map<String, Map<String, String>> docsSampleTable =
     'United Kingdom': 'Vereinigtes Königreich',
     'Unlimited artists': 'Unbegrenzte Künstler',
     'Unlimited projects': 'Unbegrenzte Projekte',
-    'Unlimited projects during the trial': 'Unbegrenzte Projekte während der Testphase',
+    'Unlimited projects during the trial':
+        'Unbegrenzte Projekte während der Testphase',
     'Unlimited releases': 'Unbegrenzte Versionen',
     'Unread': 'Ungelesen',
     'Up to 10 MB each.': 'Jeweils bis zu 10 MB.',
     'Up to 3 projects': 'Bis zu 3 Projekte',
     'Upcoming Payments': 'Anstehende Zahlungen',
-    'Updates at 25%, 50%, 75%, and 100%.': 'Updates bei 25 %, 50 %, 75 % und 100 %.',
+    'Updates at 25%, 50%, 75%, and 100%.':
+        'Updates bei 25 %, 50 %, 75 % und 100 %.',
     'Upload': 'Hochladen',
     'Upload Artwork': 'Artwork hochladen',
     'Upload Complete': 'Upload abgeschlossen',
     'Upload master': 'Master hochladen',
     'Upload progress': 'Upload-Fortschritt',
-    'Upload the artwork of the release.': 'Laden Sie das Artwork der Version hoch.',
+    'Upload the artwork of the release.':
+        'Laden Sie das Artwork der Version hoch.',
     'Uploading': 'Wird hochgeladen',
     'Uploading…': 'Wird hochgeladen…',
     'Usage': 'Nutzung',
@@ -2701,10 +2943,12 @@ const Map<String, Map<String, String>> docsSampleTable =
     'Violet': 'Violett',
     'Visa': 'Visa',
     'Visitors': 'Besucher',
-    'Visually separates content into sections': 'Trennt Inhalte optisch in Abschnitte',
+    'Visually separates content into sections':
+        'Trennt Inhalte optisch in Abschnitte',
     'Watermelon': 'Wassermelone',
     'We never share it.': 'Wir geben sie niemals weiter.',
-    'We reply within one business day.': 'Wir antworten innerhalb eines Werktags.',
+    'We reply within one business day.':
+        'Wir antworten innerhalb eines Werktags.',
     'Weak': 'Schwach',
     'Week': 'Woche',
     'Weekend trip photos': 'Fotos vom Wochenendausflug',
@@ -2712,8 +2956,10 @@ const Map<String, Map<String, String>> docsSampleTable =
     'Welcome aboard': 'Willkommen an Bord',
     'Went back': 'Zurückgegangen',
     'What happened?': 'Was ist passiert?',
-    'Where the balance is routed once it clears.': 'Wohin das Guthaben nach der Verrechnung fließt.',
-    'Who can access this workspace.': 'Wer auf diesen Arbeitsbereich zugreifen kann.',
+    'Where the balance is routed once it clears.':
+        'Wohin das Guthaben nach der Verrechnung fließt.',
+    'Who can access this workspace.':
+        'Wer auf diesen Arbeitsbereich zugreifen kann.',
     'Whole Foods Market': 'Whole Foods Market',
     'Whole home': 'Ganzes Haus',
     'William Kim': 'William Kim',
@@ -2744,7 +2990,8 @@ const Map<String, Map<String, String>> docsSampleTable =
     'With submenu': 'Mit Untermenü',
     'With suggestions': 'Mit Vorschlägen',
     'Words': 'Wörter',
-    'Workspace settings were saved.': 'Arbeitsbereich-Einstellungen gespeichert.',
+    'Workspace settings were saved.':
+        'Arbeitsbereich-Einstellungen gespeichert.',
     'Workspaces': 'Arbeitsbereiche',
     'Write a reply...': 'Antwort schreiben...',
     'Writer': 'Autor',
@@ -2752,22 +2999,32 @@ const Map<String, Map<String, String>> docsSampleTable =
     'Year grid': 'Jahresraster',
     'Yearly Activity': 'Jährliche Aktivität',
     'Yellow': 'Gelb',
-    'Yes. Defaults come from the global tokens and every part is overridable through AccordionTheme.': 'Ja. Standardwerte stammen aus den globalen Tokens, und jeder Teil lässt sich über AccordionTheme überschreiben.',
-    'Yes. It follows the WAI-ARIA disclosure pattern and responds to Enter and Space.': 'Ja. Es folgt dem WAI-ARIA-Disclosure-Muster und reagiert auf Enter und Leertaste.',
-    'Yes. Items animate with the theme duration.': 'Ja. Elemente werden mit der Dauer des Designs animiert.',
-    'Yes. Upgrades apply immediately, downgrades next cycle.': 'Ja. Upgrades gelten sofort, Downgrades zum nächsten Zyklus.',
+    'Yes. Defaults come from the global tokens and every part is overridable through AccordionTheme.':
+        'Ja. Standardwerte stammen aus den globalen Tokens, und jeder Teil lässt sich über AccordionTheme überschreiben.',
+    'Yes. It follows the WAI-ARIA disclosure pattern and responds to Enter and Space.':
+        'Ja. Es folgt dem WAI-ARIA-Disclosure-Muster und reagiert auf Enter und Leertaste.',
+    'Yes. Items animate with the theme duration.':
+        'Ja. Elemente werden mit der Dauer des Designs animiert.',
+    'Yes. Upgrades apply immediately, downgrades next cycle.':
+        'Ja. Upgrades gelten sofort, Downgrades zum nächsten Zyklus.',
     'Yesterday': 'Gestern',
     'You are running out of storage space.': 'Ihr Speicherplatz wird knapp.',
-    'You can install components from the CLI.': 'Sie können Komponenten über die CLI installieren.',
+    'You can install components from the CLI.':
+        'Sie können Komponenten über die CLI installieren.',
     'You have a new message.': 'Sie haben eine neue Nachricht.',
-    'You have not met your targets for this year.': 'Sie haben Ihre Ziele für dieses Jahr nicht erreicht.',
-    'You have unsaved changes to this document. Leaving now will lose them.': 'Sie haben ungespeicherte Änderungen in diesem Dokument. Wenn Sie jetzt gehen, gehen sie verloren.',
-    'You must accept the terms to continue.': 'Sie müssen die Bedingungen akzeptieren, um fortzufahren.',
+    'You have not met your targets for this year.':
+        'Sie haben Ihre Ziele für dieses Jahr nicht erreicht.',
+    'You have unsaved changes to this document. Leaving now will lose them.':
+        'Sie haben ungespeicherte Änderungen in diesem Dokument. Wenn Sie jetzt gehen, gehen sie verloren.',
+    'You must accept the terms to continue.':
+        'Sie müssen die Bedingungen akzeptieren, um fortzufahren.',
     'Your file is ready.': 'Ihre Datei ist fertig.',
     'Your invoice is ready': 'Ihre Rechnung ist fertig',
     'Your latest account activity.': 'Ihre neueste Kontoaktivität.',
-    'Your receipt for the annual plan is attached.': 'Ihre Quittung für den Jahrestarif ist angehängt.',
-    'Your subscription is active. A receipt was sent to your inbox.': 'Ihr Abonnement ist aktiv. Eine Quittung wurde an Ihr Postfach gesendet.',
+    'Your receipt for the annual plan is attached.':
+        'Ihre Quittung für den Jahrestarif ist angehängt.',
+    'Your subscription is active. A receipt was sent to your inbox.':
+        'Ihr Abonnement ist aktiv. Eine Quittung wurde an Ihr Postfach gesendet.',
     'Zeta': 'Zeta',
     'Zoom': 'Zoom',
     'Zoom 100%': 'Zoom 100 %',
@@ -2798,12 +3055,14 @@ const Map<String, Map<String, String>> docsSampleTable =
     'per user / month': 'pro Nutzer / Monat',
     'popover fill': 'Popover-Füllung',
     'privacy policy': 'Datenschutzerklärung',
-    'read-only (no click cursor, no tap target)': 'nur lesen (kein Klick-Cursor, kein Tipp-Ziel)',
+    'read-only (no click cursor, no tap target)':
+        'nur lesen (kein Klick-Cursor, kein Tipp-Ziel)',
     'reload futures': 'Futures neu laden',
     'replaces the whole field': 'ersetzt das gesamte Feld',
     'replaces the word': 'ersetzt das Wort',
     'scoped leg': 'gescopter Abschnitt',
-    'scoped theme leg (min 600 / max 1000)': 'gescopter Design-Abschnitt (min 600 / max 1000)',
+    'scoped theme leg (min 600 / max 1000)':
+        'gescopter Design-Abschnitt (min 600 / max 1000)',
     'scoped: inside 600..1000': 'gescopt: innerhalb 600..1000',
     'scoped: outside 600..1000': 'gescopt: außerhalb 600..1000',
     'synchronous value': 'synchroner Wert',
@@ -2815,10 +3074,12 @@ const Map<String, Map<String, String>> docsSampleTable =
     'this card': 'diese Karte',
     'time (length 2)': 'Zeit (Länge 2)',
     'with a padded completion': 'mit gepolstertem Abschluss',
-    'مكتبة dashcn تدعم الاتجاه من اليمين إلى اليسار بشكل كامل مع حركة مستمرة وسلسة': 'Die dashcn-Bibliothek unterstützt Rechts-nach-Links vollständig, mit durchgehend flüssiger Bewegung.',
+    'مكتبة dashcn تدعم الاتجاه من اليمين إلى اليسار بشكل كامل مع حركة مستمرة وسلسة':
+        'Die dashcn-Bibliothek unterstützt Rechts-nach-Links vollständig, mit durchgehend flüssiger Bewegung.',
   },
   'zh_Hant': <String, String>{
-    '"The kit paid for itself the week we adopted it. Every screen ships on-brand, light or dark."': '"團隊採用後的那一週，這套元件就已值回票價。每個畫面都符合品牌風格，無論淺色或深色。"',
+    '"The kit paid for itself the week we adopted it. Every screen ships on-brand, light or dark."':
+        '"團隊採用後的那一週，這套元件就已值回票價。每個畫面都符合品牌風格，無論淺色或深色。"',
     '"We onboarded the whole team in an afternoon."': '"我們在一個下午就完成了整個團隊的導入。"',
     '+1.2 kW': '+1.2 kW',
     '+10.2% vs last quarter': '比上季 +10.2%',
@@ -2858,7 +3119,8 @@ const Map<String, Map<String, String>> docsSampleTable =
     '7.2 of 10 GB': '7.2 / 10 GB',
     '85 shares': '85 次分享',
     'A dialog pushed over a page route.': '推送在頁面路由上方的對話框。',
-    'A longer subtitle that spans multiple lines in the tile.': '在卡片中跨越多行的較長副標題。',
+    'A longer subtitle that spans multiple lines in the tile.':
+        '在卡片中跨越多行的較長副標題。',
     'A modal dialog that interrupts the user': '會打斷使用者的模態對話框',
     'A new update is available.': '有新的更新可用。',
     'A popup that displays information': '顯示資訊的彈出視窗',
@@ -2910,7 +3172,8 @@ const Map<String, Map<String, String>> docsSampleTable =
     'Align left': '靠左對齊',
     'All 42 theme presets': '全部 42 個主題預設',
     'All component categories': '所有元件分類',
-    'All set — refresh the report to see the corrected split.': '完成了 — 重新整理報表即可看到更正後的分配。',
+    'All set — refresh the report to see the corrected split.':
+        '完成了 — 重新整理報表即可看到更正後的分配。',
     'All systems go': '一切正常',
     'Allow others to see your stream count': '允許他人查看您的串流次數',
     'Alpha': 'Alpha',
@@ -2959,7 +3222,8 @@ const Map<String, Map<String, String>> docsSampleTable =
     'Async (failure)': '非同步（失敗）',
     'Async (success)': '非同步（成功）',
     'At least 8 characters': '至少 8 個字元',
-    'At least 8 characters. Changing it signs you out elsewhere.': '至少 8 個字元。變更後，其他裝置上的登入會被登出。',
+    'At least 8 characters. Changing it signs you out elsewhere.':
+        '至少 8 個字元。變更後，其他裝置上的登入會被登出。',
     'Atlas': 'Atlas',
     'Auto Insurance': '汽車保險',
     'Auto-Transfer': '自動轉帳',
@@ -2997,7 +3261,8 @@ const Map<String, Map<String, String>> docsSampleTable =
     'Battery level 85 percent': '電池電量 85%',
     'Beacon': 'Beacon',
     'Beautifully designed components': '設計精美的元件',
-    'Beautifully designed components that you can copy and paste.': '設計精美、可直接複製貼上的元件。',
+    'Beautifully designed components that you can copy and paste.':
+        '設計精美、可直接複製貼上的元件。',
     'Beautifully designed components.': '設計精美的元件。',
     'Beta': 'Beta',
     'Beta channel': 'Beta 版通道',
@@ -3019,7 +3284,8 @@ const Map<String, Map<String, String>> docsSampleTable =
     'Bold': '粗體',
     'Bottom sheet': '底部面板',
     'Bounce rate': '跳出率',
-    'Breaking News: dashcn continuous marquee components now live across all platforms! • Seamless looping with soft edge fades • Fully keyboard accessible': '快訊：dashcn 連續跑馬燈元件已在所有平台上線！• 柔邊淡出無縫循環 • 完整支援鍵盤操作',
+    'Breaking News: dashcn continuous marquee components now live across all platforms! • Seamless looping with soft edge fades • Fully keyboard accessible':
+        '快訊：dashcn 連續跑馬燈元件已在所有平台上線！• 柔邊淡出無縫循環 • 完整支援鍵盤操作',
     'Browse': '瀏覽',
     'Browsers': '瀏覽器',
     'Builders': '建構器',
@@ -3124,7 +3390,8 @@ const Map<String, Map<String, String>> docsSampleTable =
     'Custom row': '自訂列',
     'Custom rows': '自訂列',
     'Custom size': '自訂尺寸',
-    'Custom speed: 75 px/s • Custom gap: 40 px • Custom edge fades • Pinned builder slots': '自訂速度：75 px/s • 自訂間距：40 px • 自訂邊緣淡出 • 固定建構器位置',
+    'Custom speed: 75 px/s • Custom gap: 40 px • Custom edge fades • Pinned builder slots':
+        '自訂速度：75 px/s • 自訂間距：40 px • 自訂邊緣淡出 • 固定建構器位置',
     'Custom theme': '自訂主題',
     'Custom themes': '自訂主題',
     'Custom title and row': '自訂標題與列',
@@ -3144,7 +3411,8 @@ const Map<String, Map<String, String>> docsSampleTable =
     'Dedicated support': '專屬支援',
     'Default': '預設',
     'Default Currency': '預設貨幣',
-    'Define your financial target and we will help pace it.': '設定您的財務目標，我們會協助您規劃進度。',
+    'Define your financial target and we will help pace it.':
+        '設定您的財務目標，我們會協助您規劃進度。',
     'Degraded': '效能降低',
     'Delete': '刪除',
     'Delete account': '刪除帳戶',
@@ -3233,7 +3501,8 @@ const Map<String, Map<String, String>> docsSampleTable =
     'Engineer': '工程師',
     'English subtitles': '英文字幕',
     'Enter a password': '輸入密碼',
-    'Enter the 6-digit code we texted to ···· 1192.': '請輸入我們傳送至 ···· 1192 的 6 位數驗證碼。',
+    'Enter the 6-digit code we texted to ···· 1192.':
+        '請輸入我們傳送至 ···· 1192 的 6 位數驗證碼。',
     'Enter your credentials to access your workspace.': '輸入您的登入資訊以存取工作區。',
     'Enter your details below to continue.': '請在下方輸入您的資料以繼續。',
     'Enter your email below to create your account.': '請在下方輸入電子郵件以建立帳戶。',
@@ -3243,10 +3512,12 @@ const Map<String, Map<String, String>> docsSampleTable =
     'Error fallback': '錯誤後備內容',
     'Estimated Shares': '預估股數',
     'Every deploy is immutable.': '每次部署都不可變更。',
-    'Every deploy is immutable; roll back from the history tab.': '每次部署都不可變更；可從歷史紀錄分頁還原。',
+    'Every deploy is immutable; roll back from the history tab.':
+        '每次部署都不可變更；可從歷史紀錄分頁還原。',
     'Every plan starts with 14 days, no card required.': '每個方案都從 14 天開始，無需信用卡。',
     'Every release measured.': '每個版本都經過量測。',
-    'Every report exports as CSV, including the royalty ledger.': '每份報表都可匯出為 CSV，包含版稅帳本。',
+    'Every report exports as CSV, including the royalty ledger.':
+        '每份報表都可匯出為 CSV，包含版稅帳本。',
     'Everyday backpack': '日常後背包',
     'Everyone with access to this workspace.': '所有有權存取此工作區的人。',
     'Everything': '全部',
@@ -3353,7 +3624,8 @@ const Map<String, Map<String, String>> docsSampleTable =
     'Hue': '色相',
     'Hue strip': '色相條',
     'Hue × Saturation': '色相 × 飽和度',
-    'I see it — that month was prorated after the reissue.': '我了解了 — 那個月在補發後已按比例計算。',
+    'I see it — that month was prorated after the reissue.':
+        '我了解了 — 那個月在補發後已按比例計算。',
     'I see it — that month was prorated.': '我了解了 — 那個月已按比例計算。',
     'Ibrar Ahmed': 'Ibrar Ahmed',
     'Ibrar Ali': 'Ibrar Ali',
@@ -3430,7 +3702,8 @@ const Map<String, Map<String, String>> docsSampleTable =
     'Leo Marchetti': 'Leo Marchetti',
     'Lettuce': '生菜',
     'Library': '資料庫',
-    'Light and dark from one token set': 'helle und dunkle Töne aus einem Token-Set',
+    'Light and dark from one token set':
+        'helle und dunkle Töne aus einem Token-Set',
     'Limit Order': '限價單',
     'Line Chart': '折線圖',
     'Line Chart - Custom Dots': '折線圖 - 自訂圓點',
@@ -3467,7 +3740,8 @@ const Map<String, Map<String, String>> docsSampleTable =
     'Manage plan': '管理方案',
     'Manage storage': '管理儲存空間',
     'Manage your account settings and notifications.': '管理您的帳戶設定與通知。',
-    'Manage your account settings and set your email preferences.': '管理您的帳戶設定並設定電子郵件偏好。',
+    'Manage your account settings and set your email preferences.':
+        '管理您的帳戶設定並設定電子郵件偏好。',
     'Manager': '經理',
     'Mango': '芒果',
     'Many actions': '多項操作',
@@ -3489,20 +3763,23 @@ const Map<String, Map<String, String>> docsSampleTable =
     'Member': '成員',
     'Members': '成員',
     'Mentions and replies': '提及與回覆',
-    'Menus open anchored popovers, like the desktop app.': '選單會像桌面應用程式一樣開啟錨定的彈出層。',
+    'Menus open anchored popovers, like the desktop app.':
+        '選單會像桌面應用程式一樣開啟錨定的彈出層。',
     'Message': '訊息',
     'Message Sent': '訊息已傳送',
     'Metadata': '中繼資料',
     'Method': '方式',
     'Metrics for every release.': '每個版本的指標。',
-    'Midnight City — M83 (Extended Club Mix, 2024 Remaster)': 'Midnight City — M83 (Extended Club Mix, 2024 Remaster)',
+    'Midnight City — M83 (Extended Club Mix, 2024 Remaster)':
+        'Midnight City — M83 (Extended Club Mix, 2024 Remaster)',
     'Midnight Drive — 2026': 'Midnight Drive — 2026',
     'Mini (32)': '迷你（32）',
     'Mini (40)': '迷你（40）',
     'Mini (48)': '迷你（48）',
     'Mini sizes': '迷你尺寸',
     'Minimal': '極簡',
-    'Minimum 3000 × 3000px · JPEG or PNG only': '最小 3000 × 3000 px · 僅限 JPEG 或 PNG',
+    'Minimum 3000 × 3000px · JPEG or PNG only':
+        '最小 3000 × 3000 px · 僅限 JPEG 或 PNG',
     'Minimum Payout Amount': '最低撥款金額',
     'Minimum payout amount': '最低撥款金額',
     'Mint': '薄荷',
@@ -3580,7 +3857,8 @@ const Map<String, Map<String, String>> docsSampleTable =
     'On (disabled)': '開啟（已停用）',
     'On hold': '暫停',
     'One command copies the source in': '一個指令即可複製原始碼',
-    'One email every Monday with everything that happened.': '每週一寄出一封電子郵件，整理一週發生的所有事。',
+    'One email every Monday with everything that happened.':
+        '每週一寄出一封電子郵件，整理一週發生的所有事。',
     'Online MP4': '線上 MP4',
     'Only you have access': '只有您可以存取',
     'Open': '開啟',
@@ -3598,7 +3876,8 @@ const Map<String, Map<String, String>> docsSampleTable =
     'Open scaled drawer': '開啟縮放抽屜',
     'Open settings': '開啟設定',
     'Open sheet': '開啟面板',
-    'Open the Ledger mobile app and scan this code to link.': '開啟 Ledger 行動應用程式並掃描此代碼以連結。',
+    'Open the Ledger mobile app and scan this code to link.':
+        '開啟 Ledger 行動應用程式並掃描此代碼以連結。',
     'Open themed drawer': '開啟主題抽屜',
     'Open top': '開啟頂部',
     'Opened a document': '已開啟文件',
@@ -3855,7 +4134,8 @@ const Map<String, Map<String, String>> docsSampleTable =
     'Select fruits': '選擇水果',
     'Select produce': '選擇農產品',
     'Select row': '選取列',
-    'Select this text to see the custom selection styling.': '選取此文字即可看到自訂的選取樣式。',
+    'Select this text to see the custom selection styling.':
+        '選取此文字即可看到自訂的選取樣式。',
     'Selected': '已選取',
     'Selected state': '已選取狀態',
     'Send': '傳送',
@@ -3999,9 +4279,11 @@ const Map<String, Map<String, String>> docsSampleTable =
     'Tell us what went wrong and we will pick it up.': '請告訴我們發生了什麼問題，我們會接手處理。',
     'Terms': '條款',
     'Terms of service': '服務條款',
-    'That month was prorated after the reissue; I can send the breakdown.': '該月在補發後按比例計算；我可以寄出明細。',
+    'That month was prorated after the reissue; I can send the breakdown.':
+        '該月在補發後按比例計算；我可以寄出明細。',
     'The bank rejected the transfer. Update the IBAN.': '銀行拒絕了這筆轉帳，請更新 IBAN。',
-    'The barrier is locked: tap outside or press Escape does nothing. Use Cancel or Delete to leave.': '遮罩已鎖定：點擊外部或按 Escape 都不會有反應。請使用「取消」或「刪除」離開。',
+    'The barrier is locked: tap outside or press Escape does nothing. Use Cancel or Delete to leave.':
+        '遮罩已鎖定：點擊外部或按 Escape 都不會有反應。請使用「取消」或「刪除」離開。',
     'The message shows only once you type.': '輸入後才會顯示此訊息。',
     'The new mockups are ready.': '新的設計稿已準備好。',
     'The request could not be completed. Please try again.': '無法完成要求，請再試一次。',
@@ -4013,11 +4295,13 @@ const Map<String, Map<String, String>> docsSampleTable =
     'Themed dots': '主題圓點',
     'Third': '第三',
     'Third message': '第三則訊息',
-    'This action cannot be undone. The project and its history is removed.': '此操作無法復原。專案及其歷史紀錄將被移除。',
+    'This action cannot be undone. The project and its history is removed.':
+        '此操作無法復原。專案及其歷史紀錄將被移除。',
     'This cannot be undone.': '此操作無法復原。',
     'This field is required.': '此欄位為必填。',
     'This is how others will see you on the site.': '其他人在網站上會這樣看到您。',
-    'This permanently deletes your account and all of its data. This action cannot be undone.': '此操作將永久刪除您的帳戶及所有資料。此操作無法復原。',
+    'This permanently deletes your account and all of its data. This action cannot be undone.':
+        '此操作將永久刪除您的帳戶及所有資料。此操作無法復原。',
     'This value is not allowed.': '不允許此值。',
     'Thread Reply': '串接回覆',
     'Three': '三',
@@ -4025,7 +4309,8 @@ const Map<String, Map<String, String>> docsSampleTable =
     'Three-line title': '三行標題',
     'Tile': '磚塊',
     'Time': '時間',
-    'Tip: focus a chip and press Backspace to remove it.': '提示：聚焦晶片後按 Backspace 即可移除。',
+    'Tip: focus a chip and press Backspace to remove it.':
+        '提示：聚焦晶片後按 Backspace 即可移除。',
     'Title': '標題',
     'Toggled by the parent': '由父層切換',
     'Toggles': '切換',
@@ -4158,22 +4443,27 @@ const Map<String, Map<String, String>> docsSampleTable =
     'Year grid': '年份格線',
     'Yearly Activity': '年度活動',
     'Yellow': '黃色',
-    'Yes. Defaults come from the global tokens and every part is overridable through AccordionTheme.': '是的。預設值來自全域權杖，且每個部分都可透過 AccordionTheme 覆寫。',
-    'Yes. It follows the WAI-ARIA disclosure pattern and responds to Enter and Space.': '是的。它遵循 WAI-ARIA 揭露模式，並可回應 Enter 與 Space。',
+    'Yes. Defaults come from the global tokens and every part is overridable through AccordionTheme.':
+        '是的。預設值來自全域權杖，且每個部分都可透過 AccordionTheme 覆寫。',
+    'Yes. It follows the WAI-ARIA disclosure pattern and responds to Enter and Space.':
+        '是的。它遵循 WAI-ARIA 揭露模式，並可回應 Enter 與 Space。',
     'Yes. Items animate with the theme duration.': '是的，項目會依主題時長播放動畫。',
-    'Yes. Upgrades apply immediately, downgrades next cycle.': '是的，升級立即生效，降級於下個週期生效。',
+    'Yes. Upgrades apply immediately, downgrades next cycle.':
+        '是的，升級立即生效，降級於下個週期生效。',
     'Yesterday': '昨天',
     'You are running out of storage space.': '儲存空間即將用盡。',
     'You can install components from the CLI.': '您可以透過 CLI 安裝元件。',
     'You have a new message.': '您有一則新訊息。',
     'You have not met your targets for this year.': '您尚未達成今年的目標。',
-    'You have unsaved changes to this document. Leaving now will lose them.': '此文件有未儲存的變更。現在離開將會遺失這些變更。',
+    'You have unsaved changes to this document. Leaving now will lose them.':
+        '此文件有未儲存的變更。現在離開將會遺失這些變更。',
     'You must accept the terms to continue.': '請接受條款以繼續。',
     'Your file is ready.': '您的檔案已準備好。',
     'Your invoice is ready': '您的帳單已準備好',
     'Your latest account activity.': '您最新的帳戶活動。',
     'Your receipt for the annual plan is attached.': '年度方案的收據已附上。',
-    'Your subscription is active. A receipt was sent to your inbox.': '您的訂閱已啟用，收據已寄至您的收件匣。',
+    'Your subscription is active. A receipt was sent to your inbox.':
+        '您的訂閱已啟用，收據已寄至您的收件匣。',
     'Zeta': '澤塔',
     'Zoom': '縮放',
     'Zoom 100%': '縮放 100%',
@@ -4221,6 +4511,7 @@ const Map<String, Map<String, String>> docsSampleTable =
     'this card': '此卡片',
     'time (length 2)': '時間（長度 2）',
     'with a padded completion': '含內距的完成狀態',
-    'مكتبة dashcn تدعم الاتجاه من اليمين إلى اليسار بشكل كامل مع حركة مستمرة وسلسة': 'dashcn 函式庫完整支援從右到左的排版，並搭配流暢的連續動態效果。',
+    'مكتبة dashcn تدعم الاتجاه من اليمين إلى اليسار بشكل كامل مع حركة مستمرة وسلسة':
+        'dashcn 函式庫完整支援從右到左的排版，並搭配流暢的連續動態效果。',
   },
 };
