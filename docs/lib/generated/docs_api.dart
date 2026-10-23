@@ -6634,7 +6634,7 @@ const Map<String, DocsApiTable> kApiTables = <String, DocsApiTable>{
         type: 'bool',
         isRequired: false,
         defaultValue: 'false',
-        doc: 'Icon-only 56 px rail with tooltips; labels hide.',
+        doc: 'Icon-only 64 px rail with tooltips; labels hide.',
       ),
       DocsApiParam(
         name: 'onToggleCollapsed',

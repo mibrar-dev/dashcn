@@ -336,7 +336,17 @@ class _CommandResults extends StatelessWidget {
   }
 
   Widget _buildList(List<Widget> items) {
-    return ListView(shrinkWrap: true, padding: listPadding, children: items);
+    // The list padding sits outside the scrollable so result rows run
+    // full-bleed edge to edge (the menu-surface precedent): visuals are
+    // identical, and every row keeps an uninterrupted 32 px hit area.
+    return Padding(
+      padding: listPadding,
+      child: ListView(
+        shrinkWrap: true,
+        padding: EdgeInsets.zero,
+        children: items,
+      ),
+    );
   }
 }
 

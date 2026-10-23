@@ -1,6 +1,6 @@
 // Widget tests for the `menubar` component: horizontal layout, the
 // border/background surface, all four MenubarTheme legs, submenu placement,
-// disabled rows, light/dark tokens and real sizes (row 32, bar 40).
+// disabled rows, light/dark tokens and real sizes (triggers 28, bar 36).
 
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
@@ -85,10 +85,36 @@ void main() {
     expect(edit.dx, greaterThan(file.dx));
   });
 
-  testWidgets('default bar is 56 high: 48px row + p-1', (tester) async {
+  testWidgets('default bar is 36 high: 28px triggers + p-1', (tester) async {
     await tester.pumpWidget(_frame(_bar()));
     await tester.pump();
-    expect(tester.getSize(find.byType(Menubar)).height, 56);
+    expect(tester.getSize(find.byType(Menubar)).height, 36);
+  });
+
+  testWidgets('bar triggers are 28 px with 8/4 padding', (tester) async {
+    await tester.pumpWidget(_frame(_bar()));
+    await tester.pump();
+    final Finder file = find.ancestor(
+      of: find.text('File'),
+      matching: find.byType(RovingRow),
+    );
+    expect(tester.getSize(file).height, 28);
+    final RovingRow row = tester.widget<RovingRow>(file);
+    final EdgeInsets padding = (row.padding! as EdgeInsets).resolve(
+      TextDirection.ltr,
+    );
+    expect(padding.left, 8);
+    expect(padding.top, 4);
+  });
+
+  testWidgets('bar triggers show no chevron for their submenu', (tester) async {
+    await tester.pumpWidget(_frame(_bar()));
+    await tester.pump();
+    final Finder file = find.ancestor(
+      of: find.text('File'),
+      matching: find.byType(RovingRow),
+    );
+    expect(tester.widget<RovingRow>(file).showChevron, isFalse);
   });
 
   testWidgets('paints background, border and radius tokens by default', (

@@ -513,9 +513,12 @@ class NavigationMenuContent extends StatelessWidget {
             },
       leading: leading,
       trailing: trailing,
+      // SIZING.md: the title and the description sit 4 px apart inside one
+      // item (the Basic default); the list below spaces items 8 px apart.
       child: Basic(
         title: title.medium(),
         content: _clamped(content)?.muted(),
+        titleSpacing: 4,
         mainAxisAlignment: MainAxisAlignment.start,
       ),
     );
@@ -546,7 +549,8 @@ class NavigationMenuContentList extends StatelessWidget {
     final ThemeData ambient = Theme.of(context);
     final double scale = ambient.scaling;
     final double gap = spacing ?? ambient.density.baseGap * scale;
-    final double rowGap = runSpacing ?? 12 * scale;
+    // SIZING.md: 8 px between items (the 4 px scale), in both directions.
+    final double rowGap = runSpacing ?? 8 * scale;
     final List<Widget> ordered = reverse
         ? children.reversed.toList()
         : children;

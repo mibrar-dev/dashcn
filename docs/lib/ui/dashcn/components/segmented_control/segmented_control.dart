@@ -280,6 +280,15 @@ class _SegmentedControlState<T> extends State<SegmentedControl<T>> {
       segments: segments,
       widths: _widths.values,
       margin: margin,
+      // Touch platforms stretch the segments to the grown box (48 px hit
+      // areas with 28 px visuals); desktop insets them inside the track.
+      segmentPadding: padding,
+      linePadding: boxHeight > trackHeight
+          ? EdgeInsets.zero
+          : EdgeInsets.only(
+              top: margin + padding.top,
+              bottom: margin + padding.bottom,
+            ),
       boxHeight: boxHeight,
       rtl: rtl,
       measured: measured,
@@ -287,7 +296,10 @@ class _SegmentedControlState<T> extends State<SegmentedControl<T>> {
       line: line,
     );
 
-    final Widget surface = Padding(padding: padding, child: stack);
+    // The track paints the requested height and centres in the control's
+    // box, so the touch growth stays invisible; the segments sit inside
+    // the track with the control padding as their visible inset.
+    final Widget surface = stack;
 
     return RovingGroupScope<T>(
       registry: _registry,

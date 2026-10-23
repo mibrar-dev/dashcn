@@ -19472,8 +19472,8 @@ class _CommandPaletteState extends State<_CommandPalette> {
                     for (final String value in ranked) {
                       items.add(
                         SubFocusListItem(
-                          // 48px rows meet the touch minimum.
-                          minHeight: 48,
+                          // SIZING.md rows are 32 px on every platform.
+                          minHeight: 32,
                           title: Text(value),
                           onTap: () => setState(() => _lastCommand = value),
                         ),
@@ -19600,8 +19600,8 @@ class _CommandPaletteState extends State<_CommandPalette> {
                     for (final String value in ranked) {
                       items.add(
                         SubFocusListItem(
-                          // 48px rows meet the touch minimum.
-                          minHeight: 48,
+                          // SIZING.md rows are 32 px on every platform.
+                          minHeight: 32,
                           title: Text(value),
                           onTap: () => setState(() => _lastCommand = value),
                         ),
@@ -19697,7 +19697,7 @@ class _CommandDialogTrigger extends StatelessWidget {
     final List<String> ranked = rankCommandLabels(_commandValues, query);
     yield <Widget>[
       for (final String value in ranked)
-        SubFocusListItem(minHeight: 48, title: Text(value)),
+        SubFocusListItem(minHeight: 32, title: Text(value)),
     ];
   }
 
@@ -19736,7 +19736,8 @@ const List<String> _commandValues = <String>[
   'Settings',
 ];
 
-/// A customized palette: widget-leg theme override (tinted fill).
+/// A customized palette: widget-leg theme override (muted tint that stays
+/// readable in light and dark mode).
 Widget _commandCustomized(BuildContext context) {
   return Center(
     child: SizedBox(
@@ -19746,7 +19747,7 @@ Widget _commandCustomized(BuildContext context) {
         child: Command(
           debounceDuration: Duration.zero,
           theme: const CommandTheme(
-            background: ThemedColor.value(Color(0xFFF0FDF4)),
+            background: ThemedColor.ref(ColorRef.muted),
           ),
           builder: (context, query) async* {
             final List<String> ranked = rankCommandLabels(
@@ -19755,7 +19756,7 @@ Widget _commandCustomized(BuildContext context) {
             );
             yield <Widget>[
               for (final String value in ranked)
-                SubFocusListItem(minHeight: 48, title: Text(value)),
+                SubFocusListItem(minHeight: 32, title: Text(value)),
             ];
           },
         ),
@@ -21811,6 +21812,7 @@ Widget _breadcrumbResponsive(BuildContext context) => const _ResponsiveTrail();
       builder: '_default',
       code: r'''import 'package:flutter/widgets.dart';
 import 'package:<your_app>/ui/dashcn/foundation/icons/radix_icons.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
 import 'package:<your_app>/ui/dashcn/components/navigation_bar/navigation_bar.dart';
 
 /// Shared bar items for the horizontal examples.
@@ -21862,6 +21864,7 @@ Widget _default(BuildContext context) =>
       builder: '_withLabels',
       code: r'''import 'package:flutter/widgets.dart';
 import 'package:<your_app>/ui/dashcn/foundation/icons/radix_icons.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
 import 'package:<your_app>/ui/dashcn/components/navigation_bar/navigation_bar.dart';
 
 /// Shared bar items for the horizontal examples.
@@ -21913,6 +21916,7 @@ Widget _withLabels(BuildContext context) =>
       builder: '_sidebar',
       code: r'''import 'package:flutter/widgets.dart';
 import 'package:<your_app>/ui/dashcn/foundation/icons/radix_icons.dart';
+import 'package:<your_app>/ui/dashcn/theme/theme.dart';
 import 'package:<your_app>/ui/dashcn/components/navigation_bar/navigation_bar.dart';
 
 /// Shared bar items for the horizontal examples.
@@ -21943,13 +21947,38 @@ class _SidebarDemoState extends State<_SidebarDemo> {
 
   @override
   Widget build(BuildContext context) {
+    final ThemeData theme = Theme.of(context);
+    // Tall enough for the header, both groups, the expanded collapsible
+    // children and the footer with no scrolling.
     return SizedBox(
-      width: 260,
-      height: 320,
+      width: 256,
+      height: 420,
       child: NavigationBar(
         container: NavigationContainerType.sidebar,
         index: _index,
         onSelected: (int value) => setState(() => _index = value),
+        header: <Widget>[
+          Padding(
+            padding: const EdgeInsets.fromLTRB(8, 8, 8, 4),
+            child: Text(
+              'Acme Inc',
+              style: theme.typography.small.copyWith(
+                fontWeight: FontWeight.w600,
+              ),
+            ),
+          ),
+        ],
+        footer: <Widget>[
+          Padding(
+            padding: const EdgeInsets.fromLTRB(8, 4, 8, 8),
+            child: Text(
+              'v1.0.0',
+              style: theme.typography.xSmall.copyWith(
+                color: theme.colors.mutedForeground,
+              ),
+            ),
+          ),
+        ],
         children: <NavigationBarItem>[
           const NavigationLabel(child: Text('Main')),
           ..._barItems(),
@@ -22018,6 +22047,7 @@ Widget _featuredTile(ThemeData theme) {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           const Text('dashcn').small().medium(),
+          const SizedBox(height: 4),
           const Text('Beautifully designed components').muted().small(),
         ],
       ),
@@ -22041,11 +22071,13 @@ Widget _gettingStarted(ThemeData theme) {
               content: Text('Re-usable components for your apps'),
               onPressed: _noop,
             ),
+            SizedBox(height: 8),
             NavigationMenuContent(
               title: Text('Installation'),
               content: Text('How to install dependencies and code'),
               onPressed: _noop,
             ),
+            SizedBox(height: 8),
             NavigationMenuContent(
               title: Text('Typography'),
               content: Text('Styles for headings and paragraphs'),
@@ -22328,7 +22360,7 @@ import 'package:<your_app>/ui/dashcn/components/sidebar/sidebar.dart';
 ///
 /// Tracks the density phone breakpoint ([kPhoneWidthBreakpoint], 600 px) so
 /// the docs 295 px example stage (375 px viewport) and any narrow stage use
-/// the phone bar (no 240 px rail) instead of overflowing.
+/// the phone bar (no 256 px rail) instead of overflowing.
 const double kSidebarPhoneWidth = kPhoneWidthBreakpoint;
 
 /// Fallback shell height when the stage leaves the height unbounded.
@@ -22564,7 +22596,7 @@ class _PhoneDemoState extends State<_PhoneDemo> {
 
 /// Full sidebar beside content on wide stages, phone bar + drawer below
 /// [kSidebarPhoneWidth] (the density phone breakpoint). Narrow desktop
-/// stages use the collapsed 56 px rail so the 240 px rail never overflows
+/// stages use the collapsed 64 px rail so the 256 px rail never overflows
 /// the docs 560 px example stage; the content column scrolls vertically
 /// when the stage height is bounded. Collapse control and account footer
 /// included.
@@ -22599,7 +22631,7 @@ class _DashboardDemoState extends State<_DashboardDemo> {
           // Docs stages (560 px at 1440 px viewports, 295 px at 375 px
           // viewports which take the phone branch above) stay overflow-free:
           // tight desktop widths keep the collapsed rail (narrower sidebar
-          // inside the stage) instead of forcing the full 240 px rail.
+          // inside the stage) instead of forcing the full 256 px rail.
           final bool narrowStage = width < 720;
           body = Row(
             crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -22624,7 +22656,7 @@ class _DashboardDemoState extends State<_DashboardDemo> {
   }
 }
 
-/// Collapsed 56 px icon rail beside content, with tooltips on every row.
+/// Collapsed 64 px icon rail beside content, with tooltips on every row.
 /// Below [kSidebarPhoneWidth] the rail stays beside a squeezed content
 /// column (both fit the 295 px phone stage).
 class _CollapsedDemo extends StatefulWidget {
@@ -22975,7 +23007,7 @@ import 'package:<your_app>/ui/dashcn/components/sidebar/sidebar.dart';
 ///
 /// Tracks the density phone breakpoint ([kPhoneWidthBreakpoint], 600 px) so
 /// the docs 295 px example stage (375 px viewport) and any narrow stage use
-/// the phone bar (no 240 px rail) instead of overflowing.
+/// the phone bar (no 256 px rail) instead of overflowing.
 const double kSidebarPhoneWidth = kPhoneWidthBreakpoint;
 
 /// Fallback shell height when the stage leaves the height unbounded.
@@ -23117,7 +23149,7 @@ class _DemoContent extends StatelessWidget {
   }
 }
 
-/// Collapsed 56 px icon rail beside content, with tooltips on every row.
+/// Collapsed 64 px icon rail beside content, with tooltips on every row.
 /// Below [kSidebarPhoneWidth] the rail stays beside a squeezed content
 /// column (both fit the 295 px phone stage).
 class _CollapsedDemo extends StatefulWidget {
@@ -26274,14 +26306,16 @@ class _ProfileCard extends StatelessWidget {
   }
 }
 
-/// A customized surface: widget-leg theme override (tinted fill, no border).
+/// A customized surface: widget-leg theme override (tinted fill). The fill
+/// and the text come from the paired `secondary` tokens so the text stays
+/// readable in light and dark mode alike.
 Widget _customized(BuildContext context) {
   return const SizedBox(
     width: 220,
     child: MenuPopup(
       theme: MenuPopupTheme(
-        background: ThemedColor.value(Color(0xFFF0FDF4)),
-        borderWidth: 0,
+        background: ThemedColor.ref(ColorRef.secondary),
+        foreground: ThemedColor.ref(ColorRef.secondaryForeground),
       ),
       children: <Widget>[_ProfileCard()],
     ),

@@ -34,6 +34,7 @@ Widget _featuredTile(ThemeData theme) {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           const Text('dashcn').small().medium(),
+          const SizedBox(height: 4),
           const Text('Beautifully designed components').muted().small(),
         ],
       ),
@@ -57,11 +58,13 @@ Widget _gettingStarted(ThemeData theme) {
               content: Text('Re-usable components for your apps'),
               onPressed: _noop,
             ),
+            SizedBox(height: 8),
             NavigationMenuContent(
               title: Text('Installation'),
               content: Text('How to install dependencies and code'),
               onPressed: _noop,
             ),
+            SizedBox(height: 8),
             NavigationMenuContent(
               title: Text('Typography'),
               content: Text('Styles for headings and paragraphs'),

@@ -113,7 +113,9 @@ class MenuPopupSurface extends StatelessWidget {
         borderRadius: radius,
         boxShadow: shadows,
       ),
-      child: DefaultTextStyle(
+      // Merge, never replace: the surface only supplies the content colour;
+      // the ambient family, size and weight stay intact.
+      child: DefaultTextStyle.merge(
         style: TextStyle(color: fg),
         child: IconTheme.merge(
           data: IconThemeData(color: fg),

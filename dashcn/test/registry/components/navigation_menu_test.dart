@@ -273,6 +273,38 @@ void main() {
       expect(panel.top, greaterThanOrEqualTo(bar.bottom - 1));
     });
 
+    testWidgets('panel carries 16 px content padding', (tester) async {
+      await _openStartPanel(tester);
+      final OutlinedContainer surface = tester.widget<OutlinedContainer>(
+        find.byType(OutlinedContainer),
+      );
+      expect(surface.padding, const EdgeInsets.all(16));
+    });
+
+    testWidgets('titles sit 4 px above their descriptions', (tester) async {
+      await tester.pumpWidget(_frame(child: _menu()));
+      final TestGesture mouse = await _mouse(tester);
+      await _moveTo(tester, mouse, find.text('Products'));
+      final Finder gaps = find.descendant(
+        of: find.byType(OutlinedContainer),
+        matching: find.byWidgetPredicate(
+          (Widget widget) =>
+              widget is SizedBox && widget.height == 4 && widget.width == null,
+        ),
+      );
+      expect(gaps, findsOneWidget);
+    });
+
+    testWidgets('content list spaces rows 8 px apart', (tester) async {
+      // Six entries in two columns make three rows with two 8 px gaps.
+      await _openStartPanel(tester);
+      final Finder gaps = find.byWidgetPredicate(
+        (Widget widget) =>
+            widget is SizedBox && widget.height == 8 && widget.width == null,
+      );
+      expect(gaps, findsNWidgets(2));
+    });
+
     testWidgets('small content hugs instead of stretching', (tester) async {
       await tester.pumpWidget(_frame(child: _menu()));
       final TestGesture mouse = await _mouse(tester);

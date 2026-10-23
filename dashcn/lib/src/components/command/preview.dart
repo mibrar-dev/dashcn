@@ -66,8 +66,8 @@ class _CommandPaletteState extends State<_CommandPalette> {
                     for (final String value in ranked) {
                       items.add(
                         SubFocusListItem(
-                          // 48px rows meet the touch minimum.
-                          minHeight: 48,
+                          // SIZING.md rows are 32 px on every platform.
+                          minHeight: 32,
                           title: Text(value),
                           onTap: () => setState(() => _lastCommand = value),
                         ),
@@ -145,7 +145,7 @@ class _CommandDialogTrigger extends StatelessWidget {
     final List<String> ranked = rankCommandLabels(_commandValues, query);
     yield <Widget>[
       for (final String value in ranked)
-        SubFocusListItem(minHeight: 48, title: Text(value)),
+        SubFocusListItem(minHeight: 32, title: Text(value)),
     ];
   }
 
@@ -163,7 +163,8 @@ class _CommandDialogTrigger extends StatelessWidget {
 
 Widget _commandDialog(BuildContext context) => const _CommandDialogTrigger();
 
-/// A customized palette: widget-leg theme override (tinted fill).
+/// A customized palette: widget-leg theme override (muted tint that stays
+/// readable in light and dark mode).
 Widget _commandCustomized(BuildContext context) {
   return Center(
     child: SizedBox(
@@ -173,7 +174,7 @@ Widget _commandCustomized(BuildContext context) {
         child: Command(
           debounceDuration: Duration.zero,
           theme: const CommandTheme(
-            background: ThemedColor.value(Color(0xFFF0FDF4)),
+            background: ThemedColor.ref(ColorRef.muted),
           ),
           builder: (context, query) async* {
             final List<String> ranked = rankCommandLabels(
@@ -182,7 +183,7 @@ Widget _commandCustomized(BuildContext context) {
             );
             yield <Widget>[
               for (final String value in ranked)
-                SubFocusListItem(minHeight: 48, title: Text(value)),
+                SubFocusListItem(minHeight: 32, title: Text(value)),
             ];
           },
         ),
