@@ -81,7 +81,10 @@ class ThemingPage extends StatelessWidget {
             code: kThemingSamples['token-pair']!.code,
             language: 'dart',
           ),
-          const HeadingAnchor(id: 'theme-tokens', title: 'Theme Tokens'),
+          HeadingAnchor(
+            id: 'theme-tokens',
+            title: docsProse2(locale, 'proseThemeTokensH'),
+          ),
           TypesetParagraph(
             'These ${kThemeTokens.length} tokens are defined for both '
             'brightnesses in every preset, plus the radius factor.',
