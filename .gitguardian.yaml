@@ -1,5 +1,0 @@
-version: 2
-paths-ignore:
-  # Generated registry manifest: its content hashes (64-char hex) under block file names
-  # containing "password" are flagged as generic passwords. The file holds metadata only.
-  - "dashcn/lib/src/manifests/registry.json"
