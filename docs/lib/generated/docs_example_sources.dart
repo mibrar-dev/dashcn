@@ -10044,6 +10044,17 @@ class _DataTableState extends State<_DataTable> {
                 ],
               ),
             ),
+            // Narrow frames cut the last column: say the grid scrolls sideways.
+            if (MediaQuery.widthOf(context) < 600) ...<Widget>[
+              Gap(theme.spacing.sm),
+              Text(
+                'Scroll sideways for more columns',
+                style: TextStyle(
+                  fontSize: 12,
+                  color: theme.colors.mutedForeground,
+                ),
+              ),
+            ],
             Gap(theme.spacing.md),
             Builder(
               builder: (context) {

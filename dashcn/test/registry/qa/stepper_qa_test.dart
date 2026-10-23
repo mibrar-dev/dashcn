@@ -83,7 +83,8 @@ void main() {
   testWidgets('Default preview: tapping a step advances the stepper', (
     tester,
   ) async {
-    await _pumpPreview(tester, stepperPreviews[0]);
+    // Wide enough for every label: narrow widths collapse them by design.
+    await _pumpPreview(tester, stepperPreviews[0], width: 900);
     expect(find.text('Account'), findsOneWidget);
     // The indicator ring is the tap target (titles are labels by design).
     await tester.tap(find.byType(StepperIndicator).at(2));
@@ -111,7 +112,7 @@ void main() {
   });
 
   testWidgets('Failed step preview flags the first step', (tester) async {
-    await _pumpPreview(tester, stepperPreviews[3]);
+    await _pumpPreview(tester, stepperPreviews[3], width: 900);
     expect(find.text('Account'), findsOneWidget);
     expect(tester.takeException(), isNull);
   });

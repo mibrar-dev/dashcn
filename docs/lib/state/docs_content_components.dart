@@ -35,6 +35,7 @@ const List<String> kDocsContentComponentKeys = <String>[
   'cmpDesc_pinned_sheet',
   'cmpDesc_table',
   'cmpDesc_timeline',
+  'cmpDesc_timeline_animation',
   'cmpDesc_tracker',
   'cmpDesc_tree',
   'cmpDesc_calendar',
@@ -211,6 +212,8 @@ const Map<String, Map<String, String>> _values = <String, Map<String, String>>{
         'Themed data grid with span-aware cells, frozen rows/columns, scrolling and optional column/row resizing.',
     'cmpDesc_timeline':
         'Vertical three-column event timeline: time label, indicator dot with connector, title and content.',
+    'cmpDesc_timeline_animation':
+        "Typed keyframe timeline: turns an AnimationController's 0..1 progress into values segment by segment.",
     'cmpDesc_tracker':
         'A row of coloured activity segments, each with a hover tooltip.',
     'cmpDesc_tree':
