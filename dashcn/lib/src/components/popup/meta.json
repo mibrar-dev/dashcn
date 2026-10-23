@@ -16,6 +16,7 @@
     "foundation": [],
     "theme": [
       "theme",
+      "density",
       "density_tokens"
     ],
     "primitives": [

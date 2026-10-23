@@ -368,7 +368,7 @@ void main() {
 
     // tabs_style.dart `tabsDefaults` derives `containerPadding` (p-[3px]) and
     // `tabPadding` (px-2) from density; `tabs.dart` resolves both.
-    testWidgets('tabs: p-[3px] strip and px-2 pills scale', (tester) async {
+    testWidgets('tabs: p-1 strip and px-2 pills scale', (tester) async {
       EdgeInsets stripPadding() =>
           (tester
                   .widget<Container>(
@@ -386,7 +386,7 @@ void main() {
         await tester.pumpWidget(auditFrame(density: density, child: _tabs()));
         measured.add(stripPadding());
       }
-      expectScaled(measured, horizontal: 3, vertical: 3, label: 'tabs strip');
+      expectScaled(measured, horizontal: 4, vertical: 4, label: 'tabs strip');
     });
   });
 }

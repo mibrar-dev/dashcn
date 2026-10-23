@@ -25,6 +25,7 @@ class SegmentedControlMetrics {
     required this.gap,
     required this.padding,
     required this.trackHeight,
+    required this.segmentHeight,
     required this.boxHeight,
     required this.margin,
   });
@@ -38,11 +39,15 @@ class SegmentedControlMetrics {
   /// The gap between two segments.
   final double gap;
 
-  /// The padding between the track and the control's box.
+  /// The inset of the segments and the sliding thumb inside the painted
+  /// track (the visible frame around the segments).
   final EdgeInsets padding;
 
   /// The height of the painted track.
   final double trackHeight;
+
+  /// The height of the segments and the sliding thumb inside the track.
+  final double segmentHeight;
 
   /// The height of the control's box (the track plus the touch growth).
   final double boxHeight;
@@ -104,6 +109,12 @@ class SegmentedControlWidths {
 ///
 /// [controlStyle] holds the control's own values and [segmentStyle] the
 /// segment's; the size table fills the gaps the styles leave.
+///
+/// SIZING.md bars: the painted track keeps [height] (36 default) on every
+/// platform; the segments and the sliding thumb are 28 px, centred in the
+/// track with the control padding as the visible inset. On a touch platform
+/// the control's *box* grows to the platform tap minimum and the growth is
+/// transparent space around the painted track.
 SegmentedControlMetrics segmentedControlMetrics({
   required BuildContext context,
   required SegmentedControlStyle controlStyle,
@@ -120,7 +131,11 @@ SegmentedControlMetrics segmentedControlMetrics({
     ambient.density.baseContentPadding * ambient.scaling,
   ).resolve(Directionality.of(context));
 
-  final double trackHeight = math.max(height - padding.vertical, 0);
+  // The track paints the full requested height; the segments sit inside it
+  // with the control padding as the visible inset (the tabs-strip look:
+  // 28 px segments in a 36 px track).
+  final double trackHeight = height;
+  final double segmentHeight = math.max(height - padding.vertical, 0);
   final bool touch =
       isMobile(ambient.platform) &&
       ambient.touchTargets != TouchTargets.shrinkWrap;
@@ -133,6 +148,7 @@ SegmentedControlMetrics segmentedControlMetrics({
     gap: gap,
     padding: padding,
     trackHeight: trackHeight,
+    segmentHeight: segmentHeight,
     boxHeight: boxHeight,
     margin: (boxHeight - trackHeight) / 2,
   );

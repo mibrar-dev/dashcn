@@ -4,8 +4,8 @@
 // Structure: a header (logo or app name plus a collapse control), grouped
 // navigation sections with 12 px muted labels, 32 px rows with a 16 px icon,
 // label, optional badge and optional trailing chevron for sub-menus, and a
-// footer account row (avatar, name, email, dropdown). The rail is 240 px
-// expanded and 56 px collapsed (icons only, with tooltips).
+// footer account row (avatar, name, email, dropdown). The rail is 256 px
+// expanded and 64 px collapsed (icons only, with tooltips).
 //
 // The same widget works in a drawer: place it directly in an `openDrawer`
 // builder — it sizes itself to the rail width and fills the given height,
@@ -147,7 +147,7 @@ class DashboardSidebar extends StatefulWidget {
   /// Called with the tapped row's identity.
   final ValueChanged<String>? onSelected;
 
-  /// Icon-only 56 px rail with tooltips; labels hide.
+  /// Icon-only 64 px rail with tooltips; labels hide.
   final bool collapsed;
 
   /// Called when the header collapse control is pressed; null hides it.
@@ -581,20 +581,23 @@ class _SidebarNav extends StatelessWidget {
         continue;
       }
       if (section.label != null) {
+        // SIZING.md: group labels are 32 px rows; the text sits at the
+        // row's start so icon columns line up with the rows below.
         groups.add(
-          Padding(
-            padding: EdgeInsets.fromLTRB(
-              theme.spacing.sm,
-              groups.isEmpty ? theme.spacing.xs : theme.spacing.sm,
-              theme.spacing.sm,
-              theme.spacing.xs,
-            ),
-            child: Text(
-              section.label!,
-              style: theme.typography.xSmall.copyWith(
-                fontSize: kSidebarGroupLabelSize,
-                color: groupLabel,
-                fontWeight: FontWeight.w500,
+          SizedBox(
+            height: 32,
+            child: Align(
+              alignment: AlignmentDirectional.centerStart,
+              child: Padding(
+                padding: EdgeInsets.symmetric(horizontal: theme.spacing.sm),
+                child: Text(
+                  section.label!,
+                  style: theme.typography.xSmall.copyWith(
+                    fontSize: kSidebarGroupLabelSize,
+                    color: groupLabel,
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
               ),
             ),
           ),
@@ -669,7 +672,11 @@ class _SidebarRow extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final ThemeData theme = Theme.of(context);
-    final double itemHeight = style.itemHeight ?? kSidebarItemHeight;
+    // SIZING.md: top-level rows are 32 px, nested sub-menu rows 28 px; an
+    // explicit theme height wins for every depth.
+    final double rowHeight =
+        style.itemHeight ??
+        (entry.depth > 0 ? kSidebarSubItemHeight : kSidebarItemHeight);
     final double iconSize = style.iconSize ?? kSidebarIconSize;
     final Color foreground =
         (selected
@@ -690,6 +697,15 @@ class _SidebarRow extends StatelessWidget {
       size: iconSize,
       color: foreground,
     );
+    // `rowHeight` is a border-box total like the menu rows: the Clickable
+    // padding wraps the ConstrainedBox, so the inner minimum reserves it.
+    final double paddingVertical = padding
+        .resolve(Directionality.of(context))
+        .vertical;
+    final double innerMin = (rowHeight - paddingVertical).clamp(
+      0,
+      double.infinity,
+    );
     final Widget tappable;
     if (collapsed) {
       tappable = Clickable(
@@ -703,7 +719,7 @@ class _SidebarRow extends StatelessWidget {
           return const BoxDecoration();
         }),
         child: ConstrainedBox(
-          constraints: BoxConstraints(minHeight: itemHeight),
+          constraints: BoxConstraints(minHeight: rowHeight),
           child: Center(child: icon),
         ),
       );
@@ -726,7 +742,7 @@ class _SidebarRow extends StatelessWidget {
       }),
       padding: WidgetStatePropertyAll<EdgeInsetsGeometry>(padding),
       child: ConstrainedBox(
-        constraints: BoxConstraints(minHeight: itemHeight),
+        constraints: BoxConstraints(minHeight: innerMin),
         child: Row(
           children: <Widget>[
             if (entry.depth > 0)

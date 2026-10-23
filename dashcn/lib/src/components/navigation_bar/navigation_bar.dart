@@ -172,7 +172,12 @@ class _NavigationBarState extends State<NavigationBar> {
       labelPosition:
           widget.labelPosition ??
           style.labelPosition ??
-          NavigationLabelPosition.bottom,
+          // SIZING.md: vertical rails and sidebars lay the 16 px icon and
+          // the label out in a row; only the horizontal bar stacks the label
+          // under the icon.
+          (direction == Axis.vertical
+              ? NavigationLabelPosition.end
+              : NavigationLabelPosition.bottom),
       labelSize:
           widget.labelSize ?? style.labelSize ?? NavigationLabelSize.small,
       selectedIndex: widget.index,
@@ -268,8 +273,8 @@ class _NavigationBarState extends State<NavigationBar> {
         widget.constraints ??
         (container == NavigationContainerType.sidebar
             ? BoxConstraints(
-                minWidth: 200 * ambient.scaling,
-                maxWidth: 200 * ambient.scaling,
+                minWidth: 256 * ambient.scaling,
+                maxWidth: 256 * ambient.scaling,
               )
             : null);
     return constraints == null

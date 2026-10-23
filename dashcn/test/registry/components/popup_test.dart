@@ -4,6 +4,7 @@
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:dashcn/src/components/popup/popup.dart';
+import 'package:dashcn/src/components/popup/preview.dart';
 import 'package:dashcn/src/theme/color_tokens.dart';
 import 'package:dashcn/src/theme/theme.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -110,6 +111,80 @@ void main() {
         tester.getTopLeft(find.byType(MenuPopup)).dy,
         greaterThanOrEqualTo(anchorBottom),
       );
+    });
+
+    testWidgets('free-content popup defaults to 8 px inner padding', (
+      tester,
+    ) async {
+      late BuildContext host;
+      await tester.pumpWidget(_frame(_trigger((c) => host = c)));
+      await tester.pump();
+      showPopup<void>(
+        context: host,
+        builder: (context) => const Text('Signed in'),
+      );
+      await tester.pump();
+      await tester.pump(const Duration(milliseconds: 300));
+      final Container surface = tester.widget<Container>(
+        find
+            .descendant(
+              of: find.byType(MenuPopup),
+              matching: find.byType(Container),
+            )
+            .first,
+      );
+      expect(surface.padding, const EdgeInsets.all(8));
+    });
+
+    testWidgets('anchored example opens on tap and stays on screen', (
+      tester,
+    ) async {
+      // The docs Anchored example scrolled to the viewport bottom edge: the
+      // popup flips above the trigger instead of opening off screen.
+      await tester.pumpWidget(
+        Theme(
+          data: const ThemeData(),
+          child: Directionality(
+            textDirection: TextDirection.ltr,
+            child: MediaQuery(
+              data: const MediaQueryData(size: Size(1280, 800)),
+              child: Overlay(
+                initialEntries: <OverlayEntry>[
+                  OverlayEntry(
+                    builder: (context) => SingleChildScrollView(
+                      child: Column(
+                        children: <Widget>[
+                          const SizedBox(height: 1200),
+                          Builder(
+                            builder: (context) =>
+                                popupPreviews[1].builder(context),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ),
+      );
+      await tester.pump();
+      await tester.drag(
+        find.byType(SingleChildScrollView),
+        const Offset(0, -2000),
+      );
+      await tester.pump();
+      await tester.pump(const Duration(milliseconds: 300));
+      await tester.tap(find.text('Show popup'));
+      await tester.pump();
+      await tester.pump(const Duration(milliseconds: 300));
+      expect(find.text('Ibrar Ali'), findsOneWidget);
+      final Rect popup = tester.getRect(find.byType(MenuPopup).last);
+      final Rect button = tester.getRect(find.text('Show popup'));
+      expect(popup.top, greaterThanOrEqualTo(0));
+      expect(popup.bottom, lessThanOrEqualTo(800));
+      expect(popup.bottom, lessThanOrEqualTo(button.top + 4));
     });
 
     testWidgets('Escape closes the popup', (tester) async {
