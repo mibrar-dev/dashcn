@@ -26,6 +26,7 @@
       "theme"
     ],
     "primitives": [
+      "motion",
       "navigation",
       "roving_group",
       "surface"

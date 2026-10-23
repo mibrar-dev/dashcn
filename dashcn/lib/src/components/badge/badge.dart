@@ -9,6 +9,9 @@
 
 import 'package:flutter/widgets.dart';
 
+import '../number_ticker/number_ticker.dart';
+import '../../primitives/motion/motion_scope.dart';
+
 import '../../foundation/gap.dart';
 import '../../primitives/clickable.dart';
 import '../../theme/color_tokens.dart';
@@ -160,7 +163,24 @@ class Badge extends StatelessWidget {
       );
     }
 
+    // Numeric labels roll their digits to the new value (base token) when the
+    // count changes; other content is shown as given.
     Widget content = child;
+    final Widget current = child;
+    if (current is Text &&
+        current.data != null &&
+        RegExp(r'^[0-9]+$').hasMatch(current.data!)) {
+      content = DefaultTextStyle.merge(
+        style: current.style,
+        child: TextFlipper(
+          text: current.data!,
+          duration: resolveMotionDuration(
+            context,
+            ambient.motion.durations.base,
+          ),
+        ),
+      );
+    }
     if (leading != null || trailing != null) {
       content = Row(
         mainAxisSize: MainAxisSize.min,

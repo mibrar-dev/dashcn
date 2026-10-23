@@ -2,7 +2,7 @@
 //
 // Covers: header/groups/items/footer rendering, selection reporting,
 // sub-menu expand/collapse (tap and arrow keys), keyboard traversal
-// (arrows, Home/End, Enter), RTL rendering, the collapsed rail (56 px,
+// (arrows, Home/End, Enter), RTL rendering, the collapsed rail (64 px,
 // tooltips, hidden labels) and a 375 px phone width with no overflow.
 
 import 'package:flutter/services.dart';
@@ -142,7 +142,7 @@ void main() {
     expect(tester.takeException(), isNull);
   });
 
-  testWidgets('collapsed rail hides labels and narrows to 56 px', (
+  testWidgets('collapsed rail hides labels and narrows to 64 px', (
     tester,
   ) async {
     await tester.pumpWidget(_sidebar(collapsed: true));
@@ -158,7 +158,7 @@ void main() {
     expect(tester.takeException(), isNull);
   });
 
-  testWidgets('expanded rail is 240 px wide', (tester) async {
+  testWidgets('expanded rail is 256 px wide', (tester) async {
     await tester.pumpWidget(_sidebar());
     final Finder rail = find.byWidgetPredicate(
       (Widget widget) =>

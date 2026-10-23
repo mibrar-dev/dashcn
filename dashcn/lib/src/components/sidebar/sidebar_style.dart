@@ -7,11 +7,11 @@ import 'package:flutter/widgets.dart';
 import '../../theme/color_tokens.dart';
 import '../../theme/theme.dart';
 
-/// Expanded rail width: 240 px (compact dashboard density).
-const double kSidebarExpandedWidth = 240.0;
+/// Expanded rail width: 256 px (SIZING.md sidebar width).
+const double kSidebarExpandedWidth = 256.0;
 
-/// Collapsed rail width: 56 px, icons only with tooltips.
-const double kSidebarCollapsedWidth = 56.0;
+/// Collapsed rail width: 64 px, icons only with tooltips (SIZING.md).
+const double kSidebarCollapsedWidth = 64.0;
 
 /// Navigation row height: 32 px (compact density row minimum).
 const double kSidebarItemHeight = 32.0;
@@ -49,10 +49,10 @@ class SidebarTheme extends ComponentThemeData
     this.surfaceBlur,
   });
 
-  /// Expanded rail width. Default: [kSidebarExpandedWidth] (240).
+  /// Expanded rail width. Default: [kSidebarExpandedWidth] (256).
   final double? expandedWidth;
 
-  /// Collapsed rail width. Default: [kSidebarCollapsedWidth] (56).
+  /// Collapsed rail width. Default: [kSidebarCollapsedWidth] (64).
   final double? collapsedWidth;
 
   /// Navigation row height. Default: [kSidebarItemHeight] (32).

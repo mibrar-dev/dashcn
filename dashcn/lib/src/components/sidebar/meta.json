@@ -23,8 +23,8 @@
     "userFile": "sidebar_theme.dart",
     "defaults": "sidebarDefaults",
     "fields": {
-      "expandedWidth": "double? - expanded rail width, default 240",
-      "collapsedWidth": "double? - collapsed rail width, default 56",
+      "expandedWidth": "double? - expanded rail width, default 256",
+      "collapsedWidth": "double? - collapsed rail width, default 64",
       "itemHeight": "double? - navigation row height, default 32",
       "iconSize": "double? - navigation and header icon size, default 16",
       "background": "ThemedColor? - rail fill, default sidebar",
@@ -44,7 +44,7 @@
     "semantics": "rows are buttons with their label and selected state; collapsed icons expose tooltips with the row label"
   },
   "sizes": {
-    "rail": "240 px expanded, 56 px collapsed",
+    "rail": "264 px expanded, 64 px collapsed",
     "row": "32 px row height, 16 px icon, 12 px muted group label"
   },
   "notes": [

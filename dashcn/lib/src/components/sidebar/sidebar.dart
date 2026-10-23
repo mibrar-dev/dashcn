@@ -4,8 +4,8 @@
 // Structure: a header (logo or app name plus a collapse control), grouped
 // navigation sections with 12 px muted labels, 32 px rows with a 16 px icon,
 // label, optional badge and optional trailing chevron for sub-menus, and a
-// footer account row (avatar, name, email, dropdown). The rail is 240 px
-// expanded and 56 px collapsed (icons only, with tooltips).
+// footer account row (avatar, name, email, dropdown). The rail is 264 px
+// expanded and 64 px collapsed (icons only, with tooltips).
 //
 // The same widget works in a drawer: place it directly in an `openDrawer`
 // builder — it sizes itself to the rail width and fills the given height,
@@ -148,7 +148,7 @@ class DashboardSidebar extends StatefulWidget {
   /// Called with the tapped row's identity.
   final ValueChanged<String>? onSelected;
 
-  /// Icon-only 56 px rail with tooltips; labels hide.
+  /// Icon-only 64 px rail with tooltips; labels hide.
   final bool collapsed;
 
   /// Called when the header collapse control is pressed; null hides it.
