@@ -65,19 +65,22 @@ void main() {
     await tester.pump();
     expect(find.text('hello agent'), findsOneWidget);
     expect(state.messages.length, 4);
+    // The badge rolls its digits; read the count once the roll has settled.
+    await tester.pump(const Duration(milliseconds: 400));
     expect(
       find.descendant(of: card, matching: find.text('4')),
       findsOneWidget,
       reason: 'counter badge tracks the message count',
     );
 
-    await tester.pump(const Duration(milliseconds: 800));
+    await tester.pump(const Duration(milliseconds: 400));
     expect(state.typing, isTrue, reason: 'typing indicator after ~800ms');
     await tester.pump(const Duration(milliseconds: 700));
     await tester.pump();
     expect(state.typing, isFalse);
     expect(state.messages.length, 5);
     expect(state.messages.last.$2, isFalse, reason: 'agent reply lands');
+    await tester.pump(const Duration(milliseconds: 400));
     expect(find.descendant(of: card, matching: find.text('5')), findsOneWidget);
   });
 }

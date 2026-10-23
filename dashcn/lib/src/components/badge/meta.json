@@ -10,8 +10,8 @@
   "deps": {
     "foundation": ["gap"],
     "theme": ["color_tokens", "theme", "density"],
-    "primitives": ["clickable"],
-    "components": []
+    "primitives": ["clickable", "motion"],
+    "components": ["number_ticker"]
   },
   "files": ["badge.dart", "badge_style.dart", "badge_theme.dart", "preview.dart"],
   "api": {
