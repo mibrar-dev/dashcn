@@ -32,7 +32,7 @@ class _Trigger extends StatelessWidget {
         variant: ButtonVariant.outline,
         size: ButtonSize.sm,
         onPressed: onPressed,
-        child: Text(label),
+        child: Text(docsSample(context, label)),
       ),
     );
   }
@@ -42,7 +42,7 @@ class _Trigger extends StatelessWidget {
 Widget _title(BuildContext context, String text) {
   final theme = Theme.of(context);
   return Text(
-    text,
+    docsSample(context, text),
     style: TextStyle(
       color: theme.colors.foreground,
       fontSize: 16,
@@ -54,7 +54,7 @@ Widget _title(BuildContext context, String text) {
 /// Dialog body text in the muted token.
 Widget _body(BuildContext context, String text) {
   return Text(
-    text,
+    docsSample(context, text),
     style: TextStyle(color: Theme.of(context).colors.mutedForeground),
   );
 }
@@ -95,23 +95,29 @@ class _EditProfileBodyState extends State<_EditProfileBody> {
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: <Widget>[
-        _title(context, 'Edit profile'),
+        _title(context, docsSample(context, 'Edit profile')),
         Gap(gap),
-        Input(controller: _name, placeholder: const Text('Name')),
+        Input(
+          controller: _name,
+          placeholder: Text(docsSample(context, 'Name')),
+        ),
         Gap(gap),
-        Input(controller: _user, placeholder: const Text('Username')),
+        Input(
+          controller: _user,
+          placeholder: Text(docsSample(context, 'Username')),
+        ),
         Gap(gap * 2),
         _actions(context, <Widget>[
           Button(
             variant: ButtonVariant.outline,
             size: ButtonSize.sm,
             onPressed: () => Navigator.of(context).pop(false),
-            child: const Text('Cancel'),
+            child: Text(docsSample(context, 'Cancel')),
           ),
           Button(
             size: ButtonSize.sm,
             onPressed: () => Navigator.of(context).pop(true),
-            child: const Text('Save'),
+            child: Text(docsSample(context, 'Save')),
           ),
         ]),
       ],
@@ -120,7 +126,7 @@ class _EditProfileBodyState extends State<_EditProfileBody> {
 }
 
 Widget _editProfile(BuildContext context) => _Trigger(
-  label: 'Edit profile',
+  label: docsSample(context, 'Edit profile'),
   onPressed: () => showDialog<bool>(
     context: context,
     builder: (context) => const _EditProfileBody(),
@@ -153,9 +159,9 @@ class _ShareBodyState extends State<_ShareBody> {
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: <Widget>[
-        _title(context, 'Share this document'),
+        _title(context, docsSample(context, 'Share this document')),
         Gap(gap),
-        _body(context, 'Anyone with the link can view.'),
+        _body(context, docsSample(context, 'Anyone with the link can view.')),
         Gap(gap),
         DecoratedBox(
           decoration: BoxDecoration(
@@ -167,13 +173,17 @@ class _ShareBodyState extends State<_ShareBody> {
             padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
             child: Row(
               children: <Widget>[
-                const Flexible(child: Text('example.com/s/abc123')),
+                Flexible(child: Text('example.com/s/abc123')),
                 Gap(gap),
                 Button(
                   variant: ButtonVariant.secondary,
                   size: ButtonSize.sm,
                   onPressed: _copy,
-                  child: Text(_copied ? 'Copied!' : 'Copy'),
+                  child: Text(
+                    _copied
+                        ? docsSample(context, 'Copied!')
+                        : docsSample(context, 'Copy'),
+                  ),
                 ),
               ],
             ),
@@ -185,7 +195,7 @@ class _ShareBodyState extends State<_ShareBody> {
             variant: ButtonVariant.outline,
             size: ButtonSize.sm,
             onPressed: () => Navigator.of(context).pop(),
-            child: const Text('Close'),
+            child: Text(docsSample(context, 'Close')),
           ),
         ]),
       ],
@@ -194,7 +204,7 @@ class _ShareBodyState extends State<_ShareBody> {
 }
 
 Widget _share(BuildContext context) => _Trigger(
-  label: 'Share link',
+  label: docsSample(context, 'Share link'),
   onPressed: () =>
       showDialog<void>(context: context, builder: (_) => const _ShareBody()),
 );
@@ -224,12 +234,15 @@ class _InviteBodyState extends State<_InviteBody> {
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: <Widget>[
-        _title(context, 'Invite members'),
+        _title(context, docsSample(context, 'Invite members')),
         Gap(gap),
         Row(
           children: <Widget>[
             Flexible(
-              child: Input(controller: _email, hintText: 'Email'),
+              child: Input(
+                controller: _email,
+                hintText: docsSample(context, 'Email'),
+              ),
             ),
             Gap(gap),
             Button(
@@ -242,7 +255,7 @@ class _InviteBodyState extends State<_InviteBody> {
                   _email.clear();
                 });
               },
-              child: const Text('Invite'),
+              child: Text(docsSample(context, 'Invite')),
             ),
           ],
         ),
@@ -254,7 +267,7 @@ class _InviteBodyState extends State<_InviteBody> {
             variant: ButtonVariant.outline,
             size: ButtonSize.sm,
             onPressed: () => Navigator.of(context).pop(),
-            child: const Text('Done'),
+            child: Text(docsSample(context, 'Done')),
           ),
         ]),
       ],
@@ -263,7 +276,7 @@ class _InviteBodyState extends State<_InviteBody> {
 }
 
 Widget _invite(BuildContext context) => _Trigger(
-  label: 'Invite members',
+  label: docsSample(context, 'Invite members'),
   onPressed: () =>
       showDialog<void>(context: context, builder: (_) => const _InviteBody()),
 );
@@ -275,15 +288,14 @@ Widget _termsBody(BuildContext context) {
     mainAxisSize: MainAxisSize.min,
     crossAxisAlignment: CrossAxisAlignment.stretch,
     children: <Widget>[
-      _title(context, 'Terms of service'),
+      _title(context, docsSample(context, 'Terms of service')),
       Gap(gap),
       ConstrainedBox(
         constraints: const BoxConstraints(maxHeight: 220),
         child: SingleChildScrollView(
           child: _body(
             context,
-            '1. Be kind.\n\n2. Ship working software.\n\n'
-            '3. Respect the theme tokens.\n\n4. Prefer composition.\n\n'
+            '1. Be kind.\n\n2. Ship working software.\n\n3. Respect the theme tokens.\n\n4. Prefer composition.\n\n'
             '5. Test what you ship.\n\n6. Document the contract.',
           ),
         ),
@@ -294,12 +306,12 @@ Widget _termsBody(BuildContext context) {
           variant: ButtonVariant.outline,
           size: ButtonSize.sm,
           onPressed: () => Navigator.of(context).pop(false),
-          child: const Text('Decline'),
+          child: Text(docsSample(context, 'Decline')),
         ),
         Button(
           size: ButtonSize.sm,
           onPressed: () => Navigator.of(context).pop(true),
-          child: const Text('Accept'),
+          child: Text(docsSample(context, 'Accept')),
         ),
       ]),
     ],
@@ -307,7 +319,7 @@ Widget _termsBody(BuildContext context) {
 }
 
 Widget _terms(BuildContext context) => _Trigger(
-  label: 'Read terms',
+  label: docsSample(context, 'Read terms'),
   onPressed: () => showDialog<bool>(
     context: context,
     builder: (context) => _termsBody(context),
@@ -326,11 +338,11 @@ class _PickerBodyState extends State<_PickerBody> {
   final TextEditingController _query = TextEditingController();
   String _filter = '';
 
-  static const List<String> _items = <String>[
+  static final List<String> _items = <String>[
     'Calendar',
-    'Search Emoji',
-    'Calculator',
-    'Activity',
+    docsSample(null, 'Search Emoji'),
+    docsSample(null, 'Calculator'),
+    docsSample(null, 'Activity'),
   ];
 
   @override
@@ -357,9 +369,12 @@ class _PickerBodyState extends State<_PickerBody> {
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: <Widget>[
-        _title(context, 'Jump to…'),
+        _title(context, docsSample(context, 'Jump to…')),
         Gap(gap),
-        Input(controller: _query, hintText: 'Type to filter'),
+        Input(
+          controller: _query,
+          hintText: docsSample(context, 'Type to filter'),
+        ),
         Gap(gap),
         for (final String item in shown)
           Button(
@@ -371,14 +386,14 @@ class _PickerBodyState extends State<_PickerBody> {
               child: Text(item),
             ),
           ),
-        if (shown.isEmpty) _body(context, 'No matches.'),
+        if (shown.isEmpty) _body(context, docsSample(context, 'No matches.')),
       ],
     );
   }
 }
 
 Widget _picker(BuildContext context) => _Trigger(
-  label: 'Open picker',
+  label: docsSample(context, 'Open picker'),
   onPressed: () =>
       showDialog<String>(context: context, builder: (_) => const _PickerBody()),
 );
@@ -390,12 +405,17 @@ Widget _lockedBody(BuildContext context) {
     mainAxisSize: MainAxisSize.min,
     crossAxisAlignment: CrossAxisAlignment.stretch,
     children: <Widget>[
-      _title(context, 'Delete this project?'),
+      _title(context, docsSample(context, 'Delete this project?')),
       Gap(gap),
       _body(
         context,
-        'The barrier is locked: tap outside or press Escape does nothing. '
-        'Use Cancel or Delete to leave.',
+        docsSample(
+          context,
+          docsSample(
+            context,
+            'The barrier is locked: tap outside or press Escape does nothing. Use Cancel or Delete to leave.',
+          ),
+        ),
       ),
       Gap(gap * 2),
       _actions(context, <Widget>[
@@ -403,13 +423,13 @@ Widget _lockedBody(BuildContext context) {
           variant: ButtonVariant.outline,
           size: ButtonSize.sm,
           onPressed: () => Navigator.of(context).pop(false),
-          child: const Text('Cancel'),
+          child: Text(docsSample(context, 'Cancel')),
         ),
         Button(
           variant: ButtonVariant.destructive,
           size: ButtonSize.sm,
           onPressed: () => Navigator.of(context).pop(true),
-          child: const Text('Delete'),
+          child: Text(docsSample(context, 'Delete')),
         ),
       ]),
     ],
@@ -417,7 +437,7 @@ Widget _lockedBody(BuildContext context) {
 }
 
 Widget _locked(BuildContext context) => _Trigger(
-  label: 'Open locked dialog',
+  label: docsSample(context, 'Open locked dialog'),
   onPressed: () => showDialog<bool>(
     context: context,
     barrierDismissible: false,
@@ -426,11 +446,11 @@ Widget _locked(BuildContext context) => _Trigger(
 );
 
 /// Named docs examples for `dialog`; the first entry is the default.
-const List<ComponentPreview> dialogPreviews = <ComponentPreview>[
-  ComponentPreview('Edit profile', _editProfile),
-  ComponentPreview('Share link', _share),
-  ComponentPreview('Invite members', _invite),
-  ComponentPreview('Terms', _terms),
-  ComponentPreview('Picker', _picker),
-  ComponentPreview('Barrier locked', _locked),
+List<ComponentPreview> get dialogPreviews => <ComponentPreview>[
+  ComponentPreview(docsSample(null, 'Edit profile'), _editProfile),
+  ComponentPreview(docsSample(null, 'Share link'), _share),
+  ComponentPreview(docsSample(null, 'Invite members'), _invite),
+  ComponentPreview(docsSample(null, 'Terms'), _terms),
+  ComponentPreview(docsSample(null, 'Picker'), _picker),
+  ComponentPreview(docsSample(null, 'Barrier locked'), _locked),
 ];

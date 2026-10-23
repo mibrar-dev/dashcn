@@ -11,6 +11,7 @@ import '../../../foundation/gap.dart';
 import '../../../theme/theme.dart';
 import '../flow.dart';
 import '../../../primitives/localizations/localizations.dart';
+import '../../../foundation/component_preview.dart';
 
 /// Swipeable intro pages; the last page continues to `/permission`.
 class Onboarding01PagesScreen extends StatefulWidget {
@@ -73,7 +74,11 @@ class _Onboarding01PagesScreenState extends State<Onboarding01PagesScreen> {
                       onPressed: last
                           ? () => Navigator.of(context).pushNamed('/permission')
                           : () => setState(() => _index = _index + 1),
-                      child: Text(last ? 'Get started' : 'Next'),
+                      child: Text(
+                        last
+                            ? docsSample(context, 'Get started')
+                            : docsSample(context, 'Next'),
+                      ),
                     ),
                   ),
                 ],

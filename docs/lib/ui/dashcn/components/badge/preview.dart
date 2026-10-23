@@ -15,37 +15,51 @@ import '../../theme/theme.dart';
 import 'badge.dart';
 
 Widget _badgeExample(BuildContext context, BadgeVariant variant, String label) {
+  final String localized = docsSample(context, label);
+  final String localizedWithIcon = '$label with icon';
   return Column(
     crossAxisAlignment: CrossAxisAlignment.center,
     mainAxisSize: MainAxisSize.min,
     children: <Widget>[
-      Badge(variant: variant, child: Text(label)),
+      Badge(variant: variant, child: Text(localized)),
       Gap(Theme.of(context).spacing.md),
       Badge(
         variant: variant,
         leading: const Icon(LucideIcons.star, size: 12),
-        child: Text('$label with icon'),
+        child: Text(localizedWithIcon),
       ),
     ],
   );
 }
 
-Widget _badgeDefault(BuildContext context) =>
-    _badgeExample(context, BadgeVariant.primary, 'Default');
+Widget _badgeDefault(BuildContext context) => _badgeExample(
+  context,
+  BadgeVariant.primary,
+  docsSample(context, 'Default'),
+);
 
-Widget _badgeSecondary(BuildContext context) =>
-    _badgeExample(context, BadgeVariant.secondary, 'Secondary');
+Widget _badgeSecondary(BuildContext context) => _badgeExample(
+  context,
+  BadgeVariant.secondary,
+  docsSample(context, 'Secondary'),
+);
 
-Widget _badgeOutline(BuildContext context) =>
-    _badgeExample(context, BadgeVariant.outline, 'Outline');
+Widget _badgeOutline(BuildContext context) => _badgeExample(
+  context,
+  BadgeVariant.outline,
+  docsSample(context, 'Outline'),
+);
 
-Widget _badgeDestructive(BuildContext context) =>
-    _badgeExample(context, BadgeVariant.destructive, 'Destructive');
+Widget _badgeDestructive(BuildContext context) => _badgeExample(
+  context,
+  BadgeVariant.destructive,
+  docsSample(context, 'Destructive'),
+);
 
 /// Named docs examples for `badge`; the first entry is the default.
-const List<ComponentPreview> badgePreviews = <ComponentPreview>[
-  ComponentPreview('Default', _badgeDefault),
-  ComponentPreview('Secondary', _badgeSecondary),
-  ComponentPreview('Outline', _badgeOutline),
-  ComponentPreview('Destructive', _badgeDestructive),
+List<ComponentPreview> get badgePreviews => <ComponentPreview>[
+  ComponentPreview(docsSample(null, 'Default'), _badgeDefault),
+  ComponentPreview(docsSample(null, 'Secondary'), _badgeSecondary),
+  ComponentPreview(docsSample(null, 'Outline'), _badgeOutline),
+  ComponentPreview(docsSample(null, 'Destructive'), _badgeDestructive),
 ];

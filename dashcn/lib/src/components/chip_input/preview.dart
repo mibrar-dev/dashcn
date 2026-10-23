@@ -44,7 +44,7 @@ class _ChipInputControlledChipsState extends State<_ChipInputControlledChips> {
       mainAxisSize: MainAxisSize.min,
       children: <Widget>[
         ChipInput<String>(
-          hintText: 'Add a tag and press Enter',
+          hintText: docsSample(context, 'Add a tag and press Enter'),
           chips: _chips,
           onChipsChanged: (List<String> chips) =>
               setState(() => _chips = chips),
@@ -64,7 +64,7 @@ class _ChipInputSuggestedChips extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ChipInput<String>(
-      hintText: 'Type to filter the fruits',
+      hintText: docsSample(context, 'Type to filter the fruits'),
       onChipSubmit: _chipInputReject,
       suggestions: (String query) => _chipInputFruits
           .where((String fruit) => fruit.startsWith(query.toLowerCase()))
@@ -79,8 +79,8 @@ class _ChipInputReadOnlyChips extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const ChipInput<String>(
-      hintText: 'Tokens without a remove button',
+    return ChipInput<String>(
+      hintText: docsSample(context, 'Tokens without a remove button'),
       initialChips: <String>['flutter', 'dashcn'],
       theme: ChipInputTheme(removable: false),
       onChipSubmit: _chipInputReject,
@@ -95,10 +95,11 @@ class _ChipInputValidatedChips extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ChipInput<String>(
-      hintText: 'Needs at least two chips',
+      hintText: docsSample(context, 'Needs at least two chips'),
       initialChips: const <String>['flutter'],
-      validator: (List<String> chips) =>
-          chips.length < 2 ? 'Pick at least two chips.' : null,
+      validator: (List<String> chips) => chips.length < 2
+          ? docsSample(context, 'Pick at least two chips.')
+          : null,
       onChipSubmit: _chipInputReject,
     );
   }
@@ -134,10 +135,10 @@ Widget _chipInputDisabled(BuildContext context) =>
     const _ChipInputDisabledChips();
 
 /// Named docs examples for `chip_input`; the first entry is the default.
-const List<ComponentPreview> chipInputPreviews = <ComponentPreview>[
-  ComponentPreview('Default', _chipInputDefault),
-  ComponentPreview('With suggestions', _chipInputSuggestions),
-  ComponentPreview('Read-only', _chipInputReadOnly),
-  ComponentPreview('Validated', _chipInputValidated),
-  ComponentPreview('Disabled', _chipInputDisabled),
+List<ComponentPreview> get chipInputPreviews => <ComponentPreview>[
+  ComponentPreview(docsSample(null, 'Default'), _chipInputDefault),
+  ComponentPreview(docsSample(null, 'With suggestions'), _chipInputSuggestions),
+  ComponentPreview(docsSample(null, 'Read-only'), _chipInputReadOnly),
+  ComponentPreview(docsSample(null, 'Validated'), _chipInputValidated),
+  ComponentPreview(docsSample(null, 'Disabled'), _chipInputDisabled),
 ];

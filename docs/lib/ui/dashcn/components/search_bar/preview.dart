@@ -11,22 +11,22 @@ import '../../foundation/gap.dart';
 import '../../theme/theme.dart';
 import 'search_bar.dart';
 
-const List<String> _searchFruits = <String>[
-  'Apple',
-  'Apricot',
-  'Avocado',
-  'Banana',
-  'Cherry',
-  'Grape',
-  'Kiwi',
-  'Lemon',
-  'Mango',
-  'Orange',
-  'Peach',
-  'Pear',
-  'Pineapple',
-  'Strawberry',
-  'Watermelon',
+List<String> _searchFruits = <String>[
+  docsSample(null, 'Apple'),
+  docsSample(null, 'Apricot'),
+  docsSample(null, 'Avocado'),
+  docsSample(null, 'Banana'),
+  docsSample(null, 'Cherry'),
+  docsSample(null, 'Grape'),
+  docsSample(null, 'Kiwi'),
+  docsSample(null, 'Lemon'),
+  docsSample(null, 'Mango'),
+  docsSample(null, 'Orange'),
+  docsSample(null, 'Peach'),
+  docsSample(null, 'Pear'),
+  docsSample(null, 'Pineapple'),
+  docsSample(null, 'Strawberry'),
+  docsSample(null, 'Watermelon'),
 ];
 
 /// The status line every interactive example writes to.
@@ -38,7 +38,7 @@ class _StatusLine extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Text(
-      status,
+      docsSample(context, status),
       style: TextStyle(
         fontSize: 12,
         color: Theme.of(context).colors.mutedForeground,
@@ -70,14 +70,16 @@ class _SearchBarDefaultState extends State<_SearchBarDefault> {
         children: <Widget>[
           SearchBar<String>(
             items: _searchFruits,
-            hintText: 'Search fruit',
+            hintText: docsSample(context, 'Search fruit'),
             onChanged: (String query) => setState(() => _query = query),
             onSelected: (String item) => setState(() => _selected = item),
           ),
           Gap(spacing.sm),
           _StatusLine(
             _selected.isEmpty
-                ? (_query.isEmpty ? 'Type to filter' : 'query: $_query')
+                ? (_query.isEmpty
+                      ? docsSample(context, 'Type to filter')
+                      : 'query: $_query')
                 : 'Selected $_selected for "$_query"',
           ),
         ],
@@ -97,14 +99,22 @@ class _SearchBarGroups extends StatefulWidget {
 class _SearchBarGroupsState extends State<_SearchBarGroups> {
   String _selected = '';
 
-  static const List<SearchBarGroup<String>> _groups = <SearchBarGroup<String>>[
+  static final List<SearchBarGroup<String>> _groups = <SearchBarGroup<String>>[
     SearchBarGroup<String>(
-      label: 'Suggestions',
-      items: <String>['Calendar', 'Search Emoji', 'Launch'],
+      label: docsSample(null, 'Suggestions'),
+      items: <String>[
+        'Calendar',
+        docsSample(null, 'Search Emoji'),
+        docsSample(null, 'Launch'),
+      ],
     ),
     SearchBarGroup<String>(
-      label: 'Settings',
-      items: <String>['Profile', 'Mail', 'Settings'],
+      label: docsSample(null, 'Settings'),
+      items: <String>[
+        docsSample(null, 'Profile'),
+        docsSample(null, 'Mail'),
+        docsSample(null, 'Settings'),
+      ],
     ),
   ];
 
@@ -119,11 +129,15 @@ class _SearchBarGroupsState extends State<_SearchBarGroups> {
         children: <Widget>[
           SearchBar<String>(
             groups: _groups,
-            hintText: 'Search commands',
+            hintText: docsSample(context, 'Search commands'),
             onSelected: (String item) => setState(() => _selected = item),
           ),
           Gap(spacing.sm),
-          _StatusLine(_selected.isEmpty ? 'Pick a command' : 'Ran $_selected'),
+          _StatusLine(
+            _selected.isEmpty
+                ? docsSample(context, 'Pick a command')
+                : 'Ran $_selected',
+          ),
         ],
       ),
     );
@@ -139,7 +153,7 @@ class _SearchBarCancel extends StatefulWidget {
 }
 
 class _SearchBarCancelState extends State<_SearchBarCancel> {
-  String _status = 'Type, then cancel';
+  String _status = docsSample(null, 'Type, then cancel');
 
   @override
   Widget build(BuildContext context) {
@@ -152,9 +166,10 @@ class _SearchBarCancelState extends State<_SearchBarCancel> {
         children: <Widget>[
           SearchBar<String>(
             items: _searchFruits,
-            hintText: 'Search fruit',
+            hintText: docsSample(context, 'Search fruit'),
             showCancelButton: true,
-            onCancelled: () => setState(() => _status = 'Cancelled'),
+            onCancelled: () =>
+                setState(() => _status = docsSample(context, 'Cancelled')),
             onSelected: (String item) =>
                 setState(() => _status = 'Selected $item'),
           ),
@@ -187,14 +202,16 @@ class _SearchBarCustomRowState extends State<_SearchBarCustomRow> {
         children: <Widget>[
           SearchBar<String>(
             items: _searchFruits,
-            hintText: 'Search fruit',
+            hintText: docsSample(context, 'Search fruit'),
             itemBuilder: (context, item, highlight, highlighted) =>
                 Text('$item (${highlight.length} hits)'),
             onSelected: (String item) => setState(() => _selected = item),
           ),
           Gap(Theme.of(context).spacing.sm),
           _StatusLine(
-            _selected.isEmpty ? 'Custom rows' : 'Selected $_selected',
+            _selected.isEmpty
+                ? docsSample(context, 'Custom rows')
+                : 'Selected $_selected',
           ),
         ],
       ),
@@ -211,9 +228,9 @@ Widget _searchBarCancel(BuildContext context) => const _SearchBarCancel();
 Widget _searchBarCustomRow(BuildContext context) => const _SearchBarCustomRow();
 
 /// Named docs examples for `search_bar`; the first entry is the default.
-const List<ComponentPreview> searchBarPreviews = <ComponentPreview>[
-  ComponentPreview('Default', _searchBarDefault),
-  ComponentPreview('With groups', _searchBarGroups),
-  ComponentPreview('With cancel', _searchBarCancel),
-  ComponentPreview('Custom row', _searchBarCustomRow),
+List<ComponentPreview> get searchBarPreviews => <ComponentPreview>[
+  ComponentPreview(docsSample(null, 'Default'), _searchBarDefault),
+  ComponentPreview(docsSample(null, 'With groups'), _searchBarGroups),
+  ComponentPreview(docsSample(null, 'With cancel'), _searchBarCancel),
+  ComponentPreview(docsSample(null, 'Custom row'), _searchBarCustomRow),
 ];

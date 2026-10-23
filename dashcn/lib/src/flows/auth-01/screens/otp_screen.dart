@@ -8,6 +8,7 @@ import '../../../foundation/gap.dart';
 import '../../../theme/theme.dart';
 import 'scaffold.dart';
 import '../../../primitives/localizations/localizations.dart';
+import '../../../foundation/component_preview.dart';
 
 /// OTP verify form; completing the code calls [onVerify] then [onVerified].
 class Auth01OtpScreen extends StatefulWidget {
@@ -62,7 +63,7 @@ class _Auth01OtpScreenState extends State<Auth01OtpScreen> {
         Gap(appTheme.spacing.md),
         if (_done)
           Text(
-            'Code verified. You are signed in.',
+            docsSample(context, 'Code verified. You are signed in.'),
             style: appTheme.typography.textSmall.copyWith(
               color: appTheme.colors.primary,
             ),
@@ -84,7 +85,11 @@ class _Auth01OtpScreenState extends State<Auth01OtpScreen> {
               variant: ButtonVariant.link,
               size: ButtonSize.sm,
               onPressed: () {},
-              child: Text(_busy ? 'Sending…' : 'Resend'),
+              child: Text(
+                _busy
+                    ? docsSample(context, 'Sending…')
+                    : docsSample(context, 'Resend'),
+              ),
             ),
           ],
         ),

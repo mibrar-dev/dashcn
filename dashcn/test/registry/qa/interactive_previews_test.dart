@@ -530,7 +530,7 @@ void main() {
   });
 }
 
-const List<List<ComponentPreview>> _sweptPreviews = <List<ComponentPreview>>[
+List<List<ComponentPreview>> _sweptPreviews = <List<ComponentPreview>>[
   alertPreviews,
   alertDialogPreviews,
   autocompletePreviews,

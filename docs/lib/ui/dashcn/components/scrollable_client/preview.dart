@@ -7,6 +7,7 @@ import 'package:flutter/widgets.dart';
 import '../../foundation/gap.dart';
 import '../../theme/theme.dart';
 import 'scrollable_client.dart';
+import '../../foundation/component_preview.dart';
 
 /// Renders the scrollable client gallery.
 class ScrollableClientPreview extends StatelessWidget {
@@ -26,7 +27,7 @@ class ScrollableClientPreview extends StatelessWidget {
   Widget build(BuildContext context) {
     final ThemeData theme = Theme.of(context);
     return Directionality(
-      textDirection: TextDirection.ltr,
+      textDirection: Directionality.maybeOf(context) ?? TextDirection.ltr,
       child: DefaultTextStyle(
         style: TextStyle(color: theme.colors.foreground, fontSize: 13),
         child: ColoredBox(
@@ -67,7 +68,7 @@ class ScrollableClientPreview extends StatelessWidget {
                   ),
                 ),
                 Gap(theme.spacing.md),
-                const Text('Drag on either axis'),
+                Text(docsSample(context, 'Drag on either axis')),
               ],
             ),
           ),

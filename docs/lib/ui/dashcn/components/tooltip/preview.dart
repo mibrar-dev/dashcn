@@ -13,7 +13,7 @@ import 'tooltip.dart';
 
 /// Label tooltip after the default delay.
 Widget _default(BuildContext context) {
-  return _anchor(context, LucideIcons.info, 'Details');
+  return _anchor(context, LucideIcons.info, docsSample(context, 'Details'));
 }
 
 /// Label tooltip with no delay.
@@ -21,7 +21,7 @@ Widget _instant(BuildContext context) {
   return _anchor(
     context,
     LucideIcons.zap,
-    'Instant',
+    docsSample(context, 'Instant'),
     waitDuration: Duration.zero,
   );
 }
@@ -31,13 +31,19 @@ Widget _rich(BuildContext context) {
   return Tooltip(
     // The anchor carries the message as its semantic label so screen
     // readers announce it without waiting for the hover overlay.
-    semanticLabel: 'Deployment. Ships when the checks pass.',
+    semanticLabel: docsSample(
+      context,
+      docsSample(context, 'Deployment. Ships when the checks pass.'),
+    ),
     tooltip: (BuildContext context) => Column(
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.start,
-      children: const <Widget>[
-        Text('Deployment', style: TextStyle(fontWeight: FontWeight.w600)),
-        Text('Ships when the checks pass.'),
+      children: <Widget>[
+        Text(
+          docsSample(context, 'Deployment'),
+          style: const TextStyle(fontWeight: FontWeight.w600),
+        ),
+        Text(docsSample(context, 'Ships when the checks pass.')),
       ],
     ),
     child: Container(
@@ -59,7 +65,7 @@ Widget _rich(BuildContext context) {
 
 /// The container on its own, without hover behaviour.
 Widget _container(BuildContext context) {
-  return const TooltipContainer(child: Text('Primary surface'));
+  return TooltipContainer(child: Text(docsSample(context, 'Primary surface')));
 }
 
 Widget _anchor(
@@ -77,7 +83,7 @@ Widget _anchor(
       // The anchor carries the message as its semantic label so screen
       // readers announce it without waiting for the hover overlay.
       semanticLabel: label,
-      tooltip: (BuildContext context) => Text(label),
+      tooltip: (BuildContext context) => Text(docsSample(context, label)),
       child: Container(
         width: 36,
         height: 36,
@@ -93,9 +99,9 @@ Widget _anchor(
 }
 
 /// Named docs examples for `tooltip`; the first entry is the default.
-const List<ComponentPreview> tooltipPreviews = <ComponentPreview>[
-  ComponentPreview('Default', _default),
-  ComponentPreview('Instant', _instant),
-  ComponentPreview('Rich content', _rich),
-  ComponentPreview('Container', _container),
+List<ComponentPreview> get tooltipPreviews => <ComponentPreview>[
+  ComponentPreview(docsSample(null, 'Default'), _default),
+  ComponentPreview(docsSample(null, 'Instant'), _instant),
+  ComponentPreview(docsSample(null, 'Rich content'), _rich),
+  ComponentPreview(docsSample(null, 'Container'), _container),
 ];

@@ -52,11 +52,11 @@ class _CodeSnippetLanguages extends StatefulWidget {
 class _CodeSnippetLanguagesState extends State<_CodeSnippetLanguages> {
   int _selected = 0;
 
-  static const List<({String label, String lang, String code})> _samples = [
+  static final List<({String label, String lang, String code})> _samples = [
     (
-      label: 'Dart',
+      label: docsSample(null, 'Dart'),
       lang: 'dart',
-      code: 'void main() {\n  runApp(const MyApp());\n}',
+      code: 'void main() {\n  runApp(MyApp());\n}',
     ),
     (
       label: 'JSON',
@@ -70,7 +70,7 @@ class _CodeSnippetLanguagesState extends State<_CodeSnippetLanguages> {
       code: 'name: dashcn\nversion: 1.0.0\nenvironment:\n  sdk: ^3.0.0',
     ),
     (
-      label: 'Shell',
+      label: docsSample(null, 'Shell'),
       lang: 'bash',
       code: 'flutter pub add dashcn\ndashcn add code_snippet',
     ),
@@ -177,7 +177,7 @@ class _CodeSnippetWithActionsState extends State<_CodeSnippetWithActions> {
             showCopyButton: false,
             actions: <Widget>[
               _CodeSnippetAction(
-                label: 'Copy',
+                label: docsSample(context, 'Copy'),
                 onPressed: () => setState(() => _status = 'copied'),
               ),
               _CodeSnippetAction(
@@ -185,7 +185,7 @@ class _CodeSnippetWithActionsState extends State<_CodeSnippetWithActions> {
                 onPressed: () => setState(() => _status = 'running'),
               ),
             ],
-            code: const Text('flutter run -d chrome'),
+            code: Text('flutter run -d chrome'),
           ),
         ),
         Gap(spacing.sm),
@@ -258,7 +258,9 @@ Widget _codeSnippetCustomized(BuildContext context) {
                 ),
                 Gap(theme.spacing.xs),
                 Text(
-                  copied ? 'Copied!' : 'Copy',
+                  copied
+                      ? docsSample(context, 'Copied!')
+                      : docsSample(context, 'Copy'),
                   style: theme.typography.small.copyWith(
                     fontSize: 12,
                     color: copied
@@ -284,10 +286,10 @@ Widget _codeSnippetWithActions(BuildContext context) =>
     const _CodeSnippetWithActions();
 
 /// Named docs examples for `code_snippet`; the first entry is the default.
-const List<ComponentPreview> codeSnippetPreviews = <ComponentPreview>[
-  ComponentPreview('Default', _codeSnippetDefault),
-  ComponentPreview('With actions', _codeSnippetWithActions),
-  ComponentPreview('Long lines', _codeSnippetLongLines),
-  ComponentPreview('Languages', _codeSnippetLanguages),
-  ComponentPreview('Customized', _codeSnippetCustomized),
+List<ComponentPreview> get codeSnippetPreviews => <ComponentPreview>[
+  ComponentPreview(docsSample(null, 'Default'), _codeSnippetDefault),
+  ComponentPreview(docsSample(null, 'With actions'), _codeSnippetWithActions),
+  ComponentPreview(docsSample(null, 'Long lines'), _codeSnippetLongLines),
+  ComponentPreview(docsSample(null, 'Languages'), _codeSnippetLanguages),
+  ComponentPreview(docsSample(null, 'Customized'), _codeSnippetCustomized),
 ];

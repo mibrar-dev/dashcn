@@ -9,13 +9,14 @@ import 'package:flutter/widgets.dart';
 import '../../components/page_route/page_route.dart';
 import 'screens/detail_screens.dart';
 import 'screens/home_screen.dart';
+import '../../foundation/component_preview.dart';
 
 /// Grouped settings with nested pages and an account sheet.
 class Settings01Flow extends StatelessWidget {
   /// Creates the flow.
-  const Settings01Flow({
+  Settings01Flow({
     super.key,
-    this.userName = 'Ada Lovelace',
+    String? userName,
     this.userEmail = 'ada@example.com',
     this.userInitials = 'AL',
     this.notifications = true,
@@ -25,7 +26,7 @@ class Settings01Flow extends StatelessWidget {
     this.onSoundsChanged,
     this.onSignOut,
     this.initialScreen = '/',
-  });
+  }) : userName = userName ?? docsSample(null, 'Ada Lovelace');
 
   /// Display name shown in the profile row and account sheet.
   final String userName;

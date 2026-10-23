@@ -9,6 +9,7 @@ import '../../theme/color_tokens.dart';
 import '../../theme/theme.dart';
 import '../button/button.dart';
 import 'patch.dart';
+import '../../foundation/component_preview.dart';
 
 /// Preview entry point used by the docs gallery.
 class PatchPreview extends StatefulWidget {
@@ -26,7 +27,7 @@ class _PatchPreviewState extends State<PatchPreview> {
   @override
   Widget build(BuildContext context) {
     return Directionality(
-      textDirection: TextDirection.ltr,
+      textDirection: Directionality.maybeOf(context) ?? TextDirection.ltr,
       child: _body(context),
     );
   }
@@ -68,7 +69,11 @@ class _PatchPreviewState extends State<PatchPreview> {
                 // Loose fit: the hint takes only the width it needs on wide
                 // screens (same single-line visuals as before) and wraps
                 // instead of overflowing narrow phones.
-                const Flexible(child: Text('tap fast and near to count up')),
+                Flexible(
+                  child: Text(
+                    docsSample(context, 'tap fast and near to count up'),
+                  ),
+                ),
               ],
             ),
           ],

@@ -19,6 +19,7 @@ import '../ui/dashcn/primitives/date_math.dart';
 import '../ui/dashcn/theme/theme.dart';
 import 'collage_cards.dart';
 import 'studio_blocks/studio_card.dart';
+import '../ui/dashcn/foundation/component_preview.dart';
 
 /// A calendar block (the reference's release-date picker).
 class HomeCalendarCard extends StatefulWidget {
@@ -86,9 +87,12 @@ class _HomeDateRangeCardState extends State<HomeDateRangeCard> {
         Button(
           variant: ButtonVariant.primary,
           onPressed: () {},
-          child: const SizedBox(
+          child: SizedBox(
             width: double.infinity,
-            child: Text('Generate Report', textAlign: TextAlign.center),
+            child: Text(
+              docsSample(context, 'Generate Report'),
+              textAlign: TextAlign.center,
+            ),
           ),
         ),
       ],
@@ -122,7 +126,7 @@ class _HomeTimeCardState extends State<HomeTimeCard> {
         color: theme.colors.mutedForeground,
       ),
       children: <Widget>[
-        const StudioFieldLabel('Time'),
+        StudioFieldLabel(docsSample(context, 'Time')),
         const Gap(6),
         TimePicker(
           value: _time,
@@ -130,7 +134,9 @@ class _HomeTimeCardState extends State<HomeTimeCard> {
           onChanged: (TimeOfDay? next) => setState(() => _time = next),
         ),
         const Gap(12),
-        const StudioHelper('The team meets every weekday morning.'),
+        StudioHelper(
+          docsSample(context, 'The team meets every weekday morning.'),
+        ),
       ],
     );
   }

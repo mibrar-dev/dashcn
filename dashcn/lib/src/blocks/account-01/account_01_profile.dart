@@ -17,6 +17,7 @@ import '../../components/input/input.dart';
 import '../../foundation/gap.dart';
 import '../../theme/theme.dart';
 import '../../primitives/localizations/localizations.dart';
+import '../../foundation/component_preview.dart';
 
 class Account01ProfileData {
   /// Creates the submitted values.
@@ -137,7 +138,16 @@ class Account01ProfileFormState extends State<Account01ProfileForm> {
             Text(strings.blockProfile, style: theme.typography.textLarge),
             Gap(theme.spacing.sm),
             Text(
-              'This is how others will see you on the site.',
+              docsSample(
+                context,
+                docsSample(
+                  context,
+                  docsSample(
+                    context,
+                    'This is how others will see you on the site.',
+                  ),
+                ),
+              ),
               style: theme.typography.textSmall.copyWith(
                 color: theme.colors.mutedForeground,
               ),
@@ -183,7 +193,7 @@ class Account01ProfileFormState extends State<Account01ProfileForm> {
                       const LengthValidator(min: 2, max: 50),
                   showErrors: _show,
                   child: Input(
-                    hintText: 'Ada Lovelace',
+                    hintText: docsSample(context, 'Ada Lovelace'),
                     textInputAction: TextInputAction.next,
                     focusNode: _nameFocus,
                     onSubmitted: (_) => _usernameFocus.requestFocus(),
@@ -246,7 +256,7 @@ class Account01ProfileFormState extends State<Account01ProfileForm> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 Text(
-                  'Email',
+                  docsSample(context, 'Email'),
                   style: theme.typography.textSmall.copyWith(
                     fontWeight: FontWeight.w500,
                   ),
@@ -276,7 +286,7 @@ class Account01ProfileFormState extends State<Account01ProfileForm> {
               Gap(theme.spacing.lg),
               Alert(
                 content: Text(
-                  'Profile saved.',
+                  docsSample(context, 'Profile saved.'),
                   style: theme.typography.textSmall,
                 ),
               ),

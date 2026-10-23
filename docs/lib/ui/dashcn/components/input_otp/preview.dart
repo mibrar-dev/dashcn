@@ -69,9 +69,9 @@ Widget _inputOtpFourSlots(BuildContext context) =>
     const _InputOtpOtp(length: 4);
 
 /// Named docs examples for `input_otp`; the first entry is the default.
-const List<ComponentPreview> inputOtpPreviews = <ComponentPreview>[
-  ComponentPreview('Default', _inputOtpDefault),
-  ComponentPreview('Separated', _inputOtpSeparated),
-  ComponentPreview('Obscured', _inputOtpObscured),
-  ComponentPreview('Four slots', _inputOtpFourSlots),
+List<ComponentPreview> get inputOtpPreviews => <ComponentPreview>[
+  ComponentPreview(docsSample(null, 'Default'), _inputOtpDefault),
+  ComponentPreview(docsSample(null, 'Separated'), _inputOtpSeparated),
+  ComponentPreview(docsSample(null, 'Obscured'), _inputOtpObscured),
+  ComponentPreview(docsSample(null, 'Four slots'), _inputOtpFourSlots),
 ];

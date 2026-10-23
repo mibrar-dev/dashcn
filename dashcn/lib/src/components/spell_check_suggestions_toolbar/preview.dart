@@ -44,8 +44,8 @@ Widget _noSuggestions(BuildContext context) {
 
 /// Named docs examples for `spell_check_suggestions_toolbar`; the first entry
 /// is the default.
-const List<ComponentPreview> spellCheckSuggestionsToolbarPreviews =
+List<ComponentPreview> spellCheckSuggestionsToolbarPreviews =
     <ComponentPreview>[
-      ComponentPreview('Default', _default),
-      ComponentPreview('No suggestions', _noSuggestions),
+      ComponentPreview(docsSample(null, 'Default'), _default),
+      ComponentPreview(docsSample(null, 'No suggestions'), _noSuggestions),
     ];

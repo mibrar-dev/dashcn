@@ -7,6 +7,7 @@ import '../../../foundation/gap.dart';
 import '../../../foundation/icons/radix_icons.dart';
 import '../../../theme/theme.dart';
 import '../../../primitives/localizations/localizations.dart';
+import '../../../foundation/component_preview.dart';
 
 /// Order confirmation; Done calls [onDone].
 class Checkout01SuccessScreen extends StatelessWidget {
@@ -39,7 +40,7 @@ class Checkout01SuccessScreen extends StatelessWidget {
                   ),
                   Gap(appTheme.spacing.lg),
                   Text(
-                    'Order placed',
+                    docsSample(context, 'Order placed'),
                     style: appTheme.typography.h3,
                     textAlign: TextAlign.center,
                   ),

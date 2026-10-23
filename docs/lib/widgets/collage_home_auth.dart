@@ -18,6 +18,7 @@ import '../routing/docs_router.dart';
 import '../state/docs_content_home.dart';
 import 'collage_cards.dart';
 import 'studio_blocks/studio_card.dart';
+import '../ui/dashcn/foundation/component_preview.dart';
 
 /// `Create Account`: the upstream email/password signup card.
 class HomeCreateAccountCard extends StatefulWidget {
@@ -30,7 +31,7 @@ class HomeCreateAccountCard extends StatefulWidget {
 
 class _HomeCreateAccountCardState extends State<HomeCreateAccountCard> {
   bool _sameAddress = true;
-  String _payout = 'Bank Transfer';
+  String _payout = docsSample(null, 'Bank Transfer');
 
   @override
   Widget build(BuildContext context) {
@@ -50,10 +51,10 @@ class _HomeCreateAccountCardState extends State<HomeCreateAccountCard> {
         const Gap(16),
         StudioFieldLabel(docsHome(locale, 'homePassword')),
         const Gap(6),
-        const Input(
+        Input(
           initialValue: '',
           obscureText: true,
-          hintText: 'At least 8 characters',
+          hintText: docsSample(context, 'At least 8 characters'),
         ),
         const Gap(16),
         StudioFieldLabel(docsHome(locale, 'homePayout')),
@@ -62,10 +63,10 @@ class _HomeCreateAccountCardState extends State<HomeCreateAccountCard> {
           value: _payout,
           onChanged: (String? next) =>
               setState(() => _payout = next ?? _payout),
-          items: const <Widget>[
+          items: <Widget>[
             SelectItem<String>(
-              value: 'Bank Transfer',
-              child: Text('Bank Transfer'),
+              value: docsSample(context, 'Bank Transfer'),
+              child: Text(docsSample(context, 'Bank Transfer')),
             ),
             SelectItem<String>(value: 'PayPal', child: Text('PayPal')),
           ],
@@ -119,7 +120,7 @@ class HomeLoginCard extends StatelessWidget {
           keyboardType: TextInputType.emailAddress,
         ),
         Gap(16),
-        StudioFieldLabel('Password'),
+        StudioFieldLabel(docsSample(context, 'Password')),
         Gap(6),
         Input(initialValue: '', obscureText: true, hintText: '••••••••'),
         Gap(16),

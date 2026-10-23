@@ -68,17 +68,25 @@ class _ChatConversation extends StatelessWidget {
           children: <Widget>[
             ChatGroup(
               avatarSuffix: _end,
-              children: const <Widget>[
-                ChatBubble(child: Text('Did you remember the meeting time?')),
-                ChatBubble(child: Text('Please reply ASAP.')),
+              children: <Widget>[
+                ChatBubble(
+                  child: Text(
+                    docsSample(context, 'Did you remember the meeting time?'),
+                  ),
+                ),
+                ChatBubble(
+                  child: Text(docsSample(context, 'Please reply ASAP.')),
+                ),
               ],
             ),
             Gap(spacing.lg),
             ChatGroup(
               avatarPrefix: _start,
-              children: const <Widget>[
-                ChatBubble(child: Text('Around 6 or 7?')),
-                ChatBubble(child: Text('New phone who dis?')),
+              children: <Widget>[
+                ChatBubble(child: Text(docsSample(context, 'Around 6 or 7?'))),
+                ChatBubble(
+                  child: Text(docsSample(context, 'New phone who dis?')),
+                ),
               ],
             ),
           ],
@@ -96,11 +104,13 @@ Widget _chatIncoming(BuildContext context) {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: const <Widget>[
+        children: <Widget>[
           ChatGroup(
             avatarPrefix: _ChatConversation._start,
             children: <Widget>[
-              ChatBubble(child: Text('Is the build green yet?')),
+              ChatBubble(
+                child: Text(docsSample(context, 'Is the build green yet?')),
+              ),
             ],
           ),
         ],
@@ -117,11 +127,15 @@ Widget _chatOutgoing(BuildContext context) {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: const <Widget>[
+        children: <Widget>[
           ChatGroup(
             avatarSuffix: _ChatConversation._end,
             children: <Widget>[
-              ChatBubble(child: Text('Deploying now - two minutes.')),
+              ChatBubble(
+                child: Text(
+                  docsSample(context, 'Deploying now - two minutes.'),
+                ),
+              ),
             ],
           ),
         ],
@@ -152,12 +166,12 @@ class _ChatGroupedState extends State<_ChatGrouped> {
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
-            const ChatGroup(
+            ChatGroup(
               avatarPrefix: _ChatConversation._start,
               children: <Widget>[
-                ChatBubble(child: Text('First message')),
-                ChatBubble(child: Text('Second message')),
-                ChatBubble(child: Text('Third message')),
+                ChatBubble(child: Text(docsSample(context, 'First message'))),
+                ChatBubble(child: Text(docsSample(context, 'Second message'))),
+                ChatBubble(child: Text(docsSample(context, 'Third message'))),
               ],
             ),
             Gap(spacing.sm),
@@ -174,7 +188,7 @@ class _ChatGroupedState extends State<_ChatGrouped> {
                   child: Text('\u{1F389} ${_party ? 2 : 1}'),
                 ),
               ],
-              child: const ChatBubble(child: Text('Nice work!')),
+              child: ChatBubble(child: Text(docsSample(context, 'Nice work!'))),
             ),
             Gap(spacing.lg),
             ComponentTheme<ChatTheme>(
@@ -183,9 +197,11 @@ class _ChatGroupedState extends State<_ChatGrouped> {
                 background: ThemedColor.ref(ColorRef.accent),
                 foreground: ThemedColor.ref(ColorRef.accentForeground),
               ),
-              child: const ChatGroup(
+              child: ChatGroup(
                 children: <Widget>[
-                  ChatBubble(child: Text('Accented group bubble.')),
+                  ChatBubble(
+                    child: Text(docsSample(context, 'Accented group bubble.')),
+                  ),
                 ],
               ),
             ),
@@ -211,10 +227,13 @@ class _LiveMessage {
 }
 
 /// Canned agent replies, cycled in order.
-const List<String> _liveReplies = <String>[
-  'Got it — pulling up your payout history now.',
-  'That month was prorated after the reissue; I can send the breakdown.',
-  'All set — refresh the report to see the corrected split.',
+List<String> _liveReplies = <String>[
+  docsSample(null, 'Got it — pulling up your payout history now.'),
+  docsSample(
+    null,
+    'That month was prorated after the reissue; I can send the breakdown.',
+  ),
+  docsSample(null, 'All set — refresh the report to see the corrected split.'),
 ];
 
 /// A working support thread: typing + Enter/Send appends the user's bubble,
@@ -229,8 +248,14 @@ class _ChatLive extends StatefulWidget {
 
 class _ChatLiveState extends State<_ChatLive> {
   final List<_LiveMessage> _messages = <_LiveMessage>[
-    const _LiveMessage('Can you re-check the 2026-01 payout?', true),
-    const _LiveMessage('I see it — that month was prorated.', false),
+    _LiveMessage(
+      docsSample(null, 'Can you re-check the 2026-01 payout?'),
+      true,
+    ),
+    _LiveMessage(
+      docsSample(null, 'I see it — that month was prorated.'),
+      false,
+    ),
   ];
   final TextEditingController _reply = TextEditingController();
   final ScrollController _scroll = ScrollController();
@@ -337,7 +362,7 @@ class _ChatLiveState extends State<_ChatLive> {
               controller: _reply,
               minLines: 1,
               maxLines: 4,
-              hintText: 'Write a reply...',
+              hintText: docsSample(context, 'Write a reply...'),
               textInputAction: TextInputAction.send,
               onSubmitted: (_) => _send(),
             ),
@@ -350,7 +375,7 @@ class _ChatLiveState extends State<_ChatLive> {
                 leading: const Icon(LucideIcons.send, size: 14),
                 enabled: _canSend,
                 onPressed: _send,
-                child: const Text('Send'),
+                child: Text(docsSample(context, 'Send')),
               ),
             ),
           ],
@@ -384,12 +409,12 @@ class _TypingDots extends StatelessWidget {
 }
 
 /// Named docs examples for `chat`; the first entry is the default.
-const List<ComponentPreview> chatPreviews = <ComponentPreview>[
-  ComponentPreview('Default', _chatDefault),
-  ComponentPreview('Incoming', _chatIncoming),
-  ComponentPreview('Outgoing', _chatOutgoing),
-  ComponentPreview('Grouped', _chatGrouped),
-  ComponentPreview('Live', _chatLive),
+List<ComponentPreview> get chatPreviews => <ComponentPreview>[
+  ComponentPreview(docsSample(null, 'Default'), _chatDefault),
+  ComponentPreview(docsSample(null, 'Incoming'), _chatIncoming),
+  ComponentPreview(docsSample(null, 'Outgoing'), _chatOutgoing),
+  ComponentPreview(docsSample(null, 'Grouped'), _chatGrouped),
+  ComponentPreview(docsSample(null, 'Live'), _chatLive),
 ];
 
 /// Incoming (other side) bubbles: start-aligned on the muted surface.

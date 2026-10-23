@@ -27,6 +27,7 @@ import '../ui/dashcn/components/tooltip/tooltip.dart';
 import '../ui/dashcn/foundation/gap.dart';
 import '../ui/dashcn/foundation/icons/lucide_icons.dart';
 import '../ui/dashcn/theme/theme.dart';
+import 'package:docs/widgets/preview_scope.dart';
 
 /// The three viewport presets of a block card, in reference order.
 ///
@@ -241,9 +242,11 @@ class BlockPreviewLoaderState extends State<BlockPreviewLoader> {
       future: _future,
       builder: (BuildContext context, AsyncSnapshot<Widget> snapshot) {
         if (snapshot.hasData) {
-          return KeyedSubtree(
-            key: ValueKey<String>(widget.blockId),
-            child: snapshot.data!,
+          return PreviewScope(
+            child: KeyedSubtree(
+              key: ValueKey<String>(widget.blockId),
+              child: snapshot.data!,
+            ),
           );
         }
         if (snapshot.hasError) {

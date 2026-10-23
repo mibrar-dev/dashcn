@@ -6,6 +6,7 @@ import '../../../components/button/button.dart';
 import '../../../foundation/gap.dart';
 import '../../../primitives/localizations/localizations.dart';
 import '../../../theme/theme.dart';
+import '../../../foundation/component_preview.dart';
 
 /// Google / Apple buttons reporting the provider id.
 class Auth01SocialButtons extends StatelessWidget {
@@ -25,13 +26,13 @@ class Auth01SocialButtons extends StatelessWidget {
         Button(
           variant: ButtonVariant.outline,
           onPressed: () => onSocialSignIn?.call('google'),
-          child: Text(strings.blockContinueWith('Google')),
+          child: Text(strings.blockContinueWith(docsSample(context, 'Google'))),
         ),
         Gap(appTheme.spacing.sm),
         Button(
           variant: ButtonVariant.outline,
           onPressed: () => onSocialSignIn?.call('apple'),
-          child: Text(strings.blockContinueWith('Apple')),
+          child: Text(strings.blockContinueWith(docsSample(context, 'Apple'))),
         ),
       ],
     );

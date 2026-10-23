@@ -21,6 +21,7 @@ import 'dashboard_01_table.dart';
 import '../../foundation/gap.dart';
 import '../../theme/theme.dart';
 import '../../primitives/localizations/localizations.dart';
+import '../../foundation/component_preview.dart';
 
 /// A dashboard: stat tiles, a twelve-week bar chart and a recent table.
 class Dashboard01 extends StatelessWidget {
@@ -126,7 +127,16 @@ class _Dashboard01Header extends StatelessWidget {
         Text(strings.blockOverview, style: theme.typography.h2),
         Gap(theme.spacing.xs),
         Text(
-          'Revenue, subscriptions and the most recent orders.',
+          docsSample(
+            context,
+            docsSample(
+              context,
+              docsSample(
+                context,
+                'Revenue, subscriptions and the most recent orders.',
+              ),
+            ),
+          ),
           style: theme.typography.textMuted.copyWith(
             color: theme.colors.mutedForeground,
           ),
@@ -148,11 +158,19 @@ class _Dashboard01Stats extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final double spacing = Theme.of(context).spacing.lg;
-    const List<_Dashboard01Stat> stats = <_Dashboard01Stat>[
-      _Dashboard01Stat('Total revenue', '\$45,231.89', '+20.1%'),
-      _Dashboard01Stat('Subscriptions', '+2,350', '+180.1%'),
-      _Dashboard01Stat('Sales', '+12,234', '+19.0%'),
-      _Dashboard01Stat('Active now', '+573', '+2.0%'),
+    List<_Dashboard01Stat> stats = <_Dashboard01Stat>[
+      _Dashboard01Stat(
+        docsSample(context, 'Total revenue'),
+        '\$45,231.89',
+        '+20.1%',
+      ),
+      _Dashboard01Stat(
+        docsSample(context, 'Subscriptions'),
+        '+2,350',
+        '+180.1%',
+      ),
+      _Dashboard01Stat(docsSample(context, 'Sales'), '+12,234', '+19.0%'),
+      _Dashboard01Stat(docsSample(context, 'Active now'), '+573', '+2.0%'),
     ];
     final int columns = width >= 1080
         ? 4
@@ -248,7 +266,7 @@ class _Dashboard01Chart extends StatelessWidget {
           Text(strings.blockRevenueByMonth, style: theme.typography.textLarge),
           Gap(theme.spacing.xs),
           Text(
-            'January - June 2026',
+            docsSample(context, 'January - June 2026'),
             style: theme.typography.textSmall.copyWith(
               color: theme.colors.mutedForeground,
             ),
@@ -297,13 +315,13 @@ class _Dashboard01Activity extends StatelessWidget {
         children: <Widget>[
           Text(strings.blockRecentSales, style: theme.typography.textLarge),
           Gap(theme.spacing.lg),
-          const _Dashboard01Sale('Olivia Martin', '\$1,999.00'),
+          _Dashboard01Sale(docsSample(context, 'Olivia Martin'), '\$1,999.00'),
           Gap(theme.spacing.md),
-          const _Dashboard01Sale('Jackson Lee', '\$39.00'),
+          _Dashboard01Sale(docsSample(context, 'Jackson Lee'), '\$39.00'),
           Gap(theme.spacing.md),
-          const _Dashboard01Sale('Isabella Nguyen', '\$299.00'),
+          _Dashboard01Sale(docsSample(context, 'Isabella Nguyen'), '\$299.00'),
           Gap(theme.spacing.md),
-          const _Dashboard01Sale('William Kim', '\$99.00'),
+          _Dashboard01Sale(docsSample(context, 'William Kim'), '\$99.00'),
           Gap(theme.spacing.lg),
           const Divider(),
           Gap(theme.spacing.lg),

@@ -13,19 +13,26 @@ import '../../theme/theme.dart';
 import 'navigation_bar.dart';
 
 /// Shared bar items for the horizontal examples.
-List<NavigationBarItem> _barItems() => <NavigationBarItem>[
-  const NavigationItem(label: Text('Home'), child: Icon(RadixIcons.home)),
-  const NavigationItem(
-    label: Text('Search'),
-    child: Icon(RadixIcons.magnifyingGlass),
-  ),
-  const NavigationItem(label: Text('Settings'), child: Icon(RadixIcons.gear)),
-  const NavigationItem(
-    label: Text('Disabled'),
-    enabled: false,
-    child: Icon(RadixIcons.person),
-  ),
-];
+List<NavigationBarItem> _barItems([BuildContext? context]) =>
+    <NavigationBarItem>[
+      NavigationItem(
+        label: Text(docsSample(context, 'Home')),
+        child: const Icon(RadixIcons.home),
+      ),
+      NavigationItem(
+        label: Text(docsSample(context, 'Search')),
+        child: const Icon(RadixIcons.magnifyingGlass),
+      ),
+      NavigationItem(
+        label: Text(docsSample(context, 'Settings')),
+        child: const Icon(RadixIcons.gear),
+      ),
+      NavigationItem(
+        label: Text(docsSample(context, 'Disabled')),
+        enabled: false,
+        child: const Icon(RadixIcons.person),
+      ),
+    ];
 
 /// An interactive horizontal bar; selection lives in this example's state.
 class _InteractiveBar extends StatefulWidget {
@@ -46,7 +53,7 @@ class _InteractiveBarState extends State<_InteractiveBar> {
       index: _index,
       onSelected: (int value) => setState(() => _index = value),
       labelType: widget.labelType,
-      children: _barItems(),
+      children: _barItems(context),
     );
   }
 }
@@ -86,7 +93,7 @@ class _SidebarDemoState extends State<_SidebarDemo> {
           Padding(
             padding: const EdgeInsets.fromLTRB(8, 8, 8, 4),
             child: Text(
-              'Acme Inc',
+              docsSample(context, 'Acme Inc'),
               style: theme.typography.small.copyWith(
                 fontWeight: FontWeight.w600,
               ),
@@ -105,25 +112,25 @@ class _SidebarDemoState extends State<_SidebarDemo> {
           ),
         ],
         children: <NavigationBarItem>[
-          const NavigationLabel(child: Text('Main')),
-          ..._barItems(),
+          NavigationLabel(child: Text(docsSample(context, 'Main'))),
+          ..._barItems(context),
           const NavigationDivider(),
           NavigationGroup(
-            label: const Text('Account'),
+            label: Text(docsSample(context, 'Account')),
             children: <Widget>[
               NavigationCollapsible(
-                label: const Text('Profile'),
+                label: Text(docsSample(context, 'Profile')),
                 leading: const Icon(RadixIcons.person),
                 initialExpanded: true,
                 children: <Widget>[
                   NavigationItem(
                     index: 4,
-                    label: const Text('Details'),
+                    label: Text(docsSample(context, 'Details')),
                     child: const Icon(RadixIcons.idCard),
                   ),
                   NavigationItem(
                     index: 5,
-                    label: Text('Security'),
+                    label: Text(docsSample(context, 'Security')),
                     child: const Icon(RadixIcons.lockClosed),
                   ),
                 ],
@@ -139,8 +146,8 @@ class _SidebarDemoState extends State<_SidebarDemo> {
 Widget _sidebar(BuildContext context) => const _SidebarDemo();
 
 /// Named docs examples for `navigation_bar`; the first entry is the default.
-const List<ComponentPreview> navigationBarPreviews = <ComponentPreview>[
-  ComponentPreview('Default', _default),
-  ComponentPreview('With labels', _withLabels),
+List<ComponentPreview> get navigationBarPreviews => <ComponentPreview>[
+  ComponentPreview(docsSample(null, 'Default'), _default),
+  ComponentPreview(docsSample(null, 'With labels'), _withLabels),
   ComponentPreview('Sidebar', _sidebar),
 ];

@@ -18,8 +18,7 @@ import 'image.dart';
 /// A 48x48 PNG decoded from memory: the preview never hits the network, so it
 /// renders identically offline and inside a widget test.
 const String _imagePhotoBase64 =
-    'iVBORw0KGgoAAAANSUhEUgAAADAAAAAwCAIAAADYYG7QAAAAWElEQVR42u3OoRGAMBBFwdPURBHoFIaj'
-    'KTS9hBL+ROTUzjz/ts7xxZ73js1x5eqIFRAQEBAQ0CKoczarYkBAQEBAQKugzhkQEBAQENAWUOMMCAgIC'
+    'iVBORw0KGgoAAAANSUhEUgAAADAAAAAwCAIAAADYYG7QAAAAWElEQVR42u3OoRGAMBBFwdPURBHoFIajKTS9hBL+ROTUzjz/ts7xxZ73js1x5eqIFRAQEBAQ0CKoczarYkBAQEBAQKugzhkQEBAQENAWUOMMCAgIC'
     'AhoQz/vbpR28UARAAAAAABJRU5ErkJggg==';
 
 /// Local photo provider shared by the examples.
@@ -35,7 +34,7 @@ Widget _imageDefault(BuildContext context) {
       width: 96,
       height: 96,
       aspectRatio: 1,
-      semanticLabel: 'Photo',
+      semanticLabel: docsSample(context, 'Photo'),
     ),
   );
 }
@@ -99,8 +98,8 @@ Widget _imageRounded(BuildContext context) {
 }
 
 /// Named docs examples for `image`; the first entry is the default.
-const List<ComponentPreview> imagePreviews = <ComponentPreview>[
-  ComponentPreview('Default', _imageDefault),
-  ComponentPreview('Rounded', _imageRounded),
-  ComponentPreview('Slots', _imageSlots),
+List<ComponentPreview> get imagePreviews => <ComponentPreview>[
+  ComponentPreview(docsSample(null, 'Default'), _imageDefault),
+  ComponentPreview(docsSample(null, 'Rounded'), _imageRounded),
+  ComponentPreview(docsSample(null, 'Slots'), _imageSlots),
 ];

@@ -9,6 +9,7 @@ import 'package:flutter/widgets.dart';
 import '../../theme/color_tokens.dart';
 import '../../theme/theme.dart';
 import 'media_query.dart';
+import '../../foundation/component_preview.dart';
 
 /// Preview entry point used by the docs gallery.
 class MediaQueryPreview extends StatefulWidget {
@@ -25,7 +26,7 @@ class _MediaQueryPreviewState extends State<MediaQueryPreview> {
   @override
   Widget build(BuildContext context) {
     return Directionality(
-      textDirection: TextDirection.ltr,
+      textDirection: Directionality.maybeOf(context) ?? TextDirection.ltr,
       child: _body(context),
     );
   }
@@ -50,25 +51,33 @@ class _MediaQueryPreviewState extends State<MediaQueryPreview> {
               SizedBox(height: Theme.of(context).spacing.xl),
               _visibility(
                 minWidth: 600,
-                alternateChild: const Text('below the min bound'),
-                child: const Text('at or above the min bound'),
+                alternateChild: Text(
+                  docsSample(context, 'below the min bound'),
+                ),
+                child: Text(docsSample(context, 'at or above the min bound')),
               ),
               SizedBox(height: Theme.of(context).spacing.lg),
               _visibility(
                 maxWidth: 400,
-                alternateChild: const Text('above the max bound'),
-                child: const Text('at or below the max bound'),
+                alternateChild: Text(
+                  docsSample(context, 'above the max bound'),
+                ),
+                child: Text(docsSample(context, 'at or below the max bound')),
               ),
               SizedBox(height: Theme.of(context).spacing.lg),
-              const Text('scoped theme leg (min 600 / max 1000)'),
+              Text(
+                docsSample(context, 'scoped theme leg (min 600 / max 1000)'),
+              ),
               ComponentTheme<MediaQueryVisibilityTheme>(
                 data: const MediaQueryVisibilityTheme(
                   minWidth: 600,
                   maxWidth: 1000,
                 ),
                 child: MediaQueryVisibility(
-                  alternateChild: const Text('scoped: outside 600..1000'),
-                  child: const Text('scoped: inside 600..1000'),
+                  alternateChild: Text(
+                    docsSample(context, 'scoped: outside 600..1000'),
+                  ),
+                  child: Text(docsSample(context, 'scoped: inside 600..1000')),
                 ),
               ),
               SizedBox(height: Theme.of(context).spacing.xl),
@@ -77,8 +86,8 @@ class _MediaQueryPreviewState extends State<MediaQueryPreview> {
                   color: Theme.of(context).colors.background,
                   child: _visibility(
                     minWidth: 600,
-                    alternateChild: const Text('dark: mobile'),
-                    child: const Text('dark: desktop'),
+                    alternateChild: Text(docsSample(context, 'dark: mobile')),
+                    child: Text(docsSample(context, 'dark: desktop')),
                   ),
                 ),
               ),
@@ -104,8 +113,10 @@ class _MediaQueryPreviewState extends State<MediaQueryPreview> {
     return MediaQueryVisibility(
       minWidth: minWidth,
       maxWidth: maxWidth,
-      alternateChild: alternateChild ?? const Text('collapsed (no alternate)'),
-      child: child ?? const Text('always shown'),
+      alternateChild:
+          alternateChild ??
+          Text(docsSample(context, 'collapsed (no alternate)')),
+      child: child ?? Text(docsSample(context, 'always shown')),
     );
   }
 }

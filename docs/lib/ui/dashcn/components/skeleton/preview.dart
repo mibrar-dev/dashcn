@@ -30,7 +30,11 @@ class _SkeletonSkeletonToggle extends StatelessWidget {
       size: ButtonSize.sm,
       variant: ButtonVariant.outline,
       onPressed: onPressed,
-      child: Text(loading ? 'Show content' : 'Show skeleton'),
+      child: Text(
+        loading
+            ? docsSample(context, 'Show content')
+            : docsSample(context, 'Show skeleton'),
+      ),
     );
   }
 }
@@ -72,12 +76,21 @@ class _SkeletonSkeletonBlockState extends State<_SkeletonSkeletonBlock> {
               mainAxisSize: MainAxisSize.min,
               children: <Widget>[
                 Text(
-                  'Card title',
+                  docsSample(context, 'Card title'),
                   style: TextStyle(color: theme.colors.foreground),
                 ),
                 Gap(theme.spacing.sm),
                 Text(
-                  'Body copy that keeps its box while loading.',
+                  docsSample(
+                    context,
+                    docsSample(
+                      context,
+                      docsSample(
+                        context,
+                        'Body copy that keeps its box while loading.',
+                      ),
+                    ),
+                  ),
                   // Body copy renders over the muted shimmer sweep.
                   style: TextStyle(color: theme.colors.onMuted),
                 ),
@@ -114,7 +127,7 @@ class _SkeletonSkeletonCard extends StatelessWidget {
               width: 180,
               child: Skeleton(
                 child: Text(
-                  'Title',
+                  docsSample(context, 'Title'),
                   style: TextStyle(color: theme.colors.foreground),
                 ),
               ),
@@ -124,7 +137,7 @@ class _SkeletonSkeletonCard extends StatelessWidget {
               width: 140,
               child: Skeleton(
                 child: Text(
-                  'Supporting copy',
+                  docsSample(context, 'Supporting copy'),
                   style: TextStyle(color: theme.colors.mutedForeground),
                 ),
               ),
@@ -149,10 +162,10 @@ Widget _skeletonTable(BuildContext context) =>
     const SkeletonTable(columns: 3, rows: 4);
 
 /// Named docs examples for `skeleton`; the first entry is the default.
-const List<ComponentPreview> skeletonPreviews = <ComponentPreview>[
-  ComponentPreview('Default', _skeletonDefault),
+List<ComponentPreview> get skeletonPreviews => <ComponentPreview>[
+  ComponentPreview(docsSample(null, 'Default'), _skeletonDefault),
   ComponentPreview('Card', _skeletonCard),
-  ComponentPreview('List', _skeletonList),
-  ComponentPreview('Loading card', _skeletonLoadingCard),
+  ComponentPreview(docsSample(null, 'List'), _skeletonList),
+  ComponentPreview(docsSample(null, 'Loading card'), _skeletonLoadingCard),
   ComponentPreview('Table', _skeletonTable),
 ];

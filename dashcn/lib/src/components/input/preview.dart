@@ -27,7 +27,7 @@ class _InputSection extends StatelessWidget {
     return Padding(
       padding: EdgeInsets.only(bottom: theme.spacing.xs),
       child: Text(
-        label,
+        docsSample(context, label),
         style: theme.typography.small.copyWith(
           color: theme.colors.mutedForeground,
         ),
@@ -46,9 +46,9 @@ Widget _inputDefault(BuildContext context) {
     child: Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       mainAxisSize: MainAxisSize.min,
-      children: const <Widget>[
-        _InputSection('Email'),
-        Input(hintText: 'Email'),
+      children: <Widget>[
+        _InputSection(docsSample(context, 'Email')),
+        Input(hintText: docsSample(context, 'Email')),
       ],
     ),
   );
@@ -82,7 +82,7 @@ class _InputWithIconState extends State<_InputWithIcon> {
         children: <Widget>[
           Input(
             controller: _controller,
-            hintText: 'Type to enable clear/copy',
+            hintText: docsSample(context, 'Type to enable clear/copy'),
             features: <InputFeature>[
               InputLeadingFeature(const Icon(LucideIcons.search, size: 16)),
               InputClearFeature(),
@@ -91,16 +91,18 @@ class _InputWithIconState extends State<_InputWithIcon> {
             ],
           ),
           Gap(spacing.lg),
-          const Input(
+          Input(
             obscureText: true,
-            hintText: 'Password',
-            features: <InputFeature>[InputPasswordToggleFeature()],
+            hintText: docsSample(context, 'Password'),
+            features: const <InputFeature>[InputPasswordToggleFeature()],
           ),
           Gap(spacing.lg),
-          const Input(
+          Input(
             keyboardType: TextInputType.number,
-            hintText: 'Quantity',
-            features: <InputFeature>[InputSpinnerFeature(min: 0, max: 10)],
+            hintText: docsSample(context, 'Quantity'),
+            features: const <InputFeature>[
+              InputSpinnerFeature(min: 0, max: 10),
+            ],
           ),
         ],
       ),
@@ -115,19 +117,21 @@ Widget _inputInvalid(BuildContext context) {
     child: Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       mainAxisSize: MainAxisSize.min,
-      children: const <Widget>[
-        _InputSection('Invalid'),
+      children: <Widget>[
+        _InputSection(docsSample(context, 'Invalid')),
         Input(
-          hintText: 'Invalid while non-empty',
+          hintText: docsSample(context, 'Invalid while non-empty'),
           validator: _inputNotAllowed,
           features: <InputFeature>[InputRevalidateFeature()],
         ),
-        _InputSection('Above / below and hint'),
+        _InputSection(docsSample(context, 'Above / below and hint')),
         Input(
-          hintText: 'With helper rows',
+          hintText: docsSample(context, 'With helper rows'),
           features: <InputFeature>[
-            InputAboveBelowFeature.above(Text('Label')),
-            InputAboveBelowFeature.below(Text('Helper text')),
+            InputAboveBelowFeature.above(Text(docsSample(context, 'Label'))),
+            InputAboveBelowFeature.below(
+              Text(docsSample(context, 'Helper text')),
+            ),
             InputHintFeature(popupBuilder: _inputHintPopup),
           ],
         ),
@@ -136,10 +140,12 @@ Widget _inputInvalid(BuildContext context) {
   );
 }
 
-String? _inputNotAllowed(String? value) =>
-    (value ?? '').isEmpty ? null : 'This value is not allowed.';
+String? _inputNotAllowed(String? value) => (value ?? '').isEmpty
+    ? null
+    : docsSample(null, 'This value is not allowed.');
 
-Widget _inputHintPopup(BuildContext context) => const Text('Extra information');
+Widget _inputHintPopup(BuildContext context) =>
+    Text(docsSample(context, 'Extra information'));
 
 /// A disabled field beside a read-only one.
 Widget _inputDisabled(BuildContext context) {
@@ -150,14 +156,14 @@ Widget _inputDisabled(BuildContext context) {
       crossAxisAlignment: CrossAxisAlignment.stretch,
       mainAxisSize: MainAxisSize.min,
       children: <Widget>[
-        const _InputSection('Disabled'),
-        const Input(hintText: 'Disabled', enabled: false),
+        _InputSection(docsSample(context, 'Disabled')),
+        Input(hintText: docsSample(context, 'Disabled'), enabled: false),
         Gap(spacing.lg),
-        const _InputSection('Read-only'),
-        const Input(
-          hintText: 'Read-only',
+        _InputSection(docsSample(context, 'Read-only')),
+        Input(
+          hintText: docsSample(context, 'Read-only'),
           readOnly: true,
-          initialValue: 'Read-only value',
+          initialValue: docsSample(context, 'Read-only value'),
         ),
       ],
     ),
@@ -167,9 +173,9 @@ Widget _inputDisabled(BuildContext context) {
 Widget _inputWithIconExample(BuildContext context) => const _InputWithIcon();
 
 /// Named docs examples for `input`; the first entry is the default.
-const List<ComponentPreview> inputPreviews = <ComponentPreview>[
-  ComponentPreview('Default', _inputDefault),
-  ComponentPreview('With icon', _inputWithIconExample),
-  ComponentPreview('Invalid', _inputInvalid),
-  ComponentPreview('Disabled', _inputDisabled),
+List<ComponentPreview> get inputPreviews => <ComponentPreview>[
+  ComponentPreview(docsSample(null, 'Default'), _inputDefault),
+  ComponentPreview(docsSample(null, 'With icon'), _inputWithIconExample),
+  ComponentPreview(docsSample(null, 'Invalid'), _inputInvalid),
+  ComponentPreview(docsSample(null, 'Disabled'), _inputDisabled),
 ];

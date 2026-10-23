@@ -26,7 +26,7 @@ class _ControlledSwitchState extends State<_ControlledSwitch> {
     return Switch(
       value: _value,
       onChanged: (bool value) => setState(() => _value = value),
-      label: const Text('Airplane mode'),
+      label: Text(docsSample(context, 'Airplane mode')),
     );
   }
 }
@@ -69,7 +69,7 @@ class _ControllerSwitchState extends State<_ControllerSwitch> {
       children: <Widget>[
         Switch(
           controller: _controller,
-          label: const Text('Driven by a controller'),
+          label: Text(docsSample(context, 'Driven by a controller')),
         ),
         Text('value: ${_controller.value}'),
       ],
@@ -87,9 +87,12 @@ Widget _disabled(BuildContext context) {
   return Wrap(
     spacing: spacing.xl,
     runSpacing: spacing.md,
-    children: const <Widget>[
-      Switch(value: true, label: Text('Notifications (on)')),
-      Switch(value: false, label: Text('Sounds (off)')),
+    children: <Widget>[
+      Switch(
+        value: true,
+        label: Text(docsSample(context, 'Notifications (on)')),
+      ),
+      Switch(value: false, label: Text(docsSample(context, 'Sounds (off)'))),
     ],
   );
 }
@@ -118,12 +121,12 @@ class _SwitchRowsState extends State<_SwitchRows> {
         Switch(
           value: _notifications,
           onChanged: (bool value) => setState(() => _notifications = value),
-          label: const Text('Notifications'),
+          label: Text(docsSample(context, 'Notifications')),
         ),
         Switch(
           value: _sounds,
           onChanged: (bool value) => setState(() => _sounds = value),
-          label: const Text('Sounds'),
+          label: Text(docsSample(context, 'Sounds')),
         ),
       ],
     );
@@ -131,9 +134,9 @@ class _SwitchRowsState extends State<_SwitchRows> {
 }
 
 /// Named docs examples for `switch`; the first entry is the default.
-const List<ComponentPreview> switchPreviews = <ComponentPreview>[
-  ComponentPreview('Default', _default),
-  ComponentPreview('Rows', _switchRows),
-  ComponentPreview('Controller', _controller),
-  ComponentPreview('Disabled', _disabled),
+List<ComponentPreview> get switchPreviews => <ComponentPreview>[
+  ComponentPreview(docsSample(null, 'Default'), _default),
+  ComponentPreview(docsSample(null, 'Rows'), _switchRows),
+  ComponentPreview(docsSample(null, 'Controller'), _controller),
+  ComponentPreview(docsSample(null, 'Disabled'), _disabled),
 ];

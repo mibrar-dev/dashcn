@@ -78,9 +78,9 @@ class _SwipeActionsDemo extends StatefulWidget {
 
 class _SwipeActionsDemoState extends State<_SwipeActionsDemo> {
   final List<String> _rows = <String>[
-    'Design review at 10',
-    'Your invoice is ready',
-    'Weekend trip photos',
+    docsSample(null, 'Design review at 10'),
+    docsSample(null, 'Your invoice is ready'),
+    docsSample(null, 'Weekend trip photos'),
   ];
 
   void _remove(String row) {
@@ -106,11 +106,11 @@ class _SwipeActionsDemoState extends State<_SwipeActionsDemo> {
                 SwipeActions(
                   actions: <SwipeAction>[
                     SwipeAction(
-                      label: 'Archive',
+                      label: docsSample(context, 'Archive'),
                       onPressed: () => _remove(row),
                     ),
                     SwipeAction(
-                      label: 'Delete',
+                      label: docsSample(context, 'Delete'),
                       destructive: true,
                       onPressed: () => _remove(row),
                     ),
@@ -155,8 +155,15 @@ Widget _compact(BuildContext context) {
           SwipeActions(
             densityTokens: DensityTokens.compact,
             actions: <SwipeAction>[
-              SwipeAction(label: 'Archive', onPressed: () {}),
-              SwipeAction(label: 'Delete', destructive: true, onPressed: () {}),
+              SwipeAction(
+                label: docsSample(context, 'Archive'),
+                onPressed: () {},
+              ),
+              SwipeAction(
+                label: docsSample(context, 'Delete'),
+                destructive: true,
+                onPressed: () {},
+              ),
             ],
             onDismissed: () {},
             // List-tile single-line row (32); the action tiles stretch to
@@ -183,8 +190,15 @@ Widget _comfortable(BuildContext context) {
           SwipeActions(
             densityTokens: DensityTokens.comfortable,
             actions: <SwipeAction>[
-              SwipeAction(label: 'Archive', onPressed: () {}),
-              SwipeAction(label: 'Delete', destructive: true, onPressed: () {}),
+              SwipeAction(
+                label: docsSample(context, 'Archive'),
+                onPressed: () {},
+              ),
+              SwipeAction(
+                label: docsSample(context, 'Delete'),
+                destructive: true,
+                onPressed: () {},
+              ),
             ],
             onDismissed: () {},
             // List-tile two-line row (48); the action tiles stretch to
@@ -238,7 +252,11 @@ Widget _customBuilders(BuildContext context) {
               ),
               onPressed: () {},
             ),
-            SwipeAction(label: 'Delete', destructive: true, onPressed: () {}),
+            SwipeAction(
+              label: docsSample(context, 'Delete'),
+              destructive: true,
+              onPressed: () {},
+            ),
           ],
           onDismissed: () {},
           // List-tile single-line row (32); the custom builders above
@@ -265,8 +283,15 @@ Widget _motionOverride(BuildContext context) {
             exitDuration: Duration(milliseconds: 450),
           ),
           actions: <SwipeAction>[
-            SwipeAction(label: 'Archive', onPressed: () {}),
-            SwipeAction(label: 'Delete', destructive: true, onPressed: () {}),
+            SwipeAction(
+              label: docsSample(context, 'Archive'),
+              onPressed: () {},
+            ),
+            SwipeAction(
+              label: docsSample(context, 'Delete'),
+              destructive: true,
+              onPressed: () {},
+            ),
           ],
           onDismissed: () {},
           // List-tile single-line row (32).

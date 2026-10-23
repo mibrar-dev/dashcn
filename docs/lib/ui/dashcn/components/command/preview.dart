@@ -169,13 +169,13 @@ class _RenderCommandHitArea extends RenderProxyBox
 }
 
 /// Commands the palette offers.
-const List<String> _commandValues = <String>[
+List<String> _commandValues = <String>[
   'Calendar',
-  'Search Emoji',
-  'Launch',
-  'Profile',
-  'Mail',
-  'Settings',
+  docsSample(null, 'Search Emoji'),
+  docsSample(null, 'Launch'),
+  docsSample(null, 'Profile'),
+  docsSample(null, 'Mail'),
+  docsSample(null, 'Settings'),
 ];
 
 /// The palette itself, sized to the stage.
@@ -232,9 +232,9 @@ class _CommandPaletteState extends State<_CommandPalette> {
                       );
                     }
                   } else {
-                    for (final String group in const <String>[
-                      'Suggestions',
-                      'Settings',
+                    for (final String group in <String>[
+                      docsSample(context, 'Suggestions'),
+                      docsSample(context, 'Settings'),
                     ]) {
                       items.add(
                         // upstream group heading: `px-2 py-1.5 text-xs font-medium`
@@ -324,7 +324,7 @@ class _CommandDialogTrigger extends StatelessWidget {
       size: ButtonSize.sm,
       onPressed: () =>
           showCommandDialog<void>(context: context, builder: _results),
-      child: const Text('Open command palette'),
+      child: Text(docsSample(context, 'Open command palette')),
     );
   }
 }
@@ -366,9 +366,9 @@ Widget _commandCustomized(BuildContext context) {
 }
 
 /// Named docs examples for `command`; the first entry is the default.
-const List<ComponentPreview> commandPreviews = <ComponentPreview>[
-  ComponentPreview('Default', _commandDefault),
-  ComponentPreview('With groups', _commandWithGroups),
+List<ComponentPreview> commandPreviews = <ComponentPreview>[
+  ComponentPreview(docsSample(null, 'Default'), _commandDefault),
+  ComponentPreview(docsSample(null, 'With groups'), _commandWithGroups),
   ComponentPreview('Dialog', _commandDialog),
-  ComponentPreview('Customized', _commandCustomized),
+  ComponentPreview(docsSample(null, 'Customized'), _commandCustomized),
 ];

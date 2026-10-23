@@ -29,13 +29,37 @@ class _Member {
 }
 
 /// Six rows so pagination has two pages of four.
-const List<_Member> _members = <_Member>[
-  _Member('Avery', 'Designer', 'Active'),
-  _Member('Jordan', 'Engineer', 'Active'),
-  _Member('Casey', 'Manager', 'Away'),
-  _Member('Riley', 'Writer', 'Offline'),
-  _Member('Quinn', 'Engineer', 'Active'),
-  _Member('Skyler', 'Designer', 'Away'),
+List<_Member> _members = <_Member>[
+  _Member(
+    docsSample(null, 'Avery'),
+    docsSample(null, 'Designer'),
+    docsSample(null, 'Active'),
+  ),
+  _Member(
+    docsSample(null, 'Jordan'),
+    docsSample(null, 'Engineer'),
+    docsSample(null, 'Active'),
+  ),
+  _Member(
+    docsSample(null, 'Casey'),
+    docsSample(null, 'Manager'),
+    docsSample(null, 'Away'),
+  ),
+  _Member(
+    docsSample(null, 'Riley'),
+    docsSample(null, 'Writer'),
+    docsSample(null, 'Offline'),
+  ),
+  _Member(
+    docsSample(null, 'Quinn'),
+    docsSample(null, 'Engineer'),
+    docsSample(null, 'Active'),
+  ),
+  _Member(
+    docsSample(null, 'Skyler'),
+    docsSample(null, 'Designer'),
+    docsSample(null, 'Away'),
+  ),
 ];
 
 /// Badge variant for a member status.
@@ -73,7 +97,7 @@ class _SortHeader extends StatelessWidget {
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
-          Text(label),
+          Text(docsSample(context, label)),
           const Gap(4),
           Icon(
             sorted
@@ -217,7 +241,7 @@ class _DataTableState extends State<_DataTable> {
                         child: Checkbox(
                           tristate: true,
                           // Labels the tappable node for assistive tech.
-                          semanticLabel: 'Select all rows',
+                          semanticLabel: docsSample(context, 'Select all rows'),
                           value: allChecked
                               ? CheckboxValue.checked
                               : (someChecked
@@ -228,7 +252,7 @@ class _DataTableState extends State<_DataTable> {
                       ),
                       TableViewCell(
                         child: _SortHeader(
-                          label: 'Name',
+                          label: docsSample(context, 'Name'),
                           sorted: _sortColumn == _nameColumn,
                           ascending: _ascending,
                           onTap: () => _sort(_nameColumn),
@@ -236,13 +260,13 @@ class _DataTableState extends State<_DataTable> {
                       ),
                       TableViewCell(
                         child: _SortHeader(
-                          label: 'Role',
+                          label: docsSample(context, 'Role'),
                           sorted: _sortColumn == _roleColumn,
                           ascending: _ascending,
                           onTap: () => _sort(_roleColumn),
                         ),
                       ),
-                      const TableViewCell(child: Text('Status')),
+                      TableViewCell(child: Text(docsSample(context, 'Status'))),
                     ],
                   ),
                   for (final _Member member in visible)
@@ -252,7 +276,7 @@ class _DataTableState extends State<_DataTable> {
                         TableViewCell(
                           child: Checkbox(
                             // Labels the tappable node for assistive tech.
-                            semanticLabel: 'Select row',
+                            semanticLabel: docsSample(context, 'Select row'),
                             value: _selected.contains(member.name)
                                 ? CheckboxValue.checked
                                 : CheckboxValue.unchecked,
@@ -260,13 +284,15 @@ class _DataTableState extends State<_DataTable> {
                           ),
                         ),
                         TableViewCell(child: Text(member.name)),
-                        TableViewCell(child: Text(member.role)),
+                        TableViewCell(
+                          child: Text(docsSample(context, member.role)),
+                        ),
                         TableViewCell(
                           child: Align(
                             alignment: AlignmentDirectional.centerStart,
                             child: Badge(
                               variant: _statusVariant(member.status),
-                              child: Text(member.status),
+                              child: Text(docsSample(context, member.status)),
                             ),
                           ),
                         ),
@@ -320,7 +346,7 @@ class _DataTableState extends State<_DataTable> {
                               : const Icon(LucideIcons.chevronLeft, size: 14),
                           child: narrow
                               ? const Icon(LucideIcons.chevronLeft, size: 14)
-                              : const Text('Prev'),
+                              : Text(docsSample(context, 'Prev')),
                         ),
                         Gap(theme.spacing.sm),
                         Text(
@@ -342,7 +368,7 @@ class _DataTableState extends State<_DataTable> {
                               : const Icon(LucideIcons.chevronRight, size: 14),
                           child: narrow
                               ? const Icon(LucideIcons.chevronRight, size: 14)
-                              : const Text('Next'),
+                              : Text(docsSample(context, 'Next')),
                         ),
                       ],
                     ),
@@ -404,16 +430,16 @@ class _InvoicesTableState extends State<_InvoicesTable> {
             rows: <TableViewRow>[
               TableViewHeader(
                 cells: <TableViewCell>[
-                  TableViewCell(child: Text('Invoice')),
-                  TableViewCell(child: Text('Status')),
-                  TableViewCell(child: Text('Method')),
-                  TableViewCell(child: Text('Amount')),
+                  TableViewCell(child: Text(docsSample(context, 'Invoice'))),
+                  TableViewCell(child: Text(docsSample(context, 'Status'))),
+                  TableViewCell(child: Text(docsSample(context, 'Method'))),
+                  TableViewCell(child: Text(docsSample(context, 'Amount'))),
                 ],
               ),
               TableViewRow(
                 cells: <TableViewCell>[
                   TableViewCell(child: Text('INV-001')),
-                  TableViewCell(child: Text('Paid')),
+                  TableViewCell(child: Text(docsSample(context, 'Paid'))),
                   TableViewCell(child: Text('Card')),
                   TableViewCell(child: Text('\$250.00')),
                 ],
@@ -421,7 +447,7 @@ class _InvoicesTableState extends State<_InvoicesTable> {
               TableViewRow(
                 cells: <TableViewCell>[
                   TableViewCell(child: Text('INV-002')),
-                  TableViewCell(child: Text('Pending')),
+                  TableViewCell(child: Text(docsSample(context, 'Pending'))),
                   TableViewCell(child: Text('PayPal')),
                   TableViewCell(child: Text('\$150.00')),
                 ],
@@ -429,14 +455,17 @@ class _InvoicesTableState extends State<_InvoicesTable> {
               TableViewRow(
                 cells: <TableViewCell>[
                   TableViewCell(child: Text('INV-003')),
-                  TableViewCell(child: Text('Overdue')),
-                  TableViewCell(child: Text('Transfer')),
+                  TableViewCell(child: Text(docsSample(context, 'Overdue'))),
+                  TableViewCell(child: Text(docsSample(context, 'Transfer'))),
                   TableViewCell(child: Text('\$350.00')),
                 ],
               ),
               TableViewFooter(
                 cells: <TableViewCell>[
-                  TableViewCell(columnSpan: 3, child: Text('Total')),
+                  TableViewCell(
+                    columnSpan: 3,
+                    child: Text(docsSample(context, 'Total')),
+                  ),
                   TableViewCell(child: Text('\$750.00')),
                 ],
               ),
@@ -449,9 +478,9 @@ class _InvoicesTableState extends State<_InvoicesTable> {
 }
 
 /// Named docs examples for `table`; the first entry is the default.
-const List<ComponentPreview> tablePreviews = <ComponentPreview>[
-  ComponentPreview('Data table', _dataTable),
-  ComponentPreview('Invoices', _invoices),
+List<ComponentPreview> get tablePreviews => <ComponentPreview>[
+  ComponentPreview(docsSample(null, 'Data table'), _dataTable),
+  ComponentPreview(docsSample(null, 'Invoices'), _invoices),
 ];
 
 Widget _dataTable(BuildContext context) => const _DataTable();

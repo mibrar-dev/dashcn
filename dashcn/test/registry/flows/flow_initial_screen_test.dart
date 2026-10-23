@@ -20,7 +20,7 @@ void main() {
     ) async {
       await pumpFlow(
         tester,
-        const Auth01Flow(
+        Auth01Flow(
           key: ValueKey<String>('auth-signup'),
           initialScreen: '/signup',
         ),
@@ -31,10 +31,7 @@ void main() {
 
       await pumpFlow(
         tester,
-        const Auth01Flow(
-          key: ValueKey<String>('auth-otp'),
-          initialScreen: '/otp',
-        ),
+        Auth01Flow(key: ValueKey<String>('auth-otp'), initialScreen: '/otp'),
         brightness: brightness,
         direction: TextDirection.ltr,
       );
@@ -42,7 +39,7 @@ void main() {
 
       await pumpFlow(
         tester,
-        const Auth01Flow(
+        Auth01Flow(
           key: ValueKey<String>('auth-forgot'),
           initialScreen: '/forgot',
         ),
@@ -53,7 +50,7 @@ void main() {
 
       await pumpFlow(
         tester,
-        const Onboarding01Flow(
+        Onboarding01Flow(
           key: ValueKey<String>('onb-perm'),
           initialScreen: '/permission',
         ),
@@ -62,7 +59,7 @@ void main() {
       );
       await pumpFlow(
         tester,
-        const Checkout01Flow(
+        Checkout01Flow(
           key: ValueKey<String>('co-success'),
           initialScreen: '/success',
         ),
@@ -73,7 +70,7 @@ void main() {
 
       await pumpFlow(
         tester,
-        const Settings01Flow(
+        Settings01Flow(
           key: ValueKey<String>('set-appear'),
           initialScreen: '/appearance',
         ),
@@ -84,7 +81,7 @@ void main() {
 
       await pumpFlow(
         tester,
-        const Settings01Flow(
+        Settings01Flow(
           key: ValueKey<String>('set-notif'),
           initialScreen: '/notifications',
         ),
@@ -95,7 +92,7 @@ void main() {
 
       await pumpFlow(
         tester,
-        const Chat01Flow(),
+        Chat01Flow(),
         brightness: brightness,
         direction: TextDirection.ltr,
       );
@@ -104,7 +101,7 @@ void main() {
       // Bare arg-routes fall back to their list instead of throwing.
       await pumpFlow(
         tester,
-        const Checkout01Flow(
+        Checkout01Flow(
           key: ValueKey<String>('co-payment-bare'),
           initialScreen: '/payment',
         ),
@@ -115,7 +112,7 @@ void main() {
 
       await pumpFlow(
         tester,
-        const Chat01Flow(
+        Chat01Flow(
           key: ValueKey<String>('chat-thread-bare'),
           initialScreen: '/thread',
         ),

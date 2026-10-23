@@ -70,7 +70,7 @@ Widget _split(BuildContext context) {
 }
 
 /// Named docs examples for `file_diff_viewer`; the first entry is the default.
-const List<ComponentPreview> fileDiffViewerPreviews = <ComponentPreview>[
-  ComponentPreview('Unified', _unified),
-  ComponentPreview('Split', _split),
+List<ComponentPreview> get fileDiffViewerPreviews => <ComponentPreview>[
+  ComponentPreview(docsSample(null, 'Unified'), _unified),
+  ComponentPreview(docsSample(null, 'Split'), _split),
 ];

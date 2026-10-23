@@ -21,7 +21,7 @@ class ColorPreview extends StatelessWidget {
     final muted = derivative.changeToHSVSaturation(0.5);
     final shifted = derivative.changeToHSLHue(280);
     return Directionality(
-      textDirection: TextDirection.ltr,
+      textDirection: Directionality.maybeOf(context) ?? TextDirection.ltr,
       child: DefaultTextStyle(
         style: TextStyle(color: theme.colors.foreground, fontSize: 13),
         child: ColoredBox(

@@ -24,7 +24,7 @@ class _DefaultForm extends StatefulWidget {
 class _DefaultFormState extends State<_DefaultForm> {
   final FormController _controller = FormController();
   final FormKey<String> _emailKey = const FormKey<String>('email');
-  String _result = 'Not submitted';
+  String _result = docsSample(null, 'Not submitted');
 
   @override
   void dispose() {
@@ -47,18 +47,18 @@ class _DefaultFormState extends State<_DefaultForm> {
           children: <Widget>[
             FormItem<String>(
               key: _emailKey,
-              label: const Text('Email'),
-              hint: const Text('We never share it.'),
+              label: Text(docsSample(context, 'Email')),
+              hint: Text(docsSample(context, 'We never share it.')),
               validator: const NotEmptyValidator() & const EmailValidator(),
               child: const Input(),
             ),
             Gap(theme.spacing.lg),
             Button(
               onPressed: () => _controller.submit(context),
-              child: const Text('Submit'),
+              child: Text(docsSample(context, 'Submit')),
             ),
             Gap(theme.spacing.sm),
-            Text(_result),
+            Text(docsSample(context, _result)),
           ],
         ),
       ),
@@ -95,8 +95,10 @@ class _ValidatingFormState extends State<_ValidatingForm> {
         controller: _controller,
         child: FormItem<String>(
           key: _emailKey,
-          label: const Text('Email'),
-          hint: const Text('The message shows only once you type.'),
+          label: Text(docsSample(context, 'Email')),
+          hint: Text(
+            docsSample(context, 'The message shows only once you type.'),
+          ),
           validator: const NotEmptyValidator() & const EmailValidator(),
           showErrors: const <FormValidationMode>{FormValidationMode.changed},
           child: const Input(),
@@ -109,7 +111,7 @@ class _ValidatingFormState extends State<_ValidatingForm> {
 Widget _validating(BuildContext context) => const _ValidatingForm();
 
 /// Named docs examples for `form`; the first entry is the default.
-const List<ComponentPreview> formPreviews = <ComponentPreview>[
-  ComponentPreview('Default', _default),
-  ComponentPreview('Validating', _validating),
+List<ComponentPreview> get formPreviews => <ComponentPreview>[
+  ComponentPreview(docsSample(null, 'Default'), _default),
+  ComponentPreview(docsSample(null, 'Validating'), _validating),
 ];

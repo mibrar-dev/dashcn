@@ -19,6 +19,7 @@ import '../ui/dashcn/theme/theme.dart';
 import 'collage_cards.dart';
 import 'studio_blocks/studio_card.dart';
 import 'studio_blocks/studio_paint.dart';
+import '../ui/dashcn/foundation/component_preview.dart';
 
 /// `Analytics`: the reference home's visitors KPI with its CTA.
 class HomeAnalyticsCard extends StatelessWidget {
@@ -35,7 +36,7 @@ class HomeAnalyticsCard extends StatelessWidget {
       children: <Widget>[
         StudioValue('418.2K', size: 30),
         Gap(6),
-        StudioHelper('+10.2% vs last quarter'),
+        StudioHelper(docsSample(context, '+10.2% vs last quarter')),
         Gap(12),
         Button(
           variant: ButtonVariant.primary,
@@ -64,24 +65,26 @@ class HomeSavingsCard extends StatelessWidget {
         variant: ButtonVariant.outline,
         size: ButtonSize.sm,
         onPressed: collageNoop,
-        child: Text('New Goal'),
+        child: Text(docsSample(context, 'New Goal')),
       ),
       children: <Widget>[
         StudioStat(
-          label: 'Retirement',
+          label: docsSample(context, 'Retirement'),
           value: r'$420,000',
           progress: 0.65,
           caption: r'65% achieved · $273,000',
         ),
         Gap(20),
         StudioStat(
-          label: 'Real estate',
+          label: docsSample(context, 'Real estate'),
           value: r'$85,000',
           progress: 0.32,
           caption: r'32% achieved · $27,200',
         ),
         Gap(12),
-        StudioHelper('You have not met your targets for this year.'),
+        StudioHelper(
+          docsSample(context, 'You have not met your targets for this year.'),
+        ),
       ],
     );
   }
@@ -101,11 +104,23 @@ class HomeClaimableCard extends StatelessWidget {
       children: <Widget>[
         StudioValue(r'$1,211.29', size: 34),
         Gap(10),
-        Badge(variant: BadgeVariant.secondary, child: Text('Pending Setup')),
+        Badge(
+          variant: BadgeVariant.secondary,
+          child: Text(docsSample(context, 'Pending Setup')),
+        ),
         Gap(16),
-        StudioRow(label: 'Net Royalties', value: r'$1,248.75'),
-        StudioRow(label: 'Processing Fee', value: r'-$37.46'),
-        StudioRow(label: 'Total Ready to Claim', value: r'$1,211.29 USD'),
+        StudioRow(
+          label: docsSample(context, 'Net Royalties'),
+          value: r'$1,248.75',
+        ),
+        StudioRow(
+          label: docsSample(context, 'Processing Fee'),
+          value: r'-$37.46',
+        ),
+        StudioRow(
+          label: docsSample(context, 'Total Ready to Claim'),
+          value: r'$1,211.29 USD',
+        ),
         Gap(4),
         StudioHelper(
           r'Once your bank is connected, balances over $10.00 are '
@@ -121,20 +136,22 @@ class HomeDividendCard extends StatelessWidget {
   /// Creates the card.
   const HomeDividendCard({super.key});
 
-  static const List<(String, String, double)> holdings =
-      <(String, String, double)>[
-        ('Vanguard VIG', '450 shares', 0.44),
-        ('S&P 500 VOO', '112 shares', 0.22),
-        ('Apple AAPL', '85 shares', 0.2),
-        ('Realty Income', '320 shares', 0.14),
-      ];
+  static List<(String, String, double)> holdings = <(String, String, double)>[
+    (docsSample(null, 'Vanguard VIG'), docsSample(null, '450 shares'), 0.44),
+    (docsSample(null, 'S&P 500 VOO'), docsSample(null, '112 shares'), 0.22),
+    (docsSample(null, 'Apple AAPL'), docsSample(null, '85 shares'), 0.2),
+    (docsSample(null, 'Realty Income'), docsSample(null, '320 shares'), 0.14),
+  ];
 
   @override
   Widget build(BuildContext context) {
     final ThemeData theme = Theme.of(context);
     return CollageCard(
-      title: 'Q2 Dividend Income',
-      subtitle: 'Quarterly payouts across your portfolio holdings.',
+      title: docsSample(context, 'Q2 Dividend Income'),
+      subtitle: docsSample(
+        context,
+        'Quarterly payouts across your portfolio holdings.',
+      ),
       children: <Widget>[
         for (final (String name, String shares, double share) in holdings)
           Padding(
@@ -190,10 +207,13 @@ class HomeCardBalanceCard extends StatelessWidget {
           ),
         ),
         const Gap(12),
-        const Row(
+        Row(
           children: <Widget>[
-            Expanded(child: StudioHelper('Payment due')),
-            Badge(variant: BadgeVariant.outline, child: Text('1 Apr')),
+            Expanded(child: StudioHelper(docsSample(context, 'Payment due'))),
+            Badge(
+              variant: BadgeVariant.outline,
+              child: Text(docsSample(context, '1 Apr')),
+            ),
           ],
         ),
         const Gap(12),
@@ -201,11 +221,11 @@ class HomeCardBalanceCard extends StatelessWidget {
           values: <double>[18, 24, 21, 30, 28, 36, 33, 42, 39, 52],
         ),
         const Gap(12),
-        const Button(
+        Button(
           variant: ButtonVariant.outline,
           size: ButtonSize.sm,
           onPressed: collageNoop,
-          child: Text('Pay Early'),
+          child: Text(docsSample(context, 'Pay Early')),
         ),
       ],
     );
@@ -243,7 +263,7 @@ class _HomeActivityCardState extends State<HomeActivityCard> {
   Widget build(BuildContext context) {
     final ThemeData theme = Theme.of(context);
     return CollageCard(
-      title: 'Yearly Activity',
+      title: docsSample(context, 'Yearly Activity'),
       children: <Widget>[
         Row(
           children: <Widget>[

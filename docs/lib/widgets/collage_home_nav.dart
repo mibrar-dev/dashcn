@@ -18,16 +18,34 @@ import '../ui/dashcn/foundation/icons/lucide_icons.dart';
 import '../ui/dashcn/theme/theme.dart';
 import 'collage_cards.dart';
 import 'studio_blocks/studio_card.dart';
+import '../ui/dashcn/foundation/component_preview.dart';
 
 /// The sidebar nav: grouped links exactly like the reference's rail.
 class HomeSidebarCard extends StatelessWidget {
   /// Creates the card.
   const HomeSidebarCard({super.key});
 
-  static const List<(String, List<String>)> groups = <(String, List<String>)>[
-    ('Overview', <String>['Dashboard', 'Transactions', 'Investments']),
-    ('Account', <String>['Profile', 'Billing', 'Notifications']),
-    ('Support', <String>['Help Center', 'Status']),
+  static List<(String, List<String>)> groups = <(String, List<String>)>[
+    (
+      docsSample(null, 'Overview'),
+      <String>[
+        docsSample(null, 'Dashboard'),
+        docsSample(null, 'Transactions'),
+        docsSample(null, 'Investments'),
+      ],
+    ),
+    (
+      docsSample(null, 'Account'),
+      <String>[
+        docsSample(null, 'Profile'),
+        docsSample(null, 'Billing'),
+        docsSample(null, 'Notifications'),
+      ],
+    ),
+    (
+      docsSample(null, 'Support'),
+      <String>[docsSample(null, 'Help Center'), docsSample(null, 'Status')],
+    ),
   ];
 
   @override
@@ -46,7 +64,7 @@ class HomeSidebarCard extends StatelessWidget {
               padding: const EdgeInsets.only(bottom: 2),
               child: _HomeNavItem(
                 label: items[i],
-                active: group == 'Overview' && i == 0,
+                active: group == docsSample(context, 'Overview') && i == 0,
               ),
             ),
           const Gap(10),
@@ -120,11 +138,11 @@ class _HomeBrowseCardState extends State<HomeBrowseCard> {
       title: docsHome(locale, 'homeBrowseTitle'),
       subtitle: docsHome(locale, 'homeBrowseSub'),
       children: <Widget>[
-        const Breadcrumb(
+        Breadcrumb(
           children: <Widget>[
-            Text('Library'),
-            Text('Account options'),
-            Text('Reports'),
+            Text(docsSample(context, 'Library')),
+            Text(docsSample(context, 'Account options')),
+            Text(docsSample(context, 'Reports')),
           ],
         ),
         const Gap(16),
@@ -158,10 +176,10 @@ class HomeStepperCard extends StatefulWidget {
 }
 
 class _HomeStepperCardState extends State<HomeStepperCard> {
-  static const List<String> steps = <String>[
-    'Upload master',
-    'Add metadata',
-    'Publish release',
+  static List<String> steps = <String>[
+    docsSample(null, 'Upload master'),
+    docsSample(null, 'Add metadata'),
+    docsSample(null, 'Publish release'),
   ];
 
   final Set<int> _done = <int>{0, 1};

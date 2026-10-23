@@ -17,6 +17,7 @@
   ],
   "deps": {
     "foundation": [
+      "component_preview",
       "gap",
       "icons"
     ],

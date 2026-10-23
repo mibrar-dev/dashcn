@@ -21,6 +21,7 @@ import '../../foundation/icons/lucide_icons.dart';
 import '../../primitives/date_math.dart';
 import '../../primitives/localizations/localizations.dart';
 import '../../theme/theme.dart';
+import '../../foundation/component_preview.dart';
 
 /// A date-range card: the calendar, a range summary and footer actions.
 class Calendar01 extends StatefulWidget {
@@ -65,7 +66,7 @@ class _Calendar01State extends State<Calendar01> {
             Text(strings.blockSchedule, style: theme.typography.h2),
             Gap(theme.spacing.xs),
             Text(
-              'Pick a date range for your report.',
+              docsSample(context, 'Pick a date range for your report.'),
               style: theme.typography.textMuted.copyWith(
                 color: theme.colors.mutedForeground,
               ),
@@ -176,8 +177,7 @@ class _Calendar01Header extends StatelessWidget {
     final ComponentLocalizations strings = ComponentLocalizations.of(context);
     final bool rtl = Directionality.of(context) == TextDirection.rtl;
     final String months = twoMonths
-        ? '${_monthName(strings, view.month)} - '
-              '${_monthName(strings, view.next.month)} ${view.next.year}'
+        ? '${_monthName(strings, view.month)} - ${_monthName(strings, view.next.month)} ${view.next.year}'
         : '${_monthName(strings, view.month)} ${view.year}';
     return Row(
       children: <Widget>[
@@ -292,8 +292,7 @@ String _summary(ComponentLocalizations strings, CalendarValue? value) {
     return '$range · $nights night${nights == 1 ? '' : 's'}';
   }
   if (current is SingleCalendarValue) {
-    return '${_shortLabel(strings, current.date)} — '
-        'tap another day to extend the range';
+    return '${_shortLabel(strings, current.date)} — tap another day to extend the range';
   }
   return 'Pick a date range';
 }
@@ -305,11 +304,9 @@ String _rangeLabel(
   DateTime end,
 ) {
   if (start.year == end.year && start.month == end.month) {
-    return '${_shortMonth(strings, start.month)} ${start.day}–${end.day}, '
-        '${start.year}';
+    return '${_shortMonth(strings, start.month)} ${start.day}–${end.day}, ${start.year}';
   }
-  return '${_shortLabel(strings, start)} – ${_shortLabel(strings, end)}, '
-      '${end.year}';
+  return '${_shortLabel(strings, start)} – ${_shortLabel(strings, end)}, ${end.year}';
 }
 
 /// Compact day label: `Oct 12`.

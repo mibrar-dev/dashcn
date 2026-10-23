@@ -72,11 +72,10 @@ Widget _colorInputDefault(BuildContext context) =>
     const _ColorInputColorInputExample();
 
 /// The dialog prompt with a title.
-Widget _colorInputDialog(BuildContext context) =>
-    const _ColorInputColorInputExample(
-      mode: PromptMode.dialog,
-      dialogTitle: Text('Select a colour'),
-    );
+Widget _colorInputDialog(BuildContext context) => _ColorInputColorInputExample(
+  mode: PromptMode.dialog,
+  dialogTitle: Text(docsSample(context, 'Select a colour')),
+);
 
 /// Alpha plus the recent-colour history.
 Widget _colorInputAlphaHistory(BuildContext context) =>
@@ -87,9 +86,12 @@ Widget _colorInputDisabled(BuildContext context) =>
     const _ColorInputColorInputExample(enabled: false);
 
 /// Named docs examples for `color_input`; the first entry is the default.
-const List<ComponentPreview> colorInputPreviews = <ComponentPreview>[
-  ComponentPreview('Default', _colorInputDefault),
-  ComponentPreview('Dialog prompt', _colorInputDialog),
-  ComponentPreview('Alpha + history', _colorInputAlphaHistory),
-  ComponentPreview('Disabled', _colorInputDisabled),
+List<ComponentPreview> get colorInputPreviews => <ComponentPreview>[
+  ComponentPreview(docsSample(null, 'Default'), _colorInputDefault),
+  ComponentPreview(docsSample(null, 'Dialog prompt'), _colorInputDialog),
+  ComponentPreview(
+    docsSample(null, 'Alpha + history'),
+    _colorInputAlphaHistory,
+  ),
+  ComponentPreview(docsSample(null, 'Disabled'), _colorInputDisabled),
 ];
