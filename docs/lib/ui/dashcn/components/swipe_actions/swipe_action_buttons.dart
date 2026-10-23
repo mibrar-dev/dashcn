@@ -92,23 +92,25 @@ class SwipeActionButtons extends StatelessWidget {
       alignment: rtl ? Alignment.centerLeft : Alignment.centerRight,
       child: SizedBox(
         width: count * actionExtent,
+        // Stretch gives each tile the full row height (32 single-line,
+        // 48 two-line list-tile rows); the default tile fills it so the
+        // reveal always matches the row. Custom builders stay centered
+        // via _RevealButton so caller-painted 32x32 chips keep position.
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
             for (int i = 0; i < count; i++)
               SizedBox(
                 width: actionExtent,
-                child: Center(
-                  child: _RevealButton(
-                    progress: buttonProgress(progress, i, count),
+                child: _RevealButton(
+                  progress: buttonProgress(progress, i, count),
+                  action: actions[i],
+                  direction: rtl ? -1 : 1,
+                  fallback: _DensityTile(
                     action: actions[i],
-                    direction: rtl ? -1 : 1,
-                    fallback: _DensityTile(
-                      action: actions[i],
-                      iconSize: iconSize,
-                      labelStyle: labelStyle,
-                      iconGap: iconGap,
-                    ),
+                    iconSize: iconSize,
+                    labelStyle: labelStyle,
+                    iconGap: iconGap,
                   ),
                 ),
               ),
@@ -171,9 +173,12 @@ class _DensityTile extends StatelessWidget {
       child: Semantics(
         button: true,
         label: action.label,
+        // Fills the tight tile height from the stretched Row (full row
+        // height: 32 single-line, 48 two-line) so the button background
+        // always matches the row; content stays centered.
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
-          mainAxisSize: MainAxisSize.min,
+          mainAxisSize: MainAxisSize.max,
           children: <Widget>[
             if (action.icon != null) action.icon!,
             if (action.icon != null) SizedBox(height: iconGap),
@@ -208,7 +213,12 @@ class _RevealButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final SwipeActionBuilder? builder = action.builder;
-    final Widget child = builder?.call(context, progress) ?? fallback;
+    final bool isCustom = builder != null;
+    final Widget raw = builder?.call(context, progress) ?? fallback;
+    // Default tiles fill the full row height themselves (tight height from
+    // the stretched Row); custom builders paint their own size (e.g. a 32
+    // circle), so center them in the tile.
+    final Widget child = isCustom ? Center(child: raw) : raw;
     if (progress >= 1.0) {
       return child;
     }

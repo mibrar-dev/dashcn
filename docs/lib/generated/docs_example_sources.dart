@@ -29986,13 +29986,55 @@ Widget _narrow(BuildContext context) {
       code: r'''import 'package:flutter/widgets.dart';
 import 'package:<your_app>/ui/dashcn/foundation/gap.dart';
 import 'package:<your_app>/ui/dashcn/primitives/motion/motion_spec.dart';
+import 'package:<your_app>/ui/dashcn/theme/color_tokens.dart';
 import 'package:<your_app>/ui/dashcn/theme/density_tokens.dart';
 import 'package:<your_app>/ui/dashcn/theme/theme.dart';
 import 'package:<your_app>/ui/dashcn/components/card/card.dart';
+import 'package:<your_app>/ui/dashcn/components/list_tile/list_tile.dart';
 import 'package:<your_app>/ui/dashcn/components/swipe_actions/swipe_actions.dart';
 
+// List-tile row padding: 8 px horizontal (sizing scale). Vertical 4 px so
+// the rendered rows land exactly on the list-tile heights under both the
+// test font and real fonts (Geist runs ~1.3 line height: single-line content
+// ~26 clamps to the 32 minimum; two-line ~47 clamps to the 48 minimum).
+const EdgeInsets _rowPadding = EdgeInsets.symmetric(
+  horizontal: 8,
+  vertical: 4,
+);
+
+/// 1 px divider between rows inside the shared surface.
+Widget _rowDivider(ThemeData appTheme) => Container(
+  height: 1,
+  color: ThemedColor.ref(ColorRef.border).resolve(appTheme.colors),
+);
+
+/// One surface holding the swipeable rows (never a card per row).
+Widget _listSurface(ThemeData appTheme, List<Widget> rows) => Card(
+  padding: EdgeInsets.zero,
+  clipBehavior: Clip.antiAlias,
+  child: Column(
+    mainAxisSize: MainAxisSize.min,
+    crossAxisAlignment: CrossAxisAlignment.stretch,
+    children: <Widget>[
+      for (int i = 0; i < rows.length; i++) ...<Widget>[
+        rows[i],
+        if (i < rows.length - 1) _rowDivider(appTheme),
+      ],
+    ],
+  ),
+);
+
+/// Single-line 32 px list-tile row. Uses the list tile's own token
+/// typography (natural line heights) with an explicit foreground pair so the
+/// text stays readable on the card surface under bare-Theme harnesses.
+Widget _singleRow(ThemeData appTheme, String label) => ListTile(
+  contentPadding: _rowPadding,
+  textColor: ThemedColor.ref(ColorRef.foreground),
+  title: Text(label),
+);
+
 /// Three inbox rows; Archive and Delete both file the row away, Delete by
-/// button or by full swipe, with a live inbox count below.
+/// button or by full swipe, with a live inbox count 8 px below the list.
 class _SwipeActionsDemo extends StatefulWidget {
   const _SwipeActionsDemo();
 
@@ -30025,44 +30067,29 @@ class _SwipeActionsDemoState extends State<_SwipeActionsDemo> {
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
-            for (final String row in _rows) ...<Widget>[
-              SwipeActions(
-                actions: <SwipeAction>[
-                  SwipeAction(label: 'Archive', onPressed: () => _remove(row)),
-                  SwipeAction(
-                    label: 'Delete',
-                    destructive: true,
-                    onPressed: () => _remove(row),
-                  ),
-                ],
-                onDismissed: () => _remove(row),
-                child: Card(
-                  child: SizedBox(
-                    // List-tile single-line row (32 px sizing scale); the 64 px action
-                    // tiles stretch to this height so the swipe reveal always
-                    // matches the row.
-                    height: 32,
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 12),
-                      child: Align(
-                        alignment: Alignment.centerLeft,
-                        // Explicit token colour: under a bare Theme
-                        // (scorecard harness, tests) there is no app
-                        // DefaultTextStyle, and the raw white default
-                        // fails contrast.
-                        child: Text(
-                          row,
-                          style: appTheme.typography.textSmall.copyWith(
-                            color: appTheme.colors.foreground,
-                          ),
-                        ),
+            _listSurface(
+              appTheme,
+              <Widget>[
+                for (final String row in _rows)
+                  SwipeActions(
+                    actions: <SwipeAction>[
+                      SwipeAction(
+                        label: 'Archive',
+                        onPressed: () => _remove(row),
                       ),
-                    ),
+                      SwipeAction(
+                        label: 'Delete',
+                        destructive: true,
+                        onPressed: () => _remove(row),
+                      ),
+                    ],
+                    onDismissed: () => _remove(row),
+                    child: _singleRow(appTheme, row),
                   ),
-                ),
-              ),
-              Gap(appTheme.spacing.sm),
-            ],
+              ],
+            ),
+            // Caption sits 8 px (sm) below the list.
+            Gap(appTheme.spacing.sm),
             Text(
               'Inbox: ${_rows.length}',
               // Foreground, not muted: muted small text lands just under
@@ -30088,10 +30115,52 @@ Widget _default(BuildContext context) => const _SwipeActionsDemo();
       code: r'''import 'package:flutter/widgets.dart';
 import 'package:<your_app>/ui/dashcn/foundation/gap.dart';
 import 'package:<your_app>/ui/dashcn/primitives/motion/motion_spec.dart';
+import 'package:<your_app>/ui/dashcn/theme/color_tokens.dart';
 import 'package:<your_app>/ui/dashcn/theme/density_tokens.dart';
 import 'package:<your_app>/ui/dashcn/theme/theme.dart';
 import 'package:<your_app>/ui/dashcn/components/card/card.dart';
+import 'package:<your_app>/ui/dashcn/components/list_tile/list_tile.dart';
 import 'package:<your_app>/ui/dashcn/components/swipe_actions/swipe_actions.dart';
+
+// List-tile row padding: 8 px horizontal (sizing scale). Vertical 4 px so
+// the rendered rows land exactly on the list-tile heights under both the
+// test font and real fonts (Geist runs ~1.3 line height: single-line content
+// ~26 clamps to the 32 minimum; two-line ~47 clamps to the 48 minimum).
+const EdgeInsets _rowPadding = EdgeInsets.symmetric(
+  horizontal: 8,
+  vertical: 4,
+);
+
+/// 1 px divider between rows inside the shared surface.
+Widget _rowDivider(ThemeData appTheme) => Container(
+  height: 1,
+  color: ThemedColor.ref(ColorRef.border).resolve(appTheme.colors),
+);
+
+/// One surface holding the swipeable rows (never a card per row).
+Widget _listSurface(ThemeData appTheme, List<Widget> rows) => Card(
+  padding: EdgeInsets.zero,
+  clipBehavior: Clip.antiAlias,
+  child: Column(
+    mainAxisSize: MainAxisSize.min,
+    crossAxisAlignment: CrossAxisAlignment.stretch,
+    children: <Widget>[
+      for (int i = 0; i < rows.length; i++) ...<Widget>[
+        rows[i],
+        if (i < rows.length - 1) _rowDivider(appTheme),
+      ],
+    ],
+  ),
+);
+
+/// Single-line 32 px list-tile row. Uses the list tile's own token
+/// typography (natural line heights) with an explicit foreground pair so the
+/// text stays readable on the card surface under bare-Theme harnesses.
+Widget _singleRow(ThemeData appTheme, String label) => ListTile(
+  contentPadding: _rowPadding,
+  textColor: ThemedColor.ref(ColorRef.foreground),
+  title: Text(label),
+);
 
 Widget _compact(BuildContext context) {
   final ThemeData appTheme = Theme.of(context);
@@ -30099,30 +30168,25 @@ Widget _compact(BuildContext context) {
     color: appTheme.colors.background,
     child: Padding(
       padding: EdgeInsets.all(appTheme.spacing.sm),
-      child: SwipeActions(
-        densityTokens: DensityTokens.compact,
-        actions: <SwipeAction>[
-          SwipeAction(label: 'Archive', onPressed: () {}),
-          SwipeAction(label: 'Delete', destructive: true, onPressed: () {}),
-        ],
-        onDismissed: () {},
-        child: Card(
-          child: SizedBox(
-            height: 32,
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 12),
-              child: Align(
-                alignment: Alignment.centerLeft,
-                child: Text(
-                  'Compact row 32, tile 64',
-                  style: appTheme.typography.textSmall.copyWith(
-                    color: appTheme.colors.foreground,
-                  ),
-                ),
+      child: _listSurface(
+        appTheme,
+        <Widget>[
+          SwipeActions(
+            densityTokens: DensityTokens.compact,
+            actions: <SwipeAction>[
+              SwipeAction(label: 'Archive', onPressed: () {}),
+              SwipeAction(
+                label: 'Delete',
+                destructive: true,
+                onPressed: () {},
               ),
-            ),
+            ],
+            onDismissed: () {},
+            // List-tile single-line row (32); the 64 px action tiles
+            // stretch to this full row height.
+            child: _singleRow(appTheme, 'Compact row 32, tile 64'),
           ),
-        ),
+        ],
       ),
     ),
   );
@@ -30135,10 +30199,55 @@ Widget _compact(BuildContext context) {
       code: r'''import 'package:flutter/widgets.dart';
 import 'package:<your_app>/ui/dashcn/foundation/gap.dart';
 import 'package:<your_app>/ui/dashcn/primitives/motion/motion_spec.dart';
+import 'package:<your_app>/ui/dashcn/theme/color_tokens.dart';
 import 'package:<your_app>/ui/dashcn/theme/density_tokens.dart';
 import 'package:<your_app>/ui/dashcn/theme/theme.dart';
 import 'package:<your_app>/ui/dashcn/components/card/card.dart';
+import 'package:<your_app>/ui/dashcn/components/list_tile/list_tile.dart';
 import 'package:<your_app>/ui/dashcn/components/swipe_actions/swipe_actions.dart';
+
+// List-tile row padding: 8 px horizontal (sizing scale). Vertical 4 px so
+// the rendered rows land exactly on the list-tile heights under both the
+// test font and real fonts (Geist runs ~1.3 line height: single-line content
+// ~26 clamps to the 32 minimum; two-line ~47 clamps to the 48 minimum).
+const EdgeInsets _rowPadding = EdgeInsets.symmetric(
+  horizontal: 8,
+  vertical: 4,
+);
+
+/// 1 px divider between rows inside the shared surface.
+Widget _rowDivider(ThemeData appTheme) => Container(
+  height: 1,
+  color: ThemedColor.ref(ColorRef.border).resolve(appTheme.colors),
+);
+
+/// One surface holding the swipeable rows (never a card per row).
+Widget _listSurface(ThemeData appTheme, List<Widget> rows) => Card(
+  padding: EdgeInsets.zero,
+  clipBehavior: Clip.antiAlias,
+  child: Column(
+    mainAxisSize: MainAxisSize.min,
+    crossAxisAlignment: CrossAxisAlignment.stretch,
+    children: <Widget>[
+      for (int i = 0; i < rows.length; i++) ...<Widget>[
+        rows[i],
+        if (i < rows.length - 1) _rowDivider(appTheme),
+      ],
+    ],
+  ),
+);
+
+/// Two-line 48 px list-tile row. Plain [Text] children so the tile's token
+/// title/subtitle styles (and their natural line heights) apply; explicit
+/// foreground pairs keep contrast on the card surface.
+Widget _twoLineRow(ThemeData appTheme, String title, String subtitle) =>
+    ListTile(
+      contentPadding: _rowPadding,
+      textColor: ThemedColor.ref(ColorRef.foreground),
+      subtitleColor: ThemedColor.ref(ColorRef.foreground),
+      title: Text(title),
+      subtitle: Text(subtitle),
+    );
 
 Widget _comfortable(BuildContext context) {
   final ThemeData appTheme = Theme.of(context);
@@ -30146,30 +30255,29 @@ Widget _comfortable(BuildContext context) {
     color: appTheme.colors.background,
     child: Padding(
       padding: EdgeInsets.all(appTheme.spacing.sm),
-      child: SwipeActions(
-        densityTokens: DensityTokens.comfortable,
-        actions: <SwipeAction>[
-          SwipeAction(label: 'Archive', onPressed: () {}),
-          SwipeAction(label: 'Delete', destructive: true, onPressed: () {}),
-        ],
-        onDismissed: () {},
-        child: Card(
-          child: SizedBox(
-            height: 44,
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 14),
-              child: Align(
-                alignment: Alignment.centerLeft,
-                child: Text(
-                  'Comfortable row 44, tile 64',
-                  style: appTheme.typography.textSmall.copyWith(
-                    color: appTheme.colors.foreground,
-                  ),
-                ),
+      child: _listSurface(
+        appTheme,
+        <Widget>[
+          SwipeActions(
+            densityTokens: DensityTokens.comfortable,
+            actions: <SwipeAction>[
+              SwipeAction(label: 'Archive', onPressed: () {}),
+              SwipeAction(
+                label: 'Delete',
+                destructive: true,
+                onPressed: () {},
               ),
+            ],
+            onDismissed: () {},
+            // List-tile two-line row (48); the 64 px action tiles stretch
+            // to this full row height.
+            child: _twoLineRow(
+              appTheme,
+              'Comfortable two-line 48, tile 64',
+              'Subtitle keeps the 48 px list-tile height',
             ),
           ),
-        ),
+        ],
       ),
     ),
   );
@@ -30182,13 +30290,55 @@ Widget _comfortable(BuildContext context) {
       code: r'''import 'package:flutter/widgets.dart';
 import 'package:<your_app>/ui/dashcn/foundation/gap.dart';
 import 'package:<your_app>/ui/dashcn/primitives/motion/motion_spec.dart';
+import 'package:<your_app>/ui/dashcn/theme/color_tokens.dart';
 import 'package:<your_app>/ui/dashcn/theme/density_tokens.dart';
 import 'package:<your_app>/ui/dashcn/theme/theme.dart';
 import 'package:<your_app>/ui/dashcn/components/card/card.dart';
+import 'package:<your_app>/ui/dashcn/components/list_tile/list_tile.dart';
 import 'package:<your_app>/ui/dashcn/components/swipe_actions/swipe_actions.dart';
 
+// List-tile row padding: 8 px horizontal (sizing scale). Vertical 4 px so
+// the rendered rows land exactly on the list-tile heights under both the
+// test font and real fonts (Geist runs ~1.3 line height: single-line content
+// ~26 clamps to the 32 minimum; two-line ~47 clamps to the 48 minimum).
+const EdgeInsets _rowPadding = EdgeInsets.symmetric(
+  horizontal: 8,
+  vertical: 4,
+);
+
+/// 1 px divider between rows inside the shared surface.
+Widget _rowDivider(ThemeData appTheme) => Container(
+  height: 1,
+  color: ThemedColor.ref(ColorRef.border).resolve(appTheme.colors),
+);
+
+/// One surface holding the swipeable rows (never a card per row).
+Widget _listSurface(ThemeData appTheme, List<Widget> rows) => Card(
+  padding: EdgeInsets.zero,
+  clipBehavior: Clip.antiAlias,
+  child: Column(
+    mainAxisSize: MainAxisSize.min,
+    crossAxisAlignment: CrossAxisAlignment.stretch,
+    children: <Widget>[
+      for (int i = 0; i < rows.length; i++) ...<Widget>[
+        rows[i],
+        if (i < rows.length - 1) _rowDivider(appTheme),
+      ],
+    ],
+  ),
+);
+
+/// Single-line 32 px list-tile row. Uses the list tile's own token
+/// typography (natural line heights) with an explicit foreground pair so the
+/// text stays readable on the card surface under bare-Theme harnesses.
+Widget _singleRow(ThemeData appTheme, String label) => ListTile(
+  contentPadding: _rowPadding,
+  textColor: ThemedColor.ref(ColorRef.foreground),
+  title: Text(label),
+);
+
 /// Three inbox rows; Archive and Delete both file the row away, Delete by
-/// button or by full swipe, with a live inbox count below.
+/// button or by full swipe, with a live inbox count 8 px below the list.
 class _SwipeActionsDemo extends StatefulWidget {
   const _SwipeActionsDemo();
 
@@ -30221,44 +30371,29 @@ class _SwipeActionsDemoState extends State<_SwipeActionsDemo> {
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
-            for (final String row in _rows) ...<Widget>[
-              SwipeActions(
-                actions: <SwipeAction>[
-                  SwipeAction(label: 'Archive', onPressed: () => _remove(row)),
-                  SwipeAction(
-                    label: 'Delete',
-                    destructive: true,
-                    onPressed: () => _remove(row),
-                  ),
-                ],
-                onDismissed: () => _remove(row),
-                child: Card(
-                  child: SizedBox(
-                    // List-tile single-line row (32 px sizing scale); the 64 px action
-                    // tiles stretch to this height so the swipe reveal always
-                    // matches the row.
-                    height: 32,
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 12),
-                      child: Align(
-                        alignment: Alignment.centerLeft,
-                        // Explicit token colour: under a bare Theme
-                        // (scorecard harness, tests) there is no app
-                        // DefaultTextStyle, and the raw white default
-                        // fails contrast.
-                        child: Text(
-                          row,
-                          style: appTheme.typography.textSmall.copyWith(
-                            color: appTheme.colors.foreground,
-                          ),
-                        ),
+            _listSurface(
+              appTheme,
+              <Widget>[
+                for (final String row in _rows)
+                  SwipeActions(
+                    actions: <SwipeAction>[
+                      SwipeAction(
+                        label: 'Archive',
+                        onPressed: () => _remove(row),
                       ),
-                    ),
+                      SwipeAction(
+                        label: 'Delete',
+                        destructive: true,
+                        onPressed: () => _remove(row),
+                      ),
+                    ],
+                    onDismissed: () => _remove(row),
+                    child: _singleRow(appTheme, row),
                   ),
-                ),
-              ),
-              Gap(appTheme.spacing.sm),
-            ],
+              ],
+            ),
+            // Caption sits 8 px (sm) below the list.
+            Gap(appTheme.spacing.sm),
             Text(
               'Inbox: ${_rows.length}',
               // Foreground, not muted: muted small text lands just under
@@ -30287,10 +30422,52 @@ Widget _rightToLeft(BuildContext context) => const Directionality(
       code: r'''import 'package:flutter/widgets.dart';
 import 'package:<your_app>/ui/dashcn/foundation/gap.dart';
 import 'package:<your_app>/ui/dashcn/primitives/motion/motion_spec.dart';
+import 'package:<your_app>/ui/dashcn/theme/color_tokens.dart';
 import 'package:<your_app>/ui/dashcn/theme/density_tokens.dart';
 import 'package:<your_app>/ui/dashcn/theme/theme.dart';
 import 'package:<your_app>/ui/dashcn/components/card/card.dart';
+import 'package:<your_app>/ui/dashcn/components/list_tile/list_tile.dart';
 import 'package:<your_app>/ui/dashcn/components/swipe_actions/swipe_actions.dart';
+
+// List-tile row padding: 8 px horizontal (sizing scale). Vertical 4 px so
+// the rendered rows land exactly on the list-tile heights under both the
+// test font and real fonts (Geist runs ~1.3 line height: single-line content
+// ~26 clamps to the 32 minimum; two-line ~47 clamps to the 48 minimum).
+const EdgeInsets _rowPadding = EdgeInsets.symmetric(
+  horizontal: 8,
+  vertical: 4,
+);
+
+/// 1 px divider between rows inside the shared surface.
+Widget _rowDivider(ThemeData appTheme) => Container(
+  height: 1,
+  color: ThemedColor.ref(ColorRef.border).resolve(appTheme.colors),
+);
+
+/// One surface holding the swipeable rows (never a card per row).
+Widget _listSurface(ThemeData appTheme, List<Widget> rows) => Card(
+  padding: EdgeInsets.zero,
+  clipBehavior: Clip.antiAlias,
+  child: Column(
+    mainAxisSize: MainAxisSize.min,
+    crossAxisAlignment: CrossAxisAlignment.stretch,
+    children: <Widget>[
+      for (int i = 0; i < rows.length; i++) ...<Widget>[
+        rows[i],
+        if (i < rows.length - 1) _rowDivider(appTheme),
+      ],
+    ],
+  ),
+);
+
+/// Single-line 32 px list-tile row. Uses the list tile's own token
+/// typography (natural line heights) with an explicit foreground pair so the
+/// text stays readable on the card surface under bare-Theme harnesses.
+Widget _singleRow(ThemeData appTheme, String label) => ListTile(
+  contentPadding: _rowPadding,
+  textColor: ThemedColor.ref(ColorRef.foreground),
+  title: Text(label),
+);
 
 /// Custom action builders: each button scales/fades in with its own reveal
 /// progress, so callers can paint anything behind the row.
@@ -30300,55 +30477,49 @@ Widget _customBuilders(BuildContext context) {
     color: appTheme.colors.background,
     child: Padding(
       padding: EdgeInsets.all(appTheme.spacing.sm),
-      child: SwipeActions(
-        actions: <SwipeAction>[
-          SwipeAction(
-            label: 'Pin',
-            builder: (BuildContext context, double progress) => Opacity(
-              opacity: progress,
-              child: Transform.scale(
-                scale: 0.6 + 0.4 * progress,
-                child: Container(
-                  width: 32,
-                  height: 32,
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    color: appTheme.colors.primary,
-                  ),
-                  child: Center(
-                    child: Text(
-                      'Pin',
-                      style: appTheme.typography.textSmall.copyWith(
-                        color: appTheme.colors.primaryForeground,
+      child: _listSurface(
+        appTheme,
+        <Widget>[
+          SwipeActions(
+            actions: <SwipeAction>[
+              SwipeAction(
+                label: 'Pin',
+                builder: (BuildContext context, double progress) => Opacity(
+                  opacity: progress,
+                  child: Transform.scale(
+                    scale: 0.6 + 0.4 * progress,
+                    child: Container(
+                      width: 32,
+                      height: 32,
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        color: appTheme.colors.primary,
+                      ),
+                      child: Center(
+                        child: Text(
+                          'Pin',
+                          style: appTheme.typography.textSmall.copyWith(
+                            color: appTheme.colors.primaryForeground,
+                          ),
+                        ),
                       ),
                     ),
                   ),
                 ),
+                onPressed: () {},
               ),
-            ),
-            onPressed: () {},
+              SwipeAction(
+                label: 'Delete',
+                destructive: true,
+                onPressed: () {},
+              ),
+            ],
+            onDismissed: () {},
+            // List-tile single-line row (32); the custom builders above
+            // center in its full height.
+            child: _singleRow(appTheme, 'Custom builders'),
           ),
-          SwipeAction(label: 'Delete', destructive: true, onPressed: () {}),
         ],
-        onDismissed: () {},
-        child: Card(
-          child: SizedBox(
-            // List-tile single-line row (32); the custom builders above stretch to it.
-            height: 32,
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 12),
-              child: Align(
-                alignment: Alignment.centerLeft,
-                child: Text(
-                  'Custom builders',
-                  style: appTheme.typography.textSmall.copyWith(
-                    color: appTheme.colors.foreground,
-                  ),
-                ),
-              ),
-            ),
-          ),
-        ),
       ),
     ),
   );
@@ -30361,10 +30532,52 @@ Widget _customBuilders(BuildContext context) {
       code: r'''import 'package:flutter/widgets.dart';
 import 'package:<your_app>/ui/dashcn/foundation/gap.dart';
 import 'package:<your_app>/ui/dashcn/primitives/motion/motion_spec.dart';
+import 'package:<your_app>/ui/dashcn/theme/color_tokens.dart';
 import 'package:<your_app>/ui/dashcn/theme/density_tokens.dart';
 import 'package:<your_app>/ui/dashcn/theme/theme.dart';
 import 'package:<your_app>/ui/dashcn/components/card/card.dart';
+import 'package:<your_app>/ui/dashcn/components/list_tile/list_tile.dart';
 import 'package:<your_app>/ui/dashcn/components/swipe_actions/swipe_actions.dart';
+
+// List-tile row padding: 8 px horizontal (sizing scale). Vertical 4 px so
+// the rendered rows land exactly on the list-tile heights under both the
+// test font and real fonts (Geist runs ~1.3 line height: single-line content
+// ~26 clamps to the 32 minimum; two-line ~47 clamps to the 48 minimum).
+const EdgeInsets _rowPadding = EdgeInsets.symmetric(
+  horizontal: 8,
+  vertical: 4,
+);
+
+/// 1 px divider between rows inside the shared surface.
+Widget _rowDivider(ThemeData appTheme) => Container(
+  height: 1,
+  color: ThemedColor.ref(ColorRef.border).resolve(appTheme.colors),
+);
+
+/// One surface holding the swipeable rows (never a card per row).
+Widget _listSurface(ThemeData appTheme, List<Widget> rows) => Card(
+  padding: EdgeInsets.zero,
+  clipBehavior: Clip.antiAlias,
+  child: Column(
+    mainAxisSize: MainAxisSize.min,
+    crossAxisAlignment: CrossAxisAlignment.stretch,
+    children: <Widget>[
+      for (int i = 0; i < rows.length; i++) ...<Widget>[
+        rows[i],
+        if (i < rows.length - 1) _rowDivider(appTheme),
+      ],
+    ],
+  ),
+);
+
+/// Single-line 32 px list-tile row. Uses the list tile's own token
+/// typography (natural line heights) with an explicit foreground pair so the
+/// text stays readable on the card surface under bare-Theme harnesses.
+Widget _singleRow(ThemeData appTheme, String label) => ListTile(
+  contentPadding: _rowPadding,
+  textColor: ThemedColor.ref(ColorRef.foreground),
+  title: Text(label),
+);
 
 /// Per-instance motion override: a slower settle and collapse for this row
 /// only; the rest of the app keeps the theme timing.
@@ -30374,34 +30587,27 @@ Widget _motionOverride(BuildContext context) {
     color: appTheme.colors.background,
     child: Padding(
       padding: EdgeInsets.all(appTheme.spacing.sm),
-      child: SwipeActions(
-        motion: const MotionSpec(
-          enterDuration: Duration(milliseconds: 450),
-          exitDuration: Duration(milliseconds: 450),
-        ),
-        actions: <SwipeAction>[
-          SwipeAction(label: 'Archive', onPressed: () {}),
-          SwipeAction(label: 'Delete', destructive: true, onPressed: () {}),
-        ],
-        onDismissed: () {},
-        child: Card(
-          child: SizedBox(
-            // List-tile single-line row (32).
-            height: 32,
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 12),
-              child: Align(
-                alignment: Alignment.centerLeft,
-                child: Text(
-                  'Slow motion',
-                  style: appTheme.typography.textSmall.copyWith(
-                    color: appTheme.colors.foreground,
-                  ),
-                ),
-              ),
+      child: _listSurface(
+        appTheme,
+        <Widget>[
+          SwipeActions(
+            motion: const MotionSpec(
+              enterDuration: Duration(milliseconds: 450),
+              exitDuration: Duration(milliseconds: 450),
             ),
+            actions: <SwipeAction>[
+              SwipeAction(label: 'Archive', onPressed: () {}),
+              SwipeAction(
+                label: 'Delete',
+                destructive: true,
+                onPressed: () {},
+              ),
+            ],
+            onDismissed: () {},
+            // List-tile single-line row (32).
+            child: _singleRow(appTheme, 'Slow motion'),
           ),
-        ),
+        ],
       ),
     ),
   );
