@@ -167,12 +167,15 @@ class _FilterBarState extends State<FilterBar> {
         defaults: filterBarDefaults,
       );
 
+  // Same visuals desktop/mobile: ambient tokens, no phone-width switch.
+  // Touch comfort is invisible hit area, never larger visuals. All variants
+  // (inline, popup, dialog, sheet) use the 36 px control height.
   DensityTokens _tokens(BuildContext context) =>
       widget.densityTokens ??
       widget.theme?.themeDensityTokens ??
       ComponentTheme.maybeOf<FilterBarTheme>(context)?.themeDensityTokens ??
       ComponentThemes.maybeOf<FilterBarTheme>(context)?.themeDensityTokens ??
-      resolveDensityTokens(context);
+      Theme.of(context).densityTokens;
 
   @override
   void initState() {
