@@ -103,22 +103,29 @@ class _TocLink extends StatelessWidget {
     return Padding(
       padding: EdgeInsets.only(
         left: heading.level >= 4 ? 24 : (heading.level == 3 ? 16 : 0),
-        bottom: 8,
       ),
-      child: MouseRegion(
-        cursor: SystemMouseCursors.click,
-        child: Clickable(
-          onPressed: () => onSelect(heading.id),
-          child: Text(
-            heading.title,
-            style: docsText(
-              context,
-              size: 12.8,
-              weight: active ? FontWeight.w500 : FontWeight.w400,
-              height: 18.28 / 12.8,
-              color: active
-                  ? theme.colors.foreground
-                  : theme.colors.mutedForeground,
+      child: SizedBox(
+        height: 28,
+        child: MouseRegion(
+          cursor: SystemMouseCursors.click,
+          child: Clickable(
+            onPressed: () => onSelect(heading.id),
+            child: Align(
+              alignment: Alignment.centerLeft,
+              child: Text(
+                heading.title,
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+                style: docsText(
+                  context,
+                  size: 12.8,
+                  weight: active ? FontWeight.w500 : FontWeight.w400,
+                  height: 18.28 / 12.8,
+                  color: active
+                      ? theme.colors.foreground
+                      : theme.colors.mutedForeground,
+                ),
+              ),
             ),
           ),
         ),
