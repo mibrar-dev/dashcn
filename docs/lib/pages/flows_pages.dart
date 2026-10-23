@@ -206,7 +206,11 @@ class FlowCard extends StatelessWidget {
                         Badge(
                           variant: BadgeVariant.secondary,
                           child: Text(
-                            "${flow.screens.length} ${docsContentPage(DocsRouterScope.maybeOf(context)?.state.locale ?? const Locale('en'), 'pageFlowsScreens')}",
+                            docsFlowScreensCount(
+                              flow.screens.length,
+                              DocsRouterScope.maybeOf(context)?.state.locale ??
+                                  const Locale('en'),
+                            ),
                           ),
                         ),
                         const Gap(8),
@@ -433,7 +437,11 @@ class _FlowPageHeader extends StatelessWidget {
             Badge(
               variant: BadgeVariant.secondary,
               child: Text(
-                "${flow.screens.length} ${docsContentPage(DocsRouterScope.maybeOf(context)?.state.locale ?? const Locale('en'), 'pageFlowsScreens')}",
+                docsFlowScreensCount(
+                  flow.screens.length,
+                  DocsRouterScope.maybeOf(context)?.state.locale ??
+                      const Locale('en'),
+                ),
               ),
             ),
             const Gap(8),
