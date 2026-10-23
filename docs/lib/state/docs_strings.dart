@@ -12,6 +12,7 @@
 // Templates use {count} / {command} placeholders replaced at call sites.
 
 import 'package:flutter/widgets.dart';
+import 'package:intl/intl.dart' as intl;
 
 /// localStorage key of the website locale choice.
 const String kDocsLocaleKey = 'docs.locale';
@@ -249,6 +250,155 @@ String docsFileCount(int count, Locale locale) {
   }
   return docsFill(docsChrome(locale, 'fileMany'), count: count);
 }
+
+/// Localized flow screen-count badge (`1 screen`, `4 screens`).
+///
+/// Plural-aware via `intl`: English keeps the lowercase `1 screen` /
+/// `N screens` the flows index test checks; every other locale uses its own
+/// CLDR plural rules with its own nouns. Section headers keep using
+/// `pageFlowsScreens` (capitalized); this is the badge label.
+String docsFlowScreensCount(int count, Locale locale) {
+  final String tag = docsLocaleTag(locale);
+  final String intlLocale = intl.Intl.canonicalizedLocale(locale.toString());
+  String fill(String template) => template.replaceAll('{count}', '$count');
+  final String one = fill(_flowScreensOne[tag] ?? _flowScreensOne['en']!);
+  final String other = fill(_flowScreensOther[tag] ?? _flowScreensOther['en']!);
+  final String? zeroRaw = _flowScreensZero[tag];
+  final String? twoRaw = _flowScreensTwo[tag];
+  final String? fewRaw = _flowScreensFew[tag];
+  final String? manyRaw = _flowScreensMany[tag];
+  return intl.Intl.plural(
+    count,
+    zero: zeroRaw == null ? null : fill(zeroRaw),
+    one: one,
+    two: twoRaw == null ? null : fill(twoRaw),
+    few: fewRaw == null ? null : fill(fewRaw),
+    many: manyRaw == null ? null : fill(manyRaw),
+    other: other,
+    locale: intlLocale,
+  );
+}
+
+/// Singular flow screen-count badge per locale (`1 …`).
+const Map<String, String> _flowScreensOne = <String, String>{
+  'en': '1 screen',
+  'de': '1 Screen',
+  'zh_Hant': '1 畫面',
+  'ar': '1 شاشة',
+  'bg': '1 екран',
+  'bn': '1 স্ক্রিন',
+  'cs': '1 obrazovka',
+  'da': '1 skærm',
+  'el': '1 οθόνη',
+  'es': '1 pantalla',
+  'fa': '1 صفحه',
+  'fi': '1 näyttö',
+  'fil': '1 screen',
+  'fr': '1 écran',
+  'he': '1 מסך',
+  'hi': '1 स्क्रीन',
+  'hu': '1 képernyő',
+  'id': '1 layar',
+  'it': '1 schermata',
+  'ja': '1 画面',
+  'ko': '1 화면',
+  'mr': '1 स्क्रीन',
+  'ms': '1 skrin',
+  'nb': '1 skjerm',
+  'nl': '1 scherm',
+  'zh_Hans': '1 屏幕',
+  'pt_BR': '1 tela',
+  'pl': '1 ekran',
+  'ps': '1 پرده',
+  'pt': '1 ecrã',
+  'ro': '1 ecran',
+  'ru': '1 экран',
+  'sk': '1 obrazovka',
+  'sv': '1 skärm',
+  'ta': '1 திரை',
+  'te': '1 తెర',
+  'th': '1 จอ',
+  'tr': '1 ekran',
+  'uk': '1 екран',
+  'ur': '1 اسکرین',
+  'vi': '1 màn hình',
+  'zh': '1 屏幕',
+};
+
+/// Plural flow screen-count badge per locale (`{count} …`).
+const Map<String, String> _flowScreensOther = <String, String>{
+  'en': '{count} screens',
+  'de': '{count} Screens',
+  'zh_Hant': '{count} 畫面',
+  'ar': '{count} شاشة',
+  'bg': '{count} екрани',
+  'bn': '{count} স্ক্রিন',
+  'cs': '{count} obrazovek',
+  'da': '{count} skærme',
+  'el': '{count} οθόνες',
+  'es': '{count} pantallas',
+  'fa': '{count} صفحه‌ها',
+  'fi': '{count} näyttöä',
+  'fil': '{count} mga screen',
+  'fr': '{count} écrans',
+  'he': '{count} מסכים',
+  'hi': '{count} स्क्रीन',
+  'hu': '{count} képernyő',
+  'id': '{count} layar',
+  'it': '{count} schermate',
+  'ja': '{count} 画面',
+  'ko': '{count} 화면',
+  'mr': '{count} स्क्रीन',
+  'ms': '{count} skrin',
+  'nb': '{count} skjermer',
+  'nl': '{count} schermen',
+  'zh_Hans': '{count} 屏幕',
+  'pt_BR': '{count} telas',
+  'pl': '{count} ekranów',
+  'ps': '{count} پردې',
+  'pt': '{count} ecrãs',
+  'ro': '{count} de ecrane',
+  'ru': '{count} экранов',
+  'sk': '{count} obrazoviek',
+  'sv': '{count} skärmar',
+  'ta': '{count} திரைகள்',
+  'te': '{count} తెరలు',
+  'th': '{count} จอ',
+  'tr': '{count} ekran',
+  'uk': '{count} екранів',
+  'ur': '{count} اسکرین',
+  'vi': '{count} màn hình',
+  'zh': '{count} 屏幕',
+};
+
+/// Zero form where the locale distinguishes it (Arabic).
+const Map<String, String> _flowScreensZero = <String, String>{'ar': '0 شاشة'};
+
+/// Dual form where the locale distinguishes it (Arabic, Hebrew).
+const Map<String, String> _flowScreensTwo = <String, String>{
+  'ar': '2 شاشتان',
+  'he': '2 מסכים',
+};
+
+/// Few form where the locale distinguishes it.
+const Map<String, String> _flowScreensFew = <String, String>{
+  'ar': '{count} شاشات',
+  'cs': '{count} obrazovky',
+  'pl': '{count} ekrany',
+  'ro': '{count} ecrane',
+  'ru': '{count} экрана',
+  'sk': '{count} obrazovky',
+  'uk': '{count} екрани',
+};
+
+/// Many form where the locale distinguishes it.
+const Map<String, String> _flowScreensMany = <String, String>{
+  'ar': '{count} شاشة',
+  'he': '{count} מסכים',
+  'pl': '{count} ekranów',
+  'ru': '{count} экранов',
+  'uk': '{count} екранів',
+};
 
 /// Per-locale chrome tables (English first; every other locale must hold
 /// every key in [kDocsChromeKeys] — tested).

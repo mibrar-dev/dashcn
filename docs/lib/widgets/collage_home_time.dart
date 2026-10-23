@@ -5,6 +5,8 @@
 // registry `TimePicker` the same way.
 
 import 'package:flutter/widgets.dart';
+import '../routing/docs_router.dart';
+import '../state/docs_content_home.dart';
 
 import '../ui/dashcn/components/button/button.dart';
 import '../ui/dashcn/components/calendar/calendar.dart';
@@ -33,8 +35,10 @@ class _HomeCalendarCardState extends State<HomeCalendarCard> {
 
   @override
   Widget build(BuildContext context) {
+    final Locale locale =
+        DocsRouterScope.maybeOf(context)?.state.locale ?? const Locale('en');
     return CollageCard(
-      title: 'Release date',
+      title: docsHome(locale, 'homeReleaseDate'),
       subtitle: _subtitle(_selected),
       trailing: const Icon(LucideIcons.calendarDays, size: 16),
       children: <Widget>[
@@ -68,8 +72,10 @@ class _HomeDateRangeCardState extends State<HomeDateRangeCard> {
 
   @override
   Widget build(BuildContext context) {
+    final Locale locale =
+        DocsRouterScope.maybeOf(context)?.state.locale ?? const Locale('en');
     return CollageCard(
-      title: 'Reporting Period',
+      title: docsHome(locale, 'homeReportPeriod'),
       subtitle: _periodSubtitle(_range),
       children: <Widget>[
         DateRangePicker(
@@ -104,9 +110,11 @@ class _HomeTimeCardState extends State<HomeTimeCard> {
 
   @override
   Widget build(BuildContext context) {
+    final Locale locale =
+        DocsRouterScope.maybeOf(context)?.state.locale ?? const Locale('en');
     final ThemeData theme = Theme.of(context);
     return CollageCard(
-      title: 'Standup time',
+      title: docsHome(locale, 'homeStandup'),
       subtitle: 'Daily at ${_format(_time)}',
       trailing: Icon(
         LucideIcons.clock,

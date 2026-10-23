@@ -5,6 +5,7 @@
 import 'package:flutter/widgets.dart';
 
 import '../../foundation/gap.dart';
+import '../../theme/theme.dart';
 import '../focus_outline.dart';
 import '../motion/error_shake.dart';
 import '../motion/motion_collapse.dart';
@@ -93,6 +94,8 @@ class EditableTextShell extends StatelessWidget {
       onExit: (_) => onHover?.call(false),
       child: FocusOutline(
         focused: focused && showFocusRing,
+        // The ring fades in over 100 ms (MOTION.md: focus ring).
+        duration: Theme.of(context).motion.durations.instant,
         borderRadius: borderRadius,
         child: field,
       ),
@@ -193,6 +196,8 @@ class _ShellErrorState extends State<_ShellError> {
     }
     return ErrorShake(
       trigger: message,
+      // One 4 px shake over 300 ms before the message fades in (MOTION.md).
+      duration: Theme.of(context).motion.durations.slow,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         mainAxisSize: MainAxisSize.min,

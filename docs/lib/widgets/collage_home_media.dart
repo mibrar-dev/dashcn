@@ -5,6 +5,8 @@
 // card and the cover-art dropzone, re-shelled in [CollageCard].
 
 import 'package:flutter/services.dart';
+import '../routing/docs_router.dart';
+import '../state/docs_content_home.dart';
 import 'package:flutter/widgets.dart';
 
 import '../ui/dashcn/components/badge/badge.dart';
@@ -117,9 +119,11 @@ class HomeChatCardState extends State<HomeChatCard> {
 
   @override
   Widget build(BuildContext context) {
+    final Locale locale =
+        DocsRouterScope.maybeOf(context)?.state.locale ?? const Locale('en');
     return CollageCard(
-      title: 'Support',
-      subtitle: 'We reply within one business day.',
+      title: docsHome(locale, 'homeSupportTitle'),
+      subtitle: docsHome(locale, 'homeSupportSub'),
       trailing: Badge(
         variant: BadgeVariant.secondary,
         child: Text('${messages.length}'),
@@ -207,10 +211,12 @@ class HomeShareCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final Locale locale =
+        DocsRouterScope.maybeOf(context)?.state.locale ?? const Locale('en');
     final ThemeData theme = Theme.of(context);
     return CollageCard(
-      title: 'Share this release',
-      subtitle: 'Open the Ledger mobile app and scan this code to link.',
+      title: docsHome(locale, 'homeShareTitle'),
+      subtitle: docsHome(locale, 'homeShareSub'),
       children: <Widget>[
         const StudioQrTile(size: 108, seed: 11),
         const Gap(16),
@@ -248,9 +254,11 @@ class HomeUploadCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const CollageCard(
-      title: 'Cover Art',
-      subtitle: 'Upload the artwork of the release.',
+    final Locale locale =
+        DocsRouterScope.maybeOf(context)?.state.locale ?? const Locale('en');
+    return CollageCard(
+      title: docsHome(locale, 'homeCoverTitle'),
+      subtitle: docsHome(locale, 'homeCoverSub'),
       children: <Widget>[
         Dropzone(
           icon: Icon(LucideIcons.image, size: 22),

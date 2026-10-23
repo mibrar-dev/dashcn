@@ -31,6 +31,7 @@ import '../playground/ui/playground_panel.dart';
 import '../playground/ui/scope.dart';
 import '../routing/docs_nav.dart';
 import '../routing/docs_router.dart';
+import '../state/docs_content_components.dart';
 import '../state/docs_state.dart';
 import '../state/docs_strings.dart';
 import '../ui/dashcn/components/badge/badge.dart';
@@ -195,7 +196,10 @@ class _ComponentPageState extends State<ComponentPage> {
     final Widget article = DocsArticle(
       hideToc: playgroundActive,
       title: component.name,
-      description: component.description,
+      description: docsComponentDescription(
+        component.id,
+        DocsRouterScope.maybeOf(context)?.state.locale ?? const Locale('en'),
+      ),
       previous: neighbors.previousId != null
           ? DocsNavLink(
               label: kComponentLinks

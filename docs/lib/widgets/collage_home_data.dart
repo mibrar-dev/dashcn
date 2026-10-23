@@ -6,6 +6,8 @@
 // empty state — re-shelled in [CollageCard] for the home wall.
 
 import 'package:flutter/widgets.dart';
+import '../routing/docs_router.dart';
+import '../state/docs_content_home.dart';
 
 import '../ui/dashcn/components/accordion/accordion.dart';
 import '../ui/dashcn/components/avatar/avatar.dart';
@@ -56,9 +58,11 @@ class HomeTransactionsCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final Locale locale =
+        DocsRouterScope.maybeOf(context)?.state.locale ?? const Locale('en');
     return CollageCard(
-      title: 'Recent Transactions',
-      subtitle: 'Your latest account activity.',
+      title: docsHome(locale, 'homeRecentTitle'),
+      subtitle: docsHome(locale, 'homeRecentSub'),
       trailing: const Button(
         variant: ButtonVariant.ghost,
         size: ButtonSize.sm,
@@ -160,9 +164,11 @@ class HomeTeamCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final Locale locale =
+        DocsRouterScope.maybeOf(context)?.state.locale ?? const Locale('en');
     return CollageCard(
-      title: 'Team Members',
-      subtitle: 'Four people have access to this workspace.',
+      title: docsHome(locale, 'homeTeamTitle'),
+      subtitle: docsHome(locale, 'homeTeamSub'),
       children: <Widget>[
         for (final (String name, String role) in members)
           Padding(
@@ -235,9 +241,11 @@ class HomeFaqCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const CollageCard(
-      title: 'Frequently asked questions',
-      subtitle: 'General, Billing and Goals',
+    final Locale locale =
+        DocsRouterScope.maybeOf(context)?.state.locale ?? const Locale('en');
+    return CollageCard(
+      title: docsHome(locale, 'homeFaqTitle'),
+      subtitle: docsHome(locale, 'homeFaqSub'),
       children: <Widget>[
         Accordion(
           items: <AccordionItem>[
@@ -276,9 +284,11 @@ class HomeEmptyCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const CollageCard(
-      title: 'New Release',
-      subtitle: 'Nothing here yet.',
+    final Locale locale =
+        DocsRouterScope.maybeOf(context)?.state.locale ?? const Locale('en');
+    return CollageCard(
+      title: docsHome(locale, 'homeReleaseTitle'),
+      subtitle: docsHome(locale, 'homeReleaseEmpty'),
       children: <Widget>[
         EmptyState(
           variant: EmptyStateVariant.empty,

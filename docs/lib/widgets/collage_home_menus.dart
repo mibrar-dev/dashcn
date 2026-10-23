@@ -5,6 +5,8 @@
 // real `Command` palette through a dialog.
 
 import 'package:flutter/widgets.dart';
+import '../routing/docs_router.dart';
+import '../state/docs_content_home.dart';
 
 import '../ui/dashcn/components/button/button.dart';
 import '../ui/dashcn/components/command/command.dart';
@@ -25,9 +27,11 @@ class HomeMenubarCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final Locale locale =
+        DocsRouterScope.maybeOf(context)?.state.locale ?? const Locale('en');
     return CollageCard(
-      title: 'Menu bar',
-      subtitle: 'File, edit and view menus.',
+      title: docsHome(locale, 'homeMenuTitle'),
+      subtitle: docsHome(locale, 'homeMenuSub'),
       children: <Widget>[
         // `Menubar` sizes its window intrinsically and cannot shrink below
         // its widest row. Clip-free horizontal scroll keeps it reachable in
@@ -84,9 +88,11 @@ class HomeDropdownCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final Locale locale =
+        DocsRouterScope.maybeOf(context)?.state.locale ?? const Locale('en');
     return CollageCard(
-      title: 'Quick actions',
-      subtitle: 'The menu surface, opened.',
+      title: docsHome(locale, 'homeQuickTitle'),
+      subtitle: docsHome(locale, 'homeQuickSub'),
       children: <Widget>[
         SizedBox(
           width: 220,
@@ -123,10 +129,12 @@ class HomeCommandCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final Locale locale =
+        DocsRouterScope.maybeOf(context)?.state.locale ?? const Locale('en');
     final ThemeData theme = Theme.of(context);
     return CollageCard(
-      title: 'Command palette',
-      subtitle: 'Every page, one keystroke away.',
+      title: docsHome(locale, 'homePaletteTitle'),
+      subtitle: docsHome(locale, 'homePaletteSub'),
       children: <Widget>[
         Button(
           variant: ButtonVariant.outline,

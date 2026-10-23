@@ -730,7 +730,7 @@ const List<DocsSearchEntry> kDocsSearchIndex = <DocsSearchEntry>[
     label: 'Checkbox',
     kind: DocsSearchKind.component,
     route: '/docs/components/checkbox',
-    tag: '3 files',
+    tag: '4 files',
     keywords: <String>[
       'Checkbox',
       'checkbox',
@@ -994,7 +994,7 @@ const List<DocsSearchEntry> kDocsSearchIndex = <DocsSearchEntry>[
     label: 'Star Rating',
     kind: DocsSearchKind.component,
     route: '/docs/components/star_rating',
-    tag: '3 files',
+    tag: '4 files',
     keywords: <String>[
       'Star Rating',
       'star_rating',

@@ -7,6 +7,9 @@ import 'package:flutter/widgets.dart';
 
 import '../generated/docs_tables.dart';
 import '../routing/docs_nav.dart';
+import '../routing/docs_router.dart';
+import '../state/docs_content_pages.dart';
+import '../state/docs_content_prose2.dart';
 import '../ui/dashcn/foundation/gap.dart';
 import '../ui/dashcn/foundation/icons/lucide_icons.dart';
 import '../ui/dashcn/theme/theme.dart';
@@ -26,22 +29,16 @@ class CliReferencePage extends StatelessWidget {
   Widget build(BuildContext context) {
     final ({DocsNavLink? previous, DocsNavLink? next}) neighbors =
         docsPageNeighbors('/docs/cli');
+    final Locale locale =
+        DocsRouterScope.maybeOf(context)?.state.locale ?? const Locale('en');
     return DocsLayout(
       child: DocsArticle(
-        title: 'CLI reference',
-        description:
-            'The dashcn command installs, updates and validates the '
-            'registry. Every command is snapshot-derived from the CLI help '
-            'text.',
+        title: docsContentPage(locale, 'pageCliTitle'),
+        description: docsContentPage(locale, 'pageCliDesc'),
         previous: neighbors.previous,
         next: neighbors.next,
         children: <Widget>[
-          const TypesetParagraph(
-            'The CLI manages the registry lifecycle: install the layer core, '
-            'add components with their dependency closure, update from '
-            'upstream, and validate the install. All commands are '
-            'snapshot-derived from the CLI help text.',
-          ),
+          TypesetParagraph(docsProse2(locale, 'proseCliP1')),
           for (final DocsCliCommand command in kCliCommands) ...<Widget>[
             _CommandSection(command: command),
           ],
