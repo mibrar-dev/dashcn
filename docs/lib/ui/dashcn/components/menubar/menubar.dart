@@ -62,16 +62,24 @@ class Menubar extends StatelessWidget {
       // Horizontal root: submenu levels open below the trigger's start
       // edge (see MenuButton); nested groups always reset to vertical.
       direction: Axis.horizontal,
-      // The bar triggers meet the 48px touch minimum (transparent growth,
-      // visuals unchanged); popup rows keep the upstream 32px rows.
-      rowMinHeight: 48,
+      // SIZING.md bars: the root is 36 px with 4 px surface padding, so the
+      // triggers are 28 px visuals. Touch comfort comes from the invisible
+      // hit area, never larger visuals, so the height stays 28 on mobile.
+      rowMinHeight: kMenuBarTriggerHeight,
       subMenuOffset: offset,
       autofocus: false,
+      // The triggers run full-bleed edge to edge in a horizontal scroller
+      // (the menu-surface precedent: no inset gaps to miss, one
+      // uninterrupted hit area per trigger); a narrow bar scrolls instead
+      // of clipping.
       builder: (context, rows) => IntrinsicHeight(
-        child: Row(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: rows,
+        child: SingleChildScrollView(
+          scrollDirection: Axis.horizontal,
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: rows,
+          ),
         ),
       ),
       children: children,

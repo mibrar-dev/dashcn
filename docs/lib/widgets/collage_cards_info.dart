@@ -4,6 +4,8 @@
 // ~400-line rule. Shares the [CollageCard] shell from that file.
 
 import 'package:flutter/widgets.dart';
+import '../routing/docs_router.dart';
+import '../state/docs_content_home.dart';
 
 import '../generated/docs_data.dart';
 import '../routing/docs_nav.dart';
@@ -23,8 +25,10 @@ class CollageButtonsCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final Locale locale =
+        DocsRouterScope.maybeOf(context)?.state.locale ?? const Locale('en');
     return CollageCard(
-      title: 'Buttons',
+      title: docsHome(locale, 'homeButtonsTitle'),
       children: <Widget>[
         Wrap(
           spacing: 8,
@@ -217,7 +221,7 @@ class CollageTableCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const CollageCard(
+    return CollageCard(
       title: 'Table',
       subtitle: 'Rows, columns and widths from one widget',
       children: <Widget>[

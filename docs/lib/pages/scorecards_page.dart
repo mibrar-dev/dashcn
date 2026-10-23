@@ -10,6 +10,9 @@ import 'package:flutter/widgets.dart';
 import '../generated/docs_data.dart';
 import '../generated/docs_scorecards.dart';
 import '../routing/docs_nav.dart';
+import '../routing/docs_router.dart';
+import '../state/docs_content_pages.dart';
+import '../state/docs_content_prose2.dart';
 import '../ui/dashcn/components/button/button.dart';
 import '../ui/dashcn/foundation/gap.dart';
 import '../ui/dashcn/theme/theme.dart';
@@ -30,12 +33,12 @@ class ScorecardsPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final ({DocsNavLink? previous, DocsNavLink? next}) neighbors =
         docsPageNeighbors('/docs/scorecards');
+    final Locale locale =
+        DocsRouterScope.maybeOf(context)?.state.locale ?? const Locale('en');
     return DocsLayout(
       child: DocsArticle(
-        title: 'How we measure',
-        description:
-            'Trust scorecards are measured, reproducible quality facts — '
-            'never hand-typed numbers.',
+        title: docsContentPage(locale, 'pageScoreTitle'),
+        description: docsContentPage(locale, 'pageScoreDesc'),
         previous: neighbors.previous,
         next: neighbors.next,
         children: <Widget>[
@@ -45,7 +48,10 @@ class ScorecardsPage extends StatelessWidget {
             'a generated harness run over the component previews; a missing '
             'measurement is shown as “Not measured”, never as a pass.',
           ),
-          const HeadingAnchor(id: 'metrics', title: 'Metrics'),
+          HeadingAnchor(
+            id: 'metrics',
+            title: docsProse2(locale, 'proseScoreH1'),
+          ),
           const TypesetParagraph(
             'Accessibility checks the preview with the framework guidelines: '
             'text contrast (4.5 minimum), labeled tap targets, Android tap '
@@ -76,7 +82,10 @@ class ScorecardsPage extends StatelessWidget {
             'decorative examples with nothing to announce (no text, no '
             'tappable nodes) pass the semantics check vacuously.',
           ),
-          const HeadingAnchor(id: 'how-produced', title: 'How it is produced'),
+          HeadingAnchor(
+            id: 'how-produced',
+            title: docsProse2(locale, 'proseScoreHowH'),
+          ),
           const TypesetParagraph(
             'The kit generator runs a generated harness test with the JSON '
             'reporter, collects one SCORECARD record per component, counts '
@@ -88,7 +97,10 @@ class ScorecardsPage extends StatelessWidget {
             code: 'dart run tool/gen_scorecards.dart',
             language: 'bash',
           ),
-          const HeadingAnchor(id: 'limits', title: 'Limits'),
+          HeadingAnchor(
+            id: 'limits',
+            title: docsProse2(locale, 'proseScoreLimH'),
+          ),
           const TypesetParagraph(
             'Test font: the harness pumps previews under the default theme '
             'fallback with the test font, so muted text near 4.35 to 4.43 '
@@ -106,7 +118,10 @@ class ScorecardsPage extends StatelessWidget {
             'desktop-sized controls (36 px buttons and rows) and are never '
             'hidden when they fail.',
           ),
-          const HeadingAnchor(id: 'overview', title: 'All components'),
+          HeadingAnchor(
+            id: 'overview',
+            title: docsProse2(locale, 'proseScoreAllH'),
+          ),
           const TypesetParagraph(
             'Every measured component with its overall badge. Sort by '
             'failures to surface the components with the most failing checks.',

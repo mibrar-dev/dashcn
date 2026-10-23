@@ -14,6 +14,8 @@ import '../ui/dashcn/components/input_otp/input_otp.dart';
 import '../ui/dashcn/components/select/select.dart';
 import '../ui/dashcn/components/switch/switch.dart';
 import '../ui/dashcn/foundation/gap.dart';
+import '../routing/docs_router.dart';
+import '../state/docs_content_home.dart';
 import 'collage_cards.dart';
 import 'studio_blocks/studio_card.dart';
 
@@ -32,11 +34,13 @@ class _HomeCreateAccountCardState extends State<HomeCreateAccountCard> {
 
   @override
   Widget build(BuildContext context) {
+    final Locale locale =
+        DocsRouterScope.maybeOf(context)?.state.locale ?? const Locale('en');
     return CollageCard(
-      title: 'Create Account',
-      subtitle: 'Start distributing your music in minutes.',
+      title: docsHome(locale, 'homeCreateTitle'),
+      subtitle: docsHome(locale, 'homeCreateSub'),
       children: <Widget>[
-        const StudioFieldLabel('Email'),
+        StudioFieldLabel(docsHome(locale, 'homeEmail')),
         const Gap(6),
         const Input(
           initialValue: '',
@@ -44,7 +48,7 @@ class _HomeCreateAccountCardState extends State<HomeCreateAccountCard> {
           keyboardType: TextInputType.emailAddress,
         ),
         const Gap(16),
-        const StudioFieldLabel('Password'),
+        StudioFieldLabel(docsHome(locale, 'homePassword')),
         const Gap(6),
         const Input(
           initialValue: '',
@@ -52,7 +56,7 @@ class _HomeCreateAccountCardState extends State<HomeCreateAccountCard> {
           hintText: 'At least 8 characters',
         ),
         const Gap(16),
-        const StudioFieldLabel('Payout Method'),
+        StudioFieldLabel(docsHome(locale, 'homePayout')),
         const Gap(6),
         Select<String>(
           value: _payout,
@@ -70,7 +74,7 @@ class _HomeCreateAccountCardState extends State<HomeCreateAccountCard> {
         const Gap(16),
         Row(
           children: <Widget>[
-            const Expanded(child: Text('Billing same as payout')),
+            Expanded(child: Text(docsHome(locale, 'homeBillingSame'))),
             Switch(
               value: _sameAddress,
               onChanged: (bool value) => setState(() => _sameAddress = value),
@@ -81,9 +85,12 @@ class _HomeCreateAccountCardState extends State<HomeCreateAccountCard> {
         Button(
           variant: ButtonVariant.primary,
           onPressed: () {},
-          child: const SizedBox(
+          child: SizedBox(
             width: double.infinity,
-            child: Text('Create Account', textAlign: TextAlign.center),
+            child: Text(
+              docsHome(locale, 'homeCreateBtn'),
+              textAlign: TextAlign.center,
+            ),
           ),
         ),
       ],
@@ -98,11 +105,13 @@ class HomeLoginCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const CollageCard(
-      title: 'Welcome back',
-      subtitle: 'Sign in to your workspace.',
+    final Locale locale =
+        DocsRouterScope.maybeOf(context)?.state.locale ?? const Locale('en');
+    return CollageCard(
+      title: docsHome(locale, 'homeWelcomeTitle'),
+      subtitle: docsHome(locale, 'homeWelcomeSub'),
       children: <Widget>[
-        StudioFieldLabel('Email Address'),
+        StudioFieldLabel(docsHome(locale, 'homeEmailAddr')),
         Gap(6),
         Input(
           initialValue: '',
@@ -119,7 +128,10 @@ class HomeLoginCard extends StatelessWidget {
           onPressed: collageNoop,
           child: SizedBox(
             width: double.infinity,
-            child: Text('Sign In', textAlign: TextAlign.center),
+            child: Text(
+              docsHome(locale, 'homeSignIn'),
+              textAlign: TextAlign.center,
+            ),
           ),
         ),
         Gap(12),
@@ -130,11 +142,14 @@ class HomeLoginCard extends StatelessWidget {
           onPressed: collageNoop,
           child: SizedBox(
             width: double.infinity,
-            child: Text('Continue with SSO', textAlign: TextAlign.center),
+            child: Text(
+              docsHome(locale, 'homeSso'),
+              textAlign: TextAlign.center,
+            ),
           ),
         ),
         Gap(8),
-        StudioHelper('Forgot your password? Reset it by email.'),
+        StudioHelper(docsHome(locale, 'homeForgot')),
       ],
     );
   }
@@ -147,9 +162,11 @@ class HomeOtpCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const CollageCard(
-      title: 'Verify your phone',
-      subtitle: 'Enter the 6-digit code we texted to ···· 1192.',
+    final Locale locale =
+        DocsRouterScope.maybeOf(context)?.state.locale ?? const Locale('en');
+    return CollageCard(
+      title: docsHome(locale, 'homeOtpTitle'),
+      subtitle: docsHome(locale, 'homeOtpSub'),
       children: <Widget>[
         InputOtp(length: 6),
         Gap(16),
@@ -159,7 +176,7 @@ class HomeOtpCard extends StatelessWidget {
               child: Button(
                 variant: ButtonVariant.outline,
                 onPressed: collageNoop,
-                child: Text('Resend'),
+                child: Text(docsHome(locale, 'homeResend')),
               ),
             ),
             Gap(12),
@@ -167,7 +184,7 @@ class HomeOtpCard extends StatelessWidget {
               child: Button(
                 variant: ButtonVariant.primary,
                 onPressed: collageNoop,
-                child: Text('Verify'),
+                child: Text(docsHome(locale, 'homeVerify')),
               ),
             ),
           ],
