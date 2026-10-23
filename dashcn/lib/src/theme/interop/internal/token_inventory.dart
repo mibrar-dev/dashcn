@@ -97,7 +97,7 @@ const Map<String, String> kFallbackDarkHex = <String, String>{
   'accent': '#262626',
   'accentForeground': '#FAFAFA',
   'destructive': '#FF6467',
-  'destructiveForeground': '#DF2225',
+  'destructiveForeground': '#FFFFFF',
   'border': '#FFFFFF1A',
   'input': '#FFFFFF26',
   'ring': '#737373',

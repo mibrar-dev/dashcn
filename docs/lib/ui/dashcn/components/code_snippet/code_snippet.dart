@@ -307,12 +307,12 @@ class _CodeSnippetState extends State<CodeSnippet> {
       (touchMinEdge(ambient.platform) - buttonSize) / 2,
     );
 
-    return Semantics(
-      button: true,
-      label: isCopied ? 'Copied' : 'Copy code',
-      child: TouchHitArea(
-        vertical: touch,
-        horizontal: touch,
+    return TouchHitArea(
+      vertical: touch,
+      horizontal: touch,
+      child: Semantics(
+        button: true,
+        label: isCopied ? 'Copied' : 'Copy code',
         child: SizedBox(
           width: buttonSize,
           height: buttonSize,

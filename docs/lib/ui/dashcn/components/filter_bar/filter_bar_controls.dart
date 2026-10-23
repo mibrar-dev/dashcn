@@ -11,6 +11,7 @@ import '../../primitives/form_core/object_form_field.dart';
 import '../../primitives/input_features/adornment_features.dart';
 import '../../primitives/localizations/localizations.dart';
 import '../../theme/density_tokens.dart';
+import '../../theme/theme.dart';
 import '../date_picker/date_picker.dart';
 import '../input/input.dart';
 import '../select/select.dart';
@@ -59,13 +60,10 @@ class FilterBarSearchField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final ComponentLocalizations l10n = ComponentLocalizations.of(context);
-    final DensityTokens tokens = resolveDensityTokens(
-      context,
-      override: densityTokens,
-    );
-    final double effectiveHeight =
-        height ??
-        (tokens.preset == DensityPreset.compact ? 36.0 : tokens.controlHeight);
+    // Same visuals desktop/mobile: ambient tokens, no phone-width switch.
+    final DensityTokens tokens =
+        densityTokens ?? Theme.of(context).densityTokens;
+    final double effectiveHeight = height ?? 36.0;
     final double effectiveIconSize = iconSize ?? tokens.iconSize;
 
     return SizedBox(
@@ -120,7 +118,8 @@ class FilterBarSortControl extends StatelessWidget {
   /// Fixed control width; defaults to 180.
   final double width;
 
-  /// Height override; defaults to 48 (touch minimum).
+  /// Height override; defaults to 36 (sizing-scale control height, same
+  /// desktop/mobile across inline, popup, dialog and sheet variants).
   final double? height;
 
   /// Icon size override; defaults to token icon size (16 compact).
@@ -134,11 +133,10 @@ class FilterBarSortControl extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final DensityTokens tokens = resolveDensityTokens(
-      context,
-      override: densityTokens,
-    );
-    final double minH = height ?? 48;
+    final DensityTokens tokens =
+        densityTokens ?? Theme.of(context).densityTokens;
+    // 36 px control height on every variant (same desktop/mobile).
+    final double minH = height ?? 36.0;
 
     return SizedBox(
       width: width,
@@ -199,7 +197,8 @@ class FilterBarDateControl extends StatelessWidget {
   /// Fixed control width; defaults to 180.
   final double width;
 
-  /// Height override; defaults to token row height (36 compact).
+  /// Height override; defaults to 36 (sizing-scale control height, same
+  /// desktop/mobile across inline, popup, dialog and sheet variants).
   final double? height;
 
   /// Density tokens driving control dimensions.
@@ -208,13 +207,8 @@ class FilterBarDateControl extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final FilterDateRange? range = value;
-    final DensityTokens tokens = resolveDensityTokens(
-      context,
-      override: densityTokens,
-    );
-    final double effectiveHeight =
-        height ??
-        (tokens.preset == DensityPreset.compact ? 36.0 : tokens.controlHeight);
+    // 36 px control height on every variant (same desktop/mobile).
+    final double effectiveHeight = height ?? 36.0;
 
     return SizedBox(
       width: width,

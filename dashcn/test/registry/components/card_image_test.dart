@@ -366,11 +366,12 @@ void main() {
         _frame(SizedBox(width: 220, child: thinImageCard())),
       );
       expect(tester.getSize(find.byType(CardImage)).width, 220);
-      // The whole card is an icon Button: the 48px touch hit area insets
-      // the painted content 6px per side on touch platforms.
+      // The whole card is an icon Button: the invisible TouchHitArea expands
+      // only hit test and semantics to 48px on touch; paint and layout stay
+      // at the card width (SIZING.md: no layout change).
       final Size surface = tester.getSize(find.byType(OutlinedContainer));
-      expect(surface.width, 208);
-      expect(surface.height, moreOrLessEquals(208 * 9 / 16));
+      expect(surface.width, 220);
+      expect(surface.height, moreOrLessEquals(220 * 9 / 16));
     });
 
     testWidgets('a vertical card never collapses in a loose parent', (
@@ -382,7 +383,7 @@ void main() {
       expect(tester.getSize(find.byType(CardImage)).width, greaterThan(200));
       expect(
         tester.getSize(find.byType(OutlinedContainer)).width,
-        tester.getSize(find.byType(CardImage)).width - 12,
+        tester.getSize(find.byType(CardImage)).width,
       );
     });
 
@@ -399,7 +400,7 @@ void main() {
       );
       expect(
         tester.getSize(find.byType(OutlinedContainer)),
-        const Size(208, 208),
+        const Size(220, 220),
       );
     });
 
@@ -415,7 +416,7 @@ void main() {
       );
       expect(
         tester.getSize(find.byType(OutlinedContainer)),
-        const Size(188, 94),
+        const Size(200, 100),
       );
     });
   });

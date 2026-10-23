@@ -42,10 +42,10 @@ bool popupUsesSheet(double width, PopupAdaptive adaptive) {
 
 /// How [TouchHitArea] treats desktop-density controls on touch platforms.
 ///
-/// See `primitives/touch_hit_area.dart`. `padded` (the default) grows the
-/// layout with transparent padding so tap targets reach the platform minimum
-/// (iOS 44, Android 48); `shrinkWrap` skips the growth and paints at the
-/// control's own size.
+/// See `primitives/touch_hit_area.dart`. `padded` (the default) expands the
+/// hit-test region and the semantics tap target to the platform minimum
+/// (iOS 44, Android 48) with no layout change (SIZING.md: same sizes on
+/// desktop and mobile); `shrinkWrap` skips the expansion entirely.
 enum TouchTargets { padded, shrinkWrap }
 
 /// Ambient dashcn theme data: colors, tokens, fonts, typography and flags.
