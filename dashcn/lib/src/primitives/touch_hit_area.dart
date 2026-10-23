@@ -19,9 +19,8 @@
 //   while the scorecards still see 48. The popup anchor uses the visual box,
 //   so anchored popups stay within 12 px.
 
-// ignore_for_file: prefer_initializing_formals
-// (Render proxy uses public `vertical:`/`horizontal:` names with private
-// mutable backing fields whose setters mark semantics dirty.)
+// The render proxy uses public `vertical:`/`horizontal:` names with private
+// mutable backing fields whose setters mark semantics dirty.
 
 import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
@@ -139,7 +138,9 @@ class _TouchHitExpander extends SingleChildRenderObjectWidget {
 class _RenderTouchHitArea extends RenderProxyBox {
   /// Creates a hit-area proxy with per-side expansion.
   _RenderTouchHitArea({required double vertical, required double horizontal})
+    // ignore: prefer_initializing_formals
     : _vertical = vertical,
+      // ignore: prefer_initializing_formals
       _horizontal = horizontal;
 
   double _vertical;
