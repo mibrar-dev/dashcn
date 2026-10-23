@@ -5,6 +5,7 @@ import 'package:flutter/widgets.dart';
 
 import '../../theme/theme.dart';
 import 'alpha.dart';
+import '../../foundation/component_preview.dart';
 
 /// Renders the alpha gallery.
 class AlphaPreview extends StatelessWidget {
@@ -15,7 +16,7 @@ class AlphaPreview extends StatelessWidget {
   Widget build(BuildContext context) {
     final ThemeData theme = Theme.of(context);
     return Directionality(
-      textDirection: TextDirection.ltr,
+      textDirection: Directionality.maybeOf(context) ?? TextDirection.ltr,
       child: DefaultTextStyle(
         style: TextStyle(color: theme.colors.foreground, fontSize: 13),
         child: ColoredBox(
@@ -33,12 +34,12 @@ class AlphaPreview extends StatelessWidget {
                   Center(
                     child: DecoratedBox(
                       decoration: BoxDecoration(color: theme.colors.background),
-                      child: const Padding(
-                        padding: EdgeInsets.symmetric(
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(
                           horizontal: 6,
                           vertical: 2,
                         ),
-                        child: Text('Alpha grid'),
+                        child: Text(docsSample(context, 'Alpha grid')),
                       ),
                     ),
                   ),
