@@ -85,10 +85,18 @@ Widget _frame(ThemeData data, Widget child) {
             ),
             child: ColoredBox(
               color: data.colors.background,
-              child: Overlay.wrap(
-                child: Center(
-                  child: SizedBox.fromSize(size: _stage, child: child),
-                ),
+              // A Navigator is required: dialog scenes push a route
+              // (showDialog), while popup/menu scenes use the inner Overlay.
+              child: Navigator(
+                onGenerateRoute: (RouteSettings settings) =>
+                    PageRouteBuilder<void>(
+                      settings: settings,
+                      pageBuilder: (_, _, _) => Overlay.wrap(
+                        child: Center(
+                          child: SizedBox.fromSize(size: _stage, child: child),
+                        ),
+                      ),
+                    ),
               ),
             ),
           ),
@@ -117,11 +125,16 @@ Future<void> _snap(WidgetTester tester, GlobalKey key, String tag) async {
   await tester.pump();
   final RenderRepaintBoundary boundary =
       key.currentContext!.findRenderObject()! as RenderRepaintBoundary;
+  // Both the raster and the PNG encode must leave the fake-async zone: the
+  // engine completes them on real async callbacks, which the test zone never
+  // flushes while the body is parked awaiting them (hangs to the per-test
+  // timeout). Matches the proven pattern in
+  // test/registry/visual/players_polish_captures_test.dart.
   final ui.Image? image = await tester.runAsync(() async {
     return boundary.toImage(pixelRatio: _dpr);
   });
-  final ByteData? bytes = await image?.toByteData(
-    format: ui.ImageByteFormat.png,
+  final ByteData? bytes = await tester.runAsync<ByteData?>(
+    () => image!.toByteData(format: ui.ImageByteFormat.png),
   );
   final Uint8List png = bytes!.buffer.asUint8List();
   File('${_outDir.path}/$tag.png').writeAsBytesSync(png);
@@ -388,6 +401,11 @@ void main() {
           await tester.pump(const Duration(milliseconds: 320));
           await tester.pump(const Duration(milliseconds: 320));
           await _snap(tester, key, tag);
+          // Restore before the body returns: the framework verifies
+          // painting debug vars BEFORE teardowns run, so the addTearDown
+          // restore alone still trips debugAssertAllPaintingVarsUnset.
+          // (Matches _capture in players_polish_captures_test.dart.)
+          debugDisableShadows = true;
         });
       }
     }
