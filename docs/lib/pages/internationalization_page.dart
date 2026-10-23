@@ -88,10 +88,19 @@ class InternationalizationPage extends StatelessWidget {
           const HeadingAnchor(id: 'cli', title: 'Installing a Locale'),
           const TypesetParagraph(
             'The offline installer writes the locale wiring into your '
-            'project — no pasting, no network. Translations ship inside the '
-            'kit package, so add only records the choice:',
+            'project: no pasting, no network. Each component records the '
+            'strings it reads, including the strings of the components it '
+            'depends on, so installing a component installs its translations '
+            'too:',
           ),
           DocsCodeFigure(code: kI18nSamples['cli-add']!.code, language: 'sh'),
+          const TypesetParagraph(
+            'component installs the English base and the strings one '
+            'component needs, for every locale the project already has. add '
+            'installs a language for every component already in the project, '
+            'and components added later receive it automatically. Running '
+            'either command again changes nothing.',
+          ),
           const TypesetParagraph(
             'Wire the generated file into DashcnApp once; every component '
             'below it re-strings. The public API is backward compatible: '
