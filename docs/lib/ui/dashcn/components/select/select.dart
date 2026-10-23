@@ -353,10 +353,12 @@ class _SelectState<T> extends State<Select<T>>
         : trigger.borderWidth ?? 1;
     final double triggerHeight = widget.triggerMinHeight ?? 36;
     // Touch comfort is invisible hit area, never larger visuals: the trigger
-    // paints at 36 px, but grows to the platform minimum (iOS 44, Android
-    // 48) with transparent padding on touch platforms. Placed inside the
-    // Semantics node so the larger box is the reported tap target (same as
-    // Button's TouchHitArea).
+    // paints at 36 px, but the layout grows to the platform minimum (iOS 44,
+    // Android 48) with transparent padding on touch platforms. Placed inside
+    // the Semantics node so the larger box is the reported tap target (same
+    // as Button's TouchHitArea). Popups anchor to the painted visual box via
+    // [_triggerAnchorKey] so they stay within 12 px; rows stay aligned
+    // because the bar centers 36 px visuals in the grown hit box.
     final double touchVertical = math.max(
       0,
       (touchMinEdge(ambient.platform) - triggerHeight) / 2,
@@ -370,11 +372,6 @@ class _SelectState<T> extends State<Select<T>>
           enabled: enabled,
           child: TouchHitArea(
             vertical: touchVertical,
-            // Triggers sit beside inputs: keep the layout at the visual
-            // height (36) so rows stay aligned; only semantics/hit test
-            // expand to the platform minimum. Popups anchor to the visual
-            // box via [_triggerAnchorKey] so they stay within 12 px.
-            growLayout: false,
             child: IntrinsicWidth(
               child: Clickable(
                 key: _triggerAnchorKey,

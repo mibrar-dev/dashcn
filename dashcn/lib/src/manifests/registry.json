@@ -8158,7 +8158,8 @@
           "form_core",
           "overlay",
           "popover_controller",
-          "select_popup"
+          "select_popup",
+          "touch_hit_area"
         ],
         "theme": [
           "color_tokens",
@@ -11174,7 +11175,7 @@
     "components/segmented_control/segmented_control_theme.dart": "27e6291c98370d6be3e33252db0fa823dbace5a5178849ca44608c5f40ec55ea",
     "components/segmented_control/segmented_control_thumb.dart": "d3c57bb95618b48ecd66c026d678e46445402090e4908c10a669bbca2594911c",
     "components/select/preview.dart": "191fb361d8a34504e3487bf22665e78d9aa78faca13cf53f40674314a909e6ac",
-    "components/select/select.dart": "6d2ccf6bee28e42b384b4bfc8dfc0a985d277704eb8e2988de1d1296a1b29a15",
+    "components/select/select.dart": "0c59ab38c2e730fde1247bd587d100a05b6aa62e11a7112dde6b34745cfb3ecb",
     "components/select/select_style.dart": "89a0db3d5038f1521a01bf890134b5b78b1efe5a102790f4344596583f81ff0b",
     "components/select/select_theme.dart": "12c99982ce95294ee168ec3ff80e4a8bd27d797ea99d927151e5f1a10089ca01",
     "components/selectable/preview.dart": "c8257bc74fa61bf0a00e0f4a1579cf53fe71d93fb944d751d0bc18c33fab4400",
@@ -11614,7 +11615,7 @@
     "primitives/toast_queue/toast_exit.dart": "f80ad314e43eb46b34147345681d210fa1f168a8c791076708d01c5d447cfd2b",
     "primitives/toast_queue/toast_placement.dart": "5be48ebe7abcb2a728acb5ac95ea21d931609404b37d4857bde106b0c79dc084",
     "primitives/toast_queue/toast_queue.dart": "e9c1e47ab3cb3537787feacc7610507acdac2e2e95bafba82760d670a9559257",
-    "primitives/touch_hit_area.dart": "111ad8479ecac2af18b2eda984d16bc73076b205671fe6a38c03e7cfa31a700e",
+    "primitives/touch_hit_area.dart": "03678615ed1cc6b979cdb96565e6c74eee846b1f4b96fb90163c71ca814c61f7",
     "primitives/tree_selection/tree_nodes.dart": "4cfd2bbcf5f2b24eb52f3384bcef6f857f4a1b79e124d71dfb1b2a83f39d7da4",
     "primitives/tree_selection/tree_selection.dart": "554af28f3168a8f48578fa7243aced526924cc870bac2ec0899be5459f1f2523",
     "primitives/widget_states.dart": "401f655425baba6a55a3a12f4c48d9885d60871d7ee3197835a86817ec00414a",

@@ -144,13 +144,11 @@ void main() {
           tester.getSize(find.byType(FilterBarSearchField)),
           const Size(220, 36),
         );
-        // Sort paints and measures 36 px (same desktop/mobile); on touch the
-        // invisible TouchHitArea expands only semantics/hit test to 48 px
-        // (no layout growth, so rows stay aligned): `flutter test` runs as
-        // Android, but `getSize` still reports the visual 36.
+        // Sort paints at 36 px but reports 48 px on touch via the invisible
+        // TouchHitArea (same as Button): `flutter test` runs as Android.
         expect(
           tester.getSize(find.byType(FilterBarSortControl)),
-          const Size(180, 36),
+          const Size(180, 48),
         );
       }
     });
