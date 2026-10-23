@@ -468,16 +468,13 @@ class _SwipeActionsState extends State<SwipeActions>
         // area moves with the content: outside it, the detector would
         // keep the full un-translated hit box, cover the revealed
         // actions, and win the tap arena — tapping an action would just
-        // close the row. A tap while closed is a no-op.
+        // close the row.
         Transform.translate(
           offset: Offset((_rtl ? 1 : -1) * travel * total, 0),
           child: GestureDetector(
             behavior: HitTestBehavior.translucent,
-            onTap: () {
-              if (_reveal > 0) {
-                _animateTo(0);
-              }
-            },
+            // Only while open: a closed row must not expose a tap action.
+            onTap: peeked ? () => _animateTo(0) : null,
             child: ConstrainedBox(
               constraints: BoxConstraints(minHeight: rowMin),
               child: content,
