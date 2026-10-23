@@ -19,6 +19,9 @@ const double radioDefaultIndicatorSize = 16;
 /// Duration of the indicator colour and dot animations.
 const Duration radioDefaultDuration = Duration(milliseconds: 120);
 
+/// Dot scale-out duration on deselect (MOTION.md: 80 ms).
+const Duration radioDefaultOutDuration = Duration(milliseconds: 80);
+
 /// Fallback label text style (upstream `text-sm` = 14).
 const TextStyle radioDefaultTextStyle = TextStyle(fontSize: 14);
 

@@ -265,7 +265,7 @@ class ClickableState extends State<Clickable> {
                       context,
                       theme.motion.durations.instant,
                     ),
-                    curve: theme.motion.curves.standard,
+                    curve: widget.pressCurve ?? theme.motion.curves.standard,
                     lerp: lerpMatrix4,
                     builder: (context, value, child) {
                       return Transform(
@@ -309,10 +309,11 @@ class ClickableState extends State<Clickable> {
     Set<WidgetState> states,
   ) {
     final Matrix4 current = base?.clone() ?? Matrix4.identity();
-    if (!states.contains(WidgetState.pressed)) {
+    if (!states.contains(WidgetState.pressed) || motionReduced(context)) {
       return current;
     }
-    final double scale = Theme.of(context).motion.pressScale;
+    final double scale =
+        widget.pressScale ?? Theme.of(context).motion.pressScale;
     return current.multiplied(Matrix4.diagonal3Values(scale, scale, 1.0));
   }
 

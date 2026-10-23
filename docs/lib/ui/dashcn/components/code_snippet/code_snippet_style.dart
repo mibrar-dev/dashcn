@@ -69,7 +69,7 @@ class CodeSnippetTheme extends ComponentThemeData
   /// Gap between action buttons in logical pixels, unscaled. Default: 4.
   final double? actionSpacing;
 
-  /// How long the copied feedback icon stays visible. Default: 2000 ms.
+  /// How long the copied feedback icon stays visible. Default: 1500 ms.
   final Duration? copyFeedbackDuration;
 
   /// Returns a copy with the given fields replaced.
@@ -228,5 +228,5 @@ const CodeSnippetTheme codeSnippetDefaults = CodeSnippetTheme(
   copyIconColor: ThemedColor.ref(ColorRef.mutedForeground),
   copiedIconColor: ThemedColor.ref(ColorRef.primary),
   actionSpacing: 4,
-  copyFeedbackDuration: Duration(milliseconds: 2000),
+  copyFeedbackDuration: Duration(milliseconds: 1500),
 );

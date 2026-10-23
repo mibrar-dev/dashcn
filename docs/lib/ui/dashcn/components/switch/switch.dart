@@ -34,6 +34,9 @@ const _switchMouseCursor = StateValue<MouseCursor>(
   disabled: SystemMouseCursors.basic,
 );
 
+/// Thumb width multiplier while pressed (MOTION.md: about 20 % wider).
+const double _switchThumbPressWiden = 1.2;
+
 /// Transparent padding around the row so the focus ring never clips.
 const double switchHitPadding = 2;
 
@@ -277,6 +280,9 @@ class _SwitchState extends State<Switch> with FormValueSupplier<bool, Switch> {
           onHover: widget.onHover,
           onFocus: widget.onFocusChange,
           focusNode: _focusNode,
+          // No whole-row press scale: the thumb (switch) and the box fill
+          // (checkbox) carry the press feedback.
+          pressScale: 1.0,
           mouseCursor: _switchMouseCursor,
           // The row paints no surface of its own; `Clickable` owns only the
           // interaction and the focus ring.
@@ -329,11 +335,23 @@ class _SwitchTrack extends StatelessWidget {
     // while the track colour fades; under reduced motion both snap with no
     // ticker.
     final motion = Theme.of(context).motion;
+    // Track colour cross-fades (fast, 150 ms); the thumb slides on a snappy
+    // spring (base, 200 ms). Both snap under reduced motion.
     final Duration duration = resolveMotionDuration(
       context,
-      motion.durations.instant,
+      motion.durations.fast,
+    );
+    final Duration travelDuration = resolveMotionDuration(
+      context,
+      motion.durations.base,
     );
     final Curve travelCurve = motion.curves.spring;
+    // Pressed: the thumb widens about 20 % and keeps its far edge fixed
+    // (iOS-style stretch), so the track never changes size.
+    final bool pressed = states.contains(WidgetState.pressed);
+    final double shownThumbWidth = pressed && !motionReduced(context)
+        ? thumbSize * _switchThumbPressWiden
+        : thumbSize;
     // The thumb keeps its own height and centers vertically: pinning top and
     // bottom to 0 would stretch a 16px thumb to the full 18.4px track.
     // Clamped at zero so an oversized themed thumb overflows instead of
@@ -356,12 +374,12 @@ class _SwitchTrack extends StatelessWidget {
       child: Stack(
         children: <Widget>[
           AnimatedPositioned(
-            duration: duration,
+            duration: travelDuration,
             curve: travelCurve,
-            left: isOn ? travel : 0,
+            left: isOn ? travel + thumbSize - shownThumbWidth : 0,
             top: verticalInset,
             bottom: verticalInset,
-            width: thumbSize,
+            width: shownThumbWidth,
             child: DecoratedBox(
               key: kSwitchThumbKey,
               decoration: BoxDecoration(
