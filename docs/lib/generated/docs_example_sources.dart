@@ -7702,7 +7702,6 @@ Widget _countryFlagDefault(BuildContext context) {
       CountryFlag.fromCountryCode('JP'),
       CountryFlag.fromCountryCode('DE'),
       CountryFlag.fromCountryCode('BR'),
-      CountryFlag.fromCountryCode('XX'),
       CountryFlag.fromCurrencyCode('JPY'),
       CountryFlag.fromPhonePrefix('+49'),
     ],
@@ -17838,7 +17837,10 @@ Widget _collapsibleRow(BuildContext context, String label) {
       color: theme.colors.muted,
       borderRadius: theme.borderRadiusLg,
     ),
-    child: Padding(padding: EdgeInsetsDensity.pxAll(12), child: Text(label)),
+    child: DensityContentPadding(
+      padding: EdgeInsetsDensity.pxAll(12),
+      child: Text(label),
+    ),
   );
 }
 
@@ -17895,7 +17897,10 @@ Widget _collapsibleRow(BuildContext context, String label) {
       color: theme.colors.muted,
       borderRadius: theme.borderRadiusLg,
     ),
-    child: Padding(padding: EdgeInsetsDensity.pxAll(12), child: Text(label)),
+    child: DensityContentPadding(
+      padding: EdgeInsetsDensity.pxAll(12),
+      child: Text(label),
+    ),
   );
 }
 
