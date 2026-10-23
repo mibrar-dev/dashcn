@@ -29972,7 +29972,6 @@ Widget _drawerContainerDataDriven(BuildContext context) {
       builder: '_eyeDropperDefault',
       code: r'''import 'package:flutter/widgets.dart';
 import 'package:<your_app>/ui/dashcn/foundation/gap.dart';
-import 'package:<your_app>/ui/dashcn/theme/density.dart';
 import 'package:<your_app>/ui/dashcn/theme/theme.dart';
 import 'package:<your_app>/ui/dashcn/components/eye_dropper/eye_dropper.dart';
 
@@ -30062,9 +30061,9 @@ class _EyeDropperPickerState extends State<_EyeDropperPicker> {
                 borderRadius: theme.borderRadiusMd,
               ),
               child: Padding(
-                padding: EdgeInsetsDensity.pxSymmetric(
-                  horizontal: 16,
-                  vertical: 8,
+                padding: EdgeInsets.symmetric(
+                  horizontal: theme.spacing.md,
+                  vertical: theme.spacing.sm,
                 ),
                 child: Text(
                   _sampling
@@ -30116,7 +30115,6 @@ Widget _eyeDropperDefault(BuildContext context) => const _EyeDropperPicker();
       builder: '_eyeDropperInline',
       code: r'''import 'package:flutter/widgets.dart';
 import 'package:<your_app>/ui/dashcn/foundation/gap.dart';
-import 'package:<your_app>/ui/dashcn/theme/density.dart';
 import 'package:<your_app>/ui/dashcn/theme/theme.dart';
 import 'package:<your_app>/ui/dashcn/components/eye_dropper/eye_dropper.dart';
 
@@ -30206,9 +30204,9 @@ class _EyeDropperPickerState extends State<_EyeDropperPicker> {
                 borderRadius: theme.borderRadiusMd,
               ),
               child: Padding(
-                padding: EdgeInsetsDensity.pxSymmetric(
-                  horizontal: 16,
-                  vertical: 8,
+                padding: EdgeInsets.symmetric(
+                  horizontal: theme.spacing.md,
+                  vertical: theme.spacing.sm,
                 ),
                 child: Text(
                   _sampling
