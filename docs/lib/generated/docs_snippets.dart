@@ -5322,6 +5322,7 @@ const Map<String, DocsFileList> kComponentFileLists = <String, DocsFileList>{
     componentId: 'checkbox',
     files: <String>[
       'lib/ui/dashcn/components/checkbox/checkbox.dart',
+      'lib/ui/dashcn/components/checkbox/checkbox_mark.dart',
       'lib/ui/dashcn/components/checkbox/checkbox_style.dart',
     ],
     userOwned: <String>[
@@ -5495,6 +5496,7 @@ const Map<String, DocsFileList> kComponentFileLists = <String, DocsFileList>{
     componentId: 'star_rating',
     files: <String>[
       'lib/ui/dashcn/components/star_rating/star_rating.dart',
+      'lib/ui/dashcn/components/star_rating/star_rating_pop.dart',
       'lib/ui/dashcn/components/star_rating/star_rating_style.dart',
     ],
     userOwned: <String>[

@@ -93,6 +93,9 @@ class FocusOutline extends StatelessWidget {
   /// Ring shape. Defaults to [BoxShape.rectangle].
   final BoxShape? shape;
 
+  /// Fade duration of the ring. Null keeps the theme fast (150 ms).
+  final Duration? duration;
+
   /// Creates a [FocusOutline].
   const FocusOutline({
     super.key,
@@ -102,6 +105,7 @@ class FocusOutline extends StatelessWidget {
     this.align,
     this.border,
     this.shape,
+    this.duration,
   });
 
   BorderRadius _getAdjustedBorderRadius(
@@ -147,7 +151,10 @@ class FocusOutline extends StatelessWidget {
         child,
         AnimatedValueBuilder(
           value: focused ? 1.0 : 0.0,
-          duration: resolveMotionDuration(context, theme.motion.durations.fast),
+          duration: resolveMotionDuration(
+            context,
+            duration ?? theme.motion.durations.fast,
+          ),
           builder: (context, value, child) {
             return Positioned(
               top: offset * value,

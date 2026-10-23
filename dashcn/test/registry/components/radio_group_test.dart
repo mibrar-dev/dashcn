@@ -89,11 +89,10 @@ BoxDecoration _indicator(WidgetTester tester) =>
             .decoration!
         as BoxDecoration;
 
-BoxDecoration _dot(WidgetTester tester) =>
-    tester
-            .widget<AnimatedContainer>(find.byKey(kRadioIndicatorDotKey).first)
-            .decoration!
-        as BoxDecoration;
+/// The dot scales in and out (MOTION.md): 1 when selected, 0 otherwise.
+double _dotScale(WidgetTester tester, {int index = 0}) => tester
+    .widget<AnimatedScale>(find.byKey(kRadioIndicatorDotKey).at(index))
+    .scale;
 
 double _opacity(WidgetTester tester, int index) => tester
     .widget<Opacity>(
@@ -222,13 +221,8 @@ void main() {
               as BoxDecoration;
       expect(decoration.color, ThemeColors.lightFallback.primary);
       expect(decoration.border?.top.color, ThemeColors.lightFallback.primary);
-      expect(
-        tester
-            .widget<AnimatedContainer>(find.byKey(kRadioIndicatorDotKey).at(1))
-            .constraints
-            ?.maxWidth,
-        equals(8),
-      );
+      expect(_dotScale(tester, index: 1), 1.0);
+      expect(tester.getSize(find.byKey(kRadioIndicatorDotKey).at(1)).width, 8);
     });
 
     testWidgets('sizes match dashcn (size-4 circle, size-2 dot)', (
@@ -244,8 +238,7 @@ void main() {
         radioDefaultIndicatorSize,
       );
       expect(radioDefaultIndicatorSize, 16);
-      final BoxDecoration dot = _dot(tester);
-      expect(dot.color, isNull); // unchecked: no dot painted
+      expect(_dotScale(tester), 0.0); // unchecked: no dot painted
     });
 
     testWidgets('the label follows the indicator with the gap', (tester) async {
