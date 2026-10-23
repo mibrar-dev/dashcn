@@ -16,6 +16,7 @@ import 'package:flutter/semantics.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:dashcn/src/components/checkbox/checkbox.dart';
+import 'package:dashcn/src/components/checkbox/checkbox_mark.dart';
 import 'package:dashcn/src/foundation/data.dart';
 import 'package:dashcn/src/foundation/gap.dart';
 import 'package:dashcn/src/primitives/clickable.dart';
@@ -182,10 +183,11 @@ void main() {
       await tester.pumpWidget(
         _frame(child: const Checkbox(value: CheckboxValue.indeterminate)),
       );
-      final Icon icon = tester.widget<Icon>(
-        find.descendant(of: find.byType(Checkbox), matching: find.byType(Icon)),
+      // The mark is a path draw (`CheckboxMark`), not an icon.
+      final CheckboxMark mark = tester.widget<CheckboxMark>(
+        find.byType(CheckboxMark),
       );
-      expect(icon.icon, isNot(const IconData(0x1234)));
+      expect(mark.indeterminate, isTrue);
     });
 
     testWidgets('the box is 16 logical pixels by default', (tester) async {
@@ -750,10 +752,7 @@ void main() {
 }
 
 Color? _indicatorColor(WidgetTester tester) {
-  final Icon icon = tester.widget<Icon>(
-    find.descendant(of: find.byType(Checkbox), matching: find.byType(Icon)),
-  );
-  return icon.color;
+  return tester.widget<CheckboxMark>(find.byType(CheckboxMark)).color;
 }
 
 void _noop(CheckboxValue value) {}

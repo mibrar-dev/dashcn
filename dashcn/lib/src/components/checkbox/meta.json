@@ -34,6 +34,7 @@
   },
   "files": [
     "checkbox.dart",
+    "checkbox_mark.dart",
     "checkbox_style.dart",
     "checkbox_theme.dart",
     "preview.dart"

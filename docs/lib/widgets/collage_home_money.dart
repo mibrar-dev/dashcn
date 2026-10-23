@@ -6,6 +6,8 @@
 // home wall keeps its spec §2.1 shell (24 px radius) on every card.
 
 import 'package:flutter/widgets.dart';
+import '../routing/docs_router.dart';
+import '../state/docs_content_home.dart';
 
 import '../ui/dashcn/components/badge/badge.dart';
 import '../ui/dashcn/components/button/button.dart';
@@ -25,9 +27,11 @@ class HomeAnalyticsCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const CollageCard(
-      title: 'Analytics',
-      subtitle: 'Visitors this quarter',
+    final Locale locale =
+        DocsRouterScope.maybeOf(context)?.state.locale ?? const Locale('en');
+    return CollageCard(
+      title: docsHome(locale, 'homeAnalyticsTitle'),
+      subtitle: docsHome(locale, 'homeAnalyticsSub'),
       children: <Widget>[
         StudioValue('418.2K', size: 30),
         Gap(6),
@@ -37,7 +41,7 @@ class HomeAnalyticsCard extends StatelessWidget {
           variant: ButtonVariant.primary,
           size: ButtonSize.sm,
           onPressed: collageNoop,
-          child: Text('View Analytics'),
+          child: Text(docsHome(locale, 'homeViewAnalytics')),
         ),
       ],
     );
@@ -51,9 +55,11 @@ class HomeSavingsCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const CollageCard(
-      title: 'Savings Targets',
-      subtitle: 'Active milestones for 2024',
+    final Locale locale =
+        DocsRouterScope.maybeOf(context)?.state.locale ?? const Locale('en');
+    return CollageCard(
+      title: docsHome(locale, 'homeSavingsTitle'),
+      subtitle: docsHome(locale, 'homeSavingsSub'),
       trailing: Button(
         variant: ButtonVariant.outline,
         size: ButtonSize.sm,
@@ -88,8 +94,10 @@ class HomeClaimableCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const CollageCard(
-      title: 'Claimable Balance',
+    final Locale locale =
+        DocsRouterScope.maybeOf(context)?.state.locale ?? const Locale('en');
+    return CollageCard(
+      title: docsHome(locale, 'homeClaimTitle'),
       children: <Widget>[
         StudioValue(r'$1,211.29', size: 34),
         Gap(10),
@@ -163,9 +171,11 @@ class HomeCardBalanceCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final Locale locale =
+        DocsRouterScope.maybeOf(context)?.state.locale ?? const Locale('en');
     final ThemeData theme = Theme.of(context);
     return CollageCard(
-      title: 'Card Balance',
+      title: docsHome(locale, 'homeCardBalance'),
       trailing: Icon(
         LucideIcons.creditCard,
         size: 16,

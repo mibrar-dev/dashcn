@@ -67,7 +67,7 @@
       "copyIconColor": "ThemedColor? - idle copy icon color, mutedForeground",
       "copiedIconColor": "ThemedColor? - copied icon color, primary",
       "actionSpacing": "double? - space between action items, 4",
-      "copyFeedbackDuration": "Duration? - duration to show copied feedback, 2000ms"
+      "copyFeedbackDuration": "Duration? - duration to show copied feedback, 1500ms"
     }
   }
 }

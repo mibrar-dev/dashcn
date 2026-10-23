@@ -6,6 +6,8 @@
 // [CollageCard] for the home wall.
 
 import 'package:flutter/widgets.dart';
+import '../routing/docs_router.dart';
+import '../state/docs_content_home.dart';
 
 import '../ui/dashcn/components/badge/badge.dart';
 import '../ui/dashcn/components/button/button.dart';
@@ -36,8 +38,10 @@ class _HomeNotificationsCardState extends State<HomeNotificationsCard> {
 
   @override
   Widget build(BuildContext context) {
+    final Locale locale =
+        DocsRouterScope.maybeOf(context)?.state.locale ?? const Locale('en');
     return CollageCard(
-      title: 'Notifications',
+      title: docsHome(locale, 'homeNotifTitle'),
       subtitle: 'Choose what you want to be notified about.',
       trailing: Badge(
         variant: BadgeVariant.outline,
@@ -114,8 +118,10 @@ class _HomePreferencesCardState extends State<HomePreferencesCard> {
 
   @override
   Widget build(BuildContext context) {
+    final Locale locale =
+        DocsRouterScope.maybeOf(context)?.state.locale ?? const Locale('en');
     return CollageCard(
-      title: 'Preferences',
+      title: docsHome(locale, 'homePrefTitle'),
       subtitle: 'Manage your account settings and notifications.',
       children: <Widget>[
         const StudioFieldLabel('Default Currency'),
@@ -207,9 +213,11 @@ class _HomeCookieCardState extends State<HomeCookieCard> {
 
   @override
   Widget build(BuildContext context) {
+    final Locale locale =
+        DocsRouterScope.maybeOf(context)?.state.locale ?? const Locale('en');
     return CollageCard(
-      title: 'Cookie Settings',
-      subtitle: 'Choose which cookies we may set.',
+      title: docsHome(locale, 'homeCookieTitle'),
+      subtitle: docsHome(locale, 'homeCookieSub'),
       children: <Widget>[
         for (int i = 0; i < rows.length; i++)
           Padding(

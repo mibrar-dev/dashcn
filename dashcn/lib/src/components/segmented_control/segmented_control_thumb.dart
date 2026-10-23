@@ -118,9 +118,11 @@ List<Widget> buildSegmentedControlThumbs<T>({
     return const <Widget>[];
   }
   final ThemeData ambient = Theme.of(context);
+  // The pill slides to the new segment on a spring over the base duration
+  // (200 ms, MOTION.md: selection pill).
   final Duration duration = resolveMotionDuration(
     context,
-    ambient.motion.durations.fast,
+    ambient.motion.durations.base,
   );
   final Curve curve = ambient.motion.curves.spring;
   final Color fill =

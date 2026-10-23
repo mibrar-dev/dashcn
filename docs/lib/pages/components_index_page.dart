@@ -16,6 +16,9 @@ import 'package:flutter/widgets.dart';
 
 import '../generated/docs_data.dart';
 import '../routing/docs_nav.dart';
+import '../routing/docs_router.dart';
+import '../state/docs_content_categories.dart';
+import '../state/docs_content_pages.dart';
 import '../widgets/component_link_grid.dart';
 import '../widgets/docs_article.dart';
 import '../widgets/docs_shell.dart';
@@ -32,28 +35,26 @@ class ComponentsIndexPage extends StatelessWidget {
     final DocsComponentLink first = kComponentCategoryGroups
         .expand((DocsComponentCategory group) => group.components)
         .first;
+    final Locale locale =
+        DocsRouterScope.maybeOf(context)?.state.locale ?? const Locale('en');
     return DocsLayout(
       child: DocsArticle(
-        title: 'Components',
-        description:
-            'Every component available in the registry, generated from the '
-            'manifest. Pick one to see its live preview, install command and '
-            'API.',
+        title: docsContentPage(locale, 'pageComponentsTitle'),
+        description: docsContentPage(locale, 'pageComponentsDesc'),
         next: DocsNavLink(
           label: first.name,
           location: '/docs/components/${first.id}',
         ),
         children: <Widget>[
           for (final DocsComponentCategory group in kComponentCategoryGroups)
-            HeadingAnchor(id: componentCategorySlug(group.id), title: group.id),
+            HeadingAnchor(
+              id: componentCategorySlug(group.id),
+              title: docsCategoryName(group.id, locale),
+            ),
           for (final DocsComponentCategory group in kComponentCategoryGroups)
             ComponentLinkGrid(links: group.components),
           const TypesetRule(),
-          const TypesetParagraph(
-            'Can’t find what you need? Every component installs as editable '
-            'source, so a missing piece can start from the closest match and '
-            'grow with your app.',
-          ),
+          TypesetParagraph(docsContentPage(locale, 'pageComponentsClosing')),
         ],
       ),
     );

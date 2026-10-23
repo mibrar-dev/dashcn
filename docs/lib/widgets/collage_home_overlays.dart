@@ -6,6 +6,8 @@
 // the overlay opens on demand.
 
 import 'package:flutter/widgets.dart';
+import '../routing/docs_router.dart';
+import '../state/docs_content_home.dart';
 
 import '../ui/dashcn/components/alert_dialog/alert_dialog.dart';
 import '../ui/dashcn/components/avatar/avatar.dart';
@@ -25,10 +27,12 @@ class HomeDialogCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final Locale locale =
+        DocsRouterScope.maybeOf(context)?.state.locale ?? const Locale('en');
     final ThemeData theme = Theme.of(context);
     return CollageCard(
-      title: 'Share document',
-      subtitle: 'Invite people to this workspace.',
+      title: docsHome(locale, 'homeShareDocTitle'),
+      subtitle: docsHome(locale, 'homeShareDocSub'),
       children: <Widget>[
         Row(
           children: <Widget>[
@@ -98,10 +102,12 @@ class HomeAlertConfirmCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final Locale locale =
+        DocsRouterScope.maybeOf(context)?.state.locale ?? const Locale('en');
     final ThemeData theme = Theme.of(context);
     return CollageCard(
-      title: 'Danger zone',
-      subtitle: 'Deleting a project cannot be undone.',
+      title: docsHome(locale, 'homeDangerTitle'),
+      subtitle: docsHome(locale, 'homeDangerSub'),
       children: <Widget>[
         Row(
           children: <Widget>[
@@ -154,8 +160,10 @@ class HomeDrawerCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final Locale locale =
+        DocsRouterScope.maybeOf(context)?.state.locale ?? const Locale('en');
     return CollageCard(
-      title: 'Account panel',
+      title: docsHome(locale, 'homeAccountPanel'),
       subtitle: 'The same content as a drawer or a sheet.',
       children: <Widget>[
         Row(

@@ -354,6 +354,10 @@
         },
         "packages": {
           "$ref": "#/$defs/packages"
+        },
+        "localizationKeys": {
+          "$ref": "#/$defs/stringList",
+          "description": "Locale keys (locale_tables.json) this component reads, including every dependency's keys. Sorted; installed with the component."
         }
       }
     },

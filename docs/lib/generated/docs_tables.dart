@@ -1102,8 +1102,10 @@ const Map<String, List<DocsDep>> kComponentDeps = <String, List<DocsDep>>{
   'star_rating': <DocsDep>[
     DocsDep(id: 'clickable', kind: DocsDepKind.primitive),
     DocsDep(id: 'form_core', kind: DocsDepKind.primitive),
+    DocsDep(id: 'motion', kind: DocsDepKind.primitive),
     DocsDep(id: 'gap', kind: DocsDepKind.foundation),
     DocsDep(id: 'color_tokens', kind: DocsDepKind.theme),
+    DocsDep(id: 'motion', kind: DocsDepKind.theme),
     DocsDep(id: 'theme', kind: DocsDepKind.theme),
   ],
   'switch': <DocsDep>[

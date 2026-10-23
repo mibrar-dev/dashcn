@@ -259,14 +259,15 @@ class RadioIndicator extends StatelessWidget {
     // size snaps with no ticker. The outer ring keeps its size so selection
     // never shifts layout.
     final motion = Theme.of(context).motion;
-    final Duration duration = resolveMotionDuration(
-      context,
-      resolved.duration ?? radioDefaultDuration,
-    );
+    // An explicit `duration` leg retimes the dot in and out together.
+    final Duration dotInDuration = resolved.duration ?? radioDefaultDuration;
+    final Duration dotOutDuration = resolved.duration != null
+        ? resolved.duration!
+        : radioDefaultOutDuration;
     final ThemeColors colors = Theme.of(context).colors;
     return AnimatedContainer(
       key: kRadioIndicatorKey,
-      duration: duration,
+      duration: resolveMotionDuration(context, dotInDuration),
       curve: motion.curves.standard,
       width: size,
       height: size,
@@ -281,15 +282,24 @@ class RadioIndicator extends StatelessWidget {
         ),
       ),
       child: Center(
-        child: AnimatedContainer(
+        // The dot scales from 0 to 1 with a snappy spring (120 ms in) and
+        // scales out faster on deselect (80 ms). It keeps a fixed size and
+        // scales, so the selection never shifts layout.
+        child: AnimatedScale(
           key: kRadioIndicatorDotKey,
-          duration: duration,
+          scale: selected ? 1.0 : 0.0,
+          duration: resolveMotionDuration(
+            context,
+            selected ? dotInDuration : dotOutDuration,
+          ),
           curve: motion.curves.spring,
-          width: selected ? dotSize : 0,
-          height: selected ? dotSize : 0,
-          decoration: BoxDecoration(
-            shape: BoxShape.circle,
-            color: resolved.dotColor?.resolve(colors),
+          child: Container(
+            width: dotSize,
+            height: dotSize,
+            decoration: BoxDecoration(
+              shape: BoxShape.circle,
+              color: resolved.dotColor?.resolve(colors),
+            ),
           ),
         ),
       ),

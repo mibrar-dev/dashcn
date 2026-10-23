@@ -21,6 +21,7 @@ import '../../theme/theme.dart';
 import 'star_rating_style.dart';
 
 export 'star_rating_style.dart';
+import 'star_rating_pop.dart';
 
 /// Cursor for an enabled rating; the system arrow while disabled.
 const _starRatingMouseCursor = StateValue<MouseCursor>(
@@ -358,30 +359,33 @@ class _StarRow extends StatelessWidget {
 
     Widget star(int index) {
       final double fill = (value - index).clamp(0.0, 1.0);
-      return SizedBox(
-        width: size,
-        height: size,
-        child: ShaderMask(
-          blendMode: BlendMode.srcIn,
-          shaderCallback: (Rect bounds) {
-            return LinearGradient(
-              colors: <Color>[activeColor, inactiveColor],
-              stops: <double>[fill, fill],
-              begin: begin,
-              end: rtl ? Alignment.centerLeft : Alignment.centerRight,
-            ).createShader(bounds);
-          },
-          child: DecoratedBox(
-            // The paint colour only supplies coverage; the mask recolours it.
-            decoration: ShapeDecoration(
-              color: const Color(0xFFFFFFFF),
-              shape: StarBorder(
-                points: style.points ?? 5,
-                pointRounding: style.pointRounding ?? 0,
-                valleyRounding: style.valleyRounding ?? 0,
-                squash: style.squash ?? 0,
-                innerRadiusRatio: style.innerRadiusRatio ?? 0.4,
-                rotation: style.rotation ?? 0,
+      return StarPop(
+        selected: fill > 0,
+        child: SizedBox(
+          width: size,
+          height: size,
+          child: ShaderMask(
+            blendMode: BlendMode.srcIn,
+            shaderCallback: (Rect bounds) {
+              return LinearGradient(
+                colors: <Color>[activeColor, inactiveColor],
+                stops: <double>[fill, fill],
+                begin: begin,
+                end: rtl ? Alignment.centerLeft : Alignment.centerRight,
+              ).createShader(bounds);
+            },
+            child: DecoratedBox(
+              // The paint colour only supplies coverage; the mask recolours it.
+              decoration: ShapeDecoration(
+                color: const Color(0xFFFFFFFF),
+                shape: StarBorder(
+                  points: style.points ?? 5,
+                  pointRounding: style.pointRounding ?? 0,
+                  valleyRounding: style.valleyRounding ?? 0,
+                  squash: style.squash ?? 0,
+                  innerRadiusRatio: style.innerRadiusRatio ?? 0.4,
+                  rotation: style.rotation ?? 0,
+                ),
               ),
             ),
           ),
