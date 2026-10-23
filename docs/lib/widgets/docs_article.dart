@@ -363,7 +363,10 @@ class _DocsArticleState extends State<DocsArticle> {
 
   Widget _titleRow(BuildContext context, ThemeData theme, bool showActions) {
     final locale =
-        DocsRouterScope.maybeOf(context)?.state.locale ?? const Locale('en'); // P7-TH1: theme-spaced, wrapping title actions. Badges sit at upstream
+        DocsRouterScope.maybeOf(context)?.state.locale ??
+        const Locale(
+          'en',
+        ); // P7-TH1: theme-spaced, wrapping title actions. Badges sit at upstream
     // badge size with gap-2 between them; the badge group keeps gap-3 from
     // the actions; Copy Page and the pager use gap-2. The Wrap drops to the
     // next line on narrow widths instead of squeezing to 0px gaps.
@@ -534,9 +537,9 @@ class _DocsArticleState extends State<DocsArticle> {
                     child: Button(
                       variant: ButtonVariant.secondary,
                       size: ButtonSize.sm,
-                      onPressed: () =>
-                          DocsRouterScope.of(context)
-                              .go(context, widget.previous!.location),
+                      onPressed: () => DocsRouterScope.of(
+                        context,
+                      ).go(context, widget.previous!.location),
                       leading: const Icon(LucideIcons.arrowLeft, size: 16),
                       child: ConstrainedBox(
                         constraints: BoxConstraints(maxWidth: maxLabel),
@@ -554,9 +557,9 @@ class _DocsArticleState extends State<DocsArticle> {
                     child: Button(
                       variant: ButtonVariant.secondary,
                       size: ButtonSize.sm,
-                      onPressed: () =>
-                          DocsRouterScope.of(context)
-                              .go(context, widget.next!.location),
+                      onPressed: () => DocsRouterScope.of(
+                        context,
+                      ).go(context, widget.next!.location),
                       trailing: const Icon(LucideIcons.arrowRight, size: 16),
                       child: ConstrainedBox(
                         constraints: BoxConstraints(maxWidth: maxLabel),

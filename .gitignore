@@ -33,5 +33,5 @@ rearch/**/*.gif
 rearch/**/*.webp
 
 # agent work files (captures, briefs); capture tests recreate them
-scratchpad/
-qa/
+/scratchpad/
+/qa/
