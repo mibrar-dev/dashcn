@@ -165,7 +165,10 @@ class _Login01State extends State<Login01> {
                           context,
                           docsSample(
                             context,
-                            docsSample(context, 'Enter your credentials to access your workspace.'),
+                            docsSample(
+                              context,
+                              'Enter your credentials to access your workspace.',
+                            ),
                           ),
                         ),
                         style: theme.typography.textMuted.copyWith(

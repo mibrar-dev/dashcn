@@ -35,7 +35,9 @@ Widget _featuredTile(ThemeData theme) {
         children: <Widget>[
           const Text('dashcn').small().medium(),
           const SizedBox(height: 4),
-          Text(docsSample(null, 'Beautifully designed components')).muted().small(),
+          Text(
+            docsSample(null, 'Beautifully designed components'),
+          ).muted().small(),
         ],
       ),
     ),
@@ -55,19 +57,25 @@ Widget _gettingStarted(ThemeData theme) {
           children: <Widget>[
             NavigationMenuContent(
               title: Text(docsSample(null, 'Introduction')),
-              content: Text(docsSample(null, 'Re-usable components for your apps')),
+              content: Text(
+                docsSample(null, 'Re-usable components for your apps'),
+              ),
               onPressed: _noop,
             ),
             SizedBox(height: 8),
             NavigationMenuContent(
               title: Text(docsSample(null, 'Installation')),
-              content: Text(docsSample(null, 'How to install dependencies and code')),
+              content: Text(
+                docsSample(null, 'How to install dependencies and code'),
+              ),
               onPressed: _noop,
             ),
             SizedBox(height: 8),
             NavigationMenuContent(
               title: Text(docsSample(null, 'Typography')),
-              content: Text(docsSample(null, 'Styles for headings and paragraphs')),
+              content: Text(
+                docsSample(null, 'Styles for headings and paragraphs'),
+              ),
               onPressed: _noop,
             ),
           ],
@@ -86,7 +94,9 @@ Widget _componentsGrid() {
     children: <Widget>[
       NavigationMenuContent(
         title: Text('Alert Dialog'),
-        content: Text(docsSample(null, 'A modal dialog that interrupts the user')),
+        content: Text(
+          docsSample(null, 'A modal dialog that interrupts the user'),
+        ),
         onPressed: _noop,
       ),
       NavigationMenuContent(
@@ -96,12 +106,16 @@ Widget _componentsGrid() {
       ),
       NavigationMenuContent(
         title: Text('Progress'),
-        content: Text(docsSample(null, 'Displays an indicator showing progress')),
+        content: Text(
+          docsSample(null, 'Displays an indicator showing progress'),
+        ),
         onPressed: _noop,
       ),
       NavigationMenuContent(
         title: Text(docsSample(null, 'Scroll Area')),
-        content: Text(docsSample(null, 'Visually separates content into sections')),
+        content: Text(
+          docsSample(null, 'Visually separates content into sections'),
+        ),
         onPressed: _noop,
       ),
       NavigationMenuContent(
@@ -151,7 +165,9 @@ class _DefaultBarState extends State<_DefaultBar> {
                 child: Text(docsSample(context, 'Components')),
               ),
               NavigationMenuItem(
-                onPressed: () => setState(() => _page = docsSample(context, 'Documentation')),
+                onPressed: () => setState(
+                  () => _page = docsSample(context, 'Documentation'),
+                ),
                 child: Text(docsSample(context, 'Docs')),
               ),
             ],

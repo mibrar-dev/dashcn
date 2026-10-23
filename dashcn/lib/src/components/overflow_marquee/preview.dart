@@ -46,7 +46,10 @@ Widget _defaultMarquee(BuildContext context) {
               child: Text(
                 docsSample(
                   context,
-                  docsSample(context, 'Breaking News: dashcn continuous marquee components now live across all platforms! • Seamless looping with soft edge fades • Fully keyboard accessible'),
+                  docsSample(
+                    context,
+                    'Breaking News: dashcn continuous marquee components now live across all platforms! • Seamless looping with soft edge fades • Fully keyboard accessible',
+                  ),
                 ),
               ),
             ),
@@ -112,7 +115,10 @@ class _NowPlayingState extends State<_NowPlaying> {
                         context,
                         docsSample(
                           context,
-                          docsSample(context, 'Midnight City — M83 (Extended Club Mix, 2024 Remaster)'),
+                          docsSample(
+                            context,
+                            'Midnight City — M83 (Extended Club Mix, 2024 Remaster)',
+                          ),
                         ),
                       ),
                       style: TextStyle(fontWeight: FontWeight.w600),
@@ -243,7 +249,10 @@ Widget _rtlTicker(BuildContext context) {
                         context,
                         docsSample(
                           context,
-                          docsSample(context, 'مكتبة dashcn تدعم الاتجاه من اليمين إلى اليسار بشكل كامل مع حركة مستمرة وسلسة'),
+                          docsSample(
+                            context,
+                            'مكتبة dashcn تدعم الاتجاه من اليمين إلى اليسار بشكل كامل مع حركة مستمرة وسلسة',
+                          ),
                         ),
                       ),
                     ),
@@ -284,7 +293,10 @@ Widget _customizedMarquee(BuildContext context) {
             context,
             docsSample(
               context,
-              docsSample(context, 'Custom speed: 75 px/s • Custom gap: 40 px • Custom edge fades • Pinned builder slots'),
+              docsSample(
+                context,
+                'Custom speed: 75 px/s • Custom gap: 40 px • Custom edge fades • Pinned builder slots',
+              ),
             ),
           ),
           style: TextStyle(fontWeight: FontWeight.w500),

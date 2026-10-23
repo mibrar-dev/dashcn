@@ -27,7 +27,10 @@ class _ErrorSystemPreviewState extends State<ErrorSystemPreview> {
       context,
       docsSample(
         context,
-        docsSample(context, 'The request could not be completed. Please try again.'),
+        docsSample(
+          context,
+          'The request could not be completed. Please try again.',
+        ),
       ),
     ),
     actions: <ErrorAction>[ErrorAction.retry(() {}), ErrorAction.report(() {})],

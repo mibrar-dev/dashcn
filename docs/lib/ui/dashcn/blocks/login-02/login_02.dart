@@ -307,7 +307,10 @@ class _Login02Form extends StatelessWidget {
               context,
               docsSample(
                 context,
-                docsSample(context, 'By signing in you agree to our terms of service.'),
+                docsSample(
+                  context,
+                  'By signing in you agree to our terms of service.',
+                ),
               ),
             ),
             textAlign: TextAlign.center,

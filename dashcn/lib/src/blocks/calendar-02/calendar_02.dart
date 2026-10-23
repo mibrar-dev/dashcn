@@ -94,7 +94,10 @@ class _Calendar02State extends State<Calendar02> {
                     context,
                     docsSample(
                       context,
-                      docsSample(context, 'Pick a day, then a time that suits you.'),
+                      docsSample(
+                        context,
+                        'Pick a day, then a time that suits you.',
+                      ),
                     ),
                   ),
                   style: theme.typography.textMuted.copyWith(

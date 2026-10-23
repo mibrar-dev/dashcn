@@ -77,7 +77,10 @@ class _Account01State extends State<Account01> {
                 context,
                 docsSample(
                   context,
-                  docsSample(context, 'Manage your account settings and set your email preferences.'),
+                  docsSample(
+                    context,
+                    'Manage your account settings and set your email preferences.',
+                  ),
                 ),
               ),
               style: theme.typography.textMuted.copyWith(

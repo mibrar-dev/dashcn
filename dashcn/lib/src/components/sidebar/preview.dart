@@ -155,7 +155,10 @@ class _DemoContent extends StatelessWidget {
                     context,
                     docsSample(
                       context,
-                      docsSample(context, 'Pick a row in the sidebar to switch sections.'),
+                      docsSample(
+                        context,
+                        'Pick a row in the sidebar to switch sections.',
+                      ),
                     ),
                   ),
                   style: theme.typography.textSmall.copyWith(
@@ -184,7 +187,10 @@ class _DemoContent extends StatelessWidget {
                     context,
                     docsSample(
                       context,
-                      docsSample(context, 'Pick a row in the sidebar to switch sections.'),
+                      docsSample(
+                        context,
+                        'Pick a row in the sidebar to switch sections.',
+                      ),
                     ),
                   ),
                   style: theme.typography.textSmall.copyWith(

@@ -145,7 +145,10 @@ class _Account01PasswordFormState extends State<Account01PasswordForm> {
                     context,
                     docsSample(
                       context,
-                      docsSample(context, 'At least 8 characters. Changing it signs you out elsewhere.'),
+                      docsSample(
+                        context,
+                        'At least 8 characters. Changing it signs you out elsewhere.',
+                      ),
                     ),
                   ),
                   style: theme.typography.textSmall.copyWith(

@@ -86,7 +86,10 @@ class _Chat01ThreadListScreenState extends State<Chat01ThreadListScreen> {
                                     context,
                                     docsSample(
                                       context,
-                                      docsSample(context, 'Pull to refresh or start a new chat.'),
+                                      docsSample(
+                                        context,
+                                        'Pull to refresh or start a new chat.',
+                                      ),
                                     ),
                                   ),
                                 ),

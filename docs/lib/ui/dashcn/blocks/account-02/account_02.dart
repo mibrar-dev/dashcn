@@ -165,7 +165,10 @@ class _Account02State extends State<Account02> {
                   context,
                   docsSample(
                     context,
-                    docsSample(context, 'Choose what you want to hear about, and where.'),
+                    docsSample(
+                      context,
+                      'Choose what you want to hear about, and where.',
+                    ),
                   ),
                 ),
                 style: theme.typography.textMuted.copyWith(
@@ -223,7 +226,10 @@ class _Account02State extends State<Account02> {
                   context,
                   docsSample(
                     context,
-                    docsSample(context, 'One email every Monday with everything that happened.'),
+                    docsSample(
+                      context,
+                      'One email every Monday with everything that happened.',
+                    ),
                   ),
                 ),
                 children: <Widget>[

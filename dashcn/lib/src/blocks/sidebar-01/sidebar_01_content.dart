@@ -76,7 +76,10 @@ class Sidebar01Content extends StatelessWidget {
                   context,
                   docsSample(
                     context,
-                    docsSample(context, 'Can we move the sidebar review to Thursday?'),
+                    docsSample(
+                      context,
+                      'Can we move the sidebar review to Thursday?',
+                    ),
                   ),
                 ),
               ),
@@ -88,7 +91,10 @@ class Sidebar01Content extends StatelessWidget {
                   context,
                   docsSample(
                     context,
-                    docsSample(context, 'Your receipt for the annual plan is attached.'),
+                    docsSample(
+                      context,
+                      'Your receipt for the annual plan is attached.',
+                    ),
                   ),
                 ),
               ),
@@ -100,7 +106,10 @@ class Sidebar01Content extends StatelessWidget {
                   context,
                   docsSample(
                     context,
-                    docsSample(context, 'Here is everything you need to get started.'),
+                    docsSample(
+                      context,
+                      'Here is everything you need to get started.',
+                    ),
                   ),
                 ),
               ),

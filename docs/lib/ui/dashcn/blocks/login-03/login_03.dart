@@ -265,7 +265,10 @@ class _Login03State extends State<Login03> {
                                   context,
                                   docsSample(
                                     context,
-                                    docsSample(context, 'Signed in — welcome back.'),
+                                    docsSample(
+                                      context,
+                                      'Signed in — welcome back.',
+                                    ),
                                   ),
                                 ),
                                 style: theme.typography.textSmall,

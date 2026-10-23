@@ -169,7 +169,10 @@ Widget _featureCarouselLabelled(BuildContext context) {
             context,
             docsSample(
               context,
-              docsSample(context, 'A single slide, so the CTA sits under one card.'),
+              docsSample(
+                context,
+                'A single slide, so the CTA sits under one card.',
+              ),
             ),
           ),
           style: TextStyle(

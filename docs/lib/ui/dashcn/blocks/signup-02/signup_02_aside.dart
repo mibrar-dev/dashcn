@@ -72,7 +72,10 @@ class Signup02Aside extends StatelessWidget {
                         context,
                         docsSample(
                           context,
-                          docsSample(context, 'Unlimited projects during the trial'),
+                          docsSample(
+                            context,
+                            'Unlimited projects during the trial',
+                          ),
                         ),
                       ),
                       docsSample(context, 'All component categories'),
@@ -98,7 +101,10 @@ class Signup02Aside extends StatelessWidget {
                         context,
                         docsSample(
                           context,
-                          docsSample(context, '"We onboarded the whole team in an afternoon."'),
+                          docsSample(
+                            context,
+                            '"We onboarded the whole team in an afternoon."',
+                          ),
                         ),
                       ),
                       style: theme.typography.textLarge,

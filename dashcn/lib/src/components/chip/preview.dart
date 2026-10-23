@@ -101,7 +101,10 @@ class _RemovableChipsState extends State<_RemovableChips> {
             context,
             docsSample(
               context,
-              docsSample(context, 'Tip: focus a chip and press Backspace to remove it.'),
+              docsSample(
+                context,
+                'Tip: focus a chip and press Backspace to remove it.',
+              ),
             ),
           ),
         ),

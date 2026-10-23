@@ -142,7 +142,10 @@ class Account01ProfileFormState extends State<Account01ProfileForm> {
                 context,
                 docsSample(
                   context,
-                  docsSample(context, 'This is how others will see you on the site.'),
+                  docsSample(
+                    context,
+                    'This is how others will see you on the site.',
+                  ),
                 ),
               ),
               style: theme.typography.textSmall.copyWith(

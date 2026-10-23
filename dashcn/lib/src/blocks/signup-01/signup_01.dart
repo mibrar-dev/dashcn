@@ -154,7 +154,10 @@ class _Signup01State extends State<Signup01> {
                   context,
                   docsSample(
                     context,
-                    docsSample(context, 'Enter your email below to create your account.'),
+                    docsSample(
+                      context,
+                      'Enter your email below to create your account.',
+                    ),
                   ),
                 ),
                 style: theme.typography.textMuted.copyWith(
@@ -249,7 +252,10 @@ class _Signup01State extends State<Signup01> {
                       context,
                       docsSample(
                         context,
-                        docsSample(context, 'Account created — check your inbox to verify it.'),
+                        docsSample(
+                          context,
+                          'Account created — check your inbox to verify it.',
+                        ),
                       ),
                     ),
                     style: theme.typography.textSmall,

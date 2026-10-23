@@ -411,7 +411,10 @@ Widget _lockedBody(BuildContext context) {
         context,
         docsSample(
           context,
-          docsSample(context, 'The barrier is locked: tap outside or press Escape does nothing. Use Cancel or Delete to leave.'),
+          docsSample(
+            context,
+            'The barrier is locked: tap outside or press Escape does nothing. Use Cancel or Delete to leave.',
+          ),
         ),
       ),
       Gap(gap * 2),
