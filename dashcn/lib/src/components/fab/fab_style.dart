@@ -66,9 +66,14 @@ double fabBoxFor(FabSize size, FabShape shape) {
 
 /// The icon size for [size] in [shape], in logical pixels.
 ///
-/// Follows the density tokens (16 compact, 20 comfortable, 24 touch) so the
-/// icon never exceeds 60% of the button box (DESIGN.md icon rule).
+/// Compact token 16 for small and for every extended pill (the default
+/// extended 56 px pill carries a 16 px icon plus label, same on desktop
+/// and mobile); standard round keeps the density steps (16 / 20 / 24) and
+/// mini follows the tokens. Icons never exceed 60% of the button box.
 double fabIconFor(FabSize size, FabShape shape) {
+  if (shape == FabShape.extended) {
+    return 16;
+  }
   return switch (size) {
     FabSize.sm => 16,
     FabSize.md => 20,

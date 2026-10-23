@@ -61,13 +61,14 @@ class ActionSheet<T> extends StatelessWidget {
   final ActionSheetDividerBuilder? dividerBuilder;
 
   DensityTokens _tokens(BuildContext context, ActionSheetTheme resolved) {
+    // Same visuals desktop/mobile: ambient tokens, no phone-width switch.
     return densityTokens ??
         resolved.themeDensityTokens ??
         ComponentTheme.maybeOf<ActionSheetTheme>(context)?.themeDensityTokens ??
         ComponentThemes.maybeOf<ActionSheetTheme>(
           context,
         )?.themeDensityTokens ??
-        resolveDensityTokens(context);
+        Theme.of(context).densityTokens;
   }
 
   Widget _divider(BuildContext context, Color color) {
@@ -206,6 +207,10 @@ class ActionSheet<T> extends StatelessWidget {
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: <Widget>[
+              // 16 px (kSpace4) breathing room above the title; the sheet
+              // keeps its inner padding and adds 8 px (kSpace2) below the
+              // last row so content never sits tight to the edge.
+              SizedBox(height: kSpace4 * scaling),
               if (title != null)
                 Padding(
                   padding: EdgeInsets.only(
@@ -249,6 +254,7 @@ class ActionSheet<T> extends StatelessWidget {
                 _divider(context, divider),
                 actionButton(cancelAction!, isCancel: true),
               ],
+              SizedBox(height: kSpace2 * scaling),
             ],
           ),
         ),

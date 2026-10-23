@@ -107,7 +107,7 @@
   },
   "notes": [
     "The button is a floating surface: its fill goes through `primitives/surface.dart` (`surfaceColor` + `GlassSurface`), so the ambient `ThemeData.surfaceOpacity` / `surfaceBlur` apply to it.",
-    "Touch platforms grow the hit box with transparent padding (`TouchHitArea`), never the painted circle.",
+    "Touch platforms expand the hit-test/semantics region with invisible `TouchHitArea` (no layout change), never the painted circle.",
     "`FabSpeedDial` is controlled when `expanded` is non-null and uncontrolled otherwise.",
     "`FabHideOnScroll` reads a `ScrollController` when one is passed and the scroll notifications otherwise."
   ]
