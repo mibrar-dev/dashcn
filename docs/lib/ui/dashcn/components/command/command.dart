@@ -336,17 +336,10 @@ class _CommandResults extends StatelessWidget {
   }
 
   Widget _buildList(List<Widget> items) {
-    // The list padding sits outside the scrollable so result rows run
-    // full-bleed edge to edge (the menu-surface precedent): visuals are
-    // identical, and every row keeps an uninterrupted 32 px hit area.
-    return Padding(
-      padding: listPadding,
-      child: ListView(
-        shrinkWrap: true,
-        padding: EdgeInsets.zero,
-        children: items,
-      ),
-    );
+    // The 4 px floating-surface padding lives on the scrollable itself;
+    // rows size via SubFocusListItem (48 px in the demos to meet the
+    // touch minimum).
+    return ListView(shrinkWrap: true, padding: listPadding, children: items);
   }
 }
 

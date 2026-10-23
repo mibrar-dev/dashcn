@@ -66,8 +66,8 @@ class _CommandPaletteState extends State<_CommandPalette> {
                     for (final String value in ranked) {
                       items.add(
                         SubFocusListItem(
-                          // SIZING.md rows are 32 px on every platform.
-                          minHeight: 32,
+                          // 48px rows meet the touch minimum.
+                          minHeight: 48,
                           title: Text(value),
                           onTap: () => setState(() => _lastCommand = value),
                         ),
@@ -145,7 +145,7 @@ class _CommandDialogTrigger extends StatelessWidget {
     final List<String> ranked = rankCommandLabels(_commandValues, query);
     yield <Widget>[
       for (final String value in ranked)
-        SubFocusListItem(minHeight: 32, title: Text(value)),
+        SubFocusListItem(minHeight: 48, title: Text(value)),
     ];
   }
 
@@ -183,7 +183,7 @@ Widget _commandCustomized(BuildContext context) {
             );
             yield <Widget>[
               for (final String value in ranked)
-                SubFocusListItem(minHeight: 32, title: Text(value)),
+                SubFocusListItem(minHeight: 48, title: Text(value)),
             ];
           },
         ),
