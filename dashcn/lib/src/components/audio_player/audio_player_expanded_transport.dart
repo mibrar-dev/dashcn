@@ -57,11 +57,11 @@ class AudioExpandedTransport extends StatelessWidget {
   Widget build(BuildContext context) {
     final AudioPlaybackController c = controller;
     if (controlsBuilder != null) return controlsBuilder!(context, c);
-    final double iconSize = style.iconSize ?? 16;
+    final ThemeData ambient = Theme.of(context);
+    final double iconSize = style.iconSize ?? ambient.densityTokens.iconSize;
     // 8 px density gaps between transport controls. Wrap (not Row) so
     // custom builders with wide content wrap to a second line instead of
     // overflowing the card; the default buttons fit in one centred line.
-    final ThemeData ambient = Theme.of(context);
     final double controlGap = ambient.density.baseGap * ambient.scaling * gapSm;
     return Wrap(
       alignment: WrapAlignment.center,

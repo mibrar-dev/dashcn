@@ -21,11 +21,13 @@ Widget buildMarkdownTable(
 ) {
   final rows = block.tableRows;
   if (rows.isEmpty) return const SizedBox.shrink();
+  final ThemeData theme = Theme.of(context);
   return Container(
     margin: const EdgeInsets.symmetric(vertical: 6),
     decoration: BoxDecoration(
       border: Border.all(color: style.tableBorder),
-      borderRadius: BorderRadius.circular(10),
+      // 10 px at the default theme: tables keep 2 px above radiusLg.
+      borderRadius: BorderRadius.circular(theme.radiusLg + 2),
     ),
     clipBehavior: Clip.antiAlias,
     child: SingleChildScrollView(
@@ -245,7 +247,11 @@ void showMarkdownImagePreview(
           margin: const EdgeInsets.all(24),
           decoration: BoxDecoration(
             color: style.surface,
-            borderRadius: BorderRadius.circular(16),
+            // 16 px at the default theme: the preview dialog keeps 4 px
+            // above radiusXl (SIZING sheet/dialog rule).
+            borderRadius: BorderRadius.circular(
+              Theme.of(dialogContext).radiusXl + 4,
+            ),
           ),
           clipBehavior: Clip.antiAlias,
           child: Column(

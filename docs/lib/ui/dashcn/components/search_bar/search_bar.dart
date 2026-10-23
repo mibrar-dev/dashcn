@@ -366,7 +366,7 @@ class _SearchBarState<T> extends State<SearchBar<T>> {
                     opacity: 0.5,
                     child: Icon(
                       LucideIcons.search,
-                      size: resolved.iconSize ?? searchBarDefaultIconSize,
+                      size: resolved.iconSize ?? theme.densityTokens.iconSize,
                     ),
                   ),
                 ),

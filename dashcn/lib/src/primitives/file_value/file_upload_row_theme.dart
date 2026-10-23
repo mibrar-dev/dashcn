@@ -159,7 +159,6 @@ class FileUploadRowTheme extends ComponentThemeData
 
 /// Token-derived baseline values; unset override fields fall through here.
 const FileUploadRowTheme fileUploadRowDefaults = FileUploadRowTheme(
-  borderRadius: BorderRadius.all(Radius.circular(8)),
   padding: 12,
   gap: 12,
   iconColor: ThemedColor.ref(ColorRef.mutedForeground),

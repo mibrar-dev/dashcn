@@ -98,14 +98,15 @@ class _Dashboard02Legend extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    const double swatch = 10;
     return Row(
       children: <Widget>[
         Container(
-          width: 10,
-          height: 10,
+          width: swatch,
+          height: swatch,
           decoration: BoxDecoration(
             color: theme.colors.chartColors[chartIndex],
-            borderRadius: BorderRadius.circular(5),
+            borderRadius: BorderRadius.circular(swatch / 2),
           ),
         ),
         const Gap(0, crossAxisExtent: 6),

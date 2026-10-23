@@ -126,7 +126,7 @@ Widget buildMarkdownListItem(
       height: 20,
       decoration: BoxDecoration(
         color: checked ? style.link.color : null,
-        borderRadius: BorderRadius.circular(6),
+        borderRadius: BorderRadius.circular(theme.radiusMd),
         border: Border.all(
           color: checked ? style.link.color ?? style.rule : style.rule,
           width: 1.4,
@@ -192,7 +192,8 @@ Widget buildMarkdownCode(
     padding: const EdgeInsets.all(12),
     decoration: BoxDecoration(
       color: style.codeBackground,
-      borderRadius: BorderRadius.circular(10),
+      // 10 px at the default theme: code wells keep 2 px above radiusLg.
+      borderRadius: BorderRadius.circular(Theme.of(context).radiusLg + 2),
     ),
     child: Column(
       crossAxisAlignment: CrossAxisAlignment.start,

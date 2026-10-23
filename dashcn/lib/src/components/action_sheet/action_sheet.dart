@@ -195,12 +195,14 @@ class ActionSheet<T> extends StatelessWidget {
       child: GlassSurface(
         surfaceBlur: blur,
         borderRadius:
-            resolved.borderRadius ?? BorderRadius.circular(12 * scaling),
+            resolved.borderRadius ??
+            BorderRadius.circular(ambient.radiusXl * scaling),
         child: Container(
           decoration: BoxDecoration(
             color: surfaceColor(bg, opacity),
             borderRadius:
-                resolved.borderRadius ?? BorderRadius.circular(12 * scaling),
+                resolved.borderRadius ??
+                BorderRadius.circular(ambient.radiusXl * scaling),
           ),
           padding: padding,
           child: Column(

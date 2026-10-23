@@ -221,7 +221,7 @@ class BorderLoadingTheme extends ComponentThemeData
   /// `EdgeInsets.all(strokeWidth)`.
   final EdgeInsetsGeometry? padding;
 
-  /// Corner radius; null resolves `12`.
+  /// Corner radius; null resolves the theme `radiusXl` step.
   final BorderRadiusGeometry? borderRadius;
 
   /// Fill behind the child; null draws none.
@@ -348,7 +348,6 @@ class BorderLoadingTheme extends ComponentThemeData
 /// Token-derived baseline; every unset override field falls through here.
 const BorderLoadingTheme borderLoadingDefaults = BorderLoadingTheme(
   strokeWidth: 2,
-  borderRadius: BorderRadius.all(Radius.circular(12)),
   duration: Duration(milliseconds: 1200),
   curve: Curves.linear,
   opacity: 1,
@@ -383,7 +382,7 @@ BorderLoadingTheme resolveBorderLoadingStyle(
     borderRadius:
         borderRadius ??
         resolved.borderRadius ??
-        const BorderRadius.all(Radius.circular(12)),
+        BorderRadius.circular(Theme.of(context).radiusXl),
     backgroundColor: backgroundColor == null
         ? resolved.backgroundColor
         : ThemedColor.value(backgroundColor),

@@ -219,7 +219,7 @@ class AudioCompactPill extends StatelessWidget {
         height: 36,
         child: Icon(
           c.isPlaying ? LucideIcons.pause : LucideIcons.play,
-          size: style.iconSize ?? 16,
+          size: style.iconSize ?? Theme.of(context).densityTokens.iconSize,
           color: fg,
         ),
       ),
@@ -273,6 +273,8 @@ class _CompactSeekLine extends StatelessWidget {
       child: LayoutBuilder(
         builder: (context, constraints) {
           final Size size = Size(constraints.maxWidth, 12);
+          // 2 px track, fully round: the pill radius is half the track height.
+          const double trackHeight = 2;
           return GestureDetector(
             behavior: HitTestBehavior.opaque,
             onTapDown: (d) => _seek(context, d.globalPosition, size),
@@ -282,9 +284,9 @@ class _CompactSeekLine extends StatelessWidget {
               height: 12,
               child: Center(
                 child: ClipRRect(
-                  borderRadius: BorderRadius.circular(1),
+                  borderRadius: BorderRadius.circular(trackHeight / 2),
                   child: SizedBox(
-                    height: 2,
+                    height: trackHeight,
                     child: ColoredBox(
                       color: track,
                       child: Align(

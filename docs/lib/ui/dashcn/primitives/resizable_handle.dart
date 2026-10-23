@@ -7,6 +7,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 
 import '../theme/color_tokens.dart';
+import '../theme/theme.dart';
 
 /// Keyboard step, in logical pixels, applied to a focused handle by an arrow
 /// key.
@@ -205,7 +206,7 @@ class _ResizableHandleViewState extends State<ResizableHandleView> {
                   : widget.gripSize.width,
               decoration: BoxDecoration(
                 color: widget.gripColor,
-                borderRadius: BorderRadius.circular(2),
+                borderRadius: BorderRadius.circular(Theme.of(context).radiusXs),
               ),
             ),
           )
