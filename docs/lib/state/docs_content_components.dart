@@ -333,6 +333,8 @@ const Map<String, Map<String, String>> _values = <String, Map<String, String>>{
         'Scrollable code block with syntax colouring, copy button and selectable text.',
     'cmpDesc_image':
         'Themed rounded image slot with a placeholder while loading and a caller-supplied error slot on failure.',
+    'cmpDesc_image_lightbox':
+        'A full-screen image viewer opened from a thumbnail with pinch or scroll zoom, drag to pan, swipe between images and close on Escape, the backdrop or the close button.',
     'cmpDesc_markdown':
         'Text-only markdown renderer with a dashcn theme, tap callbacks and an image preview overlay.',
     'cmpDesc_qr_code':

@@ -11,7 +11,6 @@ import 'package:flutter/widgets.dart';
 
 import '../../foundation/component_preview.dart';
 import '../../foundation/gap.dart';
-import '../../theme/density.dart';
 import '../../theme/theme.dart';
 import 'eye_dropper.dart';
 
@@ -101,9 +100,9 @@ class _EyeDropperPickerState extends State<_EyeDropperPicker> {
                 borderRadius: theme.borderRadiusMd,
               ),
               child: Padding(
-                padding: EdgeInsetsDensity.pxSymmetric(
-                  horizontal: 16,
-                  vertical: 8,
+                padding: EdgeInsets.symmetric(
+                  horizontal: theme.spacing.md,
+                  vertical: theme.spacing.sm,
                 ),
                 child: Text(
                   _sampling
