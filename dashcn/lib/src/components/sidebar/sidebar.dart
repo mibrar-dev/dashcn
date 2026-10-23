@@ -29,6 +29,7 @@ import '../../foundation/icons/lucide_icons.dart';
 import '../../primitives/clickable.dart';
 import '../../primitives/localizations/localizations.dart';
 import '../../primitives/motion/motion_chevron.dart';
+import '../../primitives/motion/motion_scope.dart';
 import '../../primitives/surface.dart';
 import '../../theme/theme.dart';
 import 'sidebar_style.dart';
@@ -427,8 +428,19 @@ class _DashboardSidebarState extends State<DashboardSidebar> {
     return FocusScope(
       node: widget.focusNode,
       onKeyEvent: _handleKey,
-      child: SizedBox(
-        width: width,
+      child: TweenAnimationBuilder<double>(
+        tween: Tween<double>(end: width),
+        duration: resolveMotionDuration(
+          context,
+          theme.motion.durations.base,
+        ),
+        curve: theme.motion.curves.standard,
+        builder: (BuildContext context, double value, Widget? child) {
+          return SizedBox(
+            width: value,
+            child: ClipRect(child: child!),
+          );
+        },
         child: GlassSurface(surfaceBlur: blur, child: rail),
       ),
     );
