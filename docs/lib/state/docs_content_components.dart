@@ -412,10 +412,14 @@ const Map<String, Map<String, String>> _values = <String, Map<String, String>>{
         'Row or column of small round dots, used as an ellipsis.',
     'cmpDesc_window':
         'Desktop-style window frame with drag, resize, maximize, close, z-order, focus and edge snapping, hosted by a WindowNavigator.',
-    'cmpDesc_menubar': "A horizontal bar of menu triggers whose submenus open below the bar. Rows, keyboard traversal and popup surfaces are the menu component's; MenubarTheme is owned by menu and resolved here.",
-    'cmpDesc_popup': "An anchored floating surface for arbitrary content: the menu component's MenuPopup (re-exported) plus showPopup, a generic helper with Escape/outside-tap dismissal.",
-    'cmpDesc_scrollbar': "Themeable scrollbar wrapper around Flutter's RawScrollbar with token-derived thumb, thickness and radius.",
-    'cmpDesc_select': "A single-selection dropdown picker. The trigger reuses the button variant table and the popover primitive; the popup is the menu component's surface and rows; the search field is the input component.",
+    'cmpDesc_menubar':
+        "A horizontal bar of menu triggers whose submenus open below the bar. Rows, keyboard traversal and popup surfaces are the menu component's; MenubarTheme is owned by menu and resolved here.",
+    'cmpDesc_popup':
+        "An anchored floating surface for arbitrary content: the menu component's MenuPopup (re-exported) plus showPopup, a generic helper with Escape/outside-tap dismissal.",
+    'cmpDesc_scrollbar':
+        "Themeable scrollbar wrapper around Flutter's RawScrollbar with token-derived thumb, thickness and radius.",
+    'cmpDesc_select':
+        "A single-selection dropdown picker. The trigger reuses the button variant table and the popover primitive; the popup is the menu component's surface and rows; the search field is the input component.",
   },
   'zh_Hant': <String, String>{
     'cmpDesc_border_loading': '圍繞子元件的漸層動畫邊框：掃掠環、游動光點、確定進度或靜態外框。',
@@ -546,10 +550,14 @@ const Map<String, Map<String, String>> _values = <String, Map<String, String>>{
     'cmpDesc_switcher': '沿軸動畫切換子元件的滑動視圖。',
     'cmpDesc_triple_dots': '小圓點行列作省略號。',
     'cmpDesc_window': '桌面窗框，拖曳、縮放、最大化、z-order 與邊緣吸附。',
-    'cmpDesc_menubar': "A horizontal bar of menu triggers whose submenus open below the bar. Rows, keyboard traversal and popup surfaces are the menu component's; MenubarTheme is owned by menu and resolved here.",
-    'cmpDesc_popup': "An anchored floating surface for arbitrary content: the menu component's MenuPopup (re-exported) plus showPopup, a generic helper with Escape/outside-tap dismissal.",
-    'cmpDesc_scrollbar': "Themeable scrollbar wrapper around Flutter's RawScrollbar with token-derived thumb, thickness and radius.",
-    'cmpDesc_select': "A single-selection dropdown picker. The trigger reuses the button variant table and the popover primitive; the popup is the menu component's surface and rows; the search field is the input component.",
+    'cmpDesc_menubar':
+        "A horizontal bar of menu triggers whose submenus open below the bar. Rows, keyboard traversal and popup surfaces are the menu component's; MenubarTheme is owned by menu and resolved here.",
+    'cmpDesc_popup':
+        "An anchored floating surface for arbitrary content: the menu component's MenuPopup (re-exported) plus showPopup, a generic helper with Escape/outside-tap dismissal.",
+    'cmpDesc_scrollbar':
+        "Themeable scrollbar wrapper around Flutter's RawScrollbar with token-derived thumb, thickness and radius.",
+    'cmpDesc_select':
+        "A single-selection dropdown picker. The trigger reuses the button variant table and the popover primitive; the popup is the menu component's surface and rows; the search field is the input component.",
   },
   'ar': <String, String>{
     'cmpDesc_border_loading':
@@ -699,10 +707,14 @@ const Map<String, Map<String, String>> _values = <String, Map<String, String>>{
     'cmpDesc_switcher': 'عرض قابل للسحب بين الأبناء.',
     'cmpDesc_triple_dots': 'صف نقاط كحذف.',
     'cmpDesc_window': 'إطار نافذة سطح مكتب بسحب وتكبير والتقاط.',
-    'cmpDesc_menubar': "A horizontal bar of menu triggers whose submenus open below the bar. Rows, keyboard traversal and popup surfaces are the menu component's; MenubarTheme is owned by menu and resolved here.",
-    'cmpDesc_popup': "An anchored floating surface for arbitrary content: the menu component's MenuPopup (re-exported) plus showPopup, a generic helper with Escape/outside-tap dismissal.",
-    'cmpDesc_scrollbar': "Themeable scrollbar wrapper around Flutter's RawScrollbar with token-derived thumb, thickness and radius.",
-    'cmpDesc_select': "A single-selection dropdown picker. The trigger reuses the button variant table and the popover primitive; the popup is the menu component's surface and rows; the search field is the input component.",
+    'cmpDesc_menubar':
+        "A horizontal bar of menu triggers whose submenus open below the bar. Rows, keyboard traversal and popup surfaces are the menu component's; MenubarTheme is owned by menu and resolved here.",
+    'cmpDesc_popup':
+        "An anchored floating surface for arbitrary content: the menu component's MenuPopup (re-exported) plus showPopup, a generic helper with Escape/outside-tap dismissal.",
+    'cmpDesc_scrollbar':
+        "Themeable scrollbar wrapper around Flutter's RawScrollbar with token-derived thumb, thickness and radius.",
+    'cmpDesc_select':
+        "A single-selection dropdown picker. The trigger reuses the button variant table and the popover primitive; the popup is the menu component's surface and rows; the search field is the input component.",
   },
   'bg': <String, String>{
     'cmpDesc_border_loading':
@@ -956,10 +968,14 @@ const Map<String, Map<String, String>> _values = <String, Map<String, String>>{
         'Row or column of small round dots, used as an ellipsis.',
     'cmpDesc_window':
         'Desktop-style window frame with drag, resize, maximize, close, z-order, focus and edge snapping, hosted by a WindowNavigator.',
-    'cmpDesc_menubar': "A horizontal bar of menu triggers whose submenus open below the bar. Rows, keyboard traversal and popup surfaces are the menu component's; MenubarTheme is owned by menu and resolved here.",
-    'cmpDesc_popup': "An anchored floating surface for arbitrary content: the menu component's MenuPopup (re-exported) plus showPopup, a generic helper with Escape/outside-tap dismissal.",
-    'cmpDesc_scrollbar': "Themeable scrollbar wrapper around Flutter's RawScrollbar with token-derived thumb, thickness and radius.",
-    'cmpDesc_select': "A single-selection dropdown picker. The trigger reuses the button variant table and the popover primitive; the popup is the menu component's surface and rows; the search field is the input component.",
+    'cmpDesc_menubar':
+        "A horizontal bar of menu triggers whose submenus open below the bar. Rows, keyboard traversal and popup surfaces are the menu component's; MenubarTheme is owned by menu and resolved here.",
+    'cmpDesc_popup':
+        "An anchored floating surface for arbitrary content: the menu component's MenuPopup (re-exported) plus showPopup, a generic helper with Escape/outside-tap dismissal.",
+    'cmpDesc_scrollbar':
+        "Themeable scrollbar wrapper around Flutter's RawScrollbar with token-derived thumb, thickness and radius.",
+    'cmpDesc_select':
+        "A single-selection dropdown picker. The trigger reuses the button variant table and the popover primitive; the popup is the menu component's surface and rows; the search field is the input component.",
   },
   'bn': <String, String>{
     'cmpDesc_border_loading':
@@ -1213,10 +1229,14 @@ const Map<String, Map<String, String>> _values = <String, Map<String, String>>{
         'Row or column of small round dots, used as an ellipsis.',
     'cmpDesc_window':
         'Desktop-style window frame with drag, resize, maximize, close, z-order, focus and edge snapping, hosted by a WindowNavigator.',
-    'cmpDesc_menubar': "A horizontal bar of menu triggers whose submenus open below the bar. Rows, keyboard traversal and popup surfaces are the menu component's; MenubarTheme is owned by menu and resolved here.",
-    'cmpDesc_popup': "An anchored floating surface for arbitrary content: the menu component's MenuPopup (re-exported) plus showPopup, a generic helper with Escape/outside-tap dismissal.",
-    'cmpDesc_scrollbar': "Themeable scrollbar wrapper around Flutter's RawScrollbar with token-derived thumb, thickness and radius.",
-    'cmpDesc_select': "A single-selection dropdown picker. The trigger reuses the button variant table and the popover primitive; the popup is the menu component's surface and rows; the search field is the input component.",
+    'cmpDesc_menubar':
+        "A horizontal bar of menu triggers whose submenus open below the bar. Rows, keyboard traversal and popup surfaces are the menu component's; MenubarTheme is owned by menu and resolved here.",
+    'cmpDesc_popup':
+        "An anchored floating surface for arbitrary content: the menu component's MenuPopup (re-exported) plus showPopup, a generic helper with Escape/outside-tap dismissal.",
+    'cmpDesc_scrollbar':
+        "Themeable scrollbar wrapper around Flutter's RawScrollbar with token-derived thumb, thickness and radius.",
+    'cmpDesc_select':
+        "A single-selection dropdown picker. The trigger reuses the button variant table and the popover primitive; the popup is the menu component's surface and rows; the search field is the input component.",
   },
   'cs': <String, String>{
     'cmpDesc_border_loading':
@@ -1470,10 +1490,14 @@ const Map<String, Map<String, String>> _values = <String, Map<String, String>>{
         'Row or column of small round dots, used as an ellipsis.',
     'cmpDesc_window':
         'Desktop-style window frame with drag, resize, maximize, close, z-order, focus and edge snapping, hosted by a WindowNavigator.',
-    'cmpDesc_menubar': "A horizontal bar of menu triggers whose submenus open below the bar. Rows, keyboard traversal and popup surfaces are the menu component's; MenubarTheme is owned by menu and resolved here.",
-    'cmpDesc_popup': "An anchored floating surface for arbitrary content: the menu component's MenuPopup (re-exported) plus showPopup, a generic helper with Escape/outside-tap dismissal.",
-    'cmpDesc_scrollbar': "Themeable scrollbar wrapper around Flutter's RawScrollbar with token-derived thumb, thickness and radius.",
-    'cmpDesc_select': "A single-selection dropdown picker. The trigger reuses the button variant table and the popover primitive; the popup is the menu component's surface and rows; the search field is the input component.",
+    'cmpDesc_menubar':
+        "A horizontal bar of menu triggers whose submenus open below the bar. Rows, keyboard traversal and popup surfaces are the menu component's; MenubarTheme is owned by menu and resolved here.",
+    'cmpDesc_popup':
+        "An anchored floating surface for arbitrary content: the menu component's MenuPopup (re-exported) plus showPopup, a generic helper with Escape/outside-tap dismissal.",
+    'cmpDesc_scrollbar':
+        "Themeable scrollbar wrapper around Flutter's RawScrollbar with token-derived thumb, thickness and radius.",
+    'cmpDesc_select':
+        "A single-selection dropdown picker. The trigger reuses the button variant table and the popover primitive; the popup is the menu component's surface and rows; the search field is the input component.",
   },
   'da': <String, String>{
     'cmpDesc_border_loading':
@@ -1727,10 +1751,14 @@ const Map<String, Map<String, String>> _values = <String, Map<String, String>>{
         'Row or column of small round dots, used as an ellipsis.',
     'cmpDesc_window':
         'Desktop-style window frame with drag, resize, maximize, close, z-order, focus and edge snapping, hosted by a WindowNavigator.',
-    'cmpDesc_menubar': "A horizontal bar of menu triggers whose submenus open below the bar. Rows, keyboard traversal and popup surfaces are the menu component's; MenubarTheme is owned by menu and resolved here.",
-    'cmpDesc_popup': "An anchored floating surface for arbitrary content: the menu component's MenuPopup (re-exported) plus showPopup, a generic helper with Escape/outside-tap dismissal.",
-    'cmpDesc_scrollbar': "Themeable scrollbar wrapper around Flutter's RawScrollbar with token-derived thumb, thickness and radius.",
-    'cmpDesc_select': "A single-selection dropdown picker. The trigger reuses the button variant table and the popover primitive; the popup is the menu component's surface and rows; the search field is the input component.",
+    'cmpDesc_menubar':
+        "A horizontal bar of menu triggers whose submenus open below the bar. Rows, keyboard traversal and popup surfaces are the menu component's; MenubarTheme is owned by menu and resolved here.",
+    'cmpDesc_popup':
+        "An anchored floating surface for arbitrary content: the menu component's MenuPopup (re-exported) plus showPopup, a generic helper with Escape/outside-tap dismissal.",
+    'cmpDesc_scrollbar':
+        "Themeable scrollbar wrapper around Flutter's RawScrollbar with token-derived thumb, thickness and radius.",
+    'cmpDesc_select':
+        "A single-selection dropdown picker. The trigger reuses the button variant table and the popover primitive; the popup is the menu component's surface and rows; the search field is the input component.",
   },
   'de': <String, String>{
     'cmpDesc_border_loading':
@@ -1950,10 +1978,14 @@ const Map<String, Map<String, String>> _values = <String, Map<String, String>>{
     'cmpDesc_triple_dots': 'Punktreihe als Ellipse.',
     'cmpDesc_window':
         'Desktop-Fenster mit Drag, Resize, Maximize und Snapping.',
-    'cmpDesc_menubar': "A horizontal bar of menu triggers whose submenus open below the bar. Rows, keyboard traversal and popup surfaces are the menu component's; MenubarTheme is owned by menu and resolved here.",
-    'cmpDesc_popup': "An anchored floating surface for arbitrary content: the menu component's MenuPopup (re-exported) plus showPopup, a generic helper with Escape/outside-tap dismissal.",
-    'cmpDesc_scrollbar': "Themeable scrollbar wrapper around Flutter's RawScrollbar with token-derived thumb, thickness and radius.",
-    'cmpDesc_select': "A single-selection dropdown picker. The trigger reuses the button variant table and the popover primitive; the popup is the menu component's surface and rows; the search field is the input component.",
+    'cmpDesc_menubar':
+        "A horizontal bar of menu triggers whose submenus open below the bar. Rows, keyboard traversal and popup surfaces are the menu component's; MenubarTheme is owned by menu and resolved here.",
+    'cmpDesc_popup':
+        "An anchored floating surface for arbitrary content: the menu component's MenuPopup (re-exported) plus showPopup, a generic helper with Escape/outside-tap dismissal.",
+    'cmpDesc_scrollbar':
+        "Themeable scrollbar wrapper around Flutter's RawScrollbar with token-derived thumb, thickness and radius.",
+    'cmpDesc_select':
+        "A single-selection dropdown picker. The trigger reuses the button variant table and the popover primitive; the popup is the menu component's surface and rows; the search field is the input component.",
   },
   'el': <String, String>{
     'cmpDesc_border_loading':
@@ -2207,10 +2239,14 @@ const Map<String, Map<String, String>> _values = <String, Map<String, String>>{
         'Row or column of small round dots, used as an ellipsis.',
     'cmpDesc_window':
         'Desktop-style window frame with drag, resize, maximize, close, z-order, focus and edge snapping, hosted by a WindowNavigator.',
-    'cmpDesc_menubar': "A horizontal bar of menu triggers whose submenus open below the bar. Rows, keyboard traversal and popup surfaces are the menu component's; MenubarTheme is owned by menu and resolved here.",
-    'cmpDesc_popup': "An anchored floating surface for arbitrary content: the menu component's MenuPopup (re-exported) plus showPopup, a generic helper with Escape/outside-tap dismissal.",
-    'cmpDesc_scrollbar': "Themeable scrollbar wrapper around Flutter's RawScrollbar with token-derived thumb, thickness and radius.",
-    'cmpDesc_select': "A single-selection dropdown picker. The trigger reuses the button variant table and the popover primitive; the popup is the menu component's surface and rows; the search field is the input component.",
+    'cmpDesc_menubar':
+        "A horizontal bar of menu triggers whose submenus open below the bar. Rows, keyboard traversal and popup surfaces are the menu component's; MenubarTheme is owned by menu and resolved here.",
+    'cmpDesc_popup':
+        "An anchored floating surface for arbitrary content: the menu component's MenuPopup (re-exported) plus showPopup, a generic helper with Escape/outside-tap dismissal.",
+    'cmpDesc_scrollbar':
+        "Themeable scrollbar wrapper around Flutter's RawScrollbar with token-derived thumb, thickness and radius.",
+    'cmpDesc_select':
+        "A single-selection dropdown picker. The trigger reuses the button variant table and the popover primitive; the popup is the menu component's surface and rows; the search field is the input component.",
   },
   'es': <String, String>{
     'cmpDesc_border_loading':
@@ -2346,10 +2382,14 @@ const Map<String, Map<String, String>> _values = <String, Map<String, String>>{
     'cmpDesc_switcher': 'Vista swipe entre hijos.',
     'cmpDesc_triple_dots': 'Puntos elipsis.',
     'cmpDesc_window': 'Ventana desktop drag/snap.',
-    'cmpDesc_menubar': "A horizontal bar of menu triggers whose submenus open below the bar. Rows, keyboard traversal and popup surfaces are the menu component's; MenubarTheme is owned by menu and resolved here.",
-    'cmpDesc_popup': "An anchored floating surface for arbitrary content: the menu component's MenuPopup (re-exported) plus showPopup, a generic helper with Escape/outside-tap dismissal.",
-    'cmpDesc_scrollbar': "Themeable scrollbar wrapper around Flutter's RawScrollbar with token-derived thumb, thickness and radius.",
-    'cmpDesc_select': "A single-selection dropdown picker. The trigger reuses the button variant table and the popover primitive; the popup is the menu component's surface and rows; the search field is the input component.",
+    'cmpDesc_menubar':
+        "A horizontal bar of menu triggers whose submenus open below the bar. Rows, keyboard traversal and popup surfaces are the menu component's; MenubarTheme is owned by menu and resolved here.",
+    'cmpDesc_popup':
+        "An anchored floating surface for arbitrary content: the menu component's MenuPopup (re-exported) plus showPopup, a generic helper with Escape/outside-tap dismissal.",
+    'cmpDesc_scrollbar':
+        "Themeable scrollbar wrapper around Flutter's RawScrollbar with token-derived thumb, thickness and radius.",
+    'cmpDesc_select':
+        "A single-selection dropdown picker. The trigger reuses the button variant table and the popover primitive; the popup is the menu component's surface and rows; the search field is the input component.",
   },
   'fa': <String, String>{
     'cmpDesc_border_loading':
@@ -2603,10 +2643,14 @@ const Map<String, Map<String, String>> _values = <String, Map<String, String>>{
         'Row or column of small round dots, used as an ellipsis.',
     'cmpDesc_window':
         'Desktop-style window frame with drag, resize, maximize, close, z-order, focus and edge snapping, hosted by a WindowNavigator.',
-    'cmpDesc_menubar': "A horizontal bar of menu triggers whose submenus open below the bar. Rows, keyboard traversal and popup surfaces are the menu component's; MenubarTheme is owned by menu and resolved here.",
-    'cmpDesc_popup': "An anchored floating surface for arbitrary content: the menu component's MenuPopup (re-exported) plus showPopup, a generic helper with Escape/outside-tap dismissal.",
-    'cmpDesc_scrollbar': "Themeable scrollbar wrapper around Flutter's RawScrollbar with token-derived thumb, thickness and radius.",
-    'cmpDesc_select': "A single-selection dropdown picker. The trigger reuses the button variant table and the popover primitive; the popup is the menu component's surface and rows; the search field is the input component.",
+    'cmpDesc_menubar':
+        "A horizontal bar of menu triggers whose submenus open below the bar. Rows, keyboard traversal and popup surfaces are the menu component's; MenubarTheme is owned by menu and resolved here.",
+    'cmpDesc_popup':
+        "An anchored floating surface for arbitrary content: the menu component's MenuPopup (re-exported) plus showPopup, a generic helper with Escape/outside-tap dismissal.",
+    'cmpDesc_scrollbar':
+        "Themeable scrollbar wrapper around Flutter's RawScrollbar with token-derived thumb, thickness and radius.",
+    'cmpDesc_select':
+        "A single-selection dropdown picker. The trigger reuses the button variant table and the popover primitive; the popup is the menu component's surface and rows; the search field is the input component.",
   },
   'fi': <String, String>{
     'cmpDesc_border_loading':
@@ -2860,10 +2904,14 @@ const Map<String, Map<String, String>> _values = <String, Map<String, String>>{
         'Row or column of small round dots, used as an ellipsis.',
     'cmpDesc_window':
         'Desktop-style window frame with drag, resize, maximize, close, z-order, focus and edge snapping, hosted by a WindowNavigator.',
-    'cmpDesc_menubar': "A horizontal bar of menu triggers whose submenus open below the bar. Rows, keyboard traversal and popup surfaces are the menu component's; MenubarTheme is owned by menu and resolved here.",
-    'cmpDesc_popup': "An anchored floating surface for arbitrary content: the menu component's MenuPopup (re-exported) plus showPopup, a generic helper with Escape/outside-tap dismissal.",
-    'cmpDesc_scrollbar': "Themeable scrollbar wrapper around Flutter's RawScrollbar with token-derived thumb, thickness and radius.",
-    'cmpDesc_select': "A single-selection dropdown picker. The trigger reuses the button variant table and the popover primitive; the popup is the menu component's surface and rows; the search field is the input component.",
+    'cmpDesc_menubar':
+        "A horizontal bar of menu triggers whose submenus open below the bar. Rows, keyboard traversal and popup surfaces are the menu component's; MenubarTheme is owned by menu and resolved here.",
+    'cmpDesc_popup':
+        "An anchored floating surface for arbitrary content: the menu component's MenuPopup (re-exported) plus showPopup, a generic helper with Escape/outside-tap dismissal.",
+    'cmpDesc_scrollbar':
+        "Themeable scrollbar wrapper around Flutter's RawScrollbar with token-derived thumb, thickness and radius.",
+    'cmpDesc_select':
+        "A single-selection dropdown picker. The trigger reuses the button variant table and the popover primitive; the popup is the menu component's surface and rows; the search field is the input component.",
   },
   'fil': <String, String>{
     'cmpDesc_border_loading':
@@ -3117,10 +3165,14 @@ const Map<String, Map<String, String>> _values = <String, Map<String, String>>{
         'Row or column of small round dots, used as an ellipsis.',
     'cmpDesc_window':
         'Desktop-style window frame with drag, resize, maximize, close, z-order, focus and edge snapping, hosted by a WindowNavigator.',
-    'cmpDesc_menubar': "A horizontal bar of menu triggers whose submenus open below the bar. Rows, keyboard traversal and popup surfaces are the menu component's; MenubarTheme is owned by menu and resolved here.",
-    'cmpDesc_popup': "An anchored floating surface for arbitrary content: the menu component's MenuPopup (re-exported) plus showPopup, a generic helper with Escape/outside-tap dismissal.",
-    'cmpDesc_scrollbar': "Themeable scrollbar wrapper around Flutter's RawScrollbar with token-derived thumb, thickness and radius.",
-    'cmpDesc_select': "A single-selection dropdown picker. The trigger reuses the button variant table and the popover primitive; the popup is the menu component's surface and rows; the search field is the input component.",
+    'cmpDesc_menubar':
+        "A horizontal bar of menu triggers whose submenus open below the bar. Rows, keyboard traversal and popup surfaces are the menu component's; MenubarTheme is owned by menu and resolved here.",
+    'cmpDesc_popup':
+        "An anchored floating surface for arbitrary content: the menu component's MenuPopup (re-exported) plus showPopup, a generic helper with Escape/outside-tap dismissal.",
+    'cmpDesc_scrollbar':
+        "Themeable scrollbar wrapper around Flutter's RawScrollbar with token-derived thumb, thickness and radius.",
+    'cmpDesc_select':
+        "A single-selection dropdown picker. The trigger reuses the button variant table and the popover primitive; the popup is the menu component's surface and rows; the search field is the input component.",
   },
   'fr': <String, String>{
     'cmpDesc_border_loading':
@@ -3278,10 +3330,14 @@ const Map<String, Map<String, String>> _values = <String, Map<String, String>>{
     'cmpDesc_switcher': 'Vue swipe entre enfants.',
     'cmpDesc_triple_dots': 'Points en ellipse.',
     'cmpDesc_window': 'Fenêtre desktop drag/resize/snap.',
-    'cmpDesc_menubar': "A horizontal bar of menu triggers whose submenus open below the bar. Rows, keyboard traversal and popup surfaces are the menu component's; MenubarTheme is owned by menu and resolved here.",
-    'cmpDesc_popup': "An anchored floating surface for arbitrary content: the menu component's MenuPopup (re-exported) plus showPopup, a generic helper with Escape/outside-tap dismissal.",
-    'cmpDesc_scrollbar': "Themeable scrollbar wrapper around Flutter's RawScrollbar with token-derived thumb, thickness and radius.",
-    'cmpDesc_select': "A single-selection dropdown picker. The trigger reuses the button variant table and the popover primitive; the popup is the menu component's surface and rows; the search field is the input component.",
+    'cmpDesc_menubar':
+        "A horizontal bar of menu triggers whose submenus open below the bar. Rows, keyboard traversal and popup surfaces are the menu component's; MenubarTheme is owned by menu and resolved here.",
+    'cmpDesc_popup':
+        "An anchored floating surface for arbitrary content: the menu component's MenuPopup (re-exported) plus showPopup, a generic helper with Escape/outside-tap dismissal.",
+    'cmpDesc_scrollbar':
+        "Themeable scrollbar wrapper around Flutter's RawScrollbar with token-derived thumb, thickness and radius.",
+    'cmpDesc_select':
+        "A single-selection dropdown picker. The trigger reuses the button variant table and the popover primitive; the popup is the menu component's surface and rows; the search field is the input component.",
   },
   'he': <String, String>{
     'cmpDesc_border_loading':
@@ -3535,10 +3591,14 @@ const Map<String, Map<String, String>> _values = <String, Map<String, String>>{
         'Row or column of small round dots, used as an ellipsis.',
     'cmpDesc_window':
         'Desktop-style window frame with drag, resize, maximize, close, z-order, focus and edge snapping, hosted by a WindowNavigator.',
-    'cmpDesc_menubar': "A horizontal bar of menu triggers whose submenus open below the bar. Rows, keyboard traversal and popup surfaces are the menu component's; MenubarTheme is owned by menu and resolved here.",
-    'cmpDesc_popup': "An anchored floating surface for arbitrary content: the menu component's MenuPopup (re-exported) plus showPopup, a generic helper with Escape/outside-tap dismissal.",
-    'cmpDesc_scrollbar': "Themeable scrollbar wrapper around Flutter's RawScrollbar with token-derived thumb, thickness and radius.",
-    'cmpDesc_select': "A single-selection dropdown picker. The trigger reuses the button variant table and the popover primitive; the popup is the menu component's surface and rows; the search field is the input component.",
+    'cmpDesc_menubar':
+        "A horizontal bar of menu triggers whose submenus open below the bar. Rows, keyboard traversal and popup surfaces are the menu component's; MenubarTheme is owned by menu and resolved here.",
+    'cmpDesc_popup':
+        "An anchored floating surface for arbitrary content: the menu component's MenuPopup (re-exported) plus showPopup, a generic helper with Escape/outside-tap dismissal.",
+    'cmpDesc_scrollbar':
+        "Themeable scrollbar wrapper around Flutter's RawScrollbar with token-derived thumb, thickness and radius.",
+    'cmpDesc_select':
+        "A single-selection dropdown picker. The trigger reuses the button variant table and the popover primitive; the popup is the menu component's surface and rows; the search field is the input component.",
   },
   'hi': <String, String>{
     'cmpDesc_border_loading':
@@ -3792,10 +3852,14 @@ const Map<String, Map<String, String>> _values = <String, Map<String, String>>{
         'Row or column of small round dots, used as an ellipsis.',
     'cmpDesc_window':
         'Desktop-style window frame with drag, resize, maximize, close, z-order, focus and edge snapping, hosted by a WindowNavigator.',
-    'cmpDesc_menubar': "A horizontal bar of menu triggers whose submenus open below the bar. Rows, keyboard traversal and popup surfaces are the menu component's; MenubarTheme is owned by menu and resolved here.",
-    'cmpDesc_popup': "An anchored floating surface for arbitrary content: the menu component's MenuPopup (re-exported) plus showPopup, a generic helper with Escape/outside-tap dismissal.",
-    'cmpDesc_scrollbar': "Themeable scrollbar wrapper around Flutter's RawScrollbar with token-derived thumb, thickness and radius.",
-    'cmpDesc_select': "A single-selection dropdown picker. The trigger reuses the button variant table and the popover primitive; the popup is the menu component's surface and rows; the search field is the input component.",
+    'cmpDesc_menubar':
+        "A horizontal bar of menu triggers whose submenus open below the bar. Rows, keyboard traversal and popup surfaces are the menu component's; MenubarTheme is owned by menu and resolved here.",
+    'cmpDesc_popup':
+        "An anchored floating surface for arbitrary content: the menu component's MenuPopup (re-exported) plus showPopup, a generic helper with Escape/outside-tap dismissal.",
+    'cmpDesc_scrollbar':
+        "Themeable scrollbar wrapper around Flutter's RawScrollbar with token-derived thumb, thickness and radius.",
+    'cmpDesc_select':
+        "A single-selection dropdown picker. The trigger reuses the button variant table and the popover primitive; the popup is the menu component's surface and rows; the search field is the input component.",
   },
   'hu': <String, String>{
     'cmpDesc_border_loading':
@@ -4049,10 +4113,14 @@ const Map<String, Map<String, String>> _values = <String, Map<String, String>>{
         'Row or column of small round dots, used as an ellipsis.',
     'cmpDesc_window':
         'Desktop-style window frame with drag, resize, maximize, close, z-order, focus and edge snapping, hosted by a WindowNavigator.',
-    'cmpDesc_menubar': "A horizontal bar of menu triggers whose submenus open below the bar. Rows, keyboard traversal and popup surfaces are the menu component's; MenubarTheme is owned by menu and resolved here.",
-    'cmpDesc_popup': "An anchored floating surface for arbitrary content: the menu component's MenuPopup (re-exported) plus showPopup, a generic helper with Escape/outside-tap dismissal.",
-    'cmpDesc_scrollbar': "Themeable scrollbar wrapper around Flutter's RawScrollbar with token-derived thumb, thickness and radius.",
-    'cmpDesc_select': "A single-selection dropdown picker. The trigger reuses the button variant table and the popover primitive; the popup is the menu component's surface and rows; the search field is the input component.",
+    'cmpDesc_menubar':
+        "A horizontal bar of menu triggers whose submenus open below the bar. Rows, keyboard traversal and popup surfaces are the menu component's; MenubarTheme is owned by menu and resolved here.",
+    'cmpDesc_popup':
+        "An anchored floating surface for arbitrary content: the menu component's MenuPopup (re-exported) plus showPopup, a generic helper with Escape/outside-tap dismissal.",
+    'cmpDesc_scrollbar':
+        "Themeable scrollbar wrapper around Flutter's RawScrollbar with token-derived thumb, thickness and radius.",
+    'cmpDesc_select':
+        "A single-selection dropdown picker. The trigger reuses the button variant table and the popover primitive; the popup is the menu component's surface and rows; the search field is the input component.",
   },
   'id': <String, String>{
     'cmpDesc_border_loading':
@@ -4306,10 +4374,14 @@ const Map<String, Map<String, String>> _values = <String, Map<String, String>>{
         'Row or column of small round dots, used as an ellipsis.',
     'cmpDesc_window':
         'Desktop-style window frame with drag, resize, maximize, close, z-order, focus and edge snapping, hosted by a WindowNavigator.',
-    'cmpDesc_menubar': "A horizontal bar of menu triggers whose submenus open below the bar. Rows, keyboard traversal and popup surfaces are the menu component's; MenubarTheme is owned by menu and resolved here.",
-    'cmpDesc_popup': "An anchored floating surface for arbitrary content: the menu component's MenuPopup (re-exported) plus showPopup, a generic helper with Escape/outside-tap dismissal.",
-    'cmpDesc_scrollbar': "Themeable scrollbar wrapper around Flutter's RawScrollbar with token-derived thumb, thickness and radius.",
-    'cmpDesc_select': "A single-selection dropdown picker. The trigger reuses the button variant table and the popover primitive; the popup is the menu component's surface and rows; the search field is the input component.",
+    'cmpDesc_menubar':
+        "A horizontal bar of menu triggers whose submenus open below the bar. Rows, keyboard traversal and popup surfaces are the menu component's; MenubarTheme is owned by menu and resolved here.",
+    'cmpDesc_popup':
+        "An anchored floating surface for arbitrary content: the menu component's MenuPopup (re-exported) plus showPopup, a generic helper with Escape/outside-tap dismissal.",
+    'cmpDesc_scrollbar':
+        "Themeable scrollbar wrapper around Flutter's RawScrollbar with token-derived thumb, thickness and radius.",
+    'cmpDesc_select':
+        "A single-selection dropdown picker. The trigger reuses the button variant table and the popover primitive; the popup is the menu component's surface and rows; the search field is the input component.",
   },
   'it': <String, String>{
     'cmpDesc_border_loading':
@@ -4563,10 +4635,14 @@ const Map<String, Map<String, String>> _values = <String, Map<String, String>>{
         'Row or column of small round dots, used as an ellipsis.',
     'cmpDesc_window':
         'Desktop-style window frame with drag, resize, maximize, close, z-order, focus and edge snapping, hosted by a WindowNavigator.',
-    'cmpDesc_menubar': "A horizontal bar of menu triggers whose submenus open below the bar. Rows, keyboard traversal and popup surfaces are the menu component's; MenubarTheme is owned by menu and resolved here.",
-    'cmpDesc_popup': "An anchored floating surface for arbitrary content: the menu component's MenuPopup (re-exported) plus showPopup, a generic helper with Escape/outside-tap dismissal.",
-    'cmpDesc_scrollbar': "Themeable scrollbar wrapper around Flutter's RawScrollbar with token-derived thumb, thickness and radius.",
-    'cmpDesc_select': "A single-selection dropdown picker. The trigger reuses the button variant table and the popover primitive; the popup is the menu component's surface and rows; the search field is the input component.",
+    'cmpDesc_menubar':
+        "A horizontal bar of menu triggers whose submenus open below the bar. Rows, keyboard traversal and popup surfaces are the menu component's; MenubarTheme is owned by menu and resolved here.",
+    'cmpDesc_popup':
+        "An anchored floating surface for arbitrary content: the menu component's MenuPopup (re-exported) plus showPopup, a generic helper with Escape/outside-tap dismissal.",
+    'cmpDesc_scrollbar':
+        "Themeable scrollbar wrapper around Flutter's RawScrollbar with token-derived thumb, thickness and radius.",
+    'cmpDesc_select':
+        "A single-selection dropdown picker. The trigger reuses the button variant table and the popover primitive; the popup is the menu component's surface and rows; the search field is the input component.",
   },
   'ja': <String, String>{
     'cmpDesc_border_loading':
@@ -4820,10 +4896,14 @@ const Map<String, Map<String, String>> _values = <String, Map<String, String>>{
         'Row or column of small round dots, used as an ellipsis.',
     'cmpDesc_window':
         'Desktop-style window frame with drag, resize, maximize, close, z-order, focus and edge snapping, hosted by a WindowNavigator.',
-    'cmpDesc_menubar': "A horizontal bar of menu triggers whose submenus open below the bar. Rows, keyboard traversal and popup surfaces are the menu component's; MenubarTheme is owned by menu and resolved here.",
-    'cmpDesc_popup': "An anchored floating surface for arbitrary content: the menu component's MenuPopup (re-exported) plus showPopup, a generic helper with Escape/outside-tap dismissal.",
-    'cmpDesc_scrollbar': "Themeable scrollbar wrapper around Flutter's RawScrollbar with token-derived thumb, thickness and radius.",
-    'cmpDesc_select': "A single-selection dropdown picker. The trigger reuses the button variant table and the popover primitive; the popup is the menu component's surface and rows; the search field is the input component.",
+    'cmpDesc_menubar':
+        "A horizontal bar of menu triggers whose submenus open below the bar. Rows, keyboard traversal and popup surfaces are the menu component's; MenubarTheme is owned by menu and resolved here.",
+    'cmpDesc_popup':
+        "An anchored floating surface for arbitrary content: the menu component's MenuPopup (re-exported) plus showPopup, a generic helper with Escape/outside-tap dismissal.",
+    'cmpDesc_scrollbar':
+        "Themeable scrollbar wrapper around Flutter's RawScrollbar with token-derived thumb, thickness and radius.",
+    'cmpDesc_select':
+        "A single-selection dropdown picker. The trigger reuses the button variant table and the popover primitive; the popup is the menu component's surface and rows; the search field is the input component.",
   },
   'ko': <String, String>{
     'cmpDesc_border_loading':
@@ -5077,10 +5157,14 @@ const Map<String, Map<String, String>> _values = <String, Map<String, String>>{
         'Row or column of small round dots, used as an ellipsis.',
     'cmpDesc_window':
         'Desktop-style window frame with drag, resize, maximize, close, z-order, focus and edge snapping, hosted by a WindowNavigator.',
-    'cmpDesc_menubar': "A horizontal bar of menu triggers whose submenus open below the bar. Rows, keyboard traversal and popup surfaces are the menu component's; MenubarTheme is owned by menu and resolved here.",
-    'cmpDesc_popup': "An anchored floating surface for arbitrary content: the menu component's MenuPopup (re-exported) plus showPopup, a generic helper with Escape/outside-tap dismissal.",
-    'cmpDesc_scrollbar': "Themeable scrollbar wrapper around Flutter's RawScrollbar with token-derived thumb, thickness and radius.",
-    'cmpDesc_select': "A single-selection dropdown picker. The trigger reuses the button variant table and the popover primitive; the popup is the menu component's surface and rows; the search field is the input component.",
+    'cmpDesc_menubar':
+        "A horizontal bar of menu triggers whose submenus open below the bar. Rows, keyboard traversal and popup surfaces are the menu component's; MenubarTheme is owned by menu and resolved here.",
+    'cmpDesc_popup':
+        "An anchored floating surface for arbitrary content: the menu component's MenuPopup (re-exported) plus showPopup, a generic helper with Escape/outside-tap dismissal.",
+    'cmpDesc_scrollbar':
+        "Themeable scrollbar wrapper around Flutter's RawScrollbar with token-derived thumb, thickness and radius.",
+    'cmpDesc_select':
+        "A single-selection dropdown picker. The trigger reuses the button variant table and the popover primitive; the popup is the menu component's surface and rows; the search field is the input component.",
   },
   'mr': <String, String>{
     'cmpDesc_border_loading':
@@ -5334,10 +5418,14 @@ const Map<String, Map<String, String>> _values = <String, Map<String, String>>{
         'Row or column of small round dots, used as an ellipsis.',
     'cmpDesc_window':
         'Desktop-style window frame with drag, resize, maximize, close, z-order, focus and edge snapping, hosted by a WindowNavigator.',
-    'cmpDesc_menubar': "A horizontal bar of menu triggers whose submenus open below the bar. Rows, keyboard traversal and popup surfaces are the menu component's; MenubarTheme is owned by menu and resolved here.",
-    'cmpDesc_popup': "An anchored floating surface for arbitrary content: the menu component's MenuPopup (re-exported) plus showPopup, a generic helper with Escape/outside-tap dismissal.",
-    'cmpDesc_scrollbar': "Themeable scrollbar wrapper around Flutter's RawScrollbar with token-derived thumb, thickness and radius.",
-    'cmpDesc_select': "A single-selection dropdown picker. The trigger reuses the button variant table and the popover primitive; the popup is the menu component's surface and rows; the search field is the input component.",
+    'cmpDesc_menubar':
+        "A horizontal bar of menu triggers whose submenus open below the bar. Rows, keyboard traversal and popup surfaces are the menu component's; MenubarTheme is owned by menu and resolved here.",
+    'cmpDesc_popup':
+        "An anchored floating surface for arbitrary content: the menu component's MenuPopup (re-exported) plus showPopup, a generic helper with Escape/outside-tap dismissal.",
+    'cmpDesc_scrollbar':
+        "Themeable scrollbar wrapper around Flutter's RawScrollbar with token-derived thumb, thickness and radius.",
+    'cmpDesc_select':
+        "A single-selection dropdown picker. The trigger reuses the button variant table and the popover primitive; the popup is the menu component's surface and rows; the search field is the input component.",
   },
   'ms': <String, String>{
     'cmpDesc_border_loading':
@@ -5591,10 +5679,14 @@ const Map<String, Map<String, String>> _values = <String, Map<String, String>>{
         'Row or column of small round dots, used as an ellipsis.',
     'cmpDesc_window':
         'Desktop-style window frame with drag, resize, maximize, close, z-order, focus and edge snapping, hosted by a WindowNavigator.',
-    'cmpDesc_menubar': "A horizontal bar of menu triggers whose submenus open below the bar. Rows, keyboard traversal and popup surfaces are the menu component's; MenubarTheme is owned by menu and resolved here.",
-    'cmpDesc_popup': "An anchored floating surface for arbitrary content: the menu component's MenuPopup (re-exported) plus showPopup, a generic helper with Escape/outside-tap dismissal.",
-    'cmpDesc_scrollbar': "Themeable scrollbar wrapper around Flutter's RawScrollbar with token-derived thumb, thickness and radius.",
-    'cmpDesc_select': "A single-selection dropdown picker. The trigger reuses the button variant table and the popover primitive; the popup is the menu component's surface and rows; the search field is the input component.",
+    'cmpDesc_menubar':
+        "A horizontal bar of menu triggers whose submenus open below the bar. Rows, keyboard traversal and popup surfaces are the menu component's; MenubarTheme is owned by menu and resolved here.",
+    'cmpDesc_popup':
+        "An anchored floating surface for arbitrary content: the menu component's MenuPopup (re-exported) plus showPopup, a generic helper with Escape/outside-tap dismissal.",
+    'cmpDesc_scrollbar':
+        "Themeable scrollbar wrapper around Flutter's RawScrollbar with token-derived thumb, thickness and radius.",
+    'cmpDesc_select':
+        "A single-selection dropdown picker. The trigger reuses the button variant table and the popover primitive; the popup is the menu component's surface and rows; the search field is the input component.",
   },
   'nb': <String, String>{
     'cmpDesc_border_loading':
@@ -5848,10 +5940,14 @@ const Map<String, Map<String, String>> _values = <String, Map<String, String>>{
         'Row or column of small round dots, used as an ellipsis.',
     'cmpDesc_window':
         'Desktop-style window frame with drag, resize, maximize, close, z-order, focus and edge snapping, hosted by a WindowNavigator.',
-    'cmpDesc_menubar': "A horizontal bar of menu triggers whose submenus open below the bar. Rows, keyboard traversal and popup surfaces are the menu component's; MenubarTheme is owned by menu and resolved here.",
-    'cmpDesc_popup': "An anchored floating surface for arbitrary content: the menu component's MenuPopup (re-exported) plus showPopup, a generic helper with Escape/outside-tap dismissal.",
-    'cmpDesc_scrollbar': "Themeable scrollbar wrapper around Flutter's RawScrollbar with token-derived thumb, thickness and radius.",
-    'cmpDesc_select': "A single-selection dropdown picker. The trigger reuses the button variant table and the popover primitive; the popup is the menu component's surface and rows; the search field is the input component.",
+    'cmpDesc_menubar':
+        "A horizontal bar of menu triggers whose submenus open below the bar. Rows, keyboard traversal and popup surfaces are the menu component's; MenubarTheme is owned by menu and resolved here.",
+    'cmpDesc_popup':
+        "An anchored floating surface for arbitrary content: the menu component's MenuPopup (re-exported) plus showPopup, a generic helper with Escape/outside-tap dismissal.",
+    'cmpDesc_scrollbar':
+        "Themeable scrollbar wrapper around Flutter's RawScrollbar with token-derived thumb, thickness and radius.",
+    'cmpDesc_select':
+        "A single-selection dropdown picker. The trigger reuses the button variant table and the popover primitive; the popup is the menu component's surface and rows; the search field is the input component.",
   },
   'nl': <String, String>{
     'cmpDesc_border_loading':
@@ -6105,10 +6201,14 @@ const Map<String, Map<String, String>> _values = <String, Map<String, String>>{
         'Row or column of small round dots, used as an ellipsis.',
     'cmpDesc_window':
         'Desktop-style window frame with drag, resize, maximize, close, z-order, focus and edge snapping, hosted by a WindowNavigator.',
-    'cmpDesc_menubar': "A horizontal bar of menu triggers whose submenus open below the bar. Rows, keyboard traversal and popup surfaces are the menu component's; MenubarTheme is owned by menu and resolved here.",
-    'cmpDesc_popup': "An anchored floating surface for arbitrary content: the menu component's MenuPopup (re-exported) plus showPopup, a generic helper with Escape/outside-tap dismissal.",
-    'cmpDesc_scrollbar': "Themeable scrollbar wrapper around Flutter's RawScrollbar with token-derived thumb, thickness and radius.",
-    'cmpDesc_select': "A single-selection dropdown picker. The trigger reuses the button variant table and the popover primitive; the popup is the menu component's surface and rows; the search field is the input component.",
+    'cmpDesc_menubar':
+        "A horizontal bar of menu triggers whose submenus open below the bar. Rows, keyboard traversal and popup surfaces are the menu component's; MenubarTheme is owned by menu and resolved here.",
+    'cmpDesc_popup':
+        "An anchored floating surface for arbitrary content: the menu component's MenuPopup (re-exported) plus showPopup, a generic helper with Escape/outside-tap dismissal.",
+    'cmpDesc_scrollbar':
+        "Themeable scrollbar wrapper around Flutter's RawScrollbar with token-derived thumb, thickness and radius.",
+    'cmpDesc_select':
+        "A single-selection dropdown picker. The trigger reuses the button variant table and the popover primitive; the popup is the menu component's surface and rows; the search field is the input component.",
   },
   'zh_Hans': <String, String>{
     'cmpDesc_border_loading':
@@ -6362,10 +6462,14 @@ const Map<String, Map<String, String>> _values = <String, Map<String, String>>{
         'Row or column of small round dots, used as an ellipsis.',
     'cmpDesc_window':
         'Desktop-style window frame with drag, resize, maximize, close, z-order, focus and edge snapping, hosted by a WindowNavigator.',
-    'cmpDesc_menubar': "A horizontal bar of menu triggers whose submenus open below the bar. Rows, keyboard traversal and popup surfaces are the menu component's; MenubarTheme is owned by menu and resolved here.",
-    'cmpDesc_popup': "An anchored floating surface for arbitrary content: the menu component's MenuPopup (re-exported) plus showPopup, a generic helper with Escape/outside-tap dismissal.",
-    'cmpDesc_scrollbar': "Themeable scrollbar wrapper around Flutter's RawScrollbar with token-derived thumb, thickness and radius.",
-    'cmpDesc_select': "A single-selection dropdown picker. The trigger reuses the button variant table and the popover primitive; the popup is the menu component's surface and rows; the search field is the input component.",
+    'cmpDesc_menubar':
+        "A horizontal bar of menu triggers whose submenus open below the bar. Rows, keyboard traversal and popup surfaces are the menu component's; MenubarTheme is owned by menu and resolved here.",
+    'cmpDesc_popup':
+        "An anchored floating surface for arbitrary content: the menu component's MenuPopup (re-exported) plus showPopup, a generic helper with Escape/outside-tap dismissal.",
+    'cmpDesc_scrollbar':
+        "Themeable scrollbar wrapper around Flutter's RawScrollbar with token-derived thumb, thickness and radius.",
+    'cmpDesc_select':
+        "A single-selection dropdown picker. The trigger reuses the button variant table and the popover primitive; the popup is the menu component's surface and rows; the search field is the input component.",
   },
   'pt_BR': <String, String>{
     'cmpDesc_border_loading':
@@ -6619,10 +6723,14 @@ const Map<String, Map<String, String>> _values = <String, Map<String, String>>{
         'Row or column of small round dots, used as an ellipsis.',
     'cmpDesc_window':
         'Desktop-style window frame with drag, resize, maximize, close, z-order, focus and edge snapping, hosted by a WindowNavigator.',
-    'cmpDesc_menubar': "A horizontal bar of menu triggers whose submenus open below the bar. Rows, keyboard traversal and popup surfaces are the menu component's; MenubarTheme is owned by menu and resolved here.",
-    'cmpDesc_popup': "An anchored floating surface for arbitrary content: the menu component's MenuPopup (re-exported) plus showPopup, a generic helper with Escape/outside-tap dismissal.",
-    'cmpDesc_scrollbar': "Themeable scrollbar wrapper around Flutter's RawScrollbar with token-derived thumb, thickness and radius.",
-    'cmpDesc_select': "A single-selection dropdown picker. The trigger reuses the button variant table and the popover primitive; the popup is the menu component's surface and rows; the search field is the input component.",
+    'cmpDesc_menubar':
+        "A horizontal bar of menu triggers whose submenus open below the bar. Rows, keyboard traversal and popup surfaces are the menu component's; MenubarTheme is owned by menu and resolved here.",
+    'cmpDesc_popup':
+        "An anchored floating surface for arbitrary content: the menu component's MenuPopup (re-exported) plus showPopup, a generic helper with Escape/outside-tap dismissal.",
+    'cmpDesc_scrollbar':
+        "Themeable scrollbar wrapper around Flutter's RawScrollbar with token-derived thumb, thickness and radius.",
+    'cmpDesc_select':
+        "A single-selection dropdown picker. The trigger reuses the button variant table and the popover primitive; the popup is the menu component's surface and rows; the search field is the input component.",
   },
   'pl': <String, String>{
     'cmpDesc_border_loading':
@@ -6876,10 +6984,14 @@ const Map<String, Map<String, String>> _values = <String, Map<String, String>>{
         'Row or column of small round dots, used as an ellipsis.',
     'cmpDesc_window':
         'Desktop-style window frame with drag, resize, maximize, close, z-order, focus and edge snapping, hosted by a WindowNavigator.',
-    'cmpDesc_menubar': "A horizontal bar of menu triggers whose submenus open below the bar. Rows, keyboard traversal and popup surfaces are the menu component's; MenubarTheme is owned by menu and resolved here.",
-    'cmpDesc_popup': "An anchored floating surface for arbitrary content: the menu component's MenuPopup (re-exported) plus showPopup, a generic helper with Escape/outside-tap dismissal.",
-    'cmpDesc_scrollbar': "Themeable scrollbar wrapper around Flutter's RawScrollbar with token-derived thumb, thickness and radius.",
-    'cmpDesc_select': "A single-selection dropdown picker. The trigger reuses the button variant table and the popover primitive; the popup is the menu component's surface and rows; the search field is the input component.",
+    'cmpDesc_menubar':
+        "A horizontal bar of menu triggers whose submenus open below the bar. Rows, keyboard traversal and popup surfaces are the menu component's; MenubarTheme is owned by menu and resolved here.",
+    'cmpDesc_popup':
+        "An anchored floating surface for arbitrary content: the menu component's MenuPopup (re-exported) plus showPopup, a generic helper with Escape/outside-tap dismissal.",
+    'cmpDesc_scrollbar':
+        "Themeable scrollbar wrapper around Flutter's RawScrollbar with token-derived thumb, thickness and radius.",
+    'cmpDesc_select':
+        "A single-selection dropdown picker. The trigger reuses the button variant table and the popover primitive; the popup is the menu component's surface and rows; the search field is the input component.",
   },
   'ps': <String, String>{
     'cmpDesc_border_loading':
@@ -7133,10 +7245,14 @@ const Map<String, Map<String, String>> _values = <String, Map<String, String>>{
         'Row or column of small round dots, used as an ellipsis.',
     'cmpDesc_window':
         'Desktop-style window frame with drag, resize, maximize, close, z-order, focus and edge snapping, hosted by a WindowNavigator.',
-    'cmpDesc_menubar': "A horizontal bar of menu triggers whose submenus open below the bar. Rows, keyboard traversal and popup surfaces are the menu component's; MenubarTheme is owned by menu and resolved here.",
-    'cmpDesc_popup': "An anchored floating surface for arbitrary content: the menu component's MenuPopup (re-exported) plus showPopup, a generic helper with Escape/outside-tap dismissal.",
-    'cmpDesc_scrollbar': "Themeable scrollbar wrapper around Flutter's RawScrollbar with token-derived thumb, thickness and radius.",
-    'cmpDesc_select': "A single-selection dropdown picker. The trigger reuses the button variant table and the popover primitive; the popup is the menu component's surface and rows; the search field is the input component.",
+    'cmpDesc_menubar':
+        "A horizontal bar of menu triggers whose submenus open below the bar. Rows, keyboard traversal and popup surfaces are the menu component's; MenubarTheme is owned by menu and resolved here.",
+    'cmpDesc_popup':
+        "An anchored floating surface for arbitrary content: the menu component's MenuPopup (re-exported) plus showPopup, a generic helper with Escape/outside-tap dismissal.",
+    'cmpDesc_scrollbar':
+        "Themeable scrollbar wrapper around Flutter's RawScrollbar with token-derived thumb, thickness and radius.",
+    'cmpDesc_select':
+        "A single-selection dropdown picker. The trigger reuses the button variant table and the popover primitive; the popup is the menu component's surface and rows; the search field is the input component.",
   },
   'pt': <String, String>{
     'cmpDesc_border_loading':
@@ -7390,10 +7506,14 @@ const Map<String, Map<String, String>> _values = <String, Map<String, String>>{
         'Row or column of small round dots, used as an ellipsis.',
     'cmpDesc_window':
         'Desktop-style window frame with drag, resize, maximize, close, z-order, focus and edge snapping, hosted by a WindowNavigator.',
-    'cmpDesc_menubar': "A horizontal bar of menu triggers whose submenus open below the bar. Rows, keyboard traversal and popup surfaces are the menu component's; MenubarTheme is owned by menu and resolved here.",
-    'cmpDesc_popup': "An anchored floating surface for arbitrary content: the menu component's MenuPopup (re-exported) plus showPopup, a generic helper with Escape/outside-tap dismissal.",
-    'cmpDesc_scrollbar': "Themeable scrollbar wrapper around Flutter's RawScrollbar with token-derived thumb, thickness and radius.",
-    'cmpDesc_select': "A single-selection dropdown picker. The trigger reuses the button variant table and the popover primitive; the popup is the menu component's surface and rows; the search field is the input component.",
+    'cmpDesc_menubar':
+        "A horizontal bar of menu triggers whose submenus open below the bar. Rows, keyboard traversal and popup surfaces are the menu component's; MenubarTheme is owned by menu and resolved here.",
+    'cmpDesc_popup':
+        "An anchored floating surface for arbitrary content: the menu component's MenuPopup (re-exported) plus showPopup, a generic helper with Escape/outside-tap dismissal.",
+    'cmpDesc_scrollbar':
+        "Themeable scrollbar wrapper around Flutter's RawScrollbar with token-derived thumb, thickness and radius.",
+    'cmpDesc_select':
+        "A single-selection dropdown picker. The trigger reuses the button variant table and the popover primitive; the popup is the menu component's surface and rows; the search field is the input component.",
   },
   'ro': <String, String>{
     'cmpDesc_border_loading':
@@ -7647,10 +7767,14 @@ const Map<String, Map<String, String>> _values = <String, Map<String, String>>{
         'Row or column of small round dots, used as an ellipsis.',
     'cmpDesc_window':
         'Desktop-style window frame with drag, resize, maximize, close, z-order, focus and edge snapping, hosted by a WindowNavigator.',
-    'cmpDesc_menubar': "A horizontal bar of menu triggers whose submenus open below the bar. Rows, keyboard traversal and popup surfaces are the menu component's; MenubarTheme is owned by menu and resolved here.",
-    'cmpDesc_popup': "An anchored floating surface for arbitrary content: the menu component's MenuPopup (re-exported) plus showPopup, a generic helper with Escape/outside-tap dismissal.",
-    'cmpDesc_scrollbar': "Themeable scrollbar wrapper around Flutter's RawScrollbar with token-derived thumb, thickness and radius.",
-    'cmpDesc_select': "A single-selection dropdown picker. The trigger reuses the button variant table and the popover primitive; the popup is the menu component's surface and rows; the search field is the input component.",
+    'cmpDesc_menubar':
+        "A horizontal bar of menu triggers whose submenus open below the bar. Rows, keyboard traversal and popup surfaces are the menu component's; MenubarTheme is owned by menu and resolved here.",
+    'cmpDesc_popup':
+        "An anchored floating surface for arbitrary content: the menu component's MenuPopup (re-exported) plus showPopup, a generic helper with Escape/outside-tap dismissal.",
+    'cmpDesc_scrollbar':
+        "Themeable scrollbar wrapper around Flutter's RawScrollbar with token-derived thumb, thickness and radius.",
+    'cmpDesc_select':
+        "A single-selection dropdown picker. The trigger reuses the button variant table and the popover primitive; the popup is the menu component's surface and rows; the search field is the input component.",
   },
   'ru': <String, String>{
     'cmpDesc_border_loading':
@@ -7904,10 +8028,14 @@ const Map<String, Map<String, String>> _values = <String, Map<String, String>>{
         'Row or column of small round dots, used as an ellipsis.',
     'cmpDesc_window':
         'Desktop-style window frame with drag, resize, maximize, close, z-order, focus and edge snapping, hosted by a WindowNavigator.',
-    'cmpDesc_menubar': "A horizontal bar of menu triggers whose submenus open below the bar. Rows, keyboard traversal and popup surfaces are the menu component's; MenubarTheme is owned by menu and resolved here.",
-    'cmpDesc_popup': "An anchored floating surface for arbitrary content: the menu component's MenuPopup (re-exported) plus showPopup, a generic helper with Escape/outside-tap dismissal.",
-    'cmpDesc_scrollbar': "Themeable scrollbar wrapper around Flutter's RawScrollbar with token-derived thumb, thickness and radius.",
-    'cmpDesc_select': "A single-selection dropdown picker. The trigger reuses the button variant table and the popover primitive; the popup is the menu component's surface and rows; the search field is the input component.",
+    'cmpDesc_menubar':
+        "A horizontal bar of menu triggers whose submenus open below the bar. Rows, keyboard traversal and popup surfaces are the menu component's; MenubarTheme is owned by menu and resolved here.",
+    'cmpDesc_popup':
+        "An anchored floating surface for arbitrary content: the menu component's MenuPopup (re-exported) plus showPopup, a generic helper with Escape/outside-tap dismissal.",
+    'cmpDesc_scrollbar':
+        "Themeable scrollbar wrapper around Flutter's RawScrollbar with token-derived thumb, thickness and radius.",
+    'cmpDesc_select':
+        "A single-selection dropdown picker. The trigger reuses the button variant table and the popover primitive; the popup is the menu component's surface and rows; the search field is the input component.",
   },
   'sk': <String, String>{
     'cmpDesc_border_loading':
@@ -8161,10 +8289,14 @@ const Map<String, Map<String, String>> _values = <String, Map<String, String>>{
         'Row or column of small round dots, used as an ellipsis.',
     'cmpDesc_window':
         'Desktop-style window frame with drag, resize, maximize, close, z-order, focus and edge snapping, hosted by a WindowNavigator.',
-    'cmpDesc_menubar': "A horizontal bar of menu triggers whose submenus open below the bar. Rows, keyboard traversal and popup surfaces are the menu component's; MenubarTheme is owned by menu and resolved here.",
-    'cmpDesc_popup': "An anchored floating surface for arbitrary content: the menu component's MenuPopup (re-exported) plus showPopup, a generic helper with Escape/outside-tap dismissal.",
-    'cmpDesc_scrollbar': "Themeable scrollbar wrapper around Flutter's RawScrollbar with token-derived thumb, thickness and radius.",
-    'cmpDesc_select': "A single-selection dropdown picker. The trigger reuses the button variant table and the popover primitive; the popup is the menu component's surface and rows; the search field is the input component.",
+    'cmpDesc_menubar':
+        "A horizontal bar of menu triggers whose submenus open below the bar. Rows, keyboard traversal and popup surfaces are the menu component's; MenubarTheme is owned by menu and resolved here.",
+    'cmpDesc_popup':
+        "An anchored floating surface for arbitrary content: the menu component's MenuPopup (re-exported) plus showPopup, a generic helper with Escape/outside-tap dismissal.",
+    'cmpDesc_scrollbar':
+        "Themeable scrollbar wrapper around Flutter's RawScrollbar with token-derived thumb, thickness and radius.",
+    'cmpDesc_select':
+        "A single-selection dropdown picker. The trigger reuses the button variant table and the popover primitive; the popup is the menu component's surface and rows; the search field is the input component.",
   },
   'sv': <String, String>{
     'cmpDesc_border_loading':
@@ -8418,10 +8550,14 @@ const Map<String, Map<String, String>> _values = <String, Map<String, String>>{
         'Row or column of small round dots, used as an ellipsis.',
     'cmpDesc_window':
         'Desktop-style window frame with drag, resize, maximize, close, z-order, focus and edge snapping, hosted by a WindowNavigator.',
-    'cmpDesc_menubar': "A horizontal bar of menu triggers whose submenus open below the bar. Rows, keyboard traversal and popup surfaces are the menu component's; MenubarTheme is owned by menu and resolved here.",
-    'cmpDesc_popup': "An anchored floating surface for arbitrary content: the menu component's MenuPopup (re-exported) plus showPopup, a generic helper with Escape/outside-tap dismissal.",
-    'cmpDesc_scrollbar': "Themeable scrollbar wrapper around Flutter's RawScrollbar with token-derived thumb, thickness and radius.",
-    'cmpDesc_select': "A single-selection dropdown picker. The trigger reuses the button variant table and the popover primitive; the popup is the menu component's surface and rows; the search field is the input component.",
+    'cmpDesc_menubar':
+        "A horizontal bar of menu triggers whose submenus open below the bar. Rows, keyboard traversal and popup surfaces are the menu component's; MenubarTheme is owned by menu and resolved here.",
+    'cmpDesc_popup':
+        "An anchored floating surface for arbitrary content: the menu component's MenuPopup (re-exported) plus showPopup, a generic helper with Escape/outside-tap dismissal.",
+    'cmpDesc_scrollbar':
+        "Themeable scrollbar wrapper around Flutter's RawScrollbar with token-derived thumb, thickness and radius.",
+    'cmpDesc_select':
+        "A single-selection dropdown picker. The trigger reuses the button variant table and the popover primitive; the popup is the menu component's surface and rows; the search field is the input component.",
   },
   'ta': <String, String>{
     'cmpDesc_border_loading':
@@ -8675,10 +8811,14 @@ const Map<String, Map<String, String>> _values = <String, Map<String, String>>{
         'Row or column of small round dots, used as an ellipsis.',
     'cmpDesc_window':
         'Desktop-style window frame with drag, resize, maximize, close, z-order, focus and edge snapping, hosted by a WindowNavigator.',
-    'cmpDesc_menubar': "A horizontal bar of menu triggers whose submenus open below the bar. Rows, keyboard traversal and popup surfaces are the menu component's; MenubarTheme is owned by menu and resolved here.",
-    'cmpDesc_popup': "An anchored floating surface for arbitrary content: the menu component's MenuPopup (re-exported) plus showPopup, a generic helper with Escape/outside-tap dismissal.",
-    'cmpDesc_scrollbar': "Themeable scrollbar wrapper around Flutter's RawScrollbar with token-derived thumb, thickness and radius.",
-    'cmpDesc_select': "A single-selection dropdown picker. The trigger reuses the button variant table and the popover primitive; the popup is the menu component's surface and rows; the search field is the input component.",
+    'cmpDesc_menubar':
+        "A horizontal bar of menu triggers whose submenus open below the bar. Rows, keyboard traversal and popup surfaces are the menu component's; MenubarTheme is owned by menu and resolved here.",
+    'cmpDesc_popup':
+        "An anchored floating surface for arbitrary content: the menu component's MenuPopup (re-exported) plus showPopup, a generic helper with Escape/outside-tap dismissal.",
+    'cmpDesc_scrollbar':
+        "Themeable scrollbar wrapper around Flutter's RawScrollbar with token-derived thumb, thickness and radius.",
+    'cmpDesc_select':
+        "A single-selection dropdown picker. The trigger reuses the button variant table and the popover primitive; the popup is the menu component's surface and rows; the search field is the input component.",
   },
   'te': <String, String>{
     'cmpDesc_border_loading':
@@ -8932,10 +9072,14 @@ const Map<String, Map<String, String>> _values = <String, Map<String, String>>{
         'Row or column of small round dots, used as an ellipsis.',
     'cmpDesc_window':
         'Desktop-style window frame with drag, resize, maximize, close, z-order, focus and edge snapping, hosted by a WindowNavigator.',
-    'cmpDesc_menubar': "A horizontal bar of menu triggers whose submenus open below the bar. Rows, keyboard traversal and popup surfaces are the menu component's; MenubarTheme is owned by menu and resolved here.",
-    'cmpDesc_popup': "An anchored floating surface for arbitrary content: the menu component's MenuPopup (re-exported) plus showPopup, a generic helper with Escape/outside-tap dismissal.",
-    'cmpDesc_scrollbar': "Themeable scrollbar wrapper around Flutter's RawScrollbar with token-derived thumb, thickness and radius.",
-    'cmpDesc_select': "A single-selection dropdown picker. The trigger reuses the button variant table and the popover primitive; the popup is the menu component's surface and rows; the search field is the input component.",
+    'cmpDesc_menubar':
+        "A horizontal bar of menu triggers whose submenus open below the bar. Rows, keyboard traversal and popup surfaces are the menu component's; MenubarTheme is owned by menu and resolved here.",
+    'cmpDesc_popup':
+        "An anchored floating surface for arbitrary content: the menu component's MenuPopup (re-exported) plus showPopup, a generic helper with Escape/outside-tap dismissal.",
+    'cmpDesc_scrollbar':
+        "Themeable scrollbar wrapper around Flutter's RawScrollbar with token-derived thumb, thickness and radius.",
+    'cmpDesc_select':
+        "A single-selection dropdown picker. The trigger reuses the button variant table and the popover primitive; the popup is the menu component's surface and rows; the search field is the input component.",
   },
   'th': <String, String>{
     'cmpDesc_border_loading':
@@ -9189,10 +9333,14 @@ const Map<String, Map<String, String>> _values = <String, Map<String, String>>{
         'Row or column of small round dots, used as an ellipsis.',
     'cmpDesc_window':
         'Desktop-style window frame with drag, resize, maximize, close, z-order, focus and edge snapping, hosted by a WindowNavigator.',
-    'cmpDesc_menubar': "A horizontal bar of menu triggers whose submenus open below the bar. Rows, keyboard traversal and popup surfaces are the menu component's; MenubarTheme is owned by menu and resolved here.",
-    'cmpDesc_popup': "An anchored floating surface for arbitrary content: the menu component's MenuPopup (re-exported) plus showPopup, a generic helper with Escape/outside-tap dismissal.",
-    'cmpDesc_scrollbar': "Themeable scrollbar wrapper around Flutter's RawScrollbar with token-derived thumb, thickness and radius.",
-    'cmpDesc_select': "A single-selection dropdown picker. The trigger reuses the button variant table and the popover primitive; the popup is the menu component's surface and rows; the search field is the input component.",
+    'cmpDesc_menubar':
+        "A horizontal bar of menu triggers whose submenus open below the bar. Rows, keyboard traversal and popup surfaces are the menu component's; MenubarTheme is owned by menu and resolved here.",
+    'cmpDesc_popup':
+        "An anchored floating surface for arbitrary content: the menu component's MenuPopup (re-exported) plus showPopup, a generic helper with Escape/outside-tap dismissal.",
+    'cmpDesc_scrollbar':
+        "Themeable scrollbar wrapper around Flutter's RawScrollbar with token-derived thumb, thickness and radius.",
+    'cmpDesc_select':
+        "A single-selection dropdown picker. The trigger reuses the button variant table and the popover primitive; the popup is the menu component's surface and rows; the search field is the input component.",
   },
   'tr': <String, String>{
     'cmpDesc_border_loading':
@@ -9446,10 +9594,14 @@ const Map<String, Map<String, String>> _values = <String, Map<String, String>>{
         'Row or column of small round dots, used as an ellipsis.',
     'cmpDesc_window':
         'Desktop-style window frame with drag, resize, maximize, close, z-order, focus and edge snapping, hosted by a WindowNavigator.',
-    'cmpDesc_menubar': "A horizontal bar of menu triggers whose submenus open below the bar. Rows, keyboard traversal and popup surfaces are the menu component's; MenubarTheme is owned by menu and resolved here.",
-    'cmpDesc_popup': "An anchored floating surface for arbitrary content: the menu component's MenuPopup (re-exported) plus showPopup, a generic helper with Escape/outside-tap dismissal.",
-    'cmpDesc_scrollbar': "Themeable scrollbar wrapper around Flutter's RawScrollbar with token-derived thumb, thickness and radius.",
-    'cmpDesc_select': "A single-selection dropdown picker. The trigger reuses the button variant table and the popover primitive; the popup is the menu component's surface and rows; the search field is the input component.",
+    'cmpDesc_menubar':
+        "A horizontal bar of menu triggers whose submenus open below the bar. Rows, keyboard traversal and popup surfaces are the menu component's; MenubarTheme is owned by menu and resolved here.",
+    'cmpDesc_popup':
+        "An anchored floating surface for arbitrary content: the menu component's MenuPopup (re-exported) plus showPopup, a generic helper with Escape/outside-tap dismissal.",
+    'cmpDesc_scrollbar':
+        "Themeable scrollbar wrapper around Flutter's RawScrollbar with token-derived thumb, thickness and radius.",
+    'cmpDesc_select':
+        "A single-selection dropdown picker. The trigger reuses the button variant table and the popover primitive; the popup is the menu component's surface and rows; the search field is the input component.",
   },
   'uk': <String, String>{
     'cmpDesc_border_loading':
@@ -9703,10 +9855,14 @@ const Map<String, Map<String, String>> _values = <String, Map<String, String>>{
         'Row or column of small round dots, used as an ellipsis.',
     'cmpDesc_window':
         'Desktop-style window frame with drag, resize, maximize, close, z-order, focus and edge snapping, hosted by a WindowNavigator.',
-    'cmpDesc_menubar': "A horizontal bar of menu triggers whose submenus open below the bar. Rows, keyboard traversal and popup surfaces are the menu component's; MenubarTheme is owned by menu and resolved here.",
-    'cmpDesc_popup': "An anchored floating surface for arbitrary content: the menu component's MenuPopup (re-exported) plus showPopup, a generic helper with Escape/outside-tap dismissal.",
-    'cmpDesc_scrollbar': "Themeable scrollbar wrapper around Flutter's RawScrollbar with token-derived thumb, thickness and radius.",
-    'cmpDesc_select': "A single-selection dropdown picker. The trigger reuses the button variant table and the popover primitive; the popup is the menu component's surface and rows; the search field is the input component.",
+    'cmpDesc_menubar':
+        "A horizontal bar of menu triggers whose submenus open below the bar. Rows, keyboard traversal and popup surfaces are the menu component's; MenubarTheme is owned by menu and resolved here.",
+    'cmpDesc_popup':
+        "An anchored floating surface for arbitrary content: the menu component's MenuPopup (re-exported) plus showPopup, a generic helper with Escape/outside-tap dismissal.",
+    'cmpDesc_scrollbar':
+        "Themeable scrollbar wrapper around Flutter's RawScrollbar with token-derived thumb, thickness and radius.",
+    'cmpDesc_select':
+        "A single-selection dropdown picker. The trigger reuses the button variant table and the popover primitive; the popup is the menu component's surface and rows; the search field is the input component.",
   },
   'ur': <String, String>{
     'cmpDesc_border_loading':
@@ -9960,10 +10116,14 @@ const Map<String, Map<String, String>> _values = <String, Map<String, String>>{
         'Row or column of small round dots, used as an ellipsis.',
     'cmpDesc_window':
         'Desktop-style window frame with drag, resize, maximize, close, z-order, focus and edge snapping, hosted by a WindowNavigator.',
-    'cmpDesc_menubar': "A horizontal bar of menu triggers whose submenus open below the bar. Rows, keyboard traversal and popup surfaces are the menu component's; MenubarTheme is owned by menu and resolved here.",
-    'cmpDesc_popup': "An anchored floating surface for arbitrary content: the menu component's MenuPopup (re-exported) plus showPopup, a generic helper with Escape/outside-tap dismissal.",
-    'cmpDesc_scrollbar': "Themeable scrollbar wrapper around Flutter's RawScrollbar with token-derived thumb, thickness and radius.",
-    'cmpDesc_select': "A single-selection dropdown picker. The trigger reuses the button variant table and the popover primitive; the popup is the menu component's surface and rows; the search field is the input component.",
+    'cmpDesc_menubar':
+        "A horizontal bar of menu triggers whose submenus open below the bar. Rows, keyboard traversal and popup surfaces are the menu component's; MenubarTheme is owned by menu and resolved here.",
+    'cmpDesc_popup':
+        "An anchored floating surface for arbitrary content: the menu component's MenuPopup (re-exported) plus showPopup, a generic helper with Escape/outside-tap dismissal.",
+    'cmpDesc_scrollbar':
+        "Themeable scrollbar wrapper around Flutter's RawScrollbar with token-derived thumb, thickness and radius.",
+    'cmpDesc_select':
+        "A single-selection dropdown picker. The trigger reuses the button variant table and the popover primitive; the popup is the menu component's surface and rows; the search field is the input component.",
   },
   'vi': <String, String>{
     'cmpDesc_border_loading':
@@ -10217,10 +10377,14 @@ const Map<String, Map<String, String>> _values = <String, Map<String, String>>{
         'Row or column of small round dots, used as an ellipsis.',
     'cmpDesc_window':
         'Desktop-style window frame with drag, resize, maximize, close, z-order, focus and edge snapping, hosted by a WindowNavigator.',
-    'cmpDesc_menubar': "A horizontal bar of menu triggers whose submenus open below the bar. Rows, keyboard traversal and popup surfaces are the menu component's; MenubarTheme is owned by menu and resolved here.",
-    'cmpDesc_popup': "An anchored floating surface for arbitrary content: the menu component's MenuPopup (re-exported) plus showPopup, a generic helper with Escape/outside-tap dismissal.",
-    'cmpDesc_scrollbar': "Themeable scrollbar wrapper around Flutter's RawScrollbar with token-derived thumb, thickness and radius.",
-    'cmpDesc_select': "A single-selection dropdown picker. The trigger reuses the button variant table and the popover primitive; the popup is the menu component's surface and rows; the search field is the input component.",
+    'cmpDesc_menubar':
+        "A horizontal bar of menu triggers whose submenus open below the bar. Rows, keyboard traversal and popup surfaces are the menu component's; MenubarTheme is owned by menu and resolved here.",
+    'cmpDesc_popup':
+        "An anchored floating surface for arbitrary content: the menu component's MenuPopup (re-exported) plus showPopup, a generic helper with Escape/outside-tap dismissal.",
+    'cmpDesc_scrollbar':
+        "Themeable scrollbar wrapper around Flutter's RawScrollbar with token-derived thumb, thickness and radius.",
+    'cmpDesc_select':
+        "A single-selection dropdown picker. The trigger reuses the button variant table and the popover primitive; the popup is the menu component's surface and rows; the search field is the input component.",
   },
   'zh': <String, String>{
     'cmpDesc_border_loading':
@@ -10474,9 +10638,13 @@ const Map<String, Map<String, String>> _values = <String, Map<String, String>>{
         'Row or column of small round dots, used as an ellipsis.',
     'cmpDesc_window':
         'Desktop-style window frame with drag, resize, maximize, close, z-order, focus and edge snapping, hosted by a WindowNavigator.',
-    'cmpDesc_menubar': "A horizontal bar of menu triggers whose submenus open below the bar. Rows, keyboard traversal and popup surfaces are the menu component's; MenubarTheme is owned by menu and resolved here.",
-    'cmpDesc_popup': "An anchored floating surface for arbitrary content: the menu component's MenuPopup (re-exported) plus showPopup, a generic helper with Escape/outside-tap dismissal.",
-    'cmpDesc_scrollbar': "Themeable scrollbar wrapper around Flutter's RawScrollbar with token-derived thumb, thickness and radius.",
-    'cmpDesc_select': "A single-selection dropdown picker. The trigger reuses the button variant table and the popover primitive; the popup is the menu component's surface and rows; the search field is the input component.",
+    'cmpDesc_menubar':
+        "A horizontal bar of menu triggers whose submenus open below the bar. Rows, keyboard traversal and popup surfaces are the menu component's; MenubarTheme is owned by menu and resolved here.",
+    'cmpDesc_popup':
+        "An anchored floating surface for arbitrary content: the menu component's MenuPopup (re-exported) plus showPopup, a generic helper with Escape/outside-tap dismissal.",
+    'cmpDesc_scrollbar':
+        "Themeable scrollbar wrapper around Flutter's RawScrollbar with token-derived thumb, thickness and radius.",
+    'cmpDesc_select':
+        "A single-selection dropdown picker. The trigger reuses the button variant table and the popover primitive; the popup is the menu component's surface and rows; the search field is the input component.",
   },
 };
