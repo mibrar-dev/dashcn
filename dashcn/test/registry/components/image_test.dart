@@ -292,7 +292,7 @@ void main() {
         ),
       );
       expect(_backgroundOf(tester), _green);
-      expect(_fadeOf(tester), const Duration(milliseconds: 150));
+      expect(_fadeOf(tester), const Duration(milliseconds: 200));
     });
   });
 

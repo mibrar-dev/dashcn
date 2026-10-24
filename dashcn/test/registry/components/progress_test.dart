@@ -7,7 +7,6 @@
 
 import 'package:flutter/widgets.dart';
 import 'package:dashcn/src/components/progress/progress.dart';
-import 'package:dashcn/src/foundation/constants.dart';
 import 'package:dashcn/src/primitives/animation.dart';
 import 'package:dashcn/src/theme/color_tokens.dart';
 import 'package:dashcn/src/theme/theme.dart';
@@ -172,7 +171,7 @@ void main() {
     final animated = tester.widget<TweenAnimationBuilder<double>>(
       find.byType(TweenAnimationBuilder<double>),
     );
-    expect(animated.duration, kDefaultDuration);
+    expect(animated.duration, const Duration(milliseconds: 300));
 
     await tester.pumpWidget(
       _frame(child: const Progress(value: 0.2, disableAnimation: true)),

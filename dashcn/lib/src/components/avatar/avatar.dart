@@ -9,6 +9,7 @@
 
 import 'package:flutter/widgets.dart';
 
+import '../../primitives/motion/motion_scope.dart';
 import '../../primitives/text/text.dart';
 import '../../theme/color_tokens.dart';
 import '../../theme/theme.dart';
@@ -139,6 +140,28 @@ class Avatar extends StatelessWidget {
         : Image(
             image: image!,
             fit: fit,
+            // Fades in over the base token once the first frame arrives; an
+            // image that is already cached paints at once.
+            frameBuilder:
+                (
+                  BuildContext context,
+                  Widget child,
+                  int? frame,
+                  bool wasSynchronouslyLoaded,
+                ) {
+                  if (wasSynchronouslyLoaded) {
+                    return child;
+                  }
+                  return AnimatedOpacity(
+                    opacity: frame == null ? 0.0 : 1.0,
+                    duration: resolveMotionDuration(
+                      context,
+                      themeData.motion.durations.base,
+                    ),
+                    curve: themeData.motion.curves.standard,
+                    child: child,
+                  );
+                },
             errorBuilder: (context, error, stackTrace) => _initialsTile(
               theme: themeData,
               background: background,

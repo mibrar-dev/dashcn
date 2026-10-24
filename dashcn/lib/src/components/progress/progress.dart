@@ -155,7 +155,7 @@ class _ProgressState extends State<Progress> {
             tween: Tween<double>(begin: _from, end: normalized),
             duration: !surface.animate || reduced
                 ? Duration.zero
-                : motion.durations.fast,
+                : motion.durations.slow,
             curve: motion.curves.standard,
             onEnd: () => _from = normalized,
             builder: (context, animated, child) {

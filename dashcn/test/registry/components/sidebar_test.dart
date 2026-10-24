@@ -7,6 +7,7 @@
 
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
+import 'package:dashcn/src/components/badge/badge.dart';
 import 'package:dashcn/src/components/sidebar/sidebar.dart';
 import 'package:dashcn/src/foundation/icons/lucide_icons.dart';
 import 'package:dashcn/src/primitives/clickable.dart';
@@ -86,7 +87,7 @@ void main() {
     expect(find.text('Account'), findsOneWidget);
     expect(find.text('Dashboard'), findsOneWidget);
     expect(find.text('Documents'), findsOneWidget);
-    expect(find.text('12'), findsOneWidget);
+    expect(find.byType(Badge), findsOneWidget);
     expect(find.text('Ibrar Ahmed'), findsOneWidget);
     expect(find.text('m@example.com'), findsOneWidget);
     // Sub-menu children stay hidden until the parent expands.

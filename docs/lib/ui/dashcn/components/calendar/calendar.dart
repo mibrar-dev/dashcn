@@ -269,7 +269,7 @@ class _CalendarState extends State<Calendar> {
                         '${widget.viewType.name}:${widget.view.year}:${widget.view.month}',
                       ),
                       offset: Offset(12 * _direction, 0),
-                      duration: ambient.motion.durations.fast,
+                      duration: ambient.motion.durations.base,
                       child: _grid(
                         context: context,
                         slots: slots,

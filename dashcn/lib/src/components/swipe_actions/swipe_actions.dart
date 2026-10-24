@@ -172,11 +172,16 @@ class _SwipeActionsState extends State<SwipeActions>
   );
 
   late final AnimationController _settler = AnimationController(vsync: this);
-  AnimationController? _collapseController;
+  AnimationController? _dismissController;
   double _from = 0;
   double _to = 0;
   double _reveal = 0;
   bool _dismissing = false;
+
+  /// Commit phase one: how far the row has slid off the edge (0..1).
+  double _slide = 0;
+
+  /// Commit phase two: remaining row height factor (1 open, 0 collapsed).
   double _collapse = 1;
 
   SwipeActionsTheme _resolvedTheme(BuildContext context) {
@@ -270,7 +275,7 @@ class _SwipeActionsState extends State<SwipeActions>
   @override
   void dispose() {
     widget.controller?._detach(this);
-    _collapseController?.dispose();
+    _dismissController?.dispose();
     _settler.dispose();
     super.dispose();
   }
@@ -316,7 +321,9 @@ class _SwipeActionsState extends State<SwipeActions>
     );
   }
 
-  /// Full-swipe commit: collapse the row height, then report removal.
+  /// Full-swipe commit in two phases: the row slides out of view over the
+  /// first phase, then its height collapses over the second so the list
+  /// closes the gap; [SwipeActions.onDismissed] fires after both.
   void _commitDismiss() {
     if (widget.onDismissed == null || _dismissing) {
       return;
@@ -331,29 +338,35 @@ class _SwipeActionsState extends State<SwipeActions>
       return;
     }
     final MotionTokens tokens = Theme.of(context).motion;
-    final Duration collapse = widget.motion != null
+    final Duration phase = widget.motion != null
         ? widget.motion!.resolveExitDuration(
             context,
             tokens.durations.base,
             state: true,
           )
         : tokens.resolveStateDuration(tokens.durations.base);
-    final AnimationController collapsing = AnimationController(
+    final AnimationController dismissing = AnimationController(
       vsync: this,
-      duration: collapse,
+      duration: phase * 2,
     );
-    _collapseController?.dispose();
-    _collapseController = collapsing;
-    collapsing.addListener(() {
-      if (mounted) {
-        setState(() => _collapse = 1 - collapsing.value);
+    _dismissController?.dispose();
+    _dismissController = dismissing;
+    dismissing.addListener(() {
+      if (!mounted) {
+        return;
       }
+      final double v = dismissing.value;
+      setState(() {
+        _slide = Curves.easeIn.transform((v * 2).clamp(0.0, 1.0));
+        _collapse =
+            1 - Curves.easeInOut.transform(((v - 0.5) * 2).clamp(0.0, 1.0));
+      });
     });
-    collapsing.forward().then((_) {
-      if (identical(_collapseController, collapsing)) {
-        _collapseController = null;
+    dismissing.forward().then((_) {
+      if (identical(_dismissController, dismissing)) {
+        _dismissController = null;
       }
-      collapsing.dispose();
+      dismissing.dispose();
       if (!mounted) {
         return;
       }
@@ -491,15 +504,20 @@ class _SwipeActionsState extends State<SwipeActions>
         child: row,
       );
     }
-    // Committing: collapse the height to zero (siblings slide up), fade the
-    // content, and swallow gestures until the caller removes the row.
+    // Committing: slide the row off the trailing edge (phase one), then
+    // collapse its height to zero so siblings slide up (phase two). Gestures
+    // are swallowed until the caller removes the row.
+    final double screenWidth = MediaQuery.sizeOf(context).width;
     return IgnorePointer(
       ignoring: true,
       child: ClipRect(
         child: Align(
           alignment: Alignment.topCenter,
           heightFactor: _collapse.clamp(0.0, 1.0),
-          child: Opacity(opacity: _collapse.clamp(0.0, 1.0), child: row),
+          child: Transform.translate(
+            offset: Offset((_rtl ? 1 : -1) * _slide * screenWidth, 0),
+            child: row,
+          ),
         ),
       ),
     );

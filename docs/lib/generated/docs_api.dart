@@ -11754,7 +11754,7 @@ const Map<String, DocsThemeTable> kThemeTables = <String, DocsThemeTable>{
       DocsThemeField(
         name: 'duration',
         type: 'Duration?',
-        description: 'animation duration, 500ms',
+        description: 'animation duration, 200ms (base token)',
       ),
       DocsThemeField(
         name: 'style',
@@ -14519,12 +14519,12 @@ const Map<String, DocsThemeTable> kThemeTables = <String, DocsThemeTable>{
       DocsThemeField(
         name: 'collapsedWidth',
         type: 'double?',
-        description: 'collapsed rail width, default 56',
+        description: 'collapsed rail width, default 64',
       ),
       DocsThemeField(
         name: 'expandedWidth',
         type: 'double?',
-        description: 'expanded rail width, default 240',
+        description: 'expanded rail width, default 256',
       ),
       DocsThemeField(
         name: 'foreground',

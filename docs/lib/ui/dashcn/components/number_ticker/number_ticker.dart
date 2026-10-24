@@ -11,6 +11,7 @@
 import 'package:flutter/widgets.dart';
 
 import '../../primitives/animated_value_builder.dart';
+import '../../primitives/motion/motion_scope.dart';
 import '../../theme/theme.dart';
 import 'number_ticker_style.dart';
 
@@ -89,8 +90,13 @@ class NumberTicker extends StatelessWidget {
           select: (t) => t,
           defaults: numberTickerDefaults,
         );
-    final Duration tick =
-        duration ?? resolved.duration ?? const Duration(milliseconds: 500);
+    // Digits roll to the new value in the 200 ms base token by default; under
+    // reduced motion the new value shows at once.
+    final Duration tick = motionReduced(context)
+        ? Duration.zero
+        : duration ??
+              resolved.duration ??
+              Theme.of(context).motion.durations.base;
     final Curve motion = curve ?? resolved.curve ?? Curves.easeInOut;
     final double target = number.toDouble();
     if (formatter != null) {
