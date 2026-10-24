@@ -101,13 +101,13 @@ void main() {
       },
     );
 
-    testWidgets('component without a builder hides the playground panel', (
+    testWidgets('component without a builder still offers the playground', (
       WidgetTester tester,
     ) async {
       await pumpComponentPage(tester, 'menu');
       expect(find.text('Trust scorecards'), findsOneWidget);
-      expect(find.text('Playground'), findsNothing);
-      expect(find.byType(PlaygroundPanel), findsNothing);
+      // Every page has a Playground (Theme controls) even without props.
+      expect(find.text('Playground'), findsOneWidget);
       // Scorecards still open from the top button.
       await tester.tap(find.text('Trust scorecards'));
       await tester.pumpAndSettle();

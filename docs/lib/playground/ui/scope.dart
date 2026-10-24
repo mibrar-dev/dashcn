@@ -7,14 +7,15 @@
 // The code tabs keep the original per-example sources, preserving deliberate
 // per-example overrides in documentation.
 //
-// The scope only carries the active component id (null = playground closed).
-// Live values travel through the existing `DocsState.playgroundQuery`
-// (`p.*`), so reload/back-forward keep working and no second source of
-// truth is introduced. `ExamplePreviewCard` reads both: when the scope is
-// active for its own component and the query is non-empty, it renders the
-// registered playground builder instead of its deferred static preview.
+// The scope carries the active component id (null = playground closed) and
+// the active theme override (null = site theme defaults).
+// Live values travel through `DocsState.playgroundQuery` (`p.*` and `t.*`),
+// so reload/back-forward keep working and no second source of truth is
+// introduced.
 
 import 'package:flutter/widgets.dart';
+
+import '../../ui/dashcn/theme/theme.dart';
 
 /// Which playground (if any) drives the surrounding page.
 class PlaygroundScope extends InheritedWidget {
@@ -22,18 +23,23 @@ class PlaygroundScope extends InheritedWidget {
   const PlaygroundScope({
     super.key,
     required this.activeComponentId,
+    this.themeOverride,
     required super.child,
   });
 
   /// The component id whose playground is open, or null when closed.
   final String? activeComponentId;
 
+  /// The live theme token override for previews and examples, or null.
+  final ThemeData? themeOverride;
+
   /// Whether [componentId]'s playground currently drives the page.
   bool drives(String componentId) => activeComponentId == componentId;
 
   @override
   bool updateShouldNotify(covariant PlaygroundScope oldWidget) {
-    return oldWidget.activeComponentId != activeComponentId;
+    return oldWidget.activeComponentId != activeComponentId ||
+        oldWidget.themeOverride != themeOverride;
   }
 
   /// Nearest scope, or null outside a component page.
