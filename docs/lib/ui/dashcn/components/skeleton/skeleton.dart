@@ -89,28 +89,30 @@ class Skeleton extends StatelessWidget {
     final BorderRadius radius =
         (borderRadius ?? resolved.borderRadius ?? _defaultRadius(context))
             .resolve(Directionality.of(context));
-    if (!enabled) {
-      return ClipRRect(borderRadius: radius, child: child);
-    }
     // Motion legs: the sweep duration scales with the theme intensity and
     // the curve falls back to the motion standard curve, so the Theme
     // Studio intensity picker retimes the shimmer with the rest of the kit.
     final ThemeData ambient = Theme.of(context);
     final Duration baseDuration = resolved.duration ?? kSkeletonSweepDuration;
     final Duration duration = ambient.motion.scaledDuration(baseDuration);
-    final Curve curve = resolved.curve ?? ambient.motion.curves.standard;
-    return Semantics(
-      label:
-          semanticsLabel ??
-          ComponentLocalizations.of(context).announcementLoading,
-      child: _Shimmer(
-        from: resolved.fromColor,
-        to: resolved.toColor,
-        duration: motionReduced(context) ? Duration.zero : duration,
-        curve: curve,
-        borderRadius: radius,
-        child: child,
-      ),
+    final Curve curve = resolved.curve ?? Curves.linear;
+    Widget shimmer(Widget content) => _Shimmer(
+      from: resolved.fromColor,
+      to: resolved.toColor,
+      duration: motionReduced(context) ? Duration.zero : duration,
+      curve: curve,
+      borderRadius: radius,
+      child: content,
+    );
+    return _SkeletonFade(
+      enabled: enabled,
+      semanticsLabel: enabled
+          ? semanticsLabel ??
+                ComponentLocalizations.of(context).announcementLoading
+          : null,
+      shimmer: shimmer,
+      borderRadius: radius,
+      child: child,
     );
   }
 
@@ -181,6 +183,97 @@ class _Shimmer extends StatelessWidget {
         kSkeletonSweepHandover,
         kSkeletonSweepHandover + kSkeletonSweepFade,
       ],
+    );
+  }
+}
+
+/// Cross-fades the shimmer out when [enabled] turns false (200 ms, the
+/// content fades in underneath), and back in when it turns true. The shimmer
+/// stays mounted for the whole fade so the loop never restarts from zero.
+class _SkeletonFade extends StatefulWidget {
+  const _SkeletonFade({
+    required this.enabled,
+    required this.shimmer,
+    required this.borderRadius,
+    required this.child,
+    this.semanticsLabel,
+  });
+
+  final bool enabled;
+  final Widget Function(Widget content) shimmer;
+  final BorderRadius borderRadius;
+  final Widget child;
+  final String? semanticsLabel;
+
+  @override
+  State<_SkeletonFade> createState() => _SkeletonFadeState();
+}
+
+class _SkeletonFadeState extends State<_SkeletonFade>
+    with SingleTickerProviderStateMixin {
+  late final AnimationController _controller = AnimationController(
+    vsync: this,
+    value: widget.enabled ? 1.0 : 0.0,
+  );
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    _controller.duration = Theme.of(
+      context,
+    ).motion.scaledDuration(const Duration(milliseconds: 200));
+  }
+
+  @override
+  void didUpdateWidget(covariant _SkeletonFade oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (widget.enabled == oldWidget.enabled) {
+      return;
+    }
+    if (motionReduced(context)) {
+      _controller.value = widget.enabled ? 1.0 : 0.0;
+    } else if (widget.enabled) {
+      _controller.forward();
+    } else {
+      _controller.reverse();
+    }
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return AnimatedBuilder(
+      animation: _controller,
+      builder: (BuildContext context, Widget? child) {
+        final double v = _controller.value;
+        final Widget content = ClipRRect(
+          borderRadius: widget.borderRadius,
+          child: widget.child,
+        );
+        Widget body;
+        if (v >= 1.0) {
+          body = widget.shimmer(widget.child);
+        } else if (v <= 0.0) {
+          body = content;
+        } else {
+          body = Stack(
+            fit: StackFit.passthrough,
+            children: <Widget>[
+              Opacity(opacity: 1.0 - v, child: content),
+              Opacity(opacity: v, child: widget.shimmer(widget.child)),
+            ],
+          );
+        }
+        if (widget.semanticsLabel == null) {
+          return body;
+        }
+        return Semantics(label: widget.semanticsLabel, child: body);
+      },
     );
   }
 }

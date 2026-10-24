@@ -213,10 +213,10 @@ class SkeletonTheme extends ComponentThemeData
   );
 }
 
-/// One full sweep. The old `SkeletonThemeDefaults.duration` was one second for
+/// One full sweep (1.5 s linear loop). The old `SkeletonThemeDefaults.duration` was one second for
 /// a `Skeletonizer` `PulseEffect`, which sweeps 0 -> 1 -> 0, so one visual
 /// pass took half of that.
-const Duration kSkeletonSweepDuration = Duration(milliseconds: 800);
+const Duration kSkeletonSweepDuration = Duration(milliseconds: 1500);
 
 /// Token-derived baseline; every unset override field falls through here.
 const SkeletonTheme skeletonDefaults = SkeletonTheme(

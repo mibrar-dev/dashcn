@@ -154,7 +154,8 @@ void main() {
     );
     controller.dismiss();
     await tester.pump();
-    await tester.pump(const Duration(milliseconds: 400));
+    // Slide (200 ms) then collapse (200 ms).
+    await tester.pump(const Duration(milliseconds: 500));
     expect(dismissed, 1);
   });
 

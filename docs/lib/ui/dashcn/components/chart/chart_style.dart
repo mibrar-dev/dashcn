@@ -381,7 +381,7 @@ const ChartTheme chartDefaults = ChartTheme(
   showLegend: true,
   showTooltip: true,
   showMarkers: false,
-  animationDuration: Duration(milliseconds: 700),
+  animationDuration: Duration(milliseconds: 600),
   animationCurve: Curves.easeOutCubic,
   disableAnimation: false,
   donutHole: 0.55,
@@ -577,7 +577,7 @@ ChartSurface resolveChartSurface(
     animationDuration:
         animationDuration ??
         resolved.animationDuration ??
-        const Duration(milliseconds: 700),
+        const Duration(milliseconds: 600),
     animationCurve:
         animationCurve ?? resolved.animationCurve ?? Curves.easeOutCubic,
     animate: !(disableAnimation ?? resolved.disableAnimation ?? false),

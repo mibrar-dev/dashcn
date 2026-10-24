@@ -17,6 +17,7 @@ import 'package:flutter/widgets.dart';
 import '../../foundation/data.dart';
 import '../../foundation/gap.dart';
 import '../../foundation/platform.dart';
+import '../../primitives/motion/sliding_indicator.dart';
 import '../../primitives/navigation/navigation_items.dart';
 import '../../primitives/navigation/navigation_sections.dart';
 import '../../primitives/roving_group.dart';
@@ -99,6 +100,31 @@ class NavigationBar extends StatefulWidget {
 class _NavigationBarState extends State<NavigationBar> {
   final RovingGroupRegistry<int> _roving = RovingGroupRegistry<int>();
 
+  /// One stable key per child, so the sliding indicator can find the active
+  /// item's box after each frame.
+  final List<GlobalKey> _itemKeys = <GlobalKey>[];
+
+  GlobalKey _keyFor(int i) {
+    while (_itemKeys.length <= i) {
+      _itemKeys.add(GlobalKey());
+    }
+    return _itemKeys[i];
+  }
+
+  /// Key of the child at the selected selectable index, if any.
+  GlobalKey? _activeKey() {
+    var index = 0;
+    for (var i = 0; i < widget.children.length; i++) {
+      if (widget.children[i].selectable) {
+        if (index == widget.index) {
+          return _keyFor(i);
+        }
+        index++;
+      }
+    }
+    return null;
+  }
+
   void _select(int index) => widget.onSelected?.call(index);
 
   @override
@@ -121,9 +147,12 @@ class _NavigationBarState extends State<NavigationBar> {
           !_isFixedHelper(child)) {
         out.add(Gap(gap));
       }
-      Widget wrapped = Data<NavigationChildData>.inherit(
-        data: (index: child.selectable ? index++ : null, actualIndex: i),
-        child: child,
+      Widget wrapped = KeyedSubtree(
+        key: _keyFor(i),
+        child: Data<NavigationChildData>.inherit(
+          data: (index: child.selectable ? index++ : null, actualIndex: i),
+          child: child,
+        ),
       );
       // A horizontal bar shares its width equally between items (bottom-nav
       // parity); helpers keep their intrinsic size (P7-Q2).
@@ -184,7 +213,11 @@ class _NavigationBarState extends State<NavigationBar> {
       onSelected: _select,
       expanded: widget.expanded,
       itemStyle: style.itemStyle ?? navigationItemDefaults,
-      activeItemStyle: style.activeItemStyle ?? navigationActiveItemDefaults,
+      // The sliding pill paints the active fill, so the active item itself
+      // paints none (its foreground and border stay).
+      activeItemStyle: _pillOwnedStyle(
+        style.activeItemStyle ?? navigationActiveItemDefaults,
+      ),
       tooltipWrapper: (Widget child, Widget label) => Tooltip(
         waitDuration: isMobile(ambient.platform)
             ? kTooltipWaitDuration
@@ -218,10 +251,38 @@ class _NavigationBarState extends State<NavigationBar> {
             ambient.scaling,
       ),
     );
+    final NavigationItemStyle activeStyle =
+        style.activeItemStyle ?? navigationActiveItemDefaults;
+    final Color pill =
+        (activeStyle.background?.rest ??
+                const ThemedColor.ref(ColorRef.secondary))
+            .resolve(ambient.colors);
+    final Widget tracked = SlidingIndicator(
+      activeKey: _activeKey(),
+      color: pill,
+      borderRadius: ambient.borderRadiusMd,
+      child: body,
+    );
     return RepaintBoundary(
       child: Data<NavigationControlData>.inherit(
         data: data,
-        child: _roving.scope(child: _surface(ambient, style, container, body)),
+        child: _roving.scope(
+          child: _surface(ambient, style, container, tracked),
+        ),
+      ),
+    );
+  }
+
+  /// Copy of [active] with every state's fill made transparent.
+  static NavigationItemStyle _pillOwnedStyle(NavigationItemStyle active) {
+    const ThemedColor clear = ThemedColor.value(Color(0x00000000));
+    return active.merge(
+      const NavigationItemStyle(
+        background: StateValue<ThemedColor>(
+          rest: clear,
+          hovered: clear,
+          pressed: clear,
+        ),
       ),
     );
   }

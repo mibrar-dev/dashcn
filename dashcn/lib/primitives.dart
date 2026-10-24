@@ -150,6 +150,7 @@ export 'src/primitives/motion/motion_scope.dart';
 export 'src/primitives/motion/motion_spec.dart';
 export 'src/primitives/motion/press_scale.dart';
 export 'src/primitives/motion/scale_in.dart';
+export 'src/primitives/motion/sliding_indicator.dart';
 export 'src/primitives/motion/stagger.dart';
 export 'src/primitives/navigation/navigation_item_row.dart';
 export 'src/primitives/navigation/navigation_items.dart';

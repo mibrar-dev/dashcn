@@ -7,7 +7,6 @@
 
 import 'package:flutter/widgets.dart';
 
-import '../../foundation/constants.dart';
 import '../../theme/color_tokens.dart';
 import '../../theme/theme.dart';
 
@@ -33,7 +32,7 @@ class ImageTheme extends ComponentThemeData implements Mergeable<ImageTheme> {
   /// Corner radius of the box; null resolves `radiusLg`.
   final BorderRadiusGeometry? borderRadius;
 
-  /// Fade-in duration of the decoded picture; null resolves 150 ms.
+  /// Fade-in duration of the decoded picture; null resolves 200 ms.
   final Duration? duration;
 
   /// Returns a copy with the given fields replaced.
@@ -111,5 +110,6 @@ class ImageTheme extends ComponentThemeData implements Mergeable<ImageTheme> {
 /// rather than freezing a value here.
 const ImageTheme imageDefaults = ImageTheme(
   background: ThemedColor.ref(ColorRef.muted),
-  duration: kDefaultDuration,
+  // Image fade-in on load: 200 ms base token (shared kDefaultDuration is 150).
+  duration: Duration(milliseconds: 200),
 );

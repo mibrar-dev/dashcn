@@ -650,12 +650,15 @@ const Map<String, List<DocsDep>> kComponentDeps = <String, List<DocsDep>>{
     DocsDep(id: 'theme', kind: DocsDepKind.theme),
   ],
   'avatar': <DocsDep>[
+    DocsDep(id: 'motion', kind: DocsDepKind.primitive),
     DocsDep(id: 'text', kind: DocsDepKind.primitive),
     DocsDep(id: 'color_tokens', kind: DocsDepKind.theme),
     DocsDep(id: 'theme', kind: DocsDepKind.theme),
   ],
   'badge': <DocsDep>[
+    DocsDep(id: 'number_ticker', kind: DocsDepKind.component),
     DocsDep(id: 'clickable', kind: DocsDepKind.primitive),
+    DocsDep(id: 'motion', kind: DocsDepKind.primitive),
     DocsDep(id: 'gap', kind: DocsDepKind.foundation),
     DocsDep(id: 'color_tokens', kind: DocsDepKind.theme),
     DocsDep(id: 'density', kind: DocsDepKind.theme),
@@ -758,6 +761,7 @@ const Map<String, List<DocsDep>> kComponentDeps = <String, List<DocsDep>>{
   ],
   'number_ticker': <DocsDep>[
     DocsDep(id: 'animated_value_builder', kind: DocsDepKind.primitive),
+    DocsDep(id: 'motion', kind: DocsDepKind.primitive),
     DocsDep(id: 'color_tokens', kind: DocsDepKind.theme),
     DocsDep(id: 'theme', kind: DocsDepKind.theme),
   ],
@@ -1290,6 +1294,7 @@ const Map<String, List<DocsDep>> kComponentDeps = <String, List<DocsDep>>{
   'navigation_bar': <DocsDep>[
     DocsDep(id: 'overflow_marquee', kind: DocsDepKind.component),
     DocsDep(id: 'tooltip', kind: DocsDepKind.component),
+    DocsDep(id: 'motion', kind: DocsDepKind.primitive),
     DocsDep(id: 'navigation', kind: DocsDepKind.primitive),
     DocsDep(id: 'roving_group', kind: DocsDepKind.primitive),
     DocsDep(id: 'surface', kind: DocsDepKind.primitive),
@@ -1318,6 +1323,7 @@ const Map<String, List<DocsDep>> kComponentDeps = <String, List<DocsDep>>{
     DocsDep(id: 'button', kind: DocsDepKind.component),
     DocsDep(id: 'triple_dots', kind: DocsDepKind.component),
     DocsDep(id: 'localizations', kind: DocsDepKind.primitive),
+    DocsDep(id: 'motion', kind: DocsDepKind.primitive),
     DocsDep(id: 'icons', kind: DocsDepKind.foundation),
     DocsDep(id: 'color_tokens', kind: DocsDepKind.theme),
     DocsDep(id: 'theme', kind: DocsDepKind.theme),
