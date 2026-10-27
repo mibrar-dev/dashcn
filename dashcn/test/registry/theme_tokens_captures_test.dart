@@ -42,7 +42,7 @@ Directory get _outDir => Directory(
   '${Directory.current.path}/../rearch/captures/fix-theme-tokens-everywhere',
 );
 
-/// Registers the repo's Geist + Lucide fonts on the test engine.
+/// Registers the repo's icon fonts on the test engine.
 Future<void> _loadFonts() async {
   Future<void> load(String family, String asset) async {
     final loader = FontLoader(family);
@@ -51,8 +51,6 @@ Future<void> _loadFonts() async {
     await loader.load();
   }
 
-  await load('GeistSans', 'assets/fonts/Geist-Regular.otf');
-  await load('GeistMono', 'assets/fonts/GeistMono-Regular.otf');
   await load('LucideIcons', 'assets/fonts/lucide.ttf');
 }
 

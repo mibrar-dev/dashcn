@@ -2,7 +2,7 @@
 // contract).
 //
 // The icon sits in a fixed 16px box beside the label in one centred row, so
-// their vertical centres match in every font (Geist, the docs web font,
+// their vertical centres match in every font (the docs web font
 // included). Width hugs `icon + gap + full label + padding` with no minimum
 // and never an ellipsis; a parent narrower than the content shrinks the
 // label to a second line instead of overflowing.
@@ -28,7 +28,6 @@ Future<void> _loadFonts() async {
     await loader.load();
   }
 
-  await load('GeistSans', 'assets/fonts/Geist-Regular.otf');
   await load('LucideIcons', 'assets/fonts/lucide.ttf');
 }
 

@@ -304,10 +304,15 @@ class ThemeDocument {
   /// read `theme.spacing`/`theme.density`. Without these two lines the font
   /// and spacing rows would export values the site never renders.
   ThemeData theme(Brightness brightness) {
+    // The docs site keeps the Geist look: a document that names no family
+    // (the Theme Studio "Default" rows remove the slots) falls back to the
+    // bundled Geist faces, exactly the old kit default. The kit itself now
+    // defaults to the platform font; presets that name families are
+    // untouched.
     final ThemeFonts families = ThemeFonts(
-      fontSans: bodyFont,
+      fontSans: bodyFont ?? 'GeistSans, NotoSansSymbols2',
       fontSerif: fonts['serif'],
-      fontMono: monoFont,
+      fontMono: monoFont ?? 'GeistMono, NotoSansSymbols2',
       fontHeading: headingFont,
     );
     final SpacingScale scale = SpacingScale(spacing * 16);

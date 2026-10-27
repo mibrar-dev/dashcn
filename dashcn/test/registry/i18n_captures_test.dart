@@ -73,7 +73,7 @@ void main() {
   }
 }
 
-/// Registers the repo's Geist + Lucide fonts on the test engine.
+/// Registers the repo's icon fonts on the test engine.
 Future<void> _loadFonts() async {
   Future<void> load(String family, List<String> assets) async {
     final loader = FontLoader(family);
@@ -87,12 +87,11 @@ Future<void> _loadFonts() async {
     await loader.load();
   }
 
-  await load('GeistSans', const <String>['assets/fonts/Geist-Regular.otf']);
-  await load('GeistMono', const <String>['assets/fonts/GeistMono-Regular.otf']);
   await load('LucideIcons', const <String>['assets/fonts/lucide.ttf']);
-  // Arabic coverage for the ar captures (Geist has no Arabic glyphs).
+  // Arabic coverage for the ar captures (the default face has no Arabic
+  // glyphs).
   // Flutter falls back across every loaded family, so Arabic text renders
-  // with Geeza Pro while Latin text keeps Geist.
+  // with Geeza Pro while Latin text keeps the default face.
   await load('GeezaPro', const <String>['/System/Library/Fonts/SFArabic.ttf']);
 }
 
@@ -133,7 +132,7 @@ Widget _frame(ThemeData data, Locale locale, Size size) {
                     color: theme.colors.foreground,
                     fontSize: 14,
                     // Test-only fallback so Arabic glyphs render in captures
-                    // (Geist ships no Arabic; loaded as `GeezaPro` above).
+                    // (the default face ships no Arabic; `GeezaPro` above).
                     fontFamilyFallback: const <String>['GeezaPro'],
                   ),
                   child: SizedBox(
