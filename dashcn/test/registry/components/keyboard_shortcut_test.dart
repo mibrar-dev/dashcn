@@ -263,8 +263,9 @@ void main() {
       // dashcn `text-xs` runs on a 1rem (16 px) line.
       expect(style.height, 4 / 3);
       expect(style.color, ThemeColors.lightFallback.mutedForeground);
-      // dashcn kbd labels use the mono face.
-      expect(style.fontFamily, 'GeistMono');
+      // dashcn kbd labels use the ambient mono face (the platform font by
+      // default, now that the kit bundles no text faces).
+      expect(style.fontFamily, isNull);
     });
 
     testWidgets('a cap measures dashcn h-5 (20 px) - P7-WC2', (tester) async {

@@ -202,7 +202,7 @@ void main() {
   );
 }
 
-/// Registers the repo's Geist + Radix fonts on the test engine.
+/// Registers the repo's Radix icon font on the test engine.
 Future<void> _loadFonts() async {
   Future<void> load(String family, List<String> assets) async {
     final FontLoader loader = FontLoader(family);
@@ -215,8 +215,6 @@ Future<void> _loadFonts() async {
     await loader.load();
   }
 
-  await load('GeistSans', const <String>['assets/fonts/Geist-Regular.otf']);
-  await load('GeistMono', const <String>['assets/fonts/GeistMono-Regular.otf']);
   await load('RadixIcons', const <String>['assets/fonts/radix.otf']);
 }
 

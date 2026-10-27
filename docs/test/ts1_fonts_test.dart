@@ -63,6 +63,19 @@ void main() {
       expect(theme.typography.inlineCode.fontFamily, 'JetBrains Mono');
     });
 
+    test('a font-less document keeps the bundled Geist look', () {
+      final ThemeData theme = ThemeDocument.fromPreset('neutral')
+          .withFont('sans', null)
+          .withFont('body', null)
+          .withFont('mono', null)
+          .theme(Brightness.light);
+      expect(theme.typography.sans.fontFamily, 'GeistSans');
+      expect(theme.typography.sans.fontFamilyFallback, <String>[
+        'NotoSansSymbols2',
+      ]);
+      expect(theme.typography.mono.fontFamily, 'GeistMono');
+    });
+
     test('heading/body fonts survive the JSON round-trip', () {
       final ThemeDocument document = ThemeDocument.fromPreset(
         'neutral',
