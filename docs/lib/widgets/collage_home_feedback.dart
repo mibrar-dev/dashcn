@@ -187,7 +187,7 @@ class _HomeRatingCardState extends State<HomeRatingCard> {
           spacing: 8,
           runSpacing: 8,
           children: <Widget>[
-            Chip(child: Text('Mix')),
+            Chip(child: Text(docsSample(context, 'Mix'))),
             Chip(child: Text(docsSample(context, 'Master'))),
             Chip(child: Text(docsSample(context, 'Artwork'))),
           ],

@@ -29,7 +29,7 @@ class StudioPayoutCard extends StatefulWidget {
 
 class _StudioPayoutCardState extends State<StudioPayoutCard> {
   static List<String> currencies = <String>[
-    r'USD — United States Dollar',
+    docsSample(null, 'USD — United States Dollar'),
     docsSample(null, 'EUR — Euro'),
     docsSample(null, 'GBP — British Pound'),
   ];
@@ -96,7 +96,7 @@ class _StudioPayoutCardState extends State<StudioPayoutCard> {
             children: <Widget>[
               Expanded(
                 child: Text(
-                  r'$50 (MIN)',
+                  docsSample(context, r'$50 (MIN)'),
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                   style: theme.typography.xSmall.copyWith(
@@ -106,7 +106,7 @@ class _StudioPayoutCardState extends State<StudioPayoutCard> {
               ),
               Expanded(
                 child: Text(
-                  r'$10,000 (MAX)',
+                  docsSample(context, r'$10,000 (MAX)'),
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                   textAlign: TextAlign.end,

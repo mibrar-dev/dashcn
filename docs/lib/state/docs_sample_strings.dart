@@ -22,14 +22,19 @@ void setDocsSampleLocale(Locale locale) {
 }
 
 /// Installs the [docsSampleResolver] hook in the kit preview contract.
+///
+/// The website locale (router) is the source of truth: unlike WidgetsApp's
+/// `Localizations`, it updates on a runtime locale switch, so sample
+/// strings rebuilt from context follow the switch instead of freezing in
+/// the boot language until reload.
 void installDocsSampleResolver() {
   docsSampleResolver = (BuildContext? context, String key) {
     Locale? locale;
     if (context != null) {
       try {
         locale =
-            Localizations.maybeLocaleOf(context) ??
-            DocsRouterScope.maybeOf(context)?.state.locale;
+            DocsRouterScope.maybeOf(context)?.state.locale ??
+            Localizations.maybeLocaleOf(context);
       } catch (_) {
         locale = null;
       }

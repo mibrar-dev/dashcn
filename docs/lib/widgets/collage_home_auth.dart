@@ -136,7 +136,7 @@ class HomeLoginCard extends StatelessWidget {
           ),
         ),
         Gap(12),
-        Divider(label: Text('or')),
+        Divider(label: Text(docsSample(context, 'or'))),
         Gap(12),
         Button(
           variant: ButtonVariant.outline,

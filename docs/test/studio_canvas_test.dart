@@ -29,7 +29,7 @@ void main() {
       expect(find.byType(MasonryLayout), findsOneWidget);
       expect(find.byType(Card), findsWidgets);
       expect(
-        blocks.length,
+        buildBlocks().length,
         greaterThanOrEqualTo(kMinimumBlockCount),
         reason: 'the brief asks for many realistic example blocks',
       );
@@ -85,8 +85,8 @@ void main() {
     testWidgets('no canvas block is wrapped in a height-pinning box', (
       tester,
     ) async {
-      expect(blocks, isNotEmpty);
-      for (final Widget block in blocks) {
+      expect(buildBlocks(), isNotEmpty);
+      for (final Widget block in buildBlocks()) {
         expect(
           switch (block) {
             SizedBox(height: final double? height) when height != null =>

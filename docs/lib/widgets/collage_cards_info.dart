@@ -39,7 +39,7 @@ class CollageButtonsCard extends StatelessWidget {
               size: ButtonSize.sm,
               trailing: const Icon(LucideIcons.arrowRight, size: 14),
               onPressed: () {},
-              child: const Text('Button'),
+              child: Text(docsSample(context, 'Button')),
             ),
             Button(
               variant: ButtonVariant.secondary,
@@ -64,13 +64,13 @@ class CollageButtonsCard extends StatelessWidget {
               variant: ButtonVariant.outline,
               size: ButtonSize.sm,
               onPressed: () {},
-              child: const Text('Alert Dialog'),
+              child: Text(docsSample(context, 'Alert Dialog')),
             ),
             Button(
               variant: ButtonVariant.ghost,
               size: ButtonSize.sm,
               onPressed: () {},
-              child: const Text('Button Group'),
+              child: Text(docsSample(context, 'Button Group')),
             ),
           ],
         ),
@@ -80,7 +80,10 @@ class CollageButtonsCard extends StatelessWidget {
           runSpacing: 8,
           crossAxisAlignment: WrapCrossAlignment.center,
           children: <Widget>[
-            Badge(variant: BadgeVariant.primary, child: Text('Badge')),
+            Badge(
+              variant: BadgeVariant.primary,
+              child: Text(docsSample(context, 'Badge')),
+            ),
             Badge(
               variant: BadgeVariant.secondary,
               child: Text(docsSample(context, 'Secondary')),
