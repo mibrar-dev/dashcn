@@ -123,7 +123,9 @@ class LandingPage extends StatelessWidget {
             ),
           ),
           const Gap(24),
-          const DocsCollage(),
+          // Not const: the wall renders sample strings for the ambient
+          // website locale and must rebuild after a runtime locale switch.
+          DocsCollage(),
           DocsFooter(
             onDocs: () => DocsRouterScope.of(context).go(context, '/docs'),
             onCli: () => DocsRouterScope.of(context).go(context, '/docs/cli'),

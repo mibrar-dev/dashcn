@@ -29,13 +29,13 @@ class HomePayoutCard extends StatefulWidget {
 }
 
 class _HomePayoutCardState extends State<HomePayoutCard> {
-  static List<String> currencies = <String>[
-    r'USD — United States Dollar',
-    docsSample(null, 'EUR — Euro'),
-    docsSample(null, 'GBP — British Pound'),
+  List<String> _currencies(BuildContext context) => <String>[
+    docsSample(context, 'USD — United States Dollar'),
+    docsSample(context, 'EUR — Euro'),
+    docsSample(context, 'GBP — British Pound'),
   ];
 
-  String _currency = currencies.first;
+  int _currencyIndex = 0;
   double _minimum = 2500;
 
   @override
@@ -43,6 +43,7 @@ class _HomePayoutCardState extends State<HomePayoutCard> {
     final Locale locale =
         DocsRouterScope.maybeOf(context)?.state.locale ?? const Locale('en');
     final ThemeData theme = Theme.of(context);
+    final List<String> currencies = _currencies(context);
     return CollageCard(
       title: docsHome(locale, 'homePayoutTitle'),
       subtitle: docsHome(locale, 'homePayoutSub'),
@@ -51,9 +52,16 @@ class _HomePayoutCardState extends State<HomePayoutCard> {
         StudioFieldLabel(docsHome(locale, 'homePrefCurrency')),
         const Gap(6),
         Select<String>(
-          value: _currency,
-          onChanged: (String? next) =>
-              setState(() => _currency = next ?? _currency),
+          value: currencies[_currencyIndex],
+          onChanged: (String? next) {
+            if (next == null) {
+              return;
+            }
+            final int index = currencies.indexOf(next);
+            if (index >= 0) {
+              setState(() => _currencyIndex = index);
+            }
+          },
           items: <Widget>[
             for (final String currency in currencies)
               SelectItem<String>(value: currency, child: Text(currency)),
@@ -90,7 +98,7 @@ class _HomePayoutCardState extends State<HomePayoutCard> {
           children: <Widget>[
             Expanded(
               child: Text(
-                r'$50 (MIN)',
+                docsSample(context, r'$50 (MIN)'),
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
                 style: theme.typography.xSmall.copyWith(
@@ -100,7 +108,7 @@ class _HomePayoutCardState extends State<HomePayoutCard> {
             ),
             Expanded(
               child: Text(
-                r'$10,000 (MAX)',
+                docsSample(context, r'$10,000 (MAX)'),
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
                 textAlign: TextAlign.end,
@@ -149,19 +157,20 @@ class HomeReportCard extends StatefulWidget {
 }
 
 class _HomeReportCardState extends State<HomeReportCard> {
-  static List<String> kinds = <String>[
-    docsSample(null, 'Wrong royalty split'),
-    docsSample(null, 'Missing track'),
-    docsSample(null, 'Artwork rejected'),
-    docsSample(null, 'Payout delayed'),
+  List<String> _kinds(BuildContext context) => <String>[
+    docsSample(context, 'Wrong royalty split'),
+    docsSample(context, 'Missing track'),
+    docsSample(context, 'Artwork rejected'),
+    docsSample(context, 'Payout delayed'),
   ];
 
-  String _kind = kinds.first;
+  int _kindIndex = 0;
 
   @override
   Widget build(BuildContext context) {
     final Locale locale =
         DocsRouterScope.maybeOf(context)?.state.locale ?? const Locale('en');
+    final List<String> kinds = _kinds(context);
     return CollageCard(
       title: docsHome(locale, 'homeReportTitle'),
       subtitle: docsSample(
@@ -172,8 +181,16 @@ class _HomeReportCardState extends State<HomeReportCard> {
         StudioFieldLabel(docsSample(context, 'Category')),
         const Gap(6),
         Select<String>(
-          value: _kind,
-          onChanged: (String? next) => setState(() => _kind = next ?? _kind),
+          value: kinds[_kindIndex],
+          onChanged: (String? next) {
+            if (next == null) {
+              return;
+            }
+            final int index = kinds.indexOf(next);
+            if (index >= 0) {
+              setState(() => _kindIndex = index);
+            }
+          },
           items: <Widget>[
             for (final String kind in kinds)
               SelectItem<String>(value: kind, child: Text(kind)),

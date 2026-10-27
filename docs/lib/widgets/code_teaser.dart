@@ -11,6 +11,7 @@
 import 'package:flutter/widgets.dart';
 
 import '../ui/dashcn/components/button/button.dart';
+import '../ui/dashcn/foundation/component_preview.dart';
 import '../ui/dashcn/theme/color_tokens.dart';
 import '../ui/dashcn/theme/theme.dart';
 import 'copy_button.dart';
@@ -108,7 +109,7 @@ class _CodeTeaserState extends State<CodeTeaser> {
                       ),
                     ),
                     onPressed: () => setState(() => _expanded = true),
-                    child: const Text('View Code'),
+                    child: Text(docsSample(context, 'View Code')),
                   ),
                 ),
               ),

@@ -115,7 +115,7 @@ class StudioClaimableBalanceCard extends StatelessWidget {
   static List<(String, String)> rows = <(String, String)>[
     (docsSample(null, 'Net Royalties'), r'$0.00'),
     (docsSample(null, 'Processing Fee'), r'-$0.00'),
-    (docsSample(null, 'Total Ready to Claim'), r'$0.00 USD'),
+    (docsSample(null, 'Total Ready to Claim'), docsSample(null, r'$0.00 USD')),
   ];
 
   @override
@@ -143,7 +143,7 @@ class StudioClaimableBalanceCard extends StatelessWidget {
           ),
           StudioRow(
             label: docsSample(context, 'Total Ready to Claim'),
-            value: r'$0.00 USD',
+            value: docsSample(context, r'$0.00 USD'),
           ),
           Gap(4),
           StudioHelper(

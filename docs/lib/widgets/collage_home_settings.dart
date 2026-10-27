@@ -122,7 +122,7 @@ class HomePreferencesCard extends StatefulWidget {
 
 class _HomePreferencesCardState extends State<HomePreferencesCard> {
   static List<String> currencies = <String>[
-    r'USD — United States Dollar',
+    docsSample(null, 'USD — United States Dollar'),
     docsSample(null, 'EUR — Euro'),
     docsSample(null, 'GBP — British Pound'),
   ];

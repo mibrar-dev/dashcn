@@ -78,7 +78,7 @@ class _StudioCalendarCardState extends State<StudioCalendarCard> {
   Widget build(BuildContext context) {
     return StudioCard(
       title: docsSample(context, 'Release date'),
-      subtitle: _subtitle(_selected),
+      subtitle: _subtitle(context, _selected),
       child: Calendar(
         view: _view,
         value: _selected,
@@ -109,7 +109,7 @@ class _StudioDateRangeCardState extends State<StudioDateRangeCard> {
   Widget build(BuildContext context) {
     return StudioCard(
       title: docsSample(context, 'Reporting Period'),
-      subtitle: _periodSubtitle(_range),
+      subtitle: _periodSubtitle(context, _range),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         mainAxisSize: MainAxisSize.min,
@@ -147,7 +147,7 @@ class StudioPreferencesCard extends StatefulWidget {
 
 class _StudioPreferencesCardState extends State<StudioPreferencesCard> {
   static List<String> currencies = <String>[
-    r'USD — United States Dollar',
+    docsSample(null, 'USD — United States Dollar'),
     docsSample(null, 'EUR — Euro'),
     docsSample(null, 'GBP — British Pound'),
   ];
@@ -401,19 +401,19 @@ class _StudioPaymentMethodCardState extends State<StudioPaymentMethodCard> {
   }
 }
 
-String _subtitle(CalendarValue? value) {
+String _subtitle(BuildContext context, CalendarValue? value) {
   final DateTime? date = switch (value) {
     SingleCalendarValue(date: final DateTime picked) => picked,
     MultiCalendarValue(dates: final List<DateTime> picked) =>
       picked.isEmpty ? null : picked.first,
     _ => null,
   };
-  return date == null ? 'No date picked' : _format(date);
+  return date == null ? docsSample(context, 'No date picked') : _format(date);
 }
 
-String _periodSubtitle(DateTimeRange? range) {
+String _periodSubtitle(BuildContext context, DateTimeRange? range) {
   if (range == null) {
-    return 'No period selected';
+    return docsSample(context, 'No period selected');
   }
   return '${_format(range.start)} – ${_format(range.end)}';
 }

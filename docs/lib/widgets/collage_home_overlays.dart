@@ -72,9 +72,12 @@ class HomeDialogCard extends StatelessWidget {
             context: context,
             builder: (BuildContext dialogContext) => AlertDialog(
               title: Text(docsSample(context, 'Share this document')),
-              description: const Text(
-                'Anyone with the link can view the Q2 royalty report. '
-                'Access expires in 7 days.',
+              description: Text(
+                docsSample(
+                  context,
+                  'Anyone with the link can view the Q2 royalty report. '
+                  'Access expires in 7 days.',
+                ),
               ),
               actions: <Widget>[
                 Button(
@@ -132,9 +135,12 @@ class HomeAlertConfirmCard extends StatelessWidget {
             context: context,
             icon: const Icon(LucideIcons.trash2, size: 20),
             title: Text(docsSample(context, 'Delete this project?')),
-            description: const Text(
-              'The release, its royalties and every report will be removed '
-              'permanently.',
+            description: Text(
+              docsSample(
+                context,
+                'The release, its royalties and every report will be removed '
+                'permanently.',
+              ),
             ),
             actionsBuilder: (BuildContext dialogContext) => <Widget>[
               Button(
