@@ -215,7 +215,7 @@ Widget _frame(ThemeData data, Size size, Widget child) {
   );
 }
 
-/// Registers the repo's Geist + Lucide fonts on the test engine.
+/// Registers the repo's icon fonts on the test engine.
 Future<void> _loadFonts() async {
   Future<void> load(String family, List<String> assets) async {
     final loader = FontLoader(family);
@@ -226,8 +226,6 @@ Future<void> _loadFonts() async {
     await loader.load();
   }
 
-  await load('GeistSans', const <String>['assets/fonts/Geist-Regular.otf']);
-  await load('GeistMono', const <String>['assets/fonts/GeistMono-Regular.otf']);
   await load('LucideIcons', const <String>['assets/fonts/lucide.ttf']);
 }
 

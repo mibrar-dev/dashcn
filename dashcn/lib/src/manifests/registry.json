@@ -13007,7 +13007,7 @@
     "theme/syntax_colors.dart": "09bf4279cb0c78202ef2e71c1579f65972faf8c4ea22bc1d23b5aa79fa60aa85",
     "theme/theme.dart": "5c1111758a0a7eb87077c6f02675a181994ab192ea1773aaee2f4443bc38023f",
     "theme/tokens.dart": "e4d0355e416ec86b111690f2a4bd0e1d26208c7549e7d0ce4dd9c27018582ca1",
-    "theme/typography.dart": "87c5cdef20bb8983494343890d038c6c7ae55a1cdb0286dd3a63bd99c3e4a2c8",
+    "theme/typography.dart": "f7d9d151454a36ad9e09b6558c67d257b9ea807d51d2fcf37f515f8204d325d5",
     "themes/amber-minimal.json": "13a12831d4ff5f6d49d5375d631c40ccd4e0db522686e89f5c872e362eca73d1",
     "themes/amethyst-haze.json": "051c69d4e43c5fb451f29cc7cfb1fe03a3f523dfbd0ff96945a46b012e3654fe",
     "themes/bold-tech.json": "3c1b461cff536a4ada29eb062c9d69e077f6407b39f5d082f5a247efd82f6551",
@@ -13320,6 +13320,191 @@
       ],
       "type": "flow",
       "viewport": "mobile"
+    }
+  },
+  "fonts": {
+    "geist-mono": {
+      "families": [
+        {
+          "family": "GeistMono",
+          "files": [
+            {
+              "path": "assets/fonts/GeistMono-Black.otf",
+              "weight": 800
+            },
+            {
+              "path": "assets/fonts/GeistMono-BlackItalic.otf",
+              "style": "italic",
+              "weight": 800
+            },
+            {
+              "path": "assets/fonts/GeistMono-Bold.otf",
+              "weight": 700
+            },
+            {
+              "path": "assets/fonts/GeistMono-BoldItalic.otf",
+              "style": "italic",
+              "weight": 700
+            },
+            {
+              "path": "assets/fonts/GeistMono-ExtraLightItalic.otf",
+              "style": "italic",
+              "weight": 200
+            },
+            {
+              "path": "assets/fonts/GeistMono-Light.otf",
+              "weight": 300
+            },
+            {
+              "path": "assets/fonts/GeistMono-LightItalic.otf",
+              "style": "italic",
+              "weight": 300
+            },
+            {
+              "path": "assets/fonts/GeistMono-Medium.otf",
+              "weight": 500
+            },
+            {
+              "path": "assets/fonts/GeistMono-MediumItalic.otf",
+              "style": "italic",
+              "weight": 500
+            },
+            {
+              "path": "assets/fonts/GeistMono-Regular.otf",
+              "weight": 400
+            },
+            {
+              "path": "assets/fonts/GeistMono-Italic.otf",
+              "style": "italic",
+              "weight": 400
+            },
+            {
+              "path": "assets/fonts/GeistMono-SemiBold.otf",
+              "weight": 600
+            },
+            {
+              "path": "assets/fonts/GeistMono-SemiBoldItalic.otf",
+              "style": "italic",
+              "weight": 600
+            },
+            {
+              "path": "assets/fonts/GeistMono-Thin.otf",
+              "weight": 100
+            },
+            {
+              "path": "assets/fonts/GeistMono-ThinItalic.otf",
+              "style": "italic",
+              "weight": 100
+            },
+            {
+              "path": "assets/fonts/GeistMono-UltraLight.otf",
+              "weight": 200
+            },
+            {
+              "path": "assets/fonts/GeistMono-UltraBlack.otf",
+              "weight": 900
+            }
+          ]
+        }
+      ]
+    },
+    "geist-sans": {
+      "families": [
+        {
+          "family": "GeistSans",
+          "files": [
+            {
+              "path": "assets/fonts/Geist-Black.otf",
+              "weight": 800
+            },
+            {
+              "path": "assets/fonts/Geist-BlackItalic.otf",
+              "style": "italic",
+              "weight": 800
+            },
+            {
+              "path": "assets/fonts/Geist-Bold.otf",
+              "weight": 700
+            },
+            {
+              "path": "assets/fonts/Geist-BoldItalic.otf",
+              "style": "italic",
+              "weight": 700
+            },
+            {
+              "path": "assets/fonts/Geist-ExtraLightItalic.otf",
+              "style": "italic",
+              "weight": 200
+            },
+            {
+              "path": "assets/fonts/Geist-Light.otf",
+              "weight": 300
+            },
+            {
+              "path": "assets/fonts/Geist-LightItalic.otf",
+              "style": "italic",
+              "weight": 300
+            },
+            {
+              "path": "assets/fonts/Geist-Medium.otf",
+              "weight": 500
+            },
+            {
+              "path": "assets/fonts/Geist-MediumItalic.otf",
+              "style": "italic",
+              "weight": 500
+            },
+            {
+              "path": "assets/fonts/Geist-Regular.otf",
+              "weight": 400
+            },
+            {
+              "path": "assets/fonts/Geist-RegularItalic.otf",
+              "style": "italic",
+              "weight": 400
+            },
+            {
+              "path": "assets/fonts/Geist-SemiBold.otf",
+              "weight": 600
+            },
+            {
+              "path": "assets/fonts/Geist-SemiBoldItalic.otf",
+              "style": "italic",
+              "weight": 600
+            },
+            {
+              "path": "assets/fonts/Geist-Thin.otf",
+              "weight": 100
+            },
+            {
+              "path": "assets/fonts/Geist-ThinItalic.otf",
+              "style": "italic",
+              "weight": 100
+            },
+            {
+              "path": "assets/fonts/Geist-UltraLight.otf",
+              "weight": 200
+            },
+            {
+              "path": "assets/fonts/Geist-UltraBlack.otf",
+              "weight": 900
+            }
+          ]
+        }
+      ]
+    },
+    "noto-symbols": {
+      "families": [
+        {
+          "family": "NotoSansSymbols2",
+          "files": [
+            {
+              "path": "assets/fonts/NotoSansSymbols2-Regular.ttf",
+              "weight": 400
+            }
+          ]
+        }
+      ]
     }
   },
   "foundation": {

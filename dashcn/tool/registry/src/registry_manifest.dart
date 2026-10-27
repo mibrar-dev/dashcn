@@ -247,6 +247,7 @@ class _Builder {
         'name': 'dashcn',
         'version': _pubspec['version'] as String,
       },
+      'fonts': _fontsJson(),
       'install': <String, Object?>{
         'root': 'lib/ui/dashcn',
         'componentsDir': 'components',
@@ -267,6 +268,79 @@ class _Builder {
       'starters': starterJson,
       'themes': themesJson,
       'fileHashes': hashes,
+    };
+  }
+
+  /// The opt-in font packs the CLI installs (`dashcn fonts add <id>`).
+  ///
+  /// The kit itself bundles no text faces: apps get the platform font by
+  /// default and add these through the CLI. The table is transcribed from the
+  /// `flutter: fonts:` block the kit used to declare (binaries stay in
+  /// `dashcn/assets/fonts` for the CLI to copy but are excluded from the
+  /// published package by `.pubignore`); paths stay relative to the kit root
+  /// so the CLI resolves them against the registry source. Icon fonts are
+  /// not listed: their glyphs are public API and stay bundled.
+  Map<String, Object?> _fontsJson() {
+    Map<String, Object?> family(String name, List<List<Object>> files) {
+      return <String, Object?>{
+        'families': <Object?>[
+          <String, Object?>{
+            'family': name,
+            'files': <Object?>[
+              for (final file in files)
+                <String, Object?>{
+                  'path': 'assets/fonts/${file[0]}',
+                  'weight': file[1],
+                  if (file.length > 2) 'style': file[2],
+                },
+            ],
+          },
+        ],
+      };
+    }
+
+    return <String, Object?>{
+      'geist-sans': family('GeistSans', const <List<Object>>[
+        ['Geist-Black.otf', 800],
+        ['Geist-BlackItalic.otf', 800, 'italic'],
+        ['Geist-Bold.otf', 700],
+        ['Geist-BoldItalic.otf', 700, 'italic'],
+        ['Geist-ExtraLightItalic.otf', 200, 'italic'],
+        ['Geist-Light.otf', 300],
+        ['Geist-LightItalic.otf', 300, 'italic'],
+        ['Geist-Medium.otf', 500],
+        ['Geist-MediumItalic.otf', 500, 'italic'],
+        ['Geist-Regular.otf', 400],
+        ['Geist-RegularItalic.otf', 400, 'italic'],
+        ['Geist-SemiBold.otf', 600],
+        ['Geist-SemiBoldItalic.otf', 600, 'italic'],
+        ['Geist-Thin.otf', 100],
+        ['Geist-ThinItalic.otf', 100, 'italic'],
+        ['Geist-UltraLight.otf', 200],
+        ['Geist-UltraBlack.otf', 900],
+      ]),
+      'geist-mono': family('GeistMono', const <List<Object>>[
+        ['GeistMono-Black.otf', 800],
+        ['GeistMono-BlackItalic.otf', 800, 'italic'],
+        ['GeistMono-Bold.otf', 700],
+        ['GeistMono-BoldItalic.otf', 700, 'italic'],
+        ['GeistMono-ExtraLightItalic.otf', 200, 'italic'],
+        ['GeistMono-Light.otf', 300],
+        ['GeistMono-LightItalic.otf', 300, 'italic'],
+        ['GeistMono-Medium.otf', 500],
+        ['GeistMono-MediumItalic.otf', 500, 'italic'],
+        ['GeistMono-Regular.otf', 400],
+        ['GeistMono-Italic.otf', 400, 'italic'],
+        ['GeistMono-SemiBold.otf', 600],
+        ['GeistMono-SemiBoldItalic.otf', 600, 'italic'],
+        ['GeistMono-Thin.otf', 100],
+        ['GeistMono-ThinItalic.otf', 100, 'italic'],
+        ['GeistMono-UltraLight.otf', 200],
+        ['GeistMono-UltraBlack.otf', 900],
+      ]),
+      'noto-symbols': family('NotoSansSymbols2', const <List<Object>>[
+        ['NotoSansSymbols2-Regular.ttf', 400],
+      ]),
     };
   }
 

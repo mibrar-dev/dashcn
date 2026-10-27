@@ -114,16 +114,13 @@ class Typography {
   /// Muted text.
   final TextStyle textMuted;
 
-  /// Default Geist-backed set.
+  /// Default platform-backed set: [sans] and [mono] name no family, so
+  /// apps render in the platform font unless a family is configured with
+  /// [applyFonts]. (The opt-in Geist/Noto packs the CLI installs are no
+  /// longer bundled with the package.)
   const Typography.geist({
-    this.sans = const TextStyle(
-      fontFamily: 'GeistSans',
-      fontFamilyFallback: ['NotoSansSymbols2'],
-    ),
-    this.mono = const TextStyle(
-      fontFamily: 'GeistMono',
-      fontFamilyFallback: ['NotoSansSymbols2'],
-    ),
+    this.sans = const TextStyle(),
+    this.mono = const TextStyle(),
     this.xSmall = const TextStyle(fontSize: 12),
     this.small = const TextStyle(fontSize: 14),
     this.base = const TextStyle(fontSize: 16),
@@ -158,8 +155,6 @@ class Typography {
       fontStyle: FontStyle.italic,
     ),
     this.inlineCode = const TextStyle(
-      fontFamily: 'GeistMono',
-      fontFamilyFallback: ['NotoSansSymbols2'],
       fontSize: 14,
       fontWeight: FontWeight.w600,
     ),

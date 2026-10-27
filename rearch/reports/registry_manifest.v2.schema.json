@@ -8,6 +8,7 @@
   "required": [
     "schemaVersion",
     "registry",
+    "fonts",
     "install",
     "foundation",
     "theme",
@@ -26,6 +27,9 @@
     },
     "registry": {
       "$ref": "#/$defs/registryInfo"
+    },
+    "fonts": {
+      "$ref": "#/$defs/fontMap"
     },
     "install": {
       "$ref": "#/$defs/installInfo"
@@ -544,6 +548,71 @@
         "$ref": "#/$defs/themePreset"
       },
       "description": "Preset id -> canonical schemaVersion 2 preset file. 42 entries."
+    },
+    "fontFile": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "path",
+        "weight"
+      ],
+      "properties": {
+        "path": {
+          "type": "string",
+          "pattern": "^assets/fonts/[A-Za-z0-9_.-]+\\.(otf|ttf)$"
+        },
+        "weight": {
+          "type": "integer"
+        },
+        "style": {
+          "const": "italic"
+        }
+      },
+      "description": "One opt-in font file: path relative to the kit root, numeric weight, optional italic style."
+    },
+    "fontFamily": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "family",
+        "files"
+      ],
+      "properties": {
+        "family": {
+          "type": "string",
+          "minLength": 1
+        },
+        "files": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/fontFile"
+          },
+          "minItems": 1
+        }
+      }
+    },
+    "fontPack": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "families"
+      ],
+      "properties": {
+        "families": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/fontFamily"
+          },
+          "minItems": 1
+        }
+      }
+    },
+    "fontMap": {
+      "type": "object",
+      "additionalProperties": {
+        "$ref": "#/$defs/fontPack"
+      },
+      "description": "Font id (geist-sans, geist-mono, noto-symbols) -> opt-in pack the CLI installs with `dashcn fonts add`. Icon fonts are never listed: their glyphs are public API bundled with the package."
     },
     "hashMap": {
       "type": "object",

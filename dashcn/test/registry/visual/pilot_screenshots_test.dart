@@ -5,10 +5,9 @@
 // `RepaintBoundary` and written as a real PNG to
 // `rearch/screenshots/pilot/<scene>_<light|dark>.png`.
 //
-// Fonts: the repo's Geist sans/mono (`assets/fonts/Geist-Regular.otf`,
-// `GeistMono-Regular.otf`, family names GeistSans/GeistMono the default
-// `Typography.geist()` expects) plus the Lucide icon font are registered with
-// `FontLoader`, so text and icons render as glyphs instead of the fallback.
+// Fonts: the Lucide icon font is registered with `FontLoader`, so icons
+// render as glyphs instead of the fallback; text renders in the platform
+// default (the kit bundles no text faces).
 //
 // Read-only with respect to component code: it observes and captures only.
 //
@@ -185,7 +184,7 @@ void main() {
 // Fonts.
 // ---------------------------------------------------------------------------
 
-/// Registers the repo's Geist + Lucide fonts on the test engine.
+/// Registers the repo's icon fonts on the test engine.
 Future<void> _loadFonts() async {
   Future<void> load(String family, List<String> assets) async {
     final loader = FontLoader(family);
@@ -196,8 +195,6 @@ Future<void> _loadFonts() async {
     await loader.load();
   }
 
-  await load('GeistSans', const <String>['assets/fonts/Geist-Regular.otf']);
-  await load('GeistMono', const <String>['assets/fonts/GeistMono-Regular.otf']);
   await load('LucideIcons', const <String>['assets/fonts/lucide.ttf']);
 }
 
