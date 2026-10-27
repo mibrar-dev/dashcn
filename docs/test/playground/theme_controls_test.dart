@@ -4,6 +4,7 @@
 // 2. Changing radius updates a preview's BoxDecoration radius.
 // 3. Query parameters round-trip through `PlaygroundThemeValues.fromQuery` and `toQuery`.
 
+import 'package:docs/playground/playground_config.dart';
 import 'package:docs/playground/theme_values.dart';
 import 'package:docs/playground/ui/playground_panel.dart';
 import 'package:docs/routing/docs_router.dart';
@@ -79,6 +80,15 @@ void main() {
       await tester.pumpAndSettle();
       await tester.pumpAndSettle();
 
+      if (!kShowPlayground) {
+        // Switch off: hidden, not deleted — no button or panel.
+        expect(
+          find.byKey(const ValueKey<String>('playground-open')),
+          findsNothing,
+        );
+        expect(find.byType(PlaygroundPanel), findsNothing);
+        return;
+      }
       // Playground button is visible even though swipe_actions has no builder.
       final Finder playgroundBtn = find.byKey(
         const ValueKey<String>('playground-open'),
@@ -107,6 +117,14 @@ void main() {
       await tester.pumpAndSettle();
       await tester.pumpAndSettle();
 
+      if (!kShowPlayground) {
+        expect(
+          find.byKey(const ValueKey<String>('playground-open')),
+          findsNothing,
+        );
+        expect(find.byType(PlaygroundPanel), findsNothing);
+        return;
+      }
       final Finder playgroundBtn = find.byKey(
         const ValueKey<String>('playground-open'),
       );

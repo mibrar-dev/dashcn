@@ -11,6 +11,7 @@ import 'package:flutter/widgets.dart';
 
 import '../generated/docs_controls.dart';
 import '../playground/builders.dart';
+import '../playground/playground_config.dart';
 import '../playground/ui/playground_panel.dart';
 import '../routing/docs_router.dart';
 import '../state/docs_state.dart';
@@ -19,8 +20,13 @@ import 'heading_anchor.dart';
 import 'typeset.dart';
 
 /// Whether [componentId] has a live playground (spec + builder).
+///
+/// Gated by [kShowPlayground]: with the switch off there is no live
+/// playground anywhere, so the section and its `playground` TOC entry stay
+/// hidden while the builders and panel code stay in place.
 bool hasPlayground(String componentId) {
-  return kControlSpecs.containsKey(componentId) &&
+  return kShowPlayground &&
+      kControlSpecs.containsKey(componentId) &&
       kPlaygroundBuilders.containsKey(componentId);
 }
 
@@ -34,6 +40,12 @@ class ComponentPlaygroundSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // Hidden behind [kShowPlayground]: return an empty widget so the
+    // `playground` heading never registers for the "On this page" TOC and
+    // no sidebar, search, tab or route entry can reach the panel.
+    if (!kShowPlayground) {
+      return const SizedBox.shrink();
+    }
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
