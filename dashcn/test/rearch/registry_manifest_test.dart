@@ -63,6 +63,26 @@ void main() {
     }
   });
 
+  test('every font file has a fileHashes entry', () {
+    final fonts = manifest['fonts'] as Map<String, dynamic>;
+    final hashes = manifest['fileHashes'] as Map<String, dynamic>;
+    var count = 0;
+    for (final pack in fonts.values) {
+      for (final family in (pack as Map<String, dynamic>)['families'] as List) {
+        for (final file in (family as Map<String, dynamic>)['files'] as List) {
+          final path = (file as Map<String, dynamic>)['path'] as String;
+          expect(
+            hashes.containsKey(path),
+            isTrue,
+            reason: 'font file "$path" has no fileHashes entry',
+          );
+          count += 1;
+        }
+      }
+    }
+    expect(count, greaterThan(0));
+  });
+
   test('every primitive closure terminates and exists', () {
     final primitives = manifest['primitives'] as Map<String, dynamic>;
     for (final id in primitives.keys) {

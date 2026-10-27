@@ -230,6 +230,10 @@ class _Builder {
     ]) {
       hashes[file] = _sha256(file);
     }
+    final fontsJson = _fontsJson();
+    for (final path in _fontPaths(fontsJson)) {
+      hashes[path] = _sha256KitFile(path);
+    }
 
     final foundationJson = _unitsJson(foundation);
     final themeJson = _unitsJson(theme);
@@ -247,7 +251,7 @@ class _Builder {
         'name': 'dashcn',
         'version': _pubspec['version'] as String,
       },
-      'fonts': _fontsJson(),
+      'fonts': fontsJson,
       'install': <String, Object?>{
         'root': 'lib/ui/dashcn',
         'componentsDir': 'components',
@@ -419,6 +423,29 @@ class _Builder {
 
   String _sha256(String relPath) =>
       sha256.convert(File('$root/$relPath').readAsBytesSync()).toString();
+
+  /// Every `path` listed in the `fonts` map, in manifest order.
+  List<String> _fontPaths(Map<String, Object?> fontsJson) {
+    final paths = <String>[];
+    for (final pack in fontsJson.values) {
+      for (final family in (pack as Map<String, Object?>)['families'] as List) {
+        for (final file in (family as Map<String, Object?>)['files'] as List) {
+          paths.add((file as Map<String, Object?>)['path']! as String);
+        }
+      }
+    }
+    return paths;
+  }
+
+  /// sha256 of a kit-root-relative file (the `fonts` paths live under
+  /// `assets/`, outside `lib/src`, so [_sha256] cannot read them).
+  String _sha256KitFile(String kitRelPath) {
+    final file = File('$appRoot/$kitRelPath');
+    if (!file.existsSync()) {
+      throw ManifestBuildException("font file '$kitRelPath' does not exist");
+    }
+    return sha256.convert(file.readAsBytesSync()).toString();
+  }
 
   Map<String, _Component> _readComponents() {
     final components = <String, _Component>{};
