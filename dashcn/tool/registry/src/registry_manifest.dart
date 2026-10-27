@@ -275,10 +275,11 @@ class _Builder {
   ///
   /// The kit itself bundles no text faces: apps get the platform font by
   /// default and add these through the CLI. The table is transcribed from the
-  /// `flutter: fonts:` block the kit used to declare (files removed from
-  /// `dashcn/assets/fonts`); paths stay relative to the kit root so the CLI
-  /// resolves them against the registry source. Icon fonts are not listed:
-  /// their glyphs are public API and stay bundled with the package.
+  /// `flutter: fonts:` block the kit used to declare (binaries stay in
+  /// `dashcn/assets/fonts` for the CLI to copy but are excluded from the
+  /// published package by `.pubignore`); paths stay relative to the kit root
+  /// so the CLI resolves them against the registry source. Icon fonts are
+  /// not listed: their glyphs are public API and stay bundled.
   Map<String, Object?> _fontsJson() {
     Map<String, Object?> family(String name, List<List<Object>> files) {
       return <String, Object?>{
