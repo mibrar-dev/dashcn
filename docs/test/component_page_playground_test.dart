@@ -10,6 +10,7 @@
 // documented).
 
 import 'package:docs/generated/docs_previews.dart';
+import 'package:docs/playground/playground_config.dart';
 import 'package:docs/playground/ui/playground_panel.dart';
 import 'package:docs/routing/docs_router.dart';
 import 'package:docs/ui/dashcn/components/button/button.dart';
@@ -68,6 +69,22 @@ void main() {
       await goTo(tester, delegate, '/docs/components/button');
       await tester.pumpAndSettle();
       await tester.pumpAndSettle();
+      if (!kShowPlayground) {
+        // Switch off: hidden, not deleted — no button or panel, but the
+        // main + examples preview cards still render.
+        expect(
+          find.byKey(const ValueKey<String>('playground-open')),
+          findsNothing,
+        );
+        expect(find.byType(PlaygroundPanel), findsNothing);
+        expect(
+          tester
+              .widgetList<ExamplePreviewCard>(find.byType(ExamplePreviewCard))
+              .length,
+          kComponentPreviews['button']!.length,
+        );
+        return;
+      }
       final int closedCount = tester
           .widgetList<ExamplePreviewCard>(find.byType(ExamplePreviewCard))
           .length;
@@ -119,6 +136,14 @@ void main() {
       await goTo(tester, delegate, '/docs/components/button');
       await tester.pumpAndSettle();
       await tester.pumpAndSettle();
+      if (!kShowPlayground) {
+        expect(
+          find.byKey(const ValueKey<String>('playground-open')),
+          findsNothing,
+        );
+        expect(find.byType(PlaygroundPanel), findsNothing);
+        return;
+      }
       await _openPlayground(tester, delegate);
       await _pickOption(tester, 'variant', 'outline');
       await _pickOption(tester, 'size', 'lg');
@@ -144,6 +169,14 @@ void main() {
       await goTo(tester, delegate, '/docs/components/button');
       await tester.pumpAndSettle();
       await tester.pumpAndSettle();
+      if (!kShowPlayground) {
+        expect(
+          find.byKey(const ValueKey<String>('playground-open')),
+          findsNothing,
+        );
+        expect(find.byType(PlaygroundPanel), findsNothing);
+        return;
+      }
       await _openPlayground(tester, delegate);
       expect(
         find.byKey(const ValueKey<String>('playground-control-onPressedAsync')),
@@ -166,6 +199,14 @@ void main() {
       await goTo(tester, delegate, '/docs/components/button');
       await tester.pumpAndSettle();
       await tester.pumpAndSettle();
+      if (!kShowPlayground) {
+        expect(
+          find.byKey(const ValueKey<String>('playground-open')),
+          findsNothing,
+        );
+        expect(find.byType(PlaygroundPanel), findsNothing);
+        return;
+      }
       await _openPlayground(tester, delegate);
       expect(find.byType(PlaygroundPanel), findsOneWidget);
       expect(

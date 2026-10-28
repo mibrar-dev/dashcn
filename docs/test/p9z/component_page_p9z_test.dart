@@ -6,6 +6,7 @@
 // `p.*` and reporting back through the router, and the trust scorecard
 // opens from the top button in a dialog/sheet.
 
+import 'package:docs/playground/playground_config.dart';
 import 'package:docs/playground/ui/playground_panel.dart';
 import 'package:docs/routing/docs_router.dart';
 import 'package:docs/widgets/device_frame/device_spec.dart';
@@ -84,6 +85,18 @@ void main() {
           ),
           findsOneWidget,
         );
+        if (!kShowPlayground) {
+          // Switch off: no Playground button, panel or TOC entry, but the
+          // rest of the page (preview + scorecards) still renders.
+          expect(find.text('Playground'), findsNothing);
+          expect(find.byType(PlaygroundPanel), findsNothing);
+          expect(find.text('Trust scorecards'), findsOneWidget);
+          await tester.tap(find.text('Trust scorecards'));
+          await tester.pumpAndSettle();
+          expect(find.byType(ScorecardCard), findsWidgets);
+          expect(tester.takeException(), isNull);
+          return;
+        }
         // Top buttons open the panel/dialog instead of inline sections.
         expect(find.text('Playground'), findsWidgets);
         expect(find.text('Trust scorecards'), findsOneWidget);
@@ -106,8 +119,16 @@ void main() {
     ) async {
       await pumpComponentPage(tester, 'menu');
       expect(find.text('Trust scorecards'), findsOneWidget);
-      // Every page has a Playground (Theme controls) even without props.
-      expect(find.text('Playground'), findsOneWidget);
+      if (!kShowPlayground) {
+        // Switch off: hidden, not deleted — no Playground button or panel,
+        // while the rest of the page still works. Flip kShowPlayground to
+        // true to re-enable: this branch then expects the Playground back.
+        expect(find.text('Playground'), findsNothing);
+        expect(find.byType(PlaygroundPanel), findsNothing);
+      } else {
+        // Every page has a Playground (Theme controls) even without props.
+        expect(find.text('Playground'), findsOneWidget);
+      }
       // Scorecards still open from the top button.
       await tester.tap(find.text('Trust scorecards'));
       await tester.pumpAndSettle();

@@ -2,6 +2,7 @@
 // switcher lists every locale the kit ships, and choosing one switches the
 // whole website (same page), persists, and flips direction for RTL.
 
+import 'package:docs/playground/playground_config.dart';
 import 'package:docs/routing/docs_router.dart';
 import 'package:docs/state/docs_state.dart';
 import 'package:docs/state/docs_strings.dart';
@@ -159,7 +160,13 @@ void main() {
 
     // Same page, German chrome.
     expect(delegate.currentConfiguration.location, '/docs/components/button');
-    expect(find.text('Spielwiese'), findsWidgets);
+    // Switch-aware: with the playground hidden there is no Playground
+    // button (German "Spielwiese"); flip kShowPlayground to re-enable.
+    if (kShowPlayground) {
+      expect(find.text('Spielwiese'), findsWidgets);
+    } else {
+      expect(find.text('Spielwiese'), findsNothing);
+    }
     expect(find.text('Vertrauens-Scorecards'), findsOneWidget);
     expect(find.text('Verwendung'), findsOneWidget);
   });

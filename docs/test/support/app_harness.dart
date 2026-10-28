@@ -4,6 +4,7 @@
 // viewport; exposes helpers to navigate and open the palette.
 
 import 'package:docs/main.dart';
+import 'package:docs/playground/playground_config.dart';
 import 'package:docs/routing/docs_router.dart';
 import 'package:docs/state/docs_state.dart';
 import 'package:flutter/widgets.dart';
@@ -70,7 +71,12 @@ Future<void> _warmIsolate(
   final BuildContext context = tester.element(find.byType(Navigator).last);
   delegate.navigate(context, DocsRouteConfiguration.component('button'));
   await _settleWarm(tester);
-  expect(find.text('Playground'), findsWidgets);
+  // Switch-aware: with the playground hidden there is no Playground button.
+  if (kShowPlayground) {
+    expect(find.text('Playground'), findsWidgets);
+  } else {
+    expect(find.text('Playground'), findsNothing);
+  }
   delegate.navigate(context, DocsRouteConfiguration.flows);
   await _settleWarm(tester);
   expect(find.text('Flows that feel like apps'), findsOneWidget);

@@ -26,6 +26,7 @@ import '../generated/docs_api.dart';
 import '../generated/docs_data.dart';
 import '../generated/docs_tables.dart';
 import '../playground/builders.dart';
+import '../playground/playground_config.dart';
 import '../playground/theme_values.dart';
 import '../playground/ui/playground_panel.dart';
 import '../playground/ui/scope.dart';
@@ -167,15 +168,19 @@ class _ComponentPageState extends State<ComponentPage> {
     // query auto-opens the panel so reload/back-forward restore the
     // configured playground. Router navigation without `p.*`/`t.*` clears
     // the query (applyRouteUri), so no leftover leaks across components.
+    // Hidden behind [kShowPlayground]: with the switch off the panel never
+    // opens and deep links stay inert, so no sidebar link, search result,
+    // tab or direct route can expose the Playground or its Theme controls.
     final bool playgroundActive =
-        _playgroundOpen || state.playgroundQuery.isNotEmpty;
+        kShowPlayground &&
+        (_playgroundOpen || state.playgroundQuery.isNotEmpty);
     final ThemeData theme = Theme.of(context);
     final PlaygroundThemeValues themeValues = PlaygroundThemeValues.fromQuery(
       theme,
       state.playgroundQuery,
     );
     final ThemeData? themeOverride =
-        (playgroundActive || !themeValues.isDefault(theme))
+        (kShowPlayground && (playgroundActive || !themeValues.isDefault(theme)))
         ? themeValues.applyTo(
             theme,
             (Brightness b) => state.themeModel.themeFor(b),
@@ -264,19 +269,20 @@ class _ComponentPageState extends State<ComponentPage> {
                   ),
                 ),
               ),
-              Button(
-                key: const ValueKey<String>('playground-open'),
-                variant: ButtonVariant.secondary,
-                size: ButtonSize.sm,
-                onPressed: openPlayground,
-                child: Text(
-                  docsChrome(
-                    DocsRouterScope.maybeOf(context)?.state.locale ??
-                        const Locale('en'),
-                    'cmpPlayground',
+              if (kShowPlayground)
+                Button(
+                  key: const ValueKey<String>('playground-open'),
+                  variant: ButtonVariant.secondary,
+                  size: ButtonSize.sm,
+                  onPressed: openPlayground,
+                  child: Text(
+                    docsChrome(
+                      DocsRouterScope.maybeOf(context)?.state.locale ??
+                          const Locale('en'),
+                      'cmpPlayground',
+                    ),
                   ),
                 ),
-              ),
             ],
           ),
         ),
@@ -298,7 +304,7 @@ class _ComponentPageState extends State<ComponentPage> {
           ComponentAccessibilitySection(componentId: widget.componentId),
       ],
     );
-    if (!playgroundActive) {
+    if (!kShowPlayground || !playgroundActive) {
       return DocsLayout(
         child: PlaygroundScope(
           activeComponentId: widget.componentId,
