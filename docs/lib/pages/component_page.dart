@@ -180,8 +180,7 @@ class _ComponentPageState extends State<ComponentPage> {
       state.playgroundQuery,
     );
     final ThemeData? themeOverride =
-        (kShowPlayground &&
-                (playgroundActive || !themeValues.isDefault(theme)))
+        (kShowPlayground && (playgroundActive || !themeValues.isDefault(theme)))
         ? themeValues.applyTo(
             theme,
             (Brightness b) => state.themeModel.themeFor(b),
