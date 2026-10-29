@@ -5075,11 +5075,13 @@
           "localizations",
           "overlay",
           "popover",
+          "sheet_overlay",
           "surface"
         ],
         "theme": [
           "theme",
-          "density_tokens"
+          "density_tokens",
+          "color_tokens"
         ]
       },
       "description": "Search, sort, date-range, custom filters and chips in one bar, with a clear action and inline, popup, dialog and sheet presentations; backed by a typed filter engine.",

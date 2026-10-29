@@ -24,7 +24,8 @@
     ],
     "theme": [
       "theme",
-      "density_tokens"
+      "density_tokens",
+      "color_tokens"
     ],
     "primitives": [
       "filter_core",
@@ -33,6 +34,7 @@
       "localizations",
       "overlay",
       "popover",
+      "sheet_overlay",
       "surface"
     ],
     "components": [

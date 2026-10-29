@@ -82,16 +82,8 @@ class ScorecardBody extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
-              CardTitle(
-                child: Text(
-                  docsChrome(locale, 'scTitle'),
-                ),
-              ),
-              CardDescription(
-                child: Text(
-                  docsChrome(locale, 'scDesc'),
-                ),
-              ),
+              CardTitle(child: Text(docsChrome(locale, 'scTitle'))),
+              CardDescription(child: Text(docsChrome(locale, 'scDesc'))),
             ],
           ),
         ),
@@ -140,9 +132,7 @@ class ScorecardBody extends StatelessWidget {
                   variant: ButtonVariant.link,
                   size: ButtonSize.sm,
                   onPressed: () => _goToMeasure(context),
-                  child: Text(
-                    docsChrome(locale, 'secScorecards'),
-                  ),
+                  child: Text(docsChrome(locale, 'secScorecards')),
                 ),
               ],
             ),
