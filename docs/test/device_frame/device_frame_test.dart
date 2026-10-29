@@ -7,6 +7,7 @@ import 'package:docs/theme/theme_document.dart';
 import 'package:docs/ui/dashcn/theme/theme.dart';
 import 'package:docs/widgets/device_frame/all_frames.dart';
 import 'package:docs/widgets/device_frame/device_frame.dart';
+import 'package:docs/playground/playground_config.dart';
 import 'package:docs/widgets/device_frame/device_spec.dart';
 import 'package:docs/widgets/device_frame/frame_bar.dart';
 import 'package:flutter/foundation.dart';
@@ -199,6 +200,14 @@ void main() {
     testWidgets('tapping a segment selects that frame', (
       WidgetTester tester,
     ) async {
+      if (!kShowDeviceFrames) {
+        // Switch off: no chip segments render.
+        expect(
+          find.byKey(const ValueKey<String>('frame-bar-web')),
+          findsNothing,
+        );
+        return;
+      }
       DeviceFrameId selected = DeviceFrameId.none;
       await _pumpFramed(
         tester,

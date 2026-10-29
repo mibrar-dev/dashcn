@@ -4,6 +4,7 @@
 import 'package:docs/flows/flow_screen_table.dart';
 import 'package:docs/generated/docs_flows.dart';
 import 'package:docs/pages/flows_pages.dart';
+import 'package:docs/playground/playground_config.dart';
 import 'package:docs/routing/docs_router.dart';
 import 'package:docs/widgets/flow_code_panel.dart';
 import 'package:docs/widgets/flow_install_block.dart';
@@ -24,17 +25,32 @@ void main() {
     ) async {
       await _openFlow(tester, 'auth-01');
       expect(find.byType(FlowPage), findsOneWidget);
-      // The default frame is the iPhone.
-      expect(
-        find.byKey(const ValueKey<String>('framed-iphone')),
-        findsOneWidget,
-      );
+      if (kShowDeviceFrames) {
+        // The default frame is the iPhone.
+        expect(
+          find.byKey(const ValueKey<String>('framed-iphone')),
+          findsOneWidget,
+        );
+      } else {
+        // Switch off: no device frame renders.
+        expect(
+          find.byKey(const ValueKey<String>('framed-iphone')),
+          findsNothing,
+        );
+      }
       // The live flow starts at its first screen.
       expect(find.text('Sign in'), findsWidgets);
     });
 
     testWidgets('frame bar switches the device', (WidgetTester tester) async {
       await _openFlow(tester, 'auth-01');
+      if (!kShowDeviceFrames) {
+        expect(
+          find.byKey(const ValueKey<String>('frame-bar-android')),
+          findsNothing,
+        );
+        return;
+      }
       await tester.tap(find.byKey(const ValueKey<String>('frame-bar-android')));
       await tester.pumpAndSettle();
       expect(

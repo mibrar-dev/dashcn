@@ -18,6 +18,7 @@ import '../state/docs_strings.dart';
 import '../flows/flow_demo_data.dart';
 import '../flows/flow_screen_table.dart';
 import '../generated/docs_flows.dart';
+import '../playground/playground_config.dart';
 import '../routing/docs_nav.dart';
 
 import '../ui/dashcn/components/badge/badge.dart';
@@ -343,7 +344,9 @@ class FlowPage extends StatefulWidget {
 }
 
 class _FlowPageState extends State<FlowPage> {
-  DeviceFrameId _frame = DeviceFrameId.iphone;
+  DeviceFrameId _frame = kShowDeviceFrames
+      ? DeviceFrameId.iphone
+      : DeviceFrameId.none;
   DeviceOrientation _orientation = DeviceOrientation.portrait;
   int _screen = 0;
 
@@ -380,6 +383,19 @@ class _FlowPageState extends State<FlowPage> {
                 const Gap(24),
                 FramedPreview(
                   id: 'flow-${flow.id}',
+                  bodyBuilder:
+                      (
+                        DeviceFrameId frame,
+                        DeviceOrientation orientation,
+                        Widget child,
+                      ) {
+                        if (!kShowDeviceFrames && frame == DeviceFrameId.none) {
+                          // Keep the (now unframed) flow bounded like the phone
+                          // viewport the frame used to provide.
+                          return SizedBox(height: 812, child: child);
+                        }
+                        return child;
+                      },
                   frame: _frame,
                   onFrameChanged: (DeviceFrameId value) =>
                       setState(() => _frame = value),

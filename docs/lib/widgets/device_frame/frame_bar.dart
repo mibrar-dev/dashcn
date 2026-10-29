@@ -7,6 +7,7 @@
 
 import 'package:flutter/widgets.dart';
 
+import '../../playground/playground_config.dart';
 import '../../ui/dashcn/components/button/button.dart';
 import '../../ui/dashcn/components/tooltip/tooltip.dart';
 import '../../ui/dashcn/foundation/gap.dart';
@@ -60,13 +61,14 @@ class FrameBar extends StatelessWidget {
       runSpacing: 4,
       crossAxisAlignment: WrapCrossAlignment.center,
       children: <Widget>[
-        for (final DeviceFrameId id in DeviceFrameId.values)
-          _Segment(
-            key: ValueKey<String>('frame-bar-${id.queryValue}'),
-            label: id.label,
-            selected: id == frame,
-            onPressed: () => onFrameChanged(id),
-          ),
+        if (kShowDeviceFrames)
+          for (final DeviceFrameId id in DeviceFrameId.values)
+            _Segment(
+              key: ValueKey<String>('frame-bar-${id.queryValue}'),
+              label: id.label,
+              selected: id == frame,
+              onPressed: () => onFrameChanged(id),
+            ),
         const Gap(8),
         if (showRotate)
           Tooltip(

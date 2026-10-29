@@ -14,6 +14,7 @@
 
 import 'package:flutter/widgets.dart';
 
+import '../playground/playground_config.dart';
 import '../ui/dashcn/theme/theme.dart';
 import '../widgets/device_frame/device_spec.dart';
 import 'docs_sample_strings.dart';
@@ -98,7 +99,10 @@ class DocsState extends ChangeNotifier {
   ThemeData get theme => themeModel.themeFor(brightness);
 
   /// The preview frame choice (P9-1); `none` renders previews unframed.
-  DeviceFrameId get frame => _frame;
+  ///
+  /// Hidden behind [kShowDeviceFrames]: with the switch off previews never
+  /// render a device frame, regardless of any persisted or URL state.
+  DeviceFrameId get frame => kShowDeviceFrames ? _frame : DeviceFrameId.none;
 
   /// The website locale (header switcher; `en` by default).
   Locale get locale => _locale;
@@ -112,7 +116,9 @@ class DocsState extends ChangeNotifier {
 
   /// The `?frame=` query value, or null when the choice is the default.
   String? get frameQueryValue =>
-      _frame == DeviceFrameId.none ? null : _frame.queryValue;
+      (!kShowDeviceFrames || _frame == DeviceFrameId.none)
+      ? null
+      : _frame.queryValue;
 
   /// The `?orientation=` query value, or null when portrait.
   String? get orientationQueryValue =>
@@ -124,7 +130,13 @@ class DocsState extends ChangeNotifier {
   /// browser back/forward arrive here via the router in P9-Z). Unknown
   /// values fall back to the defaults; every change persists.
   void applyFrameQuery(String? frameValue, String? orientationValue) {
-    setFrame(DeviceFrameId.parse(frameValue));
+    // Hidden behind [kShowDeviceFrames]: an old `?frame=` link cannot turn a
+    // frame on when the picker is off.
+    if (kShowDeviceFrames) {
+      setFrame(DeviceFrameId.parse(frameValue));
+    } else {
+      setFrame(DeviceFrameId.none);
+    }
     setOrientation(DeviceOrientation.parse(orientationValue));
   }
 
@@ -237,9 +249,10 @@ class DocsState extends ChangeNotifier {
         changed = true;
       }
     }
-    final DeviceFrameId frame = DeviceFrameId.parse(
-      storage.read(kDocsFrameKey),
-    );
+    DeviceFrameId frame = DeviceFrameId.none;
+    if (kShowDeviceFrames) {
+      frame = DeviceFrameId.parse(storage.read(kDocsFrameKey));
+    }
     if (frame != _frame) {
       _frame = frame;
       changed = true;
@@ -308,6 +321,10 @@ class DocsState extends ChangeNotifier {
 
   /// Selects the preview frame (P9-1) and persists the choice.
   void setFrame(DeviceFrameId frame) {
+    // Hidden behind [kShowDeviceFrames]: frame selection is disabled.
+    if (!kShowDeviceFrames) {
+      frame = DeviceFrameId.none;
+    }
     if (frame == _frame) {
       return;
     }

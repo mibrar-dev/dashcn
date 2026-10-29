@@ -8,3 +8,13 @@
 // and tests stay in the tree so the Playground can be re-enabled later
 // with this one switch.
 const bool kShowPlayground = false;
+
+// Device-frame picker visibility switch.
+//
+// When false the device-frame chip row (None / iPhone / Android / iPad /
+// Desktop / Web / All) is hidden on every component page and previews render
+// with no device frame (the "None" behaviour) everywhere. The frame bar's
+// rotate/replay and light/dark toggle stay, and the frame code, specs and
+// tests stay in the tree so the picker can be re-enabled later with this one
+// switch.
+const bool kShowDeviceFrames = false;

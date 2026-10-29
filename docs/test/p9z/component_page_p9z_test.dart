@@ -45,6 +45,22 @@ void main() {
         'button',
         query: '?frame=iphone&p.variant=outline',
       );
+      if (!kShowDeviceFrames) {
+        // Switch off: the frame query is ignored, previews stay unframed.
+        expect(docsState.frame, DeviceFrameId.none);
+        expect(docsState.playgroundQuery['p.variant'], 'outline');
+
+        final DocsRouteInformationParser parser = DocsRouteInformationParser(
+          state: docsState,
+        );
+        final RouteInformation? reported = parser.restoreRouteInformation(
+          delegate.currentConfiguration,
+        );
+        expect(reported, isNotNull);
+        expect(reported!.uri.queryParameters.containsKey('frame'), isFalse);
+        expect(reported.uri.queryParameters['p.variant'], 'outline');
+        return;
+      }
       expect(docsState.frame, DeviceFrameId.iphone);
       expect(docsState.playgroundQuery['p.variant'], 'outline');
 
@@ -70,7 +86,11 @@ void main() {
         DocsRouteConfiguration.parse(uri.toString()).withSourceUri(uri),
       );
       await tester.pumpAndSettle();
-      expect(docsState.frame, DeviceFrameId.android);
+      if (kShowDeviceFrames) {
+        expect(docsState.frame, DeviceFrameId.android);
+      } else {
+        expect(docsState.frame, DeviceFrameId.none);
+      }
       expect(docsState.playgroundQuery['p.size'], 'sm');
       expect(find.text('Button'), findsWidgets);
     });
