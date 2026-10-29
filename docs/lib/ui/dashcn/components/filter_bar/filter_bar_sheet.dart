@@ -6,6 +6,7 @@ import '../../foundation/icons/lucide_icons.dart';
 import '../../primitives/filter_core/filter_controller.dart';
 import '../../primitives/filter_core/filter_state.dart';
 import '../../primitives/localizations/localizations.dart';
+import '../../primitives/sheet_overlay.dart';
 import '../../primitives/surface.dart';
 import '../../theme/density_tokens.dart';
 import '../../theme/theme.dart';
@@ -49,6 +50,72 @@ class FilterBarSheetScaffold extends StatelessWidget {
   Widget build(BuildContext context) {
     final ThemeData ambient = Theme.of(context);
     final double scale = ambient.scaling;
+    final Widget body = ConstrainedBox(
+      constraints: BoxConstraints(maxHeight: maxHeight * scale),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: <Widget>[
+          Padding(
+            padding: EdgeInsetsDirectional.fromSTEB(
+              ambient.spacing.md,
+              ambient.spacing.sm,
+              ambient.spacing.sm,
+              ambient.spacing.sm,
+            ),
+            child: Row(
+              children: <Widget>[
+                Expanded(
+                  child: Text(
+                    title,
+                    style: ambient.typography.large.copyWith(
+                      color: ambient.colors.foreground,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                ),
+                if (onClose != null)
+                  Button(
+                    variant: ButtonVariant.ghost,
+                    size: ButtonSize.icon,
+                    onPressed: onClose,
+                    child: const Icon(LucideIcons.x, size: 16),
+                  ),
+              ],
+            ),
+          ),
+          Flexible(
+            child: SingleChildScrollView(
+              padding:
+                  contentPadding ??
+                  EdgeInsetsDirectional.fromSTEB(
+                    ambient.spacing.md,
+                    0,
+                    ambient.spacing.md,
+                    ambient.spacing.md,
+                  ),
+              child: child,
+            ),
+          ),
+          if (footer != null)
+            Padding(
+              padding: EdgeInsetsDirectional.fromSTEB(
+                ambient.spacing.md,
+                0,
+                ambient.spacing.md,
+                ambient.spacing.md,
+              ),
+              child: footer,
+            ),
+        ],
+      ),
+    );
+    // Inside a sheet overlay the panel surface already paints the border:
+    // return the body bare so the sheet shows one border, not a card inside
+    // a panel (mirrors Card's SheetOverlayHandler behavior).
+    if (SheetOverlayHandler.isSheetOverlay(context)) {
+      return body;
+    }
     final double? opacity = resolveSurfaceOpacity(context);
     final double? blur = resolveSurfaceBlur(context);
     final Color fill = surfaceColor(ambient.colors.card, opacity);
@@ -66,66 +133,7 @@ class FilterBarSheetScaffold extends StatelessWidget {
               borderRadius: ambient.borderRadiusXl,
               boxShadow: ambient.tokens.shadows.shadowLg,
             ),
-            child: ConstrainedBox(
-              constraints: BoxConstraints(maxHeight: maxHeight * scale),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: <Widget>[
-                  Padding(
-                    padding: EdgeInsetsDirectional.fromSTEB(
-                      ambient.spacing.md,
-                      ambient.spacing.sm,
-                      ambient.spacing.sm,
-                      ambient.spacing.sm,
-                    ),
-                    child: Row(
-                      children: <Widget>[
-                        Expanded(
-                          child: Text(
-                            title,
-                            style: ambient.typography.large.copyWith(
-                              color: ambient.colors.foreground,
-                              fontWeight: FontWeight.w600,
-                            ),
-                          ),
-                        ),
-                        if (onClose != null)
-                          Button(
-                            variant: ButtonVariant.ghost,
-                            size: ButtonSize.icon,
-                            onPressed: onClose,
-                            child: const Icon(LucideIcons.x, size: 16),
-                          ),
-                      ],
-                    ),
-                  ),
-                  Flexible(
-                    child: SingleChildScrollView(
-                      padding:
-                          contentPadding ??
-                          EdgeInsetsDirectional.fromSTEB(
-                            ambient.spacing.md,
-                            0,
-                            ambient.spacing.md,
-                            ambient.spacing.md,
-                          ),
-                      child: child,
-                    ),
-                  ),
-                  if (footer != null)
-                    Padding(
-                      padding: EdgeInsetsDirectional.fromSTEB(
-                        ambient.spacing.md,
-                        0,
-                        ambient.spacing.md,
-                        ambient.spacing.md,
-                      ),
-                      child: footer,
-                    ),
-                ],
-              ),
-            ),
+            child: body,
           ),
         ),
       ),

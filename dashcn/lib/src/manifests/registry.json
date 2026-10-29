@@ -5075,11 +5075,13 @@
           "localizations",
           "overlay",
           "popover",
+          "sheet_overlay",
           "surface"
         ],
         "theme": [
           "theme",
-          "density_tokens"
+          "density_tokens",
+          "color_tokens"
         ]
       },
       "description": "Search, sort, date-range, custom filters and chips in one bar, with a clear action and inline, popup, dialog and sheet presentations; backed by a typed filter engine.",
@@ -12340,13 +12342,13 @@
     "components/filter_bar/filter_bar.dart": "8d69dfee03daf927ef165eed7875ff4014978e07f24a6a63307907e834183570",
     "components/filter_bar/filter_bar_body.dart": "98c54716e4477103474148a3e5577ce2b02b7b2bd2228bd8fe635849591e3c5b",
     "components/filter_bar/filter_bar_controls.dart": "cf1d49d12cac50774b360525fc92ef32ed6dc6b6b3931baa0e12ba6bf943bb17",
-    "components/filter_bar/filter_bar_dialog.dart": "71c63ddca8d28181b3fafdb793979eb397ed5e5b5807bb63f3e89ab9c784bb50",
+    "components/filter_bar/filter_bar_dialog.dart": "71261f2597eed559620351a26bea668b0c9584dad8f3185b19c5855cce3d5cec",
     "components/filter_bar/filter_bar_inline.dart": "548120f85f837ea88f55246bc2ea72faad0e2b243ae8d25d5b57307b123fc722",
     "components/filter_bar/filter_bar_layout.dart": "a72c776b2729250709f75620897a866574275c9a4f122eb8294643f866d4c87b",
     "components/filter_bar/filter_bar_menu.dart": "37b637f823bc4b267dae6dddb3e17de9e264544a3ce6a0a1b65c9007dac9abcf",
     "components/filter_bar/filter_bar_overflow.dart": "d4a8c32820de3b3b0377cf517be5423edc3c5668b5290d45f96a2e1241f97d59",
     "components/filter_bar/filter_bar_search.dart": "a955f51938463eb8e6bb3b4494ebe08e6a34ae8b54ad0074a84ff43f54276ef3",
-    "components/filter_bar/filter_bar_sheet.dart": "5228c2fe3874e604c340a86c5d595d13b4a97f03d0246a94055bd7b407a4778c",
+    "components/filter_bar/filter_bar_sheet.dart": "d73250cef120446cf831f48ac1e3e92a3752fafa8a26f7942d2bacc9b01b8acd",
     "components/filter_bar/filter_bar_style.dart": "d070d8991f0099dd77b963425e545fdb5fec972b305470d551f26b3bd059e06f",
     "components/filter_bar/filter_bar_theme.dart": "23285d875e48fc719a90e5d2c7a319a87930cf0582212aae84a3f0b33ae367d1",
     "components/filter_bar/filter_bar_triggers.dart": "befbd385d79ccc8a2c7f217ed6081e659ffdd619db18ba30e36d4e081b9bbe3f",
