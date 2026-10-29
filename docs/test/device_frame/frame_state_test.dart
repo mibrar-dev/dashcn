@@ -8,6 +8,7 @@
 import 'package:docs/routing/docs_router.dart';
 import 'package:docs/state/docs_state.dart';
 import 'package:docs/widgets/device_frame/device_spec.dart';
+import 'package:docs/playground/playground_config.dart';
 import 'package:docs/widgets/device_frame/framed_preview.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -47,6 +48,7 @@ void main() {
     });
 
     test('setFrame persists and notifies once', () {
+      if (!kShowDeviceFrames) return;
       final MemoryDocsStorage storage = MemoryDocsStorage();
       final DocsState state = DocsState(storage: storage);
       addTearDown(state.dispose);
@@ -69,6 +71,7 @@ void main() {
     });
 
     test('restore loads persisted values and drops invalid ones', () {
+      if (!kShowDeviceFrames) return;
       final DocsState kept = DocsState(
         storage: MemoryDocsStorage(<String, String>{
           kDocsFrameKey: 'desktop',
@@ -93,6 +96,7 @@ void main() {
     });
 
     test('frame choice round-trips through the URL', () {
+      if (!kShowDeviceFrames) return;
       final DocsState state = _state();
       state
         ..setFrame(DeviceFrameId.android)
@@ -162,10 +166,18 @@ void main() {
       expect(state.orientation, DeviceOrientation.landscape);
       expect(storage.values[kDocsOrientationKey], 'landscape');
 
-      await tester.tap(find.byKey(const ValueKey<String>('frame-bar-web')));
-      await pumpFrames(tester);
-      expect(state.frame, DeviceFrameId.web);
-      expect(storage.values[kDocsFrameKey], 'web');
+      if (kShowDeviceFrames) {
+        await tester.tap(find.byKey(const ValueKey<String>('frame-bar-web')));
+        await pumpFrames(tester);
+        expect(state.frame, DeviceFrameId.web);
+        expect(storage.values[kDocsFrameKey], 'web');
+      } else {
+        expect(
+          find.byKey(const ValueKey<String>('frame-bar-web')),
+          findsNothing,
+        );
+        expect(state.frame, DeviceFrameId.none);
+      }
       expectNoTestErrors(tester, 'scoped framed preview');
     });
 
@@ -192,9 +204,19 @@ void main() {
       );
       await pumpFrames(tester);
 
-      await tester.tap(find.byKey(const ValueKey<String>('frame-bar-iphone')));
-      await pumpFrames(tester);
-      expect(frame, DeviceFrameId.iphone);
+      if (kShowDeviceFrames) {
+        await tester.tap(
+          find.byKey(const ValueKey<String>('frame-bar-iphone')),
+        );
+        await pumpFrames(tester);
+        expect(frame, DeviceFrameId.iphone);
+      } else {
+        expect(
+          find.byKey(const ValueKey<String>('frame-bar-iphone')),
+          findsNothing,
+        );
+        expect(frame, DeviceFrameId.none);
+      }
 
       await tester.tap(find.byKey(const ValueKey<String>('frame-bar-rotate')));
       await pumpFrames(tester);

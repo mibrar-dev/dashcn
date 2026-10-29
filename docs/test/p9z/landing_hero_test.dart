@@ -5,6 +5,7 @@
 // Device frames stay on component/flow pages.
 
 import 'package:docs/routing/docs_router.dart';
+import 'package:docs/playground/playground_config.dart';
 import 'package:docs/widgets/collage.dart';
 import 'package:docs/widgets/device_frame/device_frame.dart';
 import 'package:flutter/widgets.dart';
@@ -50,7 +51,12 @@ void main() {
       );
       await goTo(tester, delegate, '/docs/components/button?frame=iphone');
       await tester.pumpAndSettle();
-      expect(find.byType(DeviceFrame), findsWidgets);
+      if (kShowDeviceFrames) {
+        expect(find.byType(DeviceFrame), findsWidgets);
+      } else {
+        // Switch off: an old `?frame=` link cannot turn a frame on.
+        expect(find.byType(DeviceFrame), findsNothing);
+      }
       expect(tester.takeException(), isNull);
     });
 

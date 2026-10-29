@@ -13,6 +13,7 @@
 // looping animation cannot hang the suite.
 
 import 'package:docs/widgets/device_frame/device_spec.dart';
+import 'package:docs/playground/playground_config.dart';
 import 'package:docs/widgets/device_frame/framed_preview.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -92,6 +93,10 @@ Future<void> _runMatrix(
 }
 
 void main() {
+  if (!kShowDeviceFrames) {
+    // Switch off: frame chips are hidden, so the frame matrix cannot run.
+    return;
+  }
   group('framed previews have no overflow', () {
     for (final String previewId in _previewIds) {
       for (final Brightness brightness in Brightness.values) {
