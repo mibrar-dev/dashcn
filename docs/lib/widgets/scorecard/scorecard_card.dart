@@ -52,7 +52,7 @@ class ScorecardCard extends StatelessWidget {
                   child: Text(
                     docsChrome(
                       DocsRouterScope.maybeOf(context)?.state.locale ??
-                          const Locale('en'),
+                          Localizations.localeOf(context),
                       'scTitle',
                     ),
                   ),
@@ -61,7 +61,7 @@ class ScorecardCard extends StatelessWidget {
                   child: Text(
                     docsChrome(
                       DocsRouterScope.maybeOf(context)?.state.locale ??
-                          const Locale('en'),
+                          Localizations.localeOf(context),
                       'scDesc',
                     ),
                   ),
@@ -103,7 +103,10 @@ class ScorecardCard extends StatelessWidget {
                 mainAxisSize: MainAxisSize.min,
                 children: <Widget>[
                   Text(
-                    _footerText(),
+                    _footerText(
+                      DocsRouterScope.maybeOf(context)?.state.locale ??
+                          Localizations.localeOf(context),
+                    ),
                     style: docsText(
                       context,
                       size: 12,
@@ -117,7 +120,7 @@ class ScorecardCard extends StatelessWidget {
                     child: Text(
                       docsChrome(
                         DocsRouterScope.maybeOf(context)?.state.locale ??
-                            const Locale('en'),
+                            Localizations.localeOf(context),
                         'secScorecards',
                       ),
                     ),
@@ -131,11 +134,15 @@ class ScorecardCard extends StatelessWidget {
     );
   }
 
-  String _footerText() {
+  String _footerText(Locale locale) {
     final String date = kScorecardsGeneratedAt.length >= 10
         ? kScorecardsGeneratedAt.substring(0, 10)
         : kScorecardsGeneratedAt;
-    return 'measured on $date at $kScorecardsCommitShort';
+    return docsFill(
+      docsChrome(locale, 'scFooter'),
+      date: date,
+      commit: kScorecardsCommitShort,
+    );
   }
 
   void _goToMeasure(BuildContext context) {

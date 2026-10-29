@@ -7,6 +7,8 @@
 import 'package:flutter/widgets.dart';
 
 import '../../generated/docs_scorecards.dart';
+import '../../routing/docs_router.dart';
+import '../../state/docs_strings.dart';
 import '../../ui/dashcn/components/collapsible/collapsible.dart';
 import '../../ui/dashcn/components/tooltip/tooltip.dart';
 import '../../ui/dashcn/components/badge/badge.dart';
@@ -64,6 +66,9 @@ class ScorecardCheckRow extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final ThemeData theme = Theme.of(context);
+    final Locale locale =
+        DocsRouterScope.maybeOf(context)?.state.locale ??
+        Localizations.localeOf(context);
     final bool showDetail =
         passed == false && exempt == null && (message?.isNotEmpty ?? false);
     return Column(
@@ -80,7 +85,7 @@ class ScorecardCheckRow extends StatelessWidget {
           Padding(
             padding: EdgeInsets.only(top: theme.spacing.xs),
             child: Text(
-              'Exempt: $exempt',
+              docsFill(docsChrome(locale, 'scExemptReason'), reason: exempt),
               style: docsText(
                 context,
                 size: 12,
@@ -93,7 +98,7 @@ class ScorecardCheckRow extends StatelessWidget {
             children: <Widget>[
               CollapsibleTrigger(
                 child: Text(
-                  'Show details',
+                  docsChrome(locale, 'scShowDetails'),
                   style: docsText(
                     context,
                     size: 12,
@@ -139,51 +144,53 @@ class ScorecardA11ySection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final ThemeData theme = Theme.of(context);
+    final Locale locale =
+        DocsRouterScope.maybeOf(context)?.state.locale ??
+        Localizations.localeOf(context);
     final DocsScorecardA11y? a11y = scorecard?.a11y;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisSize: MainAxisSize.min,
       children: <Widget>[
-        const ScorecardSectionTitle('Accessibility'),
+        ScorecardSectionTitle(docsChrome(locale, 'scA11yTitle')),
         Gap(rowGap),
         ScorecardCheckRow(
-          label: 'Text contrast',
+          label: docsChrome(locale, 'scTextContrast'),
           passed: a11y?.textContrast.passed,
           message: a11y?.textContrast.message,
           exempt: a11y?.textContrast.exempt,
         ),
         Gap(rowGap),
         ScorecardCheckRow(
-          label: 'Labeled tap target',
+          label: docsChrome(locale, 'scLabeledTap'),
           passed: a11y?.labeledTapTarget.passed,
           message: a11y?.labeledTapTarget.message,
           exempt: a11y?.labeledTapTarget.exempt,
         ),
         Gap(rowGap),
         ScorecardCheckRow(
-          label: 'Android tap target',
+          label: docsChrome(locale, 'scAndroidTap'),
           passed: a11y?.androidTapTarget.passed,
           message: a11y?.androidTapTarget.message,
           exempt: a11y?.androidTapTarget.exempt,
         ),
         Gap(rowGap),
         ScorecardCheckRow(
-          label: 'iOS tap target',
+          label: docsChrome(locale, 'scIosTap'),
           passed: a11y?.iOSTapTarget.passed,
           message: a11y?.iOSTapTarget.message,
           exempt: a11y?.iOSTapTarget.exempt,
         ),
         Gap(rowGap),
         ScorecardCheckRow(
-          label: 'Semantics',
+          label: docsChrome(locale, 'scSemantics'),
           passed: _semanticsPassed(a11y),
           message: a11y?.semantics.message,
           exempt: a11y?.semantics.exempt,
         ),
         Gap(rowGap),
         Text(
-          '$kTapTargetGuidelineLabel — informational for '
-          'desktop-sized controls, not hidden.',
+          docsChrome(locale, 'scTapNote'),
           style: docsText(
             context,
             size: 12,
@@ -221,14 +228,17 @@ class ScorecardRtlSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final DocsScorecardRtl? rtl = scorecard?.rtl;
+    final Locale locale =
+        DocsRouterScope.maybeOf(context)?.state.locale ??
+        Localizations.localeOf(context);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisSize: MainAxisSize.min,
       children: <Widget>[
-        const ScorecardSectionTitle('Right-to-left'),
+        ScorecardSectionTitle(docsChrome(locale, 'scRtlTitle')),
         Gap(rowGap),
         ScorecardCheckRow(
-          label: 'Renders under RTL',
+          label: docsChrome(locale, 'scRendersRtl'),
           passed: rtl?.passed,
           message: _rtlMessage(rtl),
         ),
@@ -236,7 +246,10 @@ class ScorecardRtlSection extends StatelessWidget {
         Row(
           children: <Widget>[
             Expanded(
-              child: Text('Mirroring', style: docsText(context, size: 14)),
+              child: Text(
+                docsChrome(locale, 'scMirroring'),
+                style: docsText(context, size: 14),
+              ),
             ),
             ScoreMirroringBadge(rtl: rtl),
           ],
@@ -271,6 +284,9 @@ class ScorecardFramesSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final ThemeData theme = Theme.of(context);
+    final Locale locale =
+        DocsRouterScope.maybeOf(context)?.state.locale ??
+        Localizations.localeOf(context);
     final DocsScorecardFrames? frames = scorecard?.frames;
     final bool measured = frames?.p50Ms != null || frames?.p90Ms != null;
     return Column(
@@ -278,9 +294,9 @@ class ScorecardFramesSection extends StatelessWidget {
       mainAxisSize: MainAxisSize.min,
       children: <Widget>[
         Tooltip(
-          tooltip: (BuildContext context) => const Text(kFrameTooltip),
+          tooltip: (_) => Text(docsChrome(locale, 'scFrameNote')),
           child: Text(
-            'Frame build time — test environment (relative)',
+            docsChrome(locale, 'scFrameTitle'),
             style: docsText(context, size: 13, weight: FontWeight.w600),
           ),
         ),
@@ -289,25 +305,27 @@ class ScorecardFramesSection extends StatelessWidget {
           children: <Widget>[
             Expanded(
               child: Text(
-                measured ? _frameText(frames!) : 'No frame data',
+                measured
+                    ? _frameText(frames!, locale)
+                    : docsChrome(locale, 'scNoFrame'),
                 style: docsText(context, size: 14),
               ),
             ),
             if (!measured)
-              const Badge(
+              Badge(
                 variant: BadgeVariant.outline,
-                child: Text('Not measured'),
+                child: Text(docsChrome(locale, 'scNotMeasured')),
               )
             else
-              const Badge(
+              Badge(
                 variant: BadgeVariant.secondary,
-                child: Text('Measured'),
+                child: Text(docsChrome(locale, 'scMeasured')),
               ),
           ],
         ),
         Gap(rowGap),
         Text(
-          kFrameTooltip,
+          docsChrome(locale, 'scFrameNote'),
           style: docsText(
             context,
             size: 12,
@@ -318,10 +336,10 @@ class ScorecardFramesSection extends StatelessWidget {
     );
   }
 
-  static String _frameText(DocsScorecardFrames frames) {
+  static String _frameText(DocsScorecardFrames frames, Locale locale) {
     final String p50 = frames.p50Ms == null ? '—' : '${frames.p50Ms} ms';
     final String p90 = frames.p90Ms == null ? '—' : '${frames.p90Ms} ms';
-    return 'p50 $p50 · p90 $p90';
+    return docsFill(docsChrome(locale, 'scFrameText'), p50: p50, p90: p90);
   }
 }
 
@@ -343,30 +361,33 @@ class ScorecardTestsSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final ThemeData theme = Theme.of(context);
+    final Locale locale =
+        DocsRouterScope.maybeOf(context)?.state.locale ??
+        Localizations.localeOf(context);
     final int count = scorecard?.tests.count ?? 0;
     final bool? passed = scorecard == null
         ? null
         : (scorecard!.tests.passed ? true : null);
+    final String countLabel = count == 1
+        ? docsChrome(locale, 'scTestsOne')
+        : docsFill(docsChrome(locale, 'scTestsMany'), count: count);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisSize: MainAxisSize.min,
       children: <Widget>[
-        const ScorecardSectionTitle('Tests'),
+        ScorecardSectionTitle(docsChrome(locale, 'scTestsTitle')),
         Gap(rowGap),
         Row(
           children: <Widget>[
             Expanded(
-              child: Text(
-                '$count ${count == 1 ? 'test' : 'tests'}',
-                style: docsText(context, size: 14),
-              ),
+              child: Text(countLabel, style: docsText(context, size: 14)),
             ),
             ScoreStatusBadge(passed: passed),
           ],
         ),
         Gap(rowGap),
         Text(
-          'Counted from registry tests; pass reflects the harness run.',
+          docsChrome(locale, 'scTestsNote'),
           style: docsText(
             context,
             size: 12,
