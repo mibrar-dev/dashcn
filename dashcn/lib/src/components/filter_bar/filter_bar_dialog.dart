@@ -5,10 +5,12 @@ import 'package:flutter/widgets.dart';
 import '../../primitives/filter_core/filter_controller.dart';
 import '../../primitives/filter_core/filter_state.dart';
 import '../../primitives/localizations/localizations.dart';
+import '../../theme/color_tokens.dart';
 import '../../theme/density_tokens.dart';
 import '../../theme/theme.dart';
 import '../button/button.dart';
 import '../dialog/dialog.dart';
+import '../dialog/dialog_style.dart';
 import 'filter_bar_layout.dart';
 import 'filter_bar_style.dart';
 
@@ -50,6 +52,16 @@ Future<void> openFilterBarDialog({
 }) {
   return showDialog<void>(
     context: context,
+    // Single surface: the transparent shell lets the scaffold paint the only
+    // border (a plain `showDialog` would stack the dialog card border behind
+    // the scaffold border).
+    theme: const DialogTheme(
+      background: ThemedColor.value(Color(0x00000000)),
+      borderWidth: 0,
+      padding: EdgeInsets.zero,
+      maxWidth: null,
+      shadows: <BoxShadow>[],
+    ),
     builder: (BuildContext dialogContext) {
       return ValueListenableBuilder<FilterState>(
         valueListenable: stateMirror,

@@ -68,88 +68,41 @@ class _ComponentPageState extends State<ComponentPage> {
     final double width = MediaQuery.sizeOf(context).width;
     final Locale dialogLocale =
         DocsRouterScope.maybeOf(context)?.state.locale ?? const Locale('en');
-    final Widget card = ScorecardCard(componentId: widget.componentId);
+    // One surface, one border: the dialog shell paints the border, radius,
+    // padding and scroll, so the content sits directly in it with no inner
+    // bordered Container and a borderless scorecard body.
+    Widget builder(BuildContext context) {
+      return Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: <Widget>[
+          Row(
+            children: <Widget>[
+              const Spacer(),
+              Button(
+                variant: ButtonVariant.ghost,
+                size: ButtonSize.sm,
+                onPressed: () => Navigator.pop(context),
+                child: Text(docsChrome(dialogLocale, 'close')),
+              ),
+            ],
+          ),
+          ScorecardCard(bordered: false, componentId: widget.componentId),
+        ],
+      );
+    }
+
     if (width < 640) {
-      // Phone: bottom sheet.
+      // Phone: bottom-aligned dialog.
       dashcn_dialog.showDialog<void>(
         context: context,
         alignment: Alignment.bottomCenter,
-        builder: (BuildContext context) {
-          final ThemeData theme = Theme.of(context);
-          return Container(
-            constraints: BoxConstraints(
-              maxHeight: MediaQuery.sizeOf(context).height * 0.9,
-              maxWidth: 640,
-            ),
-            decoration: BoxDecoration(
-              color: theme.colors.background,
-              borderRadius: const BorderRadius.vertical(
-                top: Radius.circular(16),
-              ),
-              border: Border.all(color: theme.colors.border),
-            ),
-            child: SingleChildScrollView(
-              padding: const EdgeInsets.all(16),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: <Widget>[
-                  Row(
-                    children: <Widget>[
-                      const Spacer(),
-                      Button(
-                        variant: ButtonVariant.ghost,
-                        size: ButtonSize.sm,
-                        onPressed: () => Navigator.pop(context),
-                        child: Text(docsChrome(dialogLocale, 'close')),
-                      ),
-                    ],
-                  ),
-                  card,
-                ],
-              ),
-            ),
-          );
-        },
+        builder: builder,
       );
       return;
     }
     // Desktop: centred dialog.
-    dashcn_dialog.showDialog<void>(
-      context: context,
-      builder: (BuildContext context) {
-        final ThemeData theme = Theme.of(context);
-        return Container(
-          constraints: const BoxConstraints(maxWidth: 640, maxHeight: 640),
-          decoration: BoxDecoration(
-            color: theme.colors.background,
-            borderRadius: theme.borderRadiusLg,
-            border: Border.all(color: theme.colors.border),
-          ),
-          child: SingleChildScrollView(
-            padding: const EdgeInsets.all(16),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: <Widget>[
-                Row(
-                  children: <Widget>[
-                    const Spacer(),
-                    Button(
-                      variant: ButtonVariant.ghost,
-                      size: ButtonSize.sm,
-                      onPressed: () => Navigator.pop(context),
-                      child: Text(docsChrome(dialogLocale, 'close')),
-                    ),
-                  ],
-                ),
-                card,
-              ],
-            ),
-          ),
-        );
-      },
-    );
+    dashcn_dialog.showDialog<void>(context: context, builder: builder);
   }
 
   @override
