@@ -70,6 +70,9 @@ class ScorecardBody extends StatelessWidget {
     final double sectionGap = theme.spacing.lg;
     final double rowGap = theme.spacing.sm;
     final DocsScorecard? scorecard = kScorecards[componentId];
+    final Locale locale =
+        DocsRouterScope.maybeOf(context)?.state.locale ??
+        Localizations.localeOf(context);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisSize: MainAxisSize.min,
@@ -81,20 +84,12 @@ class ScorecardBody extends StatelessWidget {
             children: <Widget>[
               CardTitle(
                 child: Text(
-                  docsChrome(
-                    DocsRouterScope.maybeOf(context)?.state.locale ??
-                        const Locale('en'),
-                    'scTitle',
-                  ),
+                  docsChrome(locale, 'scTitle'),
                 ),
               ),
               CardDescription(
                 child: Text(
-                  docsChrome(
-                    DocsRouterScope.maybeOf(context)?.state.locale ??
-                        const Locale('en'),
-                    'scDesc',
-                  ),
+                  docsChrome(locale, 'scDesc'),
                 ),
               ),
             ],
@@ -134,7 +129,7 @@ class ScorecardBody extends StatelessWidget {
               mainAxisSize: MainAxisSize.min,
               children: <Widget>[
                 Text(
-                  _footerText(),
+                  _footerText(locale),
                   style: docsText(
                     context,
                     size: 12,
@@ -146,11 +141,7 @@ class ScorecardBody extends StatelessWidget {
                   size: ButtonSize.sm,
                   onPressed: () => _goToMeasure(context),
                   child: Text(
-                    docsChrome(
-                      DocsRouterScope.maybeOf(context)?.state.locale ??
-                          const Locale('en'),
-                      'secScorecards',
-                    ),
+                    docsChrome(locale, 'secScorecards'),
                   ),
                 ),
               ],
@@ -161,11 +152,15 @@ class ScorecardBody extends StatelessWidget {
     );
   }
 
-  String _footerText() {
+  String _footerText(Locale locale) {
     final String date = kScorecardsGeneratedAt.length >= 10
         ? kScorecardsGeneratedAt.substring(0, 10)
         : kScorecardsGeneratedAt;
-    return 'measured on $date at $kScorecardsCommitShort';
+    return docsFill(
+      docsChrome(locale, 'scFooter'),
+      date: date,
+      commit: kScorecardsCommitShort,
+    );
   }
 
   void _goToMeasure(BuildContext context) {

@@ -9,7 +9,6 @@
 import 'package:flutter/widgets.dart';
 
 import '../../foundation/icons/lucide_icons.dart';
-import '../../primitives/motion/sliding_indicator.dart';
 import '../../primitives/localizations/localizations.dart';
 import '../../theme/theme.dart';
 import '../button/button.dart';
@@ -166,58 +165,53 @@ class Pagination extends StatelessWidget {
     // the full window, so the control collapses to prev/ellipsis/current/next:
     // icon-only ends, a one-page window, no skip-to-edge buttons. Unbounded
     // widths (a horizontal scroll view, the docs stage) keep the full layout.
-    return _PaginationTrack(
-      current: _current,
-      color: ambient.colors.primary,
-      builder: (BuildContext context, GlobalKey Function(int) keyFor) =>
-          LayoutBuilder(
-            builder: (BuildContext context, BoxConstraints constraints) {
-              final bool compact = _collapses(
-                constraints.maxWidth,
-                spacing: spacing,
-                scaling: ambient.scaling,
-                withLabel: withLabel,
-              );
-              final int window = compact ? 1 : _maxWindow;
-              final bool labelled = !compact && withLabel;
-              final bool skipFirst = !compact && showSkipToFirstPage;
-              final bool skipLast = !compact && showSkipToLastPage;
-              final bool rtl = Directionality.of(context) == TextDirection.rtl;
-              final int firstShown = _firstShown(window);
-              final int lastShown = _lastShown(window);
+    return LayoutBuilder(
+      builder: (BuildContext context, BoxConstraints constraints) {
+        final bool compact = _collapses(
+          constraints.maxWidth,
+          spacing: spacing,
+          scaling: ambient.scaling,
+          withLabel: withLabel,
+        );
+        final int window = compact ? 1 : _maxWindow;
+        final bool labelled = !compact && withLabel;
+        final bool skipFirst = !compact && showSkipToFirstPage;
+        final bool skipLast = !compact && showSkipToLastPage;
+        final bool rtl = Directionality.of(context) == TextDirection.rtl;
+        final int firstShown = _firstShown(window);
+        final int lastShown = _lastShown(window);
 
-              final List<Widget> children = <Widget>[];
-              if (!hidePreviousOnFirstPage || hasPrevious) {
-                children.add(_previous(localizations, labelled, iconSize, rtl));
-              }
-              if (firstShown > 1) {
-                if (skipFirst && firstShown - 1 > 1) {
-                  children.add(_pageButton(1, keyFor));
-                }
-                children.add(_ellipsis(context, firstShown - 1));
-              }
-              for (final int p in _window(window)) {
-                children.add(_pageButton(p, keyFor));
-              }
-              if (lastShown < totalPages) {
-                children.add(_ellipsis(context, lastShown + 1));
-                if (skipLast && lastShown + 1 < totalPages) {
-                  children.add(_pageButton(totalPages, keyFor));
-                }
-              }
-              if (!hideNextOnLastPage || hasNext) {
-                children.add(_next(localizations, labelled, iconSize, rtl));
-              }
+        final List<Widget> children = <Widget>[];
+        if (!hidePreviousOnFirstPage || hasPrevious) {
+          children.add(_previous(localizations, labelled, iconSize, rtl));
+        }
+        if (firstShown > 1) {
+          if (skipFirst && firstShown - 1 > 1) {
+            children.add(_pageButton(1));
+          }
+          children.add(_ellipsis(context, firstShown - 1));
+        }
+        for (final int p in _window(window)) {
+          children.add(_pageButton(p));
+        }
+        if (lastShown < totalPages) {
+          children.add(_ellipsis(context, lastShown + 1));
+          if (skipLast && lastShown + 1 < totalPages) {
+            children.add(_pageButton(totalPages));
+          }
+        }
+        if (!hideNextOnLastPage || hasNext) {
+          children.add(_next(localizations, labelled, iconSize, rtl));
+        }
 
-              return IntrinsicHeight(
-                child: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: _spaced(children, spacing),
-                ),
-              );
-            },
+        return IntrinsicHeight(
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: _spaced(children, spacing),
           ),
+        );
+      },
     );
   }
 
@@ -278,18 +272,15 @@ class Pagination extends StatelessWidget {
     return maxWidth < estimate;
   }
 
-  Widget _pageButton(int pageNumber, GlobalKey Function(int) keyFor) {
+  Widget _pageButton(int pageNumber) {
     final bool isCurrent = pageNumber == _current;
-    return KeyedSubtree(
-      key: keyFor(pageNumber),
-      child: Button(
-        variant: isCurrent ? ButtonVariant.outline : ButtonVariant.ghost,
-        size: ButtonSize.sm,
-        onPressed: () => onPageChanged(pageNumber),
-        child: Directionality(
-          textDirection: TextDirection.ltr,
-          child: Text('$pageNumber'),
-        ),
+    return Button(
+      variant: isCurrent ? ButtonVariant.outline : ButtonVariant.ghost,
+      size: ButtonSize.sm,
+      onPressed: () => onPageChanged(pageNumber),
+      child: Directionality(
+        textDirection: TextDirection.ltr,
+        child: Text('$pageNumber'),
       ),
     );
   }
@@ -389,40 +380,5 @@ class Pagination extends StatelessWidget {
       }
     }
     return spaced;
-  }
-}
-
-/// Owns one stable key per page so the sliding underline can find the current
-/// page's box; the current page's underline glides between pages.
-class _PaginationTrack extends StatefulWidget {
-  const _PaginationTrack({
-    required this.current,
-    required this.color,
-    required this.builder,
-  });
-
-  final int current;
-  final Color color;
-  final Widget Function(BuildContext context, GlobalKey Function(int) keyFor)
-  builder;
-
-  @override
-  State<_PaginationTrack> createState() => _PaginationTrackState();
-}
-
-class _PaginationTrackState extends State<_PaginationTrack> {
-  final Map<int, GlobalKey> _keys = <int, GlobalKey>{};
-
-  GlobalKey _keyFor(int page) => _keys.putIfAbsent(page, GlobalKey.new);
-
-  @override
-  Widget build(BuildContext context) {
-    return SlidingIndicator(
-      activeKey: _keyFor(widget.current),
-      color: widget.color,
-      borderRadius: BorderRadius.zero,
-      underline: true,
-      child: widget.builder(context, _keyFor),
-    );
   }
 }

@@ -8,6 +8,7 @@ import 'package:flutter/widgets.dart';
 import 'package:dashcn/src/components/button/button.dart';
 import 'package:dashcn/src/components/pagination/pagination.dart';
 import 'package:dashcn/src/foundation/icons/lucide_icons.dart';
+import 'package:dashcn/src/primitives/motion/sliding_indicator.dart';
 import 'package:dashcn/src/theme/color_tokens.dart';
 import 'package:dashcn/src/theme/theme.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -53,6 +54,19 @@ void main() {
       ),
       findsOneWidget,
     );
+  });
+
+  testWidgets('no underline indicator renders under the active page', (
+    tester,
+  ) async {
+    await tester.pumpWidget(
+      _frame(child: Pagination(page: 2, totalPages: 8, onPageChanged: (_) {})),
+    );
+    await tester.pump();
+    await tester.pump(const Duration(milliseconds: 300));
+    expect(find.byType(SlidingIndicator), findsNothing);
+    expect(find.byType(AnimatedPositioned), findsNothing);
+    expect(tester.takeException(), isNull);
   });
 
   testWidgets('renders an ellipsis window for many pages', (tester) async {

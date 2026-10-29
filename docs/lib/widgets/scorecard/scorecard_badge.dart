@@ -6,6 +6,8 @@ import 'package:flutter/widgets.dart';
 
 import '../../ui/dashcn/components/badge/badge.dart';
 import '../../generated/docs_scorecards.dart';
+import '../../routing/docs_router.dart';
+import '../../state/docs_strings.dart';
 
 /// Label for tap-target rows (mobile guideline, informational on desktop).
 const String kTapTargetGuidelineLabel =
@@ -29,19 +31,31 @@ class ScoreStatusBadge extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final Locale locale =
+        DocsRouterScope.maybeOf(context)?.state.locale ??
+        Localizations.localeOf(context);
     if (exempt != null) {
-      return const Badge(variant: BadgeVariant.outline, child: Text('Exempt'));
+      return Badge(
+        variant: BadgeVariant.outline,
+        child: Text(docsChrome(locale, 'scExempt')),
+      );
     }
     if (passed == null) {
-      return const Badge(
+      return Badge(
         variant: BadgeVariant.outline,
-        child: Text('Not measured'),
+        child: Text(docsChrome(locale, 'scNotMeasured')),
       );
     }
     if (passed!) {
-      return const Badge(variant: BadgeVariant.secondary, child: Text('Pass'));
+      return Badge(
+        variant: BadgeVariant.secondary,
+        child: Text(docsChrome(locale, 'scPass')),
+      );
     }
-    return const Badge(variant: BadgeVariant.destructive, child: Text('Fail'));
+    return Badge(
+      variant: BadgeVariant.destructive,
+      child: Text(docsChrome(locale, 'scFail')),
+    );
   }
 }
 
@@ -55,34 +69,37 @@ class ScoreMirroringBadge extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final Locale locale =
+        DocsRouterScope.maybeOf(context)?.state.locale ??
+        Localizations.localeOf(context);
     if (rtl == null || rtl!.passed == null) {
-      return const Badge(
+      return Badge(
         variant: BadgeVariant.outline,
-        child: Text('Not measured'),
+        child: Text(docsChrome(locale, 'scNotMeasured')),
       );
     }
     if (rtl!.mirrored == true) {
-      return const Badge(
+      return Badge(
         variant: BadgeVariant.secondary,
-        child: Text('Mirrored'),
+        child: Text(docsChrome(locale, 'scMirrored')),
       );
     }
     final String? message = rtl!.message;
     if (message != null && message.contains('symmetric')) {
-      return const Badge(
+      return Badge(
         variant: BadgeVariant.secondary,
-        child: Text('Symmetric'),
+        child: Text(docsChrome(locale, 'scSymmetric')),
       );
     }
     if (rtl!.ltrX == null || rtl!.rtlX == null) {
-      return const Badge(
+      return Badge(
         variant: BadgeVariant.secondary,
-        child: Text('Not applicable'),
+        child: Text(docsChrome(locale, 'scNotApplicable')),
       );
     }
-    return const Badge(
+    return Badge(
       variant: BadgeVariant.secondary,
-      child: Text('Symmetric'),
+      child: Text(docsChrome(locale, 'scSymmetric')),
     );
   }
 }
